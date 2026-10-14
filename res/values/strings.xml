@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ARTRAW Files</string>
+    <string name="app_tagline">Fast, Private &amp; Modern Storage Manager</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">Home</string>
+    <string name="nav_browse">Browse</string>
+    <string name="nav_analysis">Storage Analysis</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Storage Overview -->
+    <string name="storage_internal">Internal Storage</string>
+    <string name="storage_sdcard">SD Card</string>
+    <string name="storage_used">%1$s used of %2$s</string>
+    <string name="storage_free">%1$s free</string>
+    <string name="storage_status">Storage Overview</string>
+
+    <!-- Categories -->
+    <string name="cat_images">Images</string>
+    <string name="cat_videos">Videos</string>
+    <string name="cat_audio">Audio</string>
+    <string name="cat_documents">Documents</string>
+    <string name="cat_downloads">Downloads</string>
+    <string name="cat_archives">Archives</string>
+    <string name="cat_apks">APKs</string>
+    <string name="cat_other">Other Files</string>
+
+    <!-- Quick Actions -->
+    <string name="action_recent">Recent Files</string>
+    <string name="action_large_files">Large Files</string>
+    <string name="action_duplicates">Duplicate Finder</string>
+    <string name="action_browse_all">Browse Storage</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search files and folders…</string>
+    <string name="search_no_results">No matching files found</string>
+
+    <!-- Contextual Toolbar -->
+    <string name="action_copy">Copy</string>
+    <string name="action_cut">Cut</string>
+    <string name="action_paste">Paste</string>
+    <string name="action_move">Move</string>
+    <string name="action_share">Share</string>
+    <string name="action_more">More</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_details">Details</string>
+    <string name="action_open_with">Open With</string>
+    <string name="action_sort">Sort</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_view_grid">Grid View</string>
+    <string name="action_view_list">List View</string>
+    <string name="action_undo">Undo</string>
+
+    <!-- Selection -->
+    <string name="selected_items_count">%1$d selected (%2$s)</string>
+    <string name="clipboard_items_pending">%1$d items ready to paste</string>
+
+    <!-- Dialogs & Prompts -->
+    <string name="dialog_delete_title">Confirm Permanent Deletion</string>
+    <string name="dialog_delete_msg">Are you sure you want to permanently delete %1$d item(s) (%2$s)? This action cannot be undone.</string>
+    <string name="dialog_conflict_title">File Already Exists</string>
+    <string name="dialog_conflict_msg">A file named \"%1$s\" already exists in the destination folder.</string>
+    <string name="btn_replace">Replace</string>
+    <string name="btn_keep_both">Keep Both</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
+
+    <!-- Permissions & Onboarding -->
+    <string name="perm_title">Storage Access Required</string>
+    <string name="perm_desc">ARTRAW Files requires All Files Access permission to browse, copy, organize, and inspect files on your device. Android 11+ manages file access via system settings.</string>
+    <string name="perm_btn_grant">Grant All Files Access</string>
+    <string name="perm_restricted_notice">Note: System directories like Android/data and Android/obb are protected by Android OS privacy policies and cannot be accessed.</string>
+
+    <!-- Archive Support Notes -->
+    <string name="archive_notice_zip">ZIP format is natively supported for extraction and inspection.</string>
+    <string name="archive_notice_unsupported">Formats like 7Z and RAR require an external archive manager (e.g., ZArchiver or RAR) on Android.</string>
+
+    <!-- States -->
+    <string name="state_empty">This folder is empty</string>
+    <string name="state_loading">Scanning files…</string>
+    <string name="state_error">Unable to load folder contents</string>
+
+    <!-- Settings -->
+    <string name="pref_theme">Theme</string>
+    <string name="pref_language">Language</string>
+    <string name="pref_show_hidden">Show Hidden Files</string>
+    <string name="pref_show_extensions">Show File Extensions</string>
+    <string name="pref_about">About ARTRAW Files</string>
+    <string name="pref_privacy_pledge">100% Offline • Zero Trackers • Zero Telemetry</string>
+</resources>

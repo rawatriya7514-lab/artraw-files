@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ARTRAW Brand Colors -->
+    <color name="artraw_crimson">#E53935</color>
+    <color name="artraw_crimson_dark">#B71C1C</color>
+    <color name="artraw_crimson_accent">#FF5252</color>
+
+    <!-- Dark Theme (Default) -->
+    <color name="bg_dark">#121316</color>
+    <color name="surface_dark">#1A1D24</color>
+    <color name="surface_elevated_dark">#242833</color>
+    <color name="border_dark">#2E3442</color>
+    <color name="text_primary_dark">#F0F2F5</color>
+    <color name="text_secondary_dark">#9AA0A6</color>
+    <color name="text_tertiary_dark">#6B7280</color>
+
+    <!-- Light Theme -->
+    <color name="bg_light">#F8F9FA</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_elevated_light">#F1F3F4</color>
+    <color name="border_light">#E0E0E0</color>
+    <color name="text_primary_light">#202124</color>
+    <color name="text_secondary_light">#5F6368</color>
+    <color name="text_tertiary_light">#80868B</color>
+
+    <!-- Category Badges -->
+    <color name="cat_images">#42A5F5</color>
+    <color name="cat_videos">#AB47BC</color>
+    <color name="cat_audio">#26A69A</color>
+    <color name="cat_documents">#FFA726</color>
+    <color name="cat_downloads">#29B6F6</color>
+    <color name="cat_archives">#7E57C2</color>
+    <color name="cat_apks">#66BB6A</color>
+    <color name="cat_other">#78909C</color>
+
+    <color name="selection_overlay">#33E53935</color>
+    <color name="status_success">#00C853</color>
+    <color name="status_warning">#FFAB00</color>
+    <color name="status_error">#D50000</color>
+</resources>

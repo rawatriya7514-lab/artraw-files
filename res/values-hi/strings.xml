@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ARTRAW फाइल्स</string>
+    <string name="app_tagline">तेज़, सुरक्षित और आधुनिक स्टोरेज मैनेजर</string>
+
+    <!-- Navigation & Titles -->
+    <string name="nav_home">होम</string>
+    <string name="nav_browse">ब्राउज़ करें</string>
+    <string name="nav_analysis">स्टोरेज विश्लेषण</string>
+    <string name="nav_settings">सेटिंग्स</string>
+
+    <!-- Storage Overview -->
+    <string name="storage_internal">इंटरनल स्टोरेज</string>
+    <string name="storage_sdcard">एसडी कार्ड</string>
+    <string name="storage_used">%2$s में से %1$s प्रयुक्त</string>
+    <string name="storage_free">%1$s खाली</string>
+    <string name="storage_status">स्टोरेज विवरण</string>
+
+    <!-- Categories -->
+    <string name="cat_images">तस्वीरें (Images)</string>
+    <string name="cat_videos">वीडियो (Videos)</string>
+    <string name="cat_audio">ऑडियो (Audio)</string>
+    <string name="cat_documents">दस्तावेज़ (Documents)</string>
+    <string name="cat_downloads">डाउनलोड्स (Downloads)</string>
+    <string name="cat_archives">अभिलेखागार (Archives)</string>
+    <string name="cat_apks">ऐप्स (APKs)</string>
+    <string name="cat_other">अन्य फ़ाइलें</string>
+
+    <!-- Quick Actions -->
+    <string name="action_recent">हाल की फ़ाइलें</string>
+    <string name="action_large_files">बड़ी फ़ाइलें</string>
+    <string name="action_duplicates">डुप्लिकेट फ़ाइल खोजें</string>
+    <string name="action_browse_all">फ़ोल्डर ब्राउज़ करें</string>
+
+    <!-- Search -->
+    <string name="search_hint">फ़ाइलें और फ़ोल्डर खोजें…</string>
+    <string name="search_no_results">कोई फ़ाइल नहीं मिली</string>
+
+    <!-- Contextual Toolbar -->
+    <string name="action_copy">कॉपी</string>
+    <string name="action_cut">कट</string>
+    <string name="action_paste">पेस्ट</string>
+    <string name="action_move">स्थानांतरित करें</string>
+    <string name="action_share">शेयर</string>
+    <string name="action_more">अधिक</string>
+    <string name="action_rename">नाम बदलें</string>
+    <string name="action_delete">हटाएं</string>
+    <string name="action_details">विवरण</string>
+    <string name="action_open_with">इसके साथ खोलें</string>
+    <string name="action_sort">क्रमबद्ध करें</string>
+    <string name="action_refresh">रिफ्रेश</string>
+    <string name="action_view_grid">ग्रिड व्यू</string>
+    <string name="action_view_list">लिस्ट व्यू</string>
+    <string name="action_undo">पूर्ववत करें (Undo)</string>
+
+    <!-- Selection -->
+    <string name="selected_items_count">%1$d चयनित (%2$s)</string>
+    <string name="clipboard_items_pending">%1$d फ़ाइलें पेस्ट के लिए तैयार हैं</string>
+
+    <!-- Dialogs & Prompts -->
+    <string name="dialog_delete_title">स्थायी रूप से हटाने की पुष्टि करें</string>
+    <string name="dialog_delete_msg">क्या आप वाकई %1$d फ़ाइल (%2$s) को हमेशा के लिए हटाना चाहते हैं? इसे वापस नहीं लाया जा सकता।</string>
+    <string name="dialog_conflict_title">फ़ाइल पहले से मौजूद है</string>
+    <string name="dialog_conflict_msg">\"%1$s\" नाम की फ़ाइल इस फ़ोल्डर में पहले से मौजूद है।</string>
+    <string name="btn_replace">बदलें (Replace)</string>
+    <string name="btn_keep_both">दोनों रखें (Keep Both)</string>
+    <string name="btn_cancel">रद्द करें</string>
+    <string name="btn_ok">ठीक है</string>
+
+    <!-- Permissions & Onboarding -->
+    <string name="perm_title">स्टोरेज एक्सेस की आवश्यकता है</string>
+    <string name="perm_desc">ARTRAW फाइल्स को आपके डिवाइस की फ़ाइलों को प्रबंधित, कॉपी और व्यवस्थित करने के लिए सभी फ़ाइलों तक पहुंच की अनुमति चाहिए।</string>
+    <string name="perm_btn_grant">अनुमति प्रदान करें</string>
+    <string name="perm_restricted_notice">नोट: Android/data और Android/obb जैसी सिस्टम डायरेक्ट्रीज Android गोपनीयता नीतियों द्वारा सुरक्षित हैं।</string>
+
+    <!-- States -->
+    <string name="state_empty">यह फ़ोल्डर खाली है</string>
+    <string name="state_loading">फ़ाइलें स्कैन हो रही हैं…</string>
+    <string name="state_error">फ़ोल्डर लोड करने में त्रुटि</string>
+
+    <!-- Settings -->
+    <string name="pref_theme">थीम</string>
+    <string name="pref_language">भाषा (Language)</string>
+    <string name="pref_show_hidden">छिपी हुई फ़ाइलें दिखाएं</string>
+    <string name="pref_show_extensions">फ़ाइल एक्सटेंशन दिखाएं</string>
+    <string name="pref_about">ARTRAW फाइल्स के बारे में</string>
+    <string name="pref_privacy_pledge">100% ऑफ़लाइन • शून्य ट्रैकर्स • शून्य टेलीमेट्री</string>
+</resources>

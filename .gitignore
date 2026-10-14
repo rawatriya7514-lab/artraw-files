@@ -1,0 +1,12 @@
+# Build outputs
+build/
+
+# Keystores & sensitive keys
+*.keystore
+*.jks
+
+# IDE & Editor files
+.idea/
+.gradle/
+*.iml
+.DS_Store

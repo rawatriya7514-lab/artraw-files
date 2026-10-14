@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutGridRoot"
+    android:layout_width="match_parent"
+    android:layout_height="105dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg_card"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imgGridIcon"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@drawable/ic_file" />
+
+    <TextView
+        android:id="@+id/tvGridFileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="middle"
+        android:textColor="@color/text_primary_dark"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvGridFileMeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="10sp" />
+</LinearLayout>
