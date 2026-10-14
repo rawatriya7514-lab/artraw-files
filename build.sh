@@ -30,6 +30,10 @@ aapt2 compile --dir res -o build/compiled/resources.zip
 echo "[2/6] Linking resources and generating R.java..."
 aapt2 link -I "$ANDROID_JAR" \
     --manifest AndroidManifest.xml \
+    --min-sdk-version 21 \
+    --target-sdk-version 35 \
+    --version-code 1 \
+    --version-name "1.0.0" \
     --java build/gen \
     -o build/base.apk \
     build/compiled/resources.zip
