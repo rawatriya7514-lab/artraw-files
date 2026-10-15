@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ARTRAW Files</string>
-    <string name="app_tagline">Fast, Private &amp; Modern Storage Manager</string>
+    <string name="app_name">Artfiles</string>
+    <string name="app_tagline">Smart, Private &amp; Modern Storage Manager</string>
 
     <!-- Navigation & Titles -->
     <string name="nav_home">Home</string>
@@ -73,7 +73,7 @@
 
     <!-- Permissions & Onboarding -->
     <string name="perm_title">Storage Access Required</string>
-    <string name="perm_desc">ARTRAW Files requires All Files Access permission to browse, copy, organize, and inspect files on your device. Android 11+ manages file access via system settings.</string>
+    <string name="perm_desc">Artfiles requires All Files Access permission to browse, copy, organize, and inspect files on your device. Android 11+ manages file access via system settings.</string>
     <string name="perm_btn_grant">Grant All Files Access</string>
     <string name="perm_restricted_notice">Note: System directories like Android/data and Android/obb are protected by Android OS privacy policies and cannot be accessed.</string>
 
@@ -91,6 +91,6 @@
     <string name="pref_language">Language</string>
     <string name="pref_show_hidden">Show Hidden Files</string>
     <string name="pref_show_extensions">Show File Extensions</string>
-    <string name="pref_about">About ARTRAW Files</string>
-    <string name="pref_privacy_pledge">100% Offline • Zero Trackers • Zero Telemetry</string>
+    <string name="pref_about">About Artfiles</string>
+    <string name="pref_privacy_pledge">Fast • Modern • Private Storage</string>
 </resources>

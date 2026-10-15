@@ -13,6 +13,7 @@ import com.artraw.files.R
 import com.artraw.files.model.FileCategory
 import com.artraw.files.model.FileItem
 import com.artraw.files.util.Formatters
+import com.artraw.files.util.ThumbnailLoader
 
 class FileListAdapter(
     private val context: Context,
@@ -87,6 +88,7 @@ class FileListAdapter(
                 name = view.findViewById(if (isGrid) R.id.tvGridFileName else R.id.tvFileName),
                 meta = view.findViewById(if (isGrid) R.id.tvGridFileMeta else R.id.tvFileMeta),
                 checkbox = if (!isGrid) view.findViewById(R.id.cbSelect) else null,
+                selectBadge = if (isGrid) view.findViewById(R.id.imgGridSelectBadge) else null,
                 root = view
             )
             view.tag = holder
@@ -111,7 +113,7 @@ class FileListAdapter(
             holder.meta.text = "$sizeStr • $dateStr"
         }
 
-        // Icon assignment
+        // Icon assignment and async thumbnail decoding
         val iconRes = when {
             item.isDirectory -> R.drawable.ic_folder
             item.isApk -> R.drawable.ic_apk
@@ -122,9 +124,15 @@ class FileListAdapter(
             item.category == FileCategory.ARCHIVES -> R.drawable.ic_archive
             else -> R.drawable.ic_file
         }
-        holder.icon.setImageResource(iconRes)
 
-        // Multi-select Checkbox & Highlights
+        ThumbnailLoader.loadThumbnail(
+            imageView = holder.icon,
+            item = item,
+            targetSize = if (isGrid) 220 else 120,
+            defaultIconRes = iconRes
+        )
+
+        // Multi-select Checkbox (List Mode)
         if (holder.checkbox != null) {
             if (isSelectionMode) {
                 holder.checkbox.visibility = View.VISIBLE
@@ -134,10 +142,29 @@ class FileListAdapter(
             }
         }
 
+        // Multi-select Check Badge (Grid Mode - Gallery Style)
+        if (holder.selectBadge != null) {
+            if (isSelectionMode) {
+                holder.selectBadge.visibility = View.VISIBLE
+                if (isSelected) {
+                    holder.selectBadge.setImageResource(R.drawable.ic_check_circle)
+                } else {
+                    holder.selectBadge.setImageResource(R.drawable.ic_check_circle_outline)
+                }
+            } else {
+                holder.selectBadge.visibility = View.GONE
+            }
+        }
+
+        // Selection highlight
         if (isSelected) {
             holder.root.setBackgroundResource(R.drawable.bg_selection)
         } else {
-            holder.root.setBackgroundColor(Color.TRANSPARENT)
+            if (isGrid) {
+                holder.root.setBackgroundResource(R.drawable.bg_card)
+            } else {
+                holder.root.setBackgroundColor(Color.TRANSPARENT)
+            }
         }
 
         // Cut Pending visual dimming
@@ -151,6 +178,7 @@ class FileListAdapter(
         val name: TextView,
         val meta: TextView,
         val checkbox: CheckBox?,
+        val selectBadge: ImageView?,
         val root: View
     )
 }

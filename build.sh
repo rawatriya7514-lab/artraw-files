@@ -31,10 +31,10 @@ DOWNLOAD_DIR="/sdcard/Download"
 mkdir -p "$DOWNLOAD_DIR"
 
 echo "========================================================"
-echo " Starting ARTRAW Files Multi-Artifact Pipeline"
+echo " Starting Art files (Artfiles) Multi-Artifact Pipeline"
 echo "========================================================"
 echo " Package ID:        com.artraw.files"
-echo " Version:           1.0.0 (versionCode: 1)"
+echo " Version:           1.1.0 (versionCode: 2)"
 echo " Target SDK:        API 35 (Android 15)"
 echo " Keystore:          $RELEASE_KEYSTORE"
 echo " Output Directory:  $DOWNLOAD_DIR"
@@ -51,8 +51,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/production/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 1 \
-    --version-name "1.0.0" \
+    --version-code 2 \
+    --version-name "1.1.0" \
     --java build/gen \
     -o build/temp_base.apk \
     build/base_res.zip
@@ -104,9 +104,9 @@ r8 --release \
    $(find "$ADMOB_LIBS_DIR" -name "*.jar")
 
 # ------------------------------------------------------------------------------
-# STEP 4: Build Artifact 1 — ARTRAW-Files-Offline.apk
+# STEP 4: Build Artifact 1 — ArtFiles-Offline.apk
 # ------------------------------------------------------------------------------
-echo "[5/6] Building Artifact 1: ARTRAW-Files-Offline.apk..."
+echo "[5/6] Building Artifact 1: ArtFiles-Offline.apk..."
 rm -rf build/var_offline && mkdir -p build/var_offline/res
 cp -r res/* build/var_offline/res/
 cp variants/offline/res/values/admob.xml build/var_offline/res/values/admob.xml
@@ -116,8 +116,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/offline/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 1 \
-    --version-name "1.0.0" \
+    --version-code 2 \
+    --version-name "1.1.0" \
     -o build/var_offline/base.apk \
     build/var_offline/resources.zip
 
@@ -131,13 +131,13 @@ apksigner sign --ks "$RELEASE_KEYSTORE" \
     --ks-pass "pass:$RELEASE_STORE_PASS" \
     --ks-key-alias "$RELEASE_KEY_ALIAS" \
     --key-pass "pass:$RELEASE_KEY_PASS" \
-    --out build/artifacts/ARTRAW-Files-Offline.apk \
+    --out build/artifacts/ArtFiles-Offline.apk \
     build/var_offline/base.apk
 
 # ------------------------------------------------------------------------------
-# STEP 5: Build Artifact 2 — ARTRAW-Files-Test-AdMob.apk
+# STEP 5: Build Artifact 2 — ArtFiles-Test-AdMob.apk
 # ------------------------------------------------------------------------------
-echo "      Building Artifact 2: ARTRAW-Files-Test-AdMob.apk..."
+echo "      Building Artifact 2: ArtFiles-Test-AdMob.apk..."
 rm -rf build/var_test && mkdir -p build/var_test/res
 cp -r res/* build/var_test/res/
 cp variants/test/res/values/admob.xml build/var_test/res/values/admob.xml
@@ -147,8 +147,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/test/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 1 \
-    --version-name "1.0.0" \
+    --version-code 2 \
+    --version-name "1.1.0" \
     -o build/var_test/base.apk \
     build/var_test/resources.zip
 
@@ -162,65 +162,24 @@ apksigner sign --ks "$RELEASE_KEYSTORE" \
     --ks-pass "pass:$RELEASE_STORE_PASS" \
     --ks-key-alias "$RELEASE_KEY_ALIAS" \
     --key-pass "pass:$RELEASE_KEY_PASS" \
-    --out build/artifacts/ARTRAW-Files-Test-AdMob.apk \
+    --out build/artifacts/ArtFiles-Test-AdMob.apk \
     build/var_test/base.apk
 
 # ------------------------------------------------------------------------------
-# STEP 6: Build Artifact 3 — ARTRAW-Files-Production.aab
+# STEP 6: Build Artifact 3 — ArtFiles-Production.apk (Real AdMob Release)
 # ------------------------------------------------------------------------------
-echo "      Building Artifact 3: ARTRAW-Files-Production.aab (Play Store)..."
+echo "      Building Artifact 3: ArtFiles-Production.apk (Real AdMob APK)..."
 rm -rf build/var_prod && mkdir -p build/var_prod/res
 cp -r res/* build/var_prod/res/
 cp variants/production/res/values/admob.xml build/var_prod/res/values/admob.xml
 
 aapt2 compile --dir build/var_prod/res -o build/var_prod/resources.zip
 aapt2 link -I "$ANDROID_JAR" \
-    --proto-format \
     --manifest variants/production/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 1 \
-    --version-name "1.0.0" \
-    -o build/var_prod/proto-base.apk \
-    build/var_prod/resources.zip
-
-python3 -c "
-import zipfile
-with zipfile.ZipFile('build/var_prod/proto-base.apk', 'r') as proto_apk:
-    with zipfile.ZipFile('build/var_prod/base.zip', 'w', zipfile.ZIP_DEFLATED) as base_zip:
-        base_zip.writestr('manifest/AndroidManifest.xml', proto_apk.read('AndroidManifest.xml'))
-        for item in proto_apk.infolist():
-            if item.filename.startswith('res/'):
-                base_zip.writestr(item.filename, proto_apk.read(item.filename))
-            elif item.filename == 'resources.pb':
-                base_zip.writestr('resources.pb', proto_apk.read(item.filename))
-        with open('build/dex_r8/classes.dex', 'rb') as f:
-            base_zip.writestr('dex/classes.dex', f.read())
-"
-
-java -jar "$BUNDLETOOL_JAR" build-bundle \
-    --modules=build/var_prod/base.zip \
-    --output=build/artifacts/ARTRAW-Files-Production-unsigned.aab \
-    --overwrite
-
-jarsigner -keystore "$RELEASE_KEYSTORE" \
-    -storepass "$RELEASE_STORE_PASS" \
-    -keypass "$RELEASE_KEY_PASS" \
-    -sigalg SHA256withRSA \
-    -digestalg SHA-256 \
-    build/artifacts/ARTRAW-Files-Production-unsigned.aab \
-    "$RELEASE_KEY_ALIAS" > /dev/null
-
-mv build/artifacts/ARTRAW-Files-Production-unsigned.aab build/artifacts/ARTRAW-Files-Production.aab
-
-# Production Universal Release APK (Real AdMob for direct download by users)
-echo "      Building Artifact: ARTRAW-Files-Production.apk (Real AdMob APK)..."
-aapt2 link -I "$ANDROID_JAR" \
-    --manifest variants/production/AndroidManifest.xml \
-    --min-sdk-version 21 \
-    --target-sdk-version 35 \
-    --version-code 1 \
-    --version-name "1.0.0" \
+    --version-code 2 \
+    --version-name "1.1.0" \
     -o build/var_prod/base.apk \
     build/var_prod/resources.zip
 
@@ -234,20 +193,37 @@ apksigner sign --ks "$RELEASE_KEYSTORE" \
     --ks-pass "pass:$RELEASE_STORE_PASS" \
     --ks-key-alias "$RELEASE_KEY_ALIAS" \
     --key-pass "pass:$RELEASE_KEY_PASS" \
-    --out build/artifacts/ARTRAW-Files-Production.apk \
+    --out build/artifacts/ArtFiles-Production.apk \
     build/var_prod/base.apk
 
 # ------------------------------------------------------------------------------
-# STEP 7: Copy All Artifacts to /sdcard/Download/
+# STEP 7: Create Full Project Source Code ZIP & Copy to /sdcard/Download/
 # ------------------------------------------------------------------------------
-echo "[6/6] Copying artifacts to $DOWNLOAD_DIR..."
-cp build/artifacts/ARTRAW-Files-Offline.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/ARTRAW-Files-Test-AdMob.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/ARTRAW-Files-Production.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/ARTRAW-Files-Production.aab "$DOWNLOAD_DIR/"
+echo "      Packaging complete project source code ZIP..."
+python3 -c "
+import os, zipfile
+target = 'build/artifacts/ArtFiles-v1.1.0-SourceCode.zip'
+if os.path.exists(target):
+    os.remove(target)
+with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
+    for root, dirs, files in os.walk('.'):
+        dirs[:] = [d for d in dirs if d not in ('build', '.git')]
+        for f in files:
+            if f.endswith('.idsig') or f.endswith('.class'):
+                continue
+            path = os.path.join(root, f)
+            arcname = os.path.relpath(path, '.')
+            zf.write(path, arcname)
+"
 
-# Also keep canonical copy in storage emulated 0
-cp build/artifacts/* /storage/emulated/0/Download/ 2>/dev/null || true
+echo "[6/6] Copying artifacts to $DOWNLOAD_DIR..."
+cp build/artifacts/ArtFiles-Offline.apk "$DOWNLOAD_DIR/"
+cp build/artifacts/ArtFiles-Test-AdMob.apk "$DOWNLOAD_DIR/"
+cp build/artifacts/ArtFiles-Production.apk "$DOWNLOAD_DIR/"
+cp build/artifacts/ArtFiles-v1.1.0-SourceCode.zip "$DOWNLOAD_DIR/"
+
+# Also keep copy in storage emulated 0
+cp build/artifacts/ArtFiles-* /storage/emulated/0/Download/ 2>/dev/null || true
 
 # ------------------------------------------------------------------------------
 # STEP 8: Verification Summary
@@ -257,34 +233,33 @@ echo " MULTI-ARTIFACT VERIFICATION SUMMARY:"
 echo "--------------------------------------------------------"
 
 echo " 1. [Offline APK]:"
-apksigner verify -v "$DOWNLOAD_DIR/ARTRAW-Files-Offline.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/ARTRAW-Files-Offline.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ARTRAW-Files-Offline.apk" | cut -f1)"
+apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
+echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Offline.apk"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | cut -f1)"
 echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ARTRAW-Files-Offline.apk" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | cut -d' ' -f1
 
 echo ""
 echo " 2. [Test AdMob APK]:"
-apksigner verify -v "$DOWNLOAD_DIR/ARTRAW-Files-Test-AdMob.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/ARTRAW-Files-Test-AdMob.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ARTRAW-Files-Test-AdMob.apk" | cut -f1)"
+apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
+echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | cut -f1)"
 echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ARTRAW-Files-Test-AdMob.apk" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | cut -d' ' -f1
 
 echo ""
 echo " 3. [Production Real AdMob APK]:"
-apksigner verify -v "$DOWNLOAD_DIR/ARTRAW-Files-Production.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/ARTRAW-Files-Production.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ARTRAW-Files-Production.apk" | cut -f1)"
+apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Production.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
+echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Production.apk"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Production.apk" | cut -f1)"
 echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ARTRAW-Files-Production.apk" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/ArtFiles-Production.apk" | cut -d' ' -f1
 
 echo ""
-echo " 4. [Production Play Store AAB]:"
-java -jar "$BUNDLETOOL_JAR" validate --bundle="$DOWNLOAD_DIR/ARTRAW-Files-Production.aab" > /dev/null && echo "    BundleTool validation: PASSED"
-jarsigner -verify "$DOWNLOAD_DIR/ARTRAW-Files-Production.aab" > /dev/null && echo "    Jarsigner signature:   PASSED"
-echo "    Path:    $DOWNLOAD_DIR/ARTRAW-Files-Production.aab"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ARTRAW-Files-Production.aab" | cut -f1)"
+echo " 4. [Full Source Code ZIP]:"
+echo "    Path:    $DOWNLOAD_DIR/ArtFiles-v1.1.0-SourceCode.zip"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-v1.1.0-SourceCode.zip" | cut -f1)"
 echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ARTRAW-Files-Production.aab" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/ArtFiles-v1.1.0-SourceCode.zip" | cut -d' ' -f1
 echo "========================================================"
+

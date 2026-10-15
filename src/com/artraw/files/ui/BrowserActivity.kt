@@ -14,6 +14,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -89,7 +90,7 @@ class BrowserActivity : Activity() {
             activity = this,
             topSpacers = listOf(findViewById(R.id.statusBarSpacerBrowser)),
             bottomScrollViews = listOf(findViewById(R.id.listViewFiles), findViewById(R.id.gridViewFiles)),
-            bottomStickyViews = listOf(findViewById(R.id.layoutPasteBar))
+            bottomStickyViews = listOf(findViewById(R.id.layoutPasteBar), findViewById(R.id.fabNewFolder))
         )
 
         val pathArg = intent.getStringExtra("initial_path")
@@ -261,6 +262,18 @@ class BrowserActivity : Activity() {
             updatePasteBar()
         }
 
+        findViewById<View>(R.id.btnNewFolder)?.setOnClickListener {
+            showNewFolderDialog()
+        }
+
+        findViewById<View>(R.id.fabNewFolder)?.setOnClickListener {
+            showNewFolderDialog()
+        }
+
+        findViewById<View>(R.id.btnActionSelectAll)?.setOnClickListener {
+            activeAdapter().selectAll()
+        }
+
         findViewById<View>(R.id.btnTypePath).setOnClickListener {
             showTypePathDialog()
         }
@@ -360,14 +373,17 @@ class BrowserActivity : Activity() {
     }
 
     private fun updateSelectionUi(selectedCount: Int) {
+        val fab = findViewById<View>(R.id.fabNewFolder)
         if (selectedCount > 0) {
             toolbarNormal.visibility = View.GONE
             toolbarSelection.visibility = View.VISIBLE
+            fab?.visibility = View.GONE
             val totalBytes = activeAdapter().getSelectedItems().sumOf { it.size }
             tvSelectionCount.text = getString(R.string.selected_items_count, selectedCount, Formatters.formatFileSize(totalBytes))
         } else {
             toolbarSelection.visibility = View.GONE
             toolbarNormal.visibility = View.VISIBLE
+            fab?.visibility = View.VISIBLE
         }
     }
 
@@ -376,11 +392,58 @@ class BrowserActivity : Activity() {
         if (clip != null) {
             layoutPasteBar.visibility = View.VISIBLE
             val count = clip.first.size
-            val modeStr = if (clip.second == ClipboardMode.CUT) "move" else "copy"
-            tvPasteStatus.text = "$count file(s) ready to $modeStr into this folder"
+            val isCut = (clip.second == ClipboardMode.CUT)
+            val modeStr = if (isCut) "move" else "copy"
+            tvPasteStatus.text = "$count item(s) ready to $modeStr into this folder"
+            btnExecutePaste.text = if (isCut) "Move Here" else "Paste Here"
         } else {
             layoutPasteBar.visibility = View.GONE
         }
+    }
+
+    private fun showNewFolderDialog() {
+        val input = EditText(this).apply {
+            hint = "Folder name"
+            setSingleLine()
+            setTextColor(Color.WHITE)
+            setHintTextColor(Color.parseColor("#9AA0A6"))
+            background = getDrawable(R.drawable.bg_search_bar)
+            setPadding(36, 24, 36, 24)
+        }
+
+        val container = FrameLayout(this).apply {
+            setPadding(48, 24, 48, 12)
+            addView(input)
+        }
+
+        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+            .setTitle("New Folder")
+            .setView(container)
+            .setPositiveButton("Create") { _, _ ->
+                val name = input.text.toString().trim()
+                if (name.isBlank()) {
+                    Toast.makeText(this, "Folder name cannot be empty", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                if (name.contains("/") || name.contains("\\") || name.contains(":") || name.contains("*") || name.contains("?")) {
+                    Toast.makeText(this, "Invalid characters in folder name", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                val newDir = File(currentDirectory, name)
+                if (newDir.exists()) {
+                    Toast.makeText(this, "Folder already exists", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                val created = newDir.mkdirs()
+                if (created) {
+                    Toast.makeText(this, "Folder created: $name", Toast.LENGTH_SHORT).show()
+                    loadDirectory(currentDirectory)
+                } else {
+                    Toast.makeText(this, "Failed to create folder", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(R.string.btn_cancel, null)
+            .show()
     }
 
     private fun confirmDelete(items: List<FileItem>) {

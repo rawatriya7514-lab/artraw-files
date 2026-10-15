@@ -248,7 +248,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="ARTRAW Files processes all files exclusively on your local device. No files or metadata are ever transmitted over the network."
+                    android:text="Artfiles processes all files exclusively on your local device. Fast, secure and modern storage management."
                     android:textColor="@color/text_secondary_dark"
                     android:textSize="12sp" />
             </LinearLayout>

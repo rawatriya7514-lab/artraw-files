@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="14dp"
             android:visibility="gone">
 
             <LinearLayout
@@ -117,13 +117,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_card"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp">
+                android:padding="14dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cryptographic Duplicate Detection"
+                    android:text="Cryptographic Duplicate Cleaner"
                     android:textColor="@color/text_primary_dark"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -131,8 +131,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="Finds identical files using a two-step verification process: preliminary size grouping followed by explicit SHA-256 cryptographic verification."
+                    android:layout_marginTop="4dp"
+                    android:text="Scan your device to find identical duplicate files. Auto-select extra copies and free up storage instantly."
                     android:textColor="@color/text_secondary_dark"
                     android:textSize="12sp" />
 
@@ -140,7 +140,7 @@
                     android:id="@+id/btnStartDuplicateScan"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/bg_button_primary"
                     android:text="Scan for Duplicates"
                     android:textColor="@android:color/white"
@@ -154,7 +154,50 @@
                 android:gravity="center"
                 android:textColor="@color/artraw_crimson_accent"
                 android:textSize="13sp"
+                android:layout_marginBottom="8dp"
                 android:visibility="gone" />
+
+            <!-- Quick Selection Actions (Auto Select, Select All, Deselect) -->
+            <LinearLayout
+                android:id="@+id/layoutDuplicateSelectionActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnAutoSelectDuplicates"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1.2"
+                    android:background="@drawable/bg_button_primary"
+                    android:text="Auto-Select Copies"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btnSelectAllDuplicates"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_button_outlined"
+                    android:text="Select All"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="11sp" />
+
+                <Button
+                    android:id="@+id/btnDeselectAllDuplicates"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_button_outlined"
+                    android:text="Deselect"
+                    android:textColor="@color/text_secondary_dark"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/listViewDuplicates"
@@ -164,6 +207,41 @@
                 android:divider="@color/border_dark"
                 android:dividerHeight="0.5dp"
                 android:clipToPadding="false" />
+
+            <!-- Sticky Bottom Delete Bar -->
+            <LinearLayout
+                android:id="@+id/layoutDuplicateDeleteBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvDuplicateSelectedSummary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0 duplicates selected"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnDeleteSelectedDuplicates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:background="@drawable/bg_button_primary"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Delete Selected"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <ProgressBar

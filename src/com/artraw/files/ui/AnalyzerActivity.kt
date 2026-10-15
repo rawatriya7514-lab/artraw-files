@@ -4,12 +4,12 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.Button
-import android.widget.ImageView
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.ProgressBar
@@ -19,10 +19,10 @@ import com.artraw.files.R
 import com.artraw.files.analysis.DuplicateDetector
 import com.artraw.files.analysis.DuplicateGroup
 import com.artraw.files.model.FileItem
-import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
 import com.artraw.files.ui.adapter.FileListAdapter
 import com.artraw.files.util.Formatters
+import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -43,8 +43,18 @@ class AnalyzerActivity : Activity() {
     private lateinit var tvDuplicateProgress: TextView
     private lateinit var progressAnalyzer: ProgressBar
 
+    private lateinit var layoutDuplicateSelectionActions: LinearLayout
+    private lateinit var btnAutoSelectDuplicates: Button
+    private lateinit var btnSelectAllDuplicates: Button
+    private lateinit var btnDeselectAllDuplicates: Button
+    private lateinit var layoutDuplicateDeleteBar: LinearLayout
+    private lateinit var tvDuplicateSelectedSummary: TextView
+    private lateinit var btnDeleteSelectedDuplicates: Button
+
     private lateinit var largeFilesAdapter: FileListAdapter
     private var duplicateGroups: List<DuplicateGroup> = emptyList()
+    private var duplicateAdapter: DuplicateAdapter? = null
+    private val selectedDuplicatePaths = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +64,8 @@ class AnalyzerActivity : Activity() {
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topSpacers = listOf(findViewById(R.id.statusBarSpacerAnalyzer)),
-            bottomScrollViews = listOf(findViewById(R.id.listViewLargeFiles), findViewById(R.id.listViewDuplicates))
+            bottomScrollViews = listOf(findViewById(R.id.listViewLargeFiles), findViewById(R.id.listViewDuplicates)),
+            bottomStickyViews = listOf(findViewById(R.id.layoutDuplicateDeleteBar))
         )
 
         initViews()
@@ -79,6 +90,14 @@ class AnalyzerActivity : Activity() {
         btnStartDuplicateScan = findViewById(R.id.btnStartDuplicateScan)
         tvDuplicateProgress = findViewById(R.id.tvDuplicateProgress)
         progressAnalyzer = findViewById(R.id.progressAnalyzer)
+
+        layoutDuplicateSelectionActions = findViewById(R.id.layoutDuplicateSelectionActions)
+        btnAutoSelectDuplicates = findViewById(R.id.btnAutoSelectDuplicates)
+        btnSelectAllDuplicates = findViewById(R.id.btnSelectAllDuplicates)
+        btnDeselectAllDuplicates = findViewById(R.id.btnDeselectAllDuplicates)
+        layoutDuplicateDeleteBar = findViewById(R.id.layoutDuplicateDeleteBar)
+        tvDuplicateSelectedSummary = findViewById(R.id.tvDuplicateSelectedSummary)
+        btnDeleteSelectedDuplicates = findViewById(R.id.btnDeleteSelectedDuplicates)
 
         findViewById<View>(R.id.btnAnalyzerBack).setOnClickListener {
             finish()
@@ -105,6 +124,22 @@ class AnalyzerActivity : Activity() {
 
         btnStartDuplicateScan.setOnClickListener {
             startCryptographicDuplicateScan()
+        }
+
+        btnAutoSelectDuplicates.setOnClickListener {
+            autoSelectDuplicateCopies()
+        }
+
+        btnSelectAllDuplicates.setOnClickListener {
+            selectAllDuplicates()
+        }
+
+        btnDeselectAllDuplicates.setOnClickListener {
+            deselectAllDuplicates()
+        }
+
+        btnDeleteSelectedDuplicates.setOnClickListener {
+            confirmDeleteSelectedDuplicates()
         }
     }
 
@@ -139,6 +174,8 @@ class AnalyzerActivity : Activity() {
         tvDuplicateProgress.text = "Phase 1: Grouping files by exact size…"
         progressAnalyzer.visibility = View.VISIBLE
         cancelFlag.set(false)
+        selectedDuplicatePaths.clear()
+        updateSelectionSummary()
 
         executor.execute {
             val root = repository.getPrimaryStorageRoot()
@@ -160,9 +197,107 @@ class AnalyzerActivity : Activity() {
                 progressAnalyzer.visibility = View.GONE
                 tvDuplicateProgress.text = "Found ${verified.size} duplicate file group(s)."
                 duplicateGroups = verified
-                listViewDuplicates.adapter = DuplicateAdapter(verified)
+
+                if (verified.isNotEmpty()) {
+                    layoutDuplicateSelectionActions.visibility = View.VISIBLE
+                    val adapter = DuplicateAdapter(verified)
+                    duplicateAdapter = adapter
+                    listViewDuplicates.adapter = adapter
+                    autoSelectDuplicateCopies()
+                } else {
+                    layoutDuplicateSelectionActions.visibility = View.GONE
+                    layoutDuplicateDeleteBar.visibility = View.GONE
+                    listViewDuplicates.adapter = null
+                }
             }
         }
+    }
+
+    private fun autoSelectDuplicateCopies() {
+        selectedDuplicatePaths.clear()
+        for (group in duplicateGroups) {
+            for (i in 1 until group.items.size) {
+                selectedDuplicatePaths.add(group.items[i].file.absolutePath)
+            }
+        }
+        duplicateAdapter?.notifyDataSetChanged()
+        updateSelectionSummary()
+    }
+
+    private fun selectAllDuplicates() {
+        selectedDuplicatePaths.clear()
+        for (group in duplicateGroups) {
+            for (item in group.items) {
+                selectedDuplicatePaths.add(item.file.absolutePath)
+            }
+        }
+        duplicateAdapter?.notifyDataSetChanged()
+        updateSelectionSummary()
+    }
+
+    private fun deselectAllDuplicates() {
+        selectedDuplicatePaths.clear()
+        duplicateAdapter?.notifyDataSetChanged()
+        updateSelectionSummary()
+    }
+
+    private fun updateSelectionSummary() {
+        val count = selectedDuplicatePaths.size
+        if (count > 0) {
+            layoutDuplicateDeleteBar.visibility = View.VISIBLE
+            var totalBytes = 0L
+            for (group in duplicateGroups) {
+                for (item in group.items) {
+                    if (selectedDuplicatePaths.contains(item.file.absolutePath)) {
+                        totalBytes += item.size
+                    }
+                }
+            }
+            val sizeStr = Formatters.formatFileSize(totalBytes)
+            tvDuplicateSelectedSummary.text = "$count file(s) selected ($sizeStr)"
+            btnDeleteSelectedDuplicates.text = "Delete ($sizeStr)"
+        } else {
+            layoutDuplicateDeleteBar.visibility = View.GONE
+        }
+    }
+
+    private fun confirmDeleteSelectedDuplicates() {
+        val toDelete = mutableListOf<FileItem>()
+        var totalBytes = 0L
+        for (group in duplicateGroups) {
+            for (item in group.items) {
+                if (selectedDuplicatePaths.contains(item.file.absolutePath)) {
+                    toDelete.add(item)
+                    totalBytes += item.size
+                }
+            }
+        }
+
+        if (toDelete.isEmpty()) return
+        val sizeStr = Formatters.formatFileSize(totalBytes)
+
+        AlertDialog.Builder(this)
+            .setTitle("Confirm Duplicate Deletion")
+            .setMessage("Are you sure you want to delete ${toDelete.size} selected duplicate file(s)?\n\nThis will free up $sizeStr of storage. Original copies will be preserved.")
+            .setPositiveButton("Delete Permanently") { _, _ ->
+                progressAnalyzer.visibility = View.VISIBLE
+                executor.execute {
+                    var deletedCount = 0
+                    for (item in toDelete) {
+                        if (item.file.delete()) {
+                            deletedCount++
+                        }
+                    }
+
+                    runOnUiThread {
+                        progressAnalyzer.visibility = View.GONE
+                        Toast.makeText(this@AnalyzerActivity, "Cleaned $deletedCount duplicate(s). Reclaimed $sizeStr!", Toast.LENGTH_LONG).show()
+                        startCryptographicDuplicateScan()
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onDestroy() {
@@ -179,69 +314,79 @@ class AnalyzerActivity : Activity() {
             val view = convertView ?: LinearLayout(this@AnalyzerActivity).apply {
                 orientation = LinearLayout.VERTICAL
                 setBackgroundResource(R.drawable.bg_card)
-                setPadding(24, 24, 24, 24)
+                setPadding(24, 20, 24, 20)
+                val params = AbsListView.LayoutParams(
+                    AbsListView.LayoutParams.MATCH_PARENT,
+                    AbsListView.LayoutParams.WRAP_CONTENT
+                )
+                layoutParams = params
             }
 
             val container = view as LinearLayout
             container.removeAllViews()
 
             val group = groups[position]
+            val fileName = group.items.firstOrNull()?.name ?: "File"
+            val copyCount = group.items.size
+            val sizeStr = Formatters.formatFileSize(group.size)
+
             val header = TextView(this@AnalyzerActivity).apply {
-                text = "Duplicate Set (${group.items.size} copies • ${Formatters.formatFileSize(group.size)} each)"
+                text = "$fileName ($copyCount copies • $sizeStr each)"
                 setTextColor(Color.parseColor("#E53935"))
                 textSize = 14f
                 setPadding(0, 0, 0, 8)
             }
             container.addView(header)
 
-            for (item in group.items) {
+            for ((idx, item) in group.items.withIndex()) {
+                val isSelected = selectedDuplicatePaths.contains(item.file.absolutePath)
                 val itemRow = LinearLayout(this@AnalyzerActivity).apply {
                     orientation = LinearLayout.HORIZONTAL
-                    setPadding(0, 6, 0, 6)
+                    gravity = android.view.Gravity.CENTER_VERTICAL
+                    setPadding(0, 8, 0, 8)
+                }
+
+                val cb = CheckBox(this@AnalyzerActivity).apply {
+                    isChecked = isSelected
+                    setOnCheckedChangeListener { _, checked ->
+                        if (checked) {
+                            selectedDuplicatePaths.add(item.file.absolutePath)
+                        } else {
+                            selectedDuplicatePaths.remove(item.file.absolutePath)
+                        }
+                        updateSelectionSummary()
+                    }
+                }
+
+                val labelBadge = TextView(this@AnalyzerActivity).apply {
+                    text = if (idx == 0) "ORIGINAL" else "COPY"
+                    setTextColor(if (idx == 0) Color.parseColor("#4CAF50") else Color.parseColor("#FF9800"))
+                    textSize = 10f
+                    setPadding(8, 2, 8, 2)
+                    setBackgroundResource(R.drawable.bg_badge)
                 }
 
                 val pathTv = TextView(this@AnalyzerActivity).apply {
-                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-                    text = item.file.absolutePath
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                        marginStart = 12
+                    }
+                    text = item.file.parent ?: item.file.absolutePath
                     setTextColor(Color.parseColor("#F0F2F5"))
                     textSize = 12f
+                    setSingleLine()
+                    ellipsize = android.text.TextUtils.TruncateAt.MIDDLE
                     setOnClickListener {
                         com.artraw.files.ui.dialog.FileActionDialog.show(this@AnalyzerActivity, item)
                     }
                 }
 
-                val deleteBtn = TextView(this@AnalyzerActivity).apply {
-                    text = "Delete"
-                    setTextColor(Color.parseColor("#FF5252"))
-                    textSize = 12f
-                    setPadding(12, 4, 12, 4)
-                    setOnClickListener {
-                        confirmDeleteSingle(item)
-                    }
-                }
-
+                itemRow.addView(cb)
+                itemRow.addView(labelBadge)
                 itemRow.addView(pathTv)
-                itemRow.addView(deleteBtn)
                 container.addView(itemRow)
             }
 
             return view
-        }
-
-        private fun confirmDeleteSingle(item: FileItem) {
-            AlertDialog.Builder(this@AnalyzerActivity)
-                .setTitle("Delete Duplicate Copy")
-                .setMessage("Delete duplicate file at:\n${item.file.absolutePath}?\n\nOther copies will remain intact.")
-                .setPositiveButton("Delete") { _, _ ->
-                    if (item.file.delete()) {
-                        Toast.makeText(this@AnalyzerActivity, "Duplicate copy removed.", Toast.LENGTH_SHORT).show()
-                        startCryptographicDuplicateScan()
-                    } else {
-                        Toast.makeText(this@AnalyzerActivity, "Failed to delete copy.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .setNegativeButton("Cancel", null)
-                .show()
         }
     }
 }

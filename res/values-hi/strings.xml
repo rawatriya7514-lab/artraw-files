@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ARTRAW फाइल्स</string>
+    <string name="app_name">Artfiles</string>
     <string name="app_tagline">तेज़, सुरक्षित और आधुनिक स्टोरेज मैनेजर</string>
 
     <!-- Navigation & Titles -->
@@ -73,7 +73,7 @@
 
     <!-- Permissions & Onboarding -->
     <string name="perm_title">स्टोरेज एक्सेस की आवश्यकता है</string>
-    <string name="perm_desc">ARTRAW फाइल्स को आपके डिवाइस की फ़ाइलों को प्रबंधित, कॉपी और व्यवस्थित करने के लिए सभी फ़ाइलों तक पहुंच की अनुमति चाहिए।</string>
+    <string name="perm_desc">Artfiles को आपके डिवाइस की फ़ाइलों को प्रबंधित, कॉपी और व्यवस्थित करने के लिए सभी फ़ाइलों तक पहुंच की अनुमति चाहिए।</string>
     <string name="perm_btn_grant">अनुमति प्रदान करें</string>
     <string name="perm_restricted_notice">नोट: Android/data और Android/obb जैसी सिस्टम डायरेक्ट्रीज Android गोपनीयता नीतियों द्वारा सुरक्षित हैं।</string>
 
@@ -87,6 +87,6 @@
     <string name="pref_language">भाषा (Language)</string>
     <string name="pref_show_hidden">छिपी हुई फ़ाइलें दिखाएं</string>
     <string name="pref_show_extensions">फ़ाइल एक्सटेंशन दिखाएं</string>
-    <string name="pref_about">ARTRAW फाइल्स के बारे में</string>
-    <string name="pref_privacy_pledge">100% ऑफ़लाइन • शून्य ट्रैकर्स • शून्य टेलीमेट्री</string>
+    <string name="pref_about">Artfiles के बारे में</string>
+    <string name="pref_privacy_pledge">तेज़ • आधुनिक • सुरक्षित स्टोरेज</string>
 </resources>
