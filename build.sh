@@ -213,12 +213,37 @@ jarsigner -keystore "$RELEASE_KEYSTORE" \
 
 mv build/artifacts/ARTRAW-Files-Production-unsigned.aab build/artifacts/ARTRAW-Files-Production.aab
 
+# Production Universal Release APK (Real AdMob for direct download by users)
+echo "      Building Artifact: ARTRAW-Files-Production.apk (Real AdMob APK)..."
+aapt2 link -I "$ANDROID_JAR" \
+    --manifest variants/production/AndroidManifest.xml \
+    --min-sdk-version 21 \
+    --target-sdk-version 35 \
+    --version-code 1 \
+    --version-name "1.0.0" \
+    -o build/var_prod/base.apk \
+    build/var_prod/resources.zip
+
+python3 -c "
+import zipfile
+with zipfile.ZipFile('build/var_prod/base.apk', 'a') as apk:
+    apk.write('build/dex_d8/classes.dex', 'classes.dex')
+"
+
+apksigner sign --ks "$RELEASE_KEYSTORE" \
+    --ks-pass "pass:$RELEASE_STORE_PASS" \
+    --ks-key-alias "$RELEASE_KEY_ALIAS" \
+    --key-pass "pass:$RELEASE_KEY_PASS" \
+    --out build/artifacts/ARTRAW-Files-Production.apk \
+    build/var_prod/base.apk
+
 # ------------------------------------------------------------------------------
 # STEP 7: Copy All Artifacts to /sdcard/Download/
 # ------------------------------------------------------------------------------
 echo "[6/6] Copying artifacts to $DOWNLOAD_DIR..."
 cp build/artifacts/ARTRAW-Files-Offline.apk "$DOWNLOAD_DIR/"
 cp build/artifacts/ARTRAW-Files-Test-AdMob.apk "$DOWNLOAD_DIR/"
+cp build/artifacts/ARTRAW-Files-Production.apk "$DOWNLOAD_DIR/"
 cp build/artifacts/ARTRAW-Files-Production.aab "$DOWNLOAD_DIR/"
 
 # Also keep canonical copy in storage emulated 0
@@ -247,7 +272,15 @@ echo -n "    SHA-256: "
 sha256sum "$DOWNLOAD_DIR/ARTRAW-Files-Test-AdMob.apk" | cut -d' ' -f1
 
 echo ""
-echo " 3. [Production Play Store AAB]:"
+echo " 3. [Production Real AdMob APK]:"
+apksigner verify -v "$DOWNLOAD_DIR/ARTRAW-Files-Production.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
+echo "    Path:    $DOWNLOAD_DIR/ARTRAW-Files-Production.apk"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/ARTRAW-Files-Production.apk" | cut -f1)"
+echo -n "    SHA-256: "
+sha256sum "$DOWNLOAD_DIR/ARTRAW-Files-Production.apk" | cut -d' ' -f1
+
+echo ""
+echo " 4. [Production Play Store AAB]:"
 java -jar "$BUNDLETOOL_JAR" validate --bundle="$DOWNLOAD_DIR/ARTRAW-Files-Production.aab" > /dev/null && echo "    BundleTool validation: PASSED"
 jarsigner -verify "$DOWNLOAD_DIR/ARTRAW-Files-Production.aab" > /dev/null && echo "    Jarsigner signature:   PASSED"
 echo "    Path:    $DOWNLOAD_DIR/ARTRAW-Files-Production.aab"

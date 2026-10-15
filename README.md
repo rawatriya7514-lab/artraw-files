@@ -56,8 +56,15 @@ cd artraw-files
 
 ---
 
+## Downloads & Releases
+
+Direct production downloads with real AdMob integration:
+- **Production APK (Direct Android Install)**: [ARTRAW-Files-Production.apk](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.0.0-admob/ARTRAW-Files-Production.apk)
+- **Production AAB (Google Play Store Bundle)**: [ARTRAW-Files-Production.aab](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.0.0-admob/ARTRAW-Files-Production.aab)
+
+---
+
 ## Test & Verification Summary
-- **JUnit Test Runner**: 9/9 Tests PASSED (0.098s)
-- **APK Signature**: v1, v2, v3 Verified True
-- **APK Path**: `build/artraw-files-release.apk`
-- **User Download Path**: `/storage/emulated/0/Download/ARTRAW-Files-v1.0.apk`
+- **JUnit Test Runner**: 12/12 Tests PASSED
+- **APK Signatures**: v1, v2, v3 Verified True
+- **Latest Release**: [v1.0.0-admob](https://github.com/rawatriya7514-lab/artraw-files/releases/tag/v1.0.0-admob)
