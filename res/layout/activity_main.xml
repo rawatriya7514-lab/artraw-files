@@ -5,8 +5,7 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <!-- Top App Bar -->
-    <!-- Top App Bar (Safe area padding applied directly to headerMain) -->
+    <!-- Top App Bar with Edge-to-Edge Safe Padding -->
     <LinearLayout
         android:id="@+id/headerMain"
         android:layout_width="match_parent"
@@ -28,35 +27,71 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true">
 
-                <TextView
-                    android:id="@+id/tvAppTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textColor="@color/text_primary_dark"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:contentDescription="Artfiles Logo" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_tagline"
-                    android:textColor="@color/text_tertiary_dark"
-                    android:textSize="11sp" />
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvAppTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_name"
+                            android:textColor="@color/text_primary_dark"
+                            android:textSize="20sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_badge"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:text="PRO"
+                            android:textColor="@color/artraw_crimson_accent"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Storage &amp; All-Rounder Media Studio"
+                        android:textColor="@color/text_tertiary_dark"
+                        android:textSize="11sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/btnSettings"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:padding="10dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="9dp"
+                android:background="@drawable/bg_quick_tool"
                 android:contentDescription="@string/nav_settings"
                 android:src="@drawable/ic_settings" />
         </RelativeLayout>
@@ -121,33 +156,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:background="@drawable/bg_storage_card"
+                android:padding="18dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/iconStorage"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_storage"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true" />
-
-                    <TextView
-                        android:id="@+id/tvStorageTitle"
+                    <LinearLayout
+                        android:id="@+id/layoutStorageHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/iconStorage"
-                        android:layout_marginStart="10dp"
-                        android:layout_centerVertical="true"
-                        android:text="@string/storage_internal"
-                        android:textColor="@color/text_primary_dark"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true">
+
+                        <ImageView
+                            android:id="@+id/iconStorage"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/bg_badge"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_storage" />
+
+                        <TextView
+                            android:id="@+id/tvStorageTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/storage_internal"
+                            android:textColor="@color/text_primary_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvStoragePercent"
@@ -155,9 +200,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:background="@drawable/bg_badge"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
                         android:text="0%"
                         android:textColor="@color/artraw_crimson_accent"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -166,25 +216,25 @@
                     android:id="@+id/progressStorage"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="14dp"
+                    android:progressDrawable="@drawable/bg_progress_storage"
                     android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/artraw_crimson" />
+                    android:progress="0" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:id="@+id/tvStorageUsed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:text="Calculating…"
-                        android:textColor="@color/text_secondary_dark"
-                        android:textSize="12sp" />
+                        android:text="Calculating storage…"
+                        android:textColor="@color/text_primary_dark"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tvStorageFree"
@@ -193,11 +243,11 @@
                         android:layout_alignParentEnd="true"
                         android:text="--"
                         android:textColor="@color/text_secondary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
                 </RelativeLayout>
             </LinearLayout>
 
-            <!-- Quick Action Chips -->
+            <!-- Quick Action Filter Chips -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,24 +262,25 @@
                     <TextView
                         android:id="@+id/chipBrowseAll"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
+                        android:layout_height="38dp"
                         android:background="@drawable/bg_badge"
                         android:gravity="center"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
                         android:text="@string/action_browse_all"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/chipRecent"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
+                        android:layout_height="38dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/bg_badge"
                         android:gravity="center"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
                         android:text="@string/action_recent"
                         android:textColor="@color/text_primary_dark"
                         android:textSize="13sp" />
@@ -237,12 +288,12 @@
                     <TextView
                         android:id="@+id/chipLargeFiles"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
+                        android:layout_height="38dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/bg_badge"
                         android:gravity="center"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
                         android:text="@string/action_large_files"
                         android:textColor="@color/text_primary_dark"
                         android:textSize="13sp" />
@@ -250,12 +301,12 @@
                     <TextView
                         android:id="@+id/chipDuplicates"
                         android:layout_width="wrap_content"
-                        android:layout_height="36dp"
+                        android:layout_height="38dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/bg_badge"
                         android:gravity="center"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
                         android:text="@string/action_duplicates"
                         android:textColor="@color/text_primary_dark"
                         android:textSize="13sp" />
@@ -272,18 +323,18 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Category Grid (Row 1) -->
+            <!-- Category Grid (Row 1: Images, Videos, Audio, Documents) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="10dp">
 
                 <!-- Images -->
                 <LinearLayout
                     android:id="@+id/catImages"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_card"
@@ -291,25 +342,33 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_image" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_images">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_image" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_images"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- Videos -->
                 <LinearLayout
                     android:id="@+id/catVideos"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
@@ -318,25 +377,33 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_video" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_videos">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_video" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_videos"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- Audio -->
                 <LinearLayout
                     android:id="@+id/catAudio"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
@@ -345,25 +412,33 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_audio" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_audio">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_audio" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_audio"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- Documents -->
                 <LinearLayout
                     android:id="@+id/catDocuments"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
@@ -372,33 +447,41 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_document" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_documents">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_document" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_documents"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Category Grid (Row 2) -->
+            <!-- Category Grid (Row 2: Downloads, Archives, APKs, Other) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="18dp">
 
                 <!-- Downloads -->
                 <LinearLayout
                     android:id="@+id/catDownloads"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:background="@drawable/bg_card"
@@ -406,25 +489,33 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_storage" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_downloads">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_storage" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_downloads"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- Archives -->
                 <LinearLayout
                     android:id="@+id/catArchives"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
@@ -433,25 +524,33 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_archive" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_archives">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_archive" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_archives"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- APKs -->
                 <LinearLayout
                     android:id="@+id/catApks"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
@@ -460,25 +559,33 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_apk" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_apks">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_apk" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_apks"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- Other -->
                 <LinearLayout
                     android:id="@+id/catOther"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
@@ -487,18 +594,26 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_file" />
+                    <FrameLayout
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_cat_badge_other">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_file" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="@string/cat_other"
                         android:textColor="@color/text_primary_dark"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -506,7 +621,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -527,7 +642,8 @@
                     android:text="View All"
                     android:textColor="@color/artraw_crimson_accent"
                     android:textSize="13sp"
-                    android:padding="4dp" />
+                    android:textStyle="bold"
+                    android:padding="6dp" />
             </RelativeLayout>
 
             <!-- Recent Files Container -->
@@ -544,7 +660,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="16dp"
+                    android:padding="20dp"
                     android:text="@string/state_loading"
                     android:textColor="@color/text_tertiary_dark"
                     android:textSize="13sp" />
@@ -552,13 +668,23 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom AdMob Banner Container (Positioned directly above system gesture navigation bar) -->
+    <!-- Bottom AdMob Banner Container (Visible & measured 50dp height) -->
     <FrameLayout
         android:id="@+id/adViewContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:minHeight="50dp"
         android:background="@color/surface_dark"
         android:gravity="center"
-        android:visibility="gone" />
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Sponsored"
+            android:textColor="@color/text_tertiary_dark"
+            android:textSize="10sp"
+            android:letterSpacing="0.08" />
+    </FrameLayout>
 </LinearLayout>

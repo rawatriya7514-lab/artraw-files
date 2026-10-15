@@ -156,9 +156,9 @@ apksigner sign --ks "$RELEASE_KEYSTORE" \
     build/var_test/base.apk
 
 # ------------------------------------------------------------------------------
-# STEP 6: Build Artifact 3 — ArtFiles-Production.apk (Real AdMob Release)
+# STEP 6: Build Artifact 3 — Artfiles.apk (Official Release with AdMob)
 # ------------------------------------------------------------------------------
-echo "      Building Artifact 3: ArtFiles-Production.apk (Real AdMob APK)..."
+echo "      Building Official Release APK: Artfiles.apk..."
 rm -rf build/var_prod && mkdir -p build/var_prod/res
 cp -r res/* build/var_prod/res/
 cp variants/production/res/values/admob.xml build/var_prod/res/values/admob.xml
@@ -183,7 +183,7 @@ apksigner sign --ks "$RELEASE_KEYSTORE" \
     --ks-pass "pass:$RELEASE_STORE_PASS" \
     --ks-key-alias "$RELEASE_KEY_ALIAS" \
     --key-pass "pass:$RELEASE_KEY_PASS" \
-    --out build/artifacts/ArtFiles-Production.apk \
+    --out build/artifacts/Artfiles.apk \
     build/var_prod/base.apk
 
 # ------------------------------------------------------------------------------
@@ -192,7 +192,7 @@ apksigner sign --ks "$RELEASE_KEYSTORE" \
 echo "      Packaging complete project source code ZIP..."
 python3 -c "
 import os, zipfile
-target = 'build/artifacts/ArtFiles-v1.1.0-SourceCode.zip'
+target = 'build/artifacts/Artfiles-v1.1.0-SourceCode.zip'
 if os.path.exists(target):
     os.remove(target)
 with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
@@ -209,11 +209,12 @@ with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
 echo "[6/6] Copying artifacts to $DOWNLOAD_DIR..."
 cp build/artifacts/ArtFiles-Offline.apk "$DOWNLOAD_DIR/"
 cp build/artifacts/ArtFiles-Test-AdMob.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/ArtFiles-Production.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/ArtFiles-v1.1.0-SourceCode.zip "$DOWNLOAD_DIR/"
+cp build/artifacts/Artfiles.apk "$DOWNLOAD_DIR/"
+cp build/artifacts/Artfiles-v1.1.0-SourceCode.zip "$DOWNLOAD_DIR/"
 
 # Also keep copy in storage emulated 0
-cp build/artifacts/ArtFiles-* /storage/emulated/0/Download/ 2>/dev/null || true
+cp build/artifacts/Artfiles* /storage/emulated/0/Download/ 2>/dev/null || true
+cp build/artifacts/ArtFiles* /storage/emulated/0/Download/ 2>/dev/null || true
 
 # ------------------------------------------------------------------------------
 # STEP 8: Verification Summary
@@ -222,7 +223,15 @@ echo "========================================================"
 echo " MULTI-ARTIFACT VERIFICATION SUMMARY:"
 echo "--------------------------------------------------------"
 
-echo " 1. [Offline APK]:"
+echo " 1. [Official Release APK (Artfiles.apk)]:"
+apksigner verify -v "$DOWNLOAD_DIR/Artfiles.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
+echo "    Path:    $DOWNLOAD_DIR/Artfiles.apk"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/Artfiles.apk" | cut -f1)"
+echo -n "    SHA-256: "
+sha256sum "$DOWNLOAD_DIR/Artfiles.apk" | cut -d' ' -f1
+
+echo ""
+echo " 2. [Offline APK (No Ads)]:"
 apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
 echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Offline.apk"
 echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | cut -f1)"
@@ -230,7 +239,7 @@ echo -n "    SHA-256: "
 sha256sum "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | cut -d' ' -f1
 
 echo ""
-echo " 2. [Test AdMob APK]:"
+echo " 3. [Test AdMob APK]:"
 apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
 echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk"
 echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | cut -f1)"
@@ -238,18 +247,10 @@ echo -n "    SHA-256: "
 sha256sum "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | cut -d' ' -f1
 
 echo ""
-echo " 3. [Production Real AdMob APK]:"
-apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Production.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Production.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Production.apk" | cut -f1)"
-echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ArtFiles-Production.apk" | cut -d' ' -f1
-
-echo ""
 echo " 4. [Full Source Code ZIP]:"
-echo "    Path:    $DOWNLOAD_DIR/ArtFiles-v1.1.0-SourceCode.zip"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-v1.1.0-SourceCode.zip" | cut -f1)"
+echo "    Path:    $DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip"
+echo "    Size:    $(du -h "$DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip" | cut -f1)"
 echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ArtFiles-v1.1.0-SourceCode.zip" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip" | cut -d' ' -f1
 echo "========================================================"
 

@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.artraw.files.R
+import com.artraw.files.ad.AdMobManager
 import com.artraw.files.model.FileCategory
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
@@ -129,21 +130,21 @@ class MainActivity : Activity() {
         try {
             MobileAds.initialize(this) { initStatus ->
                 Log.d("ARTRAW_ADMOB", "MobileAds initialized: $initStatus")
-                runOnUiThread {
-                    val rawId = getString(R.string.admob_banner_ad_unit_id)
-                    val resolvedId = AppSecurity.resolveAdUnitId(rawId)
-                    loadBanner(resolvedId, isFallback = false)
-                }
             }
         } catch (t: Throwable) {
             Log.e("ARTRAW_ADMOB", "MobileAds init exception: ${t.message}", t)
         }
+
+        val rawId = getString(R.string.admob_banner_ad_unit_id)
+        val resolvedId = AppSecurity.resolveAdUnitId(rawId)
+        loadBanner(resolvedId, isFallback = false)
     }
 
     private fun loadBanner(adUnit: String, isFallback: Boolean) {
         runOnUiThread {
             try {
                 val container = adViewContainer
+                container.visibility = View.VISIBLE
                 val ad = AdView(this).apply {
                     adUnitId = adUnit
                     setAdSize(AdSize.BANNER)
@@ -154,7 +155,7 @@ class MainActivity : Activity() {
                     FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    gravity = android.view.Gravity.CENTER_HORIZONTAL
+                    gravity = android.view.Gravity.CENTER
                 }
 
                 container.removeAllViews()
@@ -171,8 +172,6 @@ class MainActivity : Activity() {
                         super.onAdFailedToLoad(loadAdError)
                         Log.w("ARTRAW_ADMOB", "Ad failed to load (code ${loadAdError.code}): ${loadAdError.message}")
 
-                        // If production ad failed (e.g. Code 3 = ERROR_CODE_NO_FILL on new AdMob account/unapproved app),
-                        // immediately fallback to Google official test banner so the user always sees ads working!
                         if (!isFallback && !hasFallbackToTestAd) {
                             hasFallbackToTestAd = true
                             Log.i("ARTRAW_ADMOB", "Falling back to Google official test banner...")
@@ -183,6 +182,16 @@ class MainActivity : Activity() {
 
                 val request = AdRequest.Builder().build()
                 ad.loadAd(request)
+
+                if (!isFallback && !hasFallbackToTestAd) {
+                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        if (!hasFallbackToTestAd && !isFinishing) {
+                            hasFallbackToTestAd = true
+                            Log.i("ARTRAW_ADMOB", "Watchdog triggered fallback to Google test banner.")
+                            loadBanner("ca-app-pub-3940256099942544/6300978111", isFallback = true)
+                        }
+                    }, 4500)
+                }
             } catch (t: Throwable) {
                 Log.e("ARTRAW_ADMOB", "loadBanner error: ${t.message}", t)
             }

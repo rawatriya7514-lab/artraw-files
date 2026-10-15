@@ -61,6 +61,7 @@
 -dontwarn android.security.NetworkSecurityPolicy
 -dontwarn android.app.Notification
 
+-keep class com.artraw.files.ad.** { *; }
 -keep class com.google.android.gms.ads.** { *; }
 -keep interface com.google.android.gms.ads.** { *; }
 -keep class com.google.android.gms.** { *; }

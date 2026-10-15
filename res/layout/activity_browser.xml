@@ -488,4 +488,24 @@
             android:indeterminateTint="@color/artraw_crimson"
             android:visibility="gone" />
     </FrameLayout>
+
+    <!-- Bottom AdMob Banner Container in Browser (Sticky above navigation bar) -->
+    <FrameLayout
+        android:id="@+id/adViewContainerBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:minHeight="50dp"
+        android:background="@color/surface_dark"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Sponsored"
+            android:textColor="@color/text_tertiary_dark"
+            android:textSize="10sp"
+            android:letterSpacing="0.08" />
+    </FrameLayout>
 </LinearLayout>

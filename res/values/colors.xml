@@ -37,4 +37,5 @@
     <color name="status_success">#00C853</color>
     <color name="status_warning">#FFAB00</color>
     <color name="status_error">#D50000</color>
+    <color name="ic_launcher_background">#282828</color>
 </resources>

@@ -24,7 +24,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.artraw.files.R
+import com.artraw.files.ad.AdMobManager
 import com.artraw.files.model.FileCategory
+import com.google.android.gms.ads.AdView
 import com.artraw.files.model.FileItem
 import com.artraw.files.model.SortDirection
 import com.artraw.files.model.SortField
@@ -77,6 +79,8 @@ class BrowserActivity : Activity() {
 
     private lateinit var tvPcPathDisplay: TextView
     private var isGridMode: Boolean = false
+    private var adViewContainerBrowser: FrameLayout? = null
+    private var adView: AdView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,11 +90,19 @@ class BrowserActivity : Activity() {
 
         setContentView(R.layout.activity_browser)
 
+        adViewContainerBrowser = findViewById(R.id.adViewContainerBrowser)
+
+        val stickyViews = mutableListOf<View>(
+            findViewById(R.id.layoutPasteBar),
+            findViewById(R.id.fabNewFolder)
+        )
+        adViewContainerBrowser?.let { stickyViews.add(it) }
+
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topSpacers = listOf(findViewById(R.id.statusBarSpacerBrowser)),
             bottomScrollViews = listOf(findViewById(R.id.listViewFiles), findViewById(R.id.gridViewFiles)),
-            bottomStickyViews = listOf(findViewById(R.id.layoutPasteBar), findViewById(R.id.fabNewFolder))
+            bottomStickyViews = stickyViews
         )
 
         val pathArg = intent.getStringExtra("initial_path")
@@ -99,6 +111,29 @@ class BrowserActivity : Activity() {
         initViews()
         setupListeners()
         loadDirectory(currentDirectory)
+
+        adView = AdMobManager.loadBanner(this, adViewContainerBrowser)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            adView?.resume()
+        } catch (_: Throwable) {}
+    }
+
+    override fun onPause() {
+        try {
+            adView?.pause()
+        } catch (_: Throwable) {}
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        try {
+            adView?.destroy()
+        } catch (_: Throwable) {}
+        super.onDestroy()
     }
 
     private fun initViews() {
