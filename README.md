@@ -58,9 +58,8 @@ cd artraw-files
 
 ## Downloads & Releases
 
-Direct production downloads with real AdMob integration:
+Direct production APK download with Google AdMob integration:
 - **Production APK (Direct Android Install)**: [ARTRAW-Files-Production.apk](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.0.0-admob/ARTRAW-Files-Production.apk)
-- **Production AAB (Google Play Store Bundle)**: [ARTRAW-Files-Production.aab](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.0.0-admob/ARTRAW-Files-Production.aab)
 
 ---
 
