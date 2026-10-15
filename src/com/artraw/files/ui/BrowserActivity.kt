@@ -120,6 +120,57 @@ class BrowserActivity : Activity() {
         loadDirectory(currentDirectory)
 
         adView = AdMobManager.loadBanner(this, adViewContainerBrowser)
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        val navItems = listOf(
+            R.id.btnNavHomeBrowser to R.id.tvNavHomeBrowser,
+            R.id.btnNavBrowseBrowser to R.id.tvNavBrowseBrowser,
+            R.id.btnNavAnalysisBrowser to R.id.tvNavAnalysisBrowser,
+            R.id.btnNavSettingsBrowser to R.id.tvNavSettingsBrowser
+        )
+
+        fun setActive(index: Int) {
+            navItems.forEachIndexed { i, (btnId, tvId) ->
+                val isActive = i == index
+                findViewById<android.widget.LinearLayout>(btnId).let {
+                    for (childIndex in 0 until it.childCount) {
+                        val child = it.getChildAt(childIndex)
+                        if (child is android.widget.ImageView) {
+                            child.setImageTintList(
+                                android.content.res.ColorStateList.valueOf(
+                                    if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
+                                )
+                            )
+                        }
+                        if (child is android.widget.TextView) {
+                            child.setTextColor(
+                                if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        setActive(1)
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavHomeBrowser).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavBrowseBrowser).setOnClickListener {
+            // Already on browse screen
+        }
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavAnalysisBrowser).setOnClickListener {
+            startActivity(Intent(this, AnalyzerActivity::class.java))
+        }
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavSettingsBrowser).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
     }
 
     private fun setupScaleDetector() {
@@ -654,15 +705,39 @@ class BrowserActivity : Activity() {
 
     private fun showMoreMenu(items: List<FileItem>) {
         if (items.isEmpty()) return
-        val options = if (items.size == 1) {
-            arrayOf("Copy Path", "Rename", "Details", "Open With", "Select All")
-        } else {
-            arrayOf("Copy Paths", "Details", "Select All")
+        val single = items.size == 1
+        val encryptedCount = items.count { it.isEncrypted }
+        val unencryptedCount = items.count { !it.isEncrypted }
+        val options = buildList {
+            if (single) {
+                add("Copy Path")
+                add("Rename")
+                add("Details")
+                add("Open With")
+                val item = items[0]
+                if (item.isEncrypted) {
+                    add(getString(R.string.action_decrypt))
+                } else {
+                    add(getString(R.string.action_encrypt))
+                }
+                add(getString(R.string.action_favorite_add))
+            } else {
+                add("Copy Paths")
+                add("Details")
+                if (encryptedCount > 0) {
+                    add("Decrypt Selected ($encryptedCount)")
+                }
+                if (unencryptedCount > 0) {
+                    add("Encrypt Selected ($unencryptedCount)")
+                }
+            }
+            add("Select All")
         }
 
         AlertDialog.Builder(this)
-            .setItems(options) { _, which ->
-                when (options[which]) {
+            .setItems(options.toTypedArray()) { _, which ->
+                val selected = options[which]
+                when (selected) {
                     "Copy Path", "Copy Paths" -> {
                         val paths = items.joinToString("\n") { it.path }
                         copyToClipboard("Path", paths)
@@ -675,10 +750,82 @@ class BrowserActivity : Activity() {
                         FileViewerHelper.openFile(this, items[0])
                         activeAdapter().clearSelection()
                     }
+                    getString(R.string.action_encrypt) -> {
+                        encryptSingleFile(items[0])
+                    }
+                    getString(R.string.action_decrypt) -> {
+                        decryptSingleFile(items[0])
+                    }
+                    "Encrypt Selected ($unencryptedCount)" -> {
+                        encryptMultipleFiles(items.filter { !it.isEncrypted })
+                    }
+                    "Decrypt Selected ($encryptedCount)" -> {
+                        decryptMultipleFiles(items.filter { it.isEncrypted })
+                    }
+                    getString(R.string.action_favorite_add) -> {
+                        toggleFavorite(items[0])
+                    }
                     "Select All" -> activeAdapter().selectAll()
                 }
             }
             .show()
+    }
+
+    private fun encryptSingleFile(item: FileItem) {
+        com.artraw.files.util.FileEncryption.init(this)
+        val result = com.artraw.files.util.FileEncryption.encryptFileWithContext(item.file)
+        if (result != null) {
+            Toast.makeText(this, getString(R.string.encryption_success), Toast.LENGTH_SHORT).show()
+            activeAdapter().clearSelection()
+            loadDirectory(currentDirectory)
+        } else {
+            Toast.makeText(this, getString(R.string.encryption_error), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun decryptSingleFile(item: FileItem) {
+        com.artraw.files.util.FileEncryption.init(this)
+        val result = com.artraw.files.util.FileEncryption.decryptFileWithContext(item.file)
+        if (result != null) {
+            Toast.makeText(this, getString(R.string.encryption_decrypt_success), Toast.LENGTH_SHORT).show()
+            activeAdapter().clearSelection()
+            loadDirectory(currentDirectory)
+        } else {
+            Toast.makeText(this, getString(R.string.encryption_error), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun encryptMultipleFiles(items: List<FileItem>) {
+        com.artraw.files.util.FileEncryption.init(this)
+        var success = 0
+        for (item in items) {
+            if (com.artraw.files.util.FileEncryption.encryptFileWithContext(item.file) != null) {
+                success++
+            }
+        }
+        Toast.makeText(this, "$success files encrypted", Toast.LENGTH_SHORT).show()
+        activeAdapter().clearSelection()
+        loadDirectory(currentDirectory)
+    }
+
+    private fun decryptMultipleFiles(items: List<FileItem>) {
+        com.artraw.files.util.FileEncryption.init(this)
+        var success = 0
+        for (item in items) {
+            if (com.artraw.files.util.FileEncryption.decryptFileWithContext(item.file) != null) {
+                success++
+            }
+        }
+        Toast.makeText(this, "$success files decrypted", Toast.LENGTH_SHORT).show()
+        activeAdapter().clearSelection()
+        loadDirectory(currentDirectory)
+    }
+
+    private fun toggleFavorite(item: FileItem) {
+        com.artraw.files.util.FavoritesManager.init(this)
+        val isNowFavorite = com.artraw.files.util.FavoritesManager.toggleFavorite(item)
+        val msg = if (isNowFavorite) "Added to favorites" else "Removed from favorites"
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun showRenameDialog(item: FileItem) {

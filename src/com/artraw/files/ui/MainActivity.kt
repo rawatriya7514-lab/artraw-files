@@ -73,6 +73,59 @@ class MainActivity : Activity() {
         )
         setupListeners()
         initAdMob()
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
+        val navItems = listOf(
+            R.id.btnNavHome to R.id.tvNavHome,
+            R.id.btnNavBrowse to R.id.tvNavBrowse,
+            R.id.btnNavAnalysis to R.id.tvNavAnalysis,
+            R.id.btnNavSettings to R.id.tvNavSettings
+        )
+
+        fun setActive(index: Int) {
+            navItems.forEachIndexed { i, (btnId, tvId) ->
+                val isActive = i == index
+                findViewById<android.widget.LinearLayout>(btnId).let {
+                    for (childIndex in 0 until it.childCount) {
+                        val child = it.getChildAt(childIndex)
+                        if (child is android.widget.ImageView) {
+                            child.setImageTintList(
+                                android.content.res.ColorStateList.valueOf(
+                                    if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
+                                )
+                            )
+                        }
+                        if (child is android.widget.TextView) {
+                            child.setTextColor(
+                                if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        setActive(0)
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavHome).setOnClickListener {
+            if (navItems.indexOfFirst { it.first == R.id.btnNavHome } != 0) setActive(0)
+        }
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavBrowse).setOnClickListener {
+            startActivity(Intent(this, BrowserActivity::class.java).apply {
+                putExtra("initial_path", repository.getPrimaryStorageRoot().absolutePath)
+            })
+        }
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavAnalysis).setOnClickListener {
+            startActivity(Intent(this, AnalyzerActivity::class.java))
+        }
+
+        findViewById<android.widget.LinearLayout>(R.id.btnNavSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
     }
 
     override fun onResume() {

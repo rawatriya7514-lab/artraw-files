@@ -1,20 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ARTRAW Brand Colors -->
+    <!-- ====================================================================== -->
+    <!-- ARTRAW Brand Colors (Primary - Crimson) -->
+    <!-- ====================================================================== -->
     <color name="artraw_crimson">#E53935</color>
     <color name="artraw_crimson_dark">#B71C1C</color>
     <color name="artraw_crimson_accent">#FF5252</color>
 
-    <!-- Dark Theme (Default) -->
-    <color name="bg_dark">#121316</color>
-    <color name="surface_dark">#1A1D24</color>
-    <color name="surface_elevated_dark">#242833</color>
-    <color name="border_dark">#2E3442</color>
-    <color name="text_primary_dark">#F0F2F5</color>
-    <color name="text_secondary_dark">#9AA0A6</color>
-    <color name="text_tertiary_dark">#6B7280</color>
+    <!-- ====================================================================== -->
+    <!-- Material Design 3 Dynamic Color Roles (Material You) -->
+    <!-- ====================================================================== -->
+    <!-- Primary -->
+    <color name="md_theme_primary">#E53935</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#FDEDEC</color>
+    <color name="md_theme_onPrimaryContainer">#B71C1C</color>
 
-    <!-- Light Theme -->
+    <!-- Secondary -->
+    <color name="md_theme_secondary">#6D5C6A</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_secondaryContainer">#F0EDEE</color>
+    <color name="md_theme_onSecondaryContainer">#554852</color>
+
+    <!-- Tertiary -->
+    <color name="md_theme_tertiary">#4D6A6A</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer">#E7F2F2</color>
+    <color name="md_theme_onTertiaryContainer">#3A5252</color>
+
+    <!-- Error -->
+    <color name="md_theme_error">#B3261E</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_errorContainer">#F9DEDC</color>
+    <color name="md_theme_onErrorContainer">#8A1C18</color>
+
+    <!-- Surface -->
+    <color name="md_theme_surface">#1A1B1E</color>
+    <color name="md_theme_onSurface">#E7E5EA</color>
+    <color name="md_theme_surfaceVariant">#2E2F36</color>
+    <color name="md_theme_onSurfaceVariant">#CAC4D0</color>
+    <color name="md_theme_inverseSurface">#E7E5EA</color>
+    <color name="md_theme_inverseOnSurface">#202124</color>
+    <color name="md_theme_inversePrimary">#FF8A80</color>
+
+    <!-- Background -->
+    <color name="md_theme_background">#121316</color>
+    <color name="md_theme_onBackground">#E7E5EA</color>
+
+    <!-- Outline -->
+    <color name="md_theme_outline">#585560</color>
+    <color name="md_theme_outlineVariant">#3A3740</color>
+
+    <!-- Scrim -->
+    <color name="md_theme_scrim">#000000</color>
+
+    <!-- ====================================================================== -->
+    <!-- Legacy Theme Colors (Dark - Default) -->
+    <!-- ====================================================================== -->
+    <color name="bg_dark">#121316</color>
+    <color name="surface_dark">#1A1B1E</color>
+    <color name="surface_elevated_dark">#2E2F36</color>
+    <color name="border_dark">#3A3740</color>
+    <color name="text_primary_dark">#E7E5EA</color>
+    <color name="text_secondary_dark">#CAC4D0</color>
+    <color name="text_tertiary_dark">#8E8B94</color>
+
+    <!-- ====================================================================== -->
+    <!-- Light Theme Colors -->
+    <!-- ====================================================================== -->
     <color name="bg_light">#F8F9FA</color>
     <color name="surface_light">#FFFFFF</color>
     <color name="surface_elevated_light">#F1F3F4</color>
@@ -23,7 +76,9 @@
     <color name="text_secondary_light">#5F6368</color>
     <color name="text_tertiary_light">#80868B</color>
 
-    <!-- Category Badges -->
+    <!-- ====================================================================== -->
+    <!-- Category Badges (Material 3 inspired) -->
+    <!-- ====================================================================== -->
     <color name="cat_images">#42A5F5</color>
     <color name="cat_videos">#AB47BC</color>
     <color name="cat_audio">#26A69A</color>
@@ -33,9 +88,18 @@
     <color name="cat_apks">#66BB6A</color>
     <color name="cat_other">#78909C</color>
 
+    <!-- Status Colors -->
     <color name="selection_overlay">#33E53935</color>
     <color name="status_success">#00C853</color>
     <color name="status_warning">#FFAB00</color>
     <color name="status_error">#D50000</color>
     <color name="ic_launcher_background">#282828</color>
+
+    <!-- Divider -->
+    <color name="divider_dark">#2E2F36</color>
+    <color name="divider_light">#E0E0E0</color>
+
+    <!-- Placeholder / Skeleton -->
+    <color name="placeholder_dark">#2E2F36</color>
+    <color name="placeholder_light">#E0E0E0</color>
 </resources>

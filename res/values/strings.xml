@@ -81,6 +81,21 @@
     <string name="archive_notice_zip">ZIP format is natively supported for extraction and inspection.</string>
     <string name="archive_notice_unsupported">Formats like 7Z and RAR require an external archive manager (e.g., ZArchiver or RAR) on Android.</string>
 
+    <!-- Encryption -->
+    <string name="action_encrypt">Encrypt</string>
+    <string name="action_decrypt">Decrypt</string>
+    <string name="encryption_enabled">Encrypted (.artrawenc)</string>
+    <string name="encryption_success">File encrypted successfully</string>
+    <string name="encryption_decrypt_success">File decrypted successfully</string>
+    <string name="encryption_error">Encryption/Decryption failed</string>
+    <string name="encryption_not_supported">Cannot encrypt this file type</string>
+
+    <!-- Favorites -->
+    <string name="action_favorite_add">Add to Favorites</string>
+    <string name="action_favorite_remove">Remove from Favorites</string>
+    <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty">No favorite files yet</string>
+
     <!-- States -->
     <string name="state_empty">This folder is empty</string>
     <string name="state_loading">Scanning files…</string>

@@ -1,57 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutItemRoot"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:background="@drawable/ripple_material">
 
-    <ImageView
-        android:id="@+id/imgFileIcon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_file" />
+    <!-- File Icon / Avatar -->
+    <android.widget.FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+        <android.widget.ImageView
+            android:id="@+id/imgFileIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_file" />
+
+        <!-- Selection overlay circle (shown in selection mode) -->
+        <android.widget.ImageView
+            android:id="@+id/imgListSelectBadge"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_check_circle_outline"
+            android:tint="@color/md_theme_primary"
+            android:background="@drawable/bg_button_primary_material"
+            android:visibility="gone" />
+
+        <!-- Encryption badge -->
+        <android.widget.ImageView
+            android:id="@+id/imgListEncryptionBadge"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_file"
+            android:tint="@color/status_warning"
+            android:visibility="gone" />
+    </android.widget.FrameLayout>
+
+    <!-- Text Content -->
+    <android.widget.LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/imgFileIcon"
-        android:layout_toStartOf="@+id/cbSelect"
-        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical">
 
-        <TextView
+        <android.widget.TextView
             android:id="@+id/tvFileName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:ellipsize="middle"
-            android:textColor="@color/text_primary_dark"
+            android:ellipsize="end"
+            android:textColor="@color/md_theme_onSurface"
             android:textSize="14sp"
-            android:textStyle="normal" />
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
 
-        <TextView
+        <android.widget.TextView
             android:id="@+id/tvFileMeta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:singleLine="true"
-            android:textColor="@color/text_secondary_dark"
+            android:ellipsize="end"
+            android:textColor="@color/md_theme_onSurfaceVariant"
             android:textSize="12sp" />
-    </LinearLayout>
+    </android.widget.LinearLayout>
 
-    <CheckBox
+    <!-- Checkbox (shown in selection mode) -->
+    <android.widget.CheckBox
         android:id="@+id/cbSelect"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:buttonTint="@color/md_theme_primary"
         android:focusable="false"
         android:clickable="false"
         android:visibility="gone" />
-</RelativeLayout>
+
+</android.widget.LinearLayout>

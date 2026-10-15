@@ -1,7 +1,6 @@
 package com.artraw.files.ui.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,7 +88,8 @@ class FileListAdapter(
                 name = view.findViewById(if (isGrid) R.id.tvGridFileName else R.id.tvFileName),
                 meta = view.findViewById(if (isGrid) R.id.tvGridFileMeta else R.id.tvFileMeta),
                 checkbox = if (!isGrid) view.findViewById(R.id.cbSelect) else null,
-                selectBadge = if (isGrid) view.findViewById(R.id.imgGridSelectBadge) else null,
+                selectBadge = if (isGrid) view.findViewById(R.id.imgGridSelectBadge) else view.findViewById(R.id.imgListSelectBadge),
+                encryptionBadge = if (isGrid) view.findViewById(R.id.imgGridEncryptionBadge) else view.findViewById(R.id.imgListEncryptionBadge),
                 root = view
             )
             view.tag = holder
@@ -98,6 +98,7 @@ class FileListAdapter(
             holder = view.tag as ViewHolder
         }
 
+        // Grid item height calculation for Material 3 cards
         if (isGrid) {
             val dm = context.resources.displayMetrics
             val cols = gridColumns.coerceIn(1, 5)
@@ -110,9 +111,9 @@ class FileListAdapter(
                 4 -> (colWidth * 1.18f).toInt()
                 else -> (colWidth * 1.25f).toInt()
             }
-            holder.root.layoutParams = holder.root.layoutParams?.apply {
-                height = itemHeight
-            } ?: android.view.ViewGroup.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, itemHeight)
+            view.layoutParams = android.view.ViewGroup.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, itemHeight
+            )
 
             val thumbFrame = view.findViewById<View>(R.id.frameGridThumbnail)
             thumbFrame?.layoutParams?.let { lp ->
@@ -128,15 +129,25 @@ class FileListAdapter(
         holder.name.text = item.name
 
         // Meta string: size / children count and date
+        val metaBuilder = StringBuilder()
         if (item.isDirectory) {
             val countStr = item.childCount?.let { "$it items" } ?: "Folder"
             val dateStr = Formatters.formatShortDate(item.lastModified)
-            holder.meta.text = "$countStr • $dateStr"
+            metaBuilder.append("$countStr • $dateStr")
         } else {
             val sizeStr = Formatters.formatFileSize(item.size)
             val dateStr = Formatters.formatShortDate(item.lastModified)
-            holder.meta.text = "$sizeStr • $dateStr"
+            metaBuilder.append("$sizeStr • $dateStr")
         }
+
+        // Encryption badge indicator
+        if (item.isEncrypted) {
+            metaBuilder.append("  🔒")
+            holder.encryptionBadge?.visibility = View.VISIBLE
+        } else {
+            holder.encryptionBadge?.visibility = View.GONE
+        }
+        holder.meta.text = metaBuilder.toString()
 
         // Icon assignment and async thumbnail decoding
         val iconRes = when {
@@ -190,15 +201,11 @@ class FileListAdapter(
             }
         }
 
-        // Selection highlight
+        // Material 3 Selection highlight using ripple background
         if (isSelected) {
             holder.root.setBackgroundResource(R.drawable.bg_selection)
         } else {
-            if (isGrid) {
-                holder.root.setBackgroundResource(R.drawable.bg_card)
-            } else {
-                holder.root.setBackgroundColor(Color.TRANSPARENT)
-            }
+            // Background is already ripple_material from XML, no need to reset
         }
 
         // Cut Pending visual dimming
@@ -213,6 +220,7 @@ class FileListAdapter(
         val meta: TextView,
         val checkbox: CheckBox?,
         val selectBadge: ImageView?,
+        val encryptionBadge: ImageView?,
         val root: View
     )
 }

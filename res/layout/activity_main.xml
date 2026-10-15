@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/md_theme_background">
 
     <!-- Top App Bar with Edge-to-Edge Safe Padding -->
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark"
+        android:background="@color/md_theme_surface"
         android:paddingTop="48dp">
 
         <RelativeLayout
@@ -55,7 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"
-                            android:textColor="@color/text_primary_dark"
+                            android:textColor="@color/md_theme_onSurface"
                             android:textSize="20sp"
                             android:fontFamily="sans-serif-medium"
                             android:textStyle="bold" />
@@ -70,7 +70,7 @@
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
                             android:text="PRO"
-                            android:textColor="@color/artraw_crimson_accent"
+                            android:textColor="@color/md_theme_primary"
                             android:textSize="10sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Storage &amp; All-Rounder Media Studio"
-                        android:textColor="@color/text_tertiary_dark"
+                        android:textColor="@color/md_theme_onSurfaceVariant"
                         android:textSize="11sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/perm_title"
-                    android:textColor="@color/artraw_crimson_accent"
+                    android:textColor="@color/md_theme_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="@string/perm_desc"
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
                     android:textSize="13sp" />
 
                 <Button
@@ -189,7 +189,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:text="@string/storage_internal"
-                            android:textColor="@color/text_primary_dark"
+                            android:textColor="@color/md_theme_onSurface"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -206,7 +206,7 @@
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
                         android:text="0%"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/md_theme_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -233,7 +233,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="Calculating storage…"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="13sp" />
 
                     <TextView
@@ -242,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="--"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/md_theme_onSurfaceVariant"
                         android:textSize="13sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -275,7 +275,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="⚡ CPU-Z &amp; Hardware Monitor"
-                            android:textColor="@color/artraw_crimson_accent"
+                            android:textColor="@color/md_theme_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -317,7 +317,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="CPU Status"
-                            android:textColor="@color/text_secondary_dark"
+                            android:textColor="@color/md_theme_onSurfaceVariant"
                             android:textSize="10sp" />
 
                         <TextView
@@ -326,7 +326,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="8 Cores Live"
-                            android:textColor="@color/text_primary_dark"
+                            android:textColor="@color/md_theme_onSurface"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -344,7 +344,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="App Screen Time"
-                            android:textColor="@color/text_secondary_dark"
+                            android:textColor="@color/md_theme_onSurfaceVariant"
                             android:textSize="10sp" />
 
                         <TextView
@@ -353,7 +353,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="App Timeline →"
-                            android:textColor="@color/artraw_crimson_accent"
+                            android:textColor="@color/md_theme_primary"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -381,7 +381,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="CPU-Z Monitor"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/md_theme_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -395,7 +395,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_browse_all"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -409,7 +409,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_recent"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="13sp" />
 
                     <TextView
@@ -422,7 +422,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_large_files"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="13sp" />
 
                     <TextView
@@ -435,7 +435,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_duplicates"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="13sp" />
                 </LinearLayout>
             </HorizontalScrollView>
@@ -445,7 +445,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Categories"
-                android:textColor="@color/text_primary_dark"
+                android:textColor="@color/md_theme_onSurface"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp" />
@@ -486,7 +486,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_images"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -521,7 +521,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_videos"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -556,7 +556,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_audio"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -591,7 +591,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_documents"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -633,7 +633,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_downloads"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -668,7 +668,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_archives"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -703,7 +703,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_apks"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -738,7 +738,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_other"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/md_theme_onSurface"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -754,7 +754,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/action_recent"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/md_theme_onSurface"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_alignParentStart="true"
@@ -767,7 +767,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="View All"
-                    android:textColor="@color/artraw_crimson_accent"
+                    android:textColor="@color/md_theme_primary"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:padding="6dp" />
@@ -789,25 +789,148 @@
                     android:gravity="center"
                     android:padding="20dp"
                     android:text="@string/state_loading"
-                    android:textColor="@color/text_tertiary_dark"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Divider between scrollable content and AdMob Banner (Strict AdMob Accidental Click Prevention) -->
+    <!-- Divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/border_dark" />
+        android:background="@color/md_theme_outlineVariant" />
 
-    <!-- Bottom AdMob Banner Container (Visible & measured 50dp height) -->
+    <!-- Material 3 Bottom Navigation Bar -->
+    <android.widget.LinearLayout
+        android:id="@+id/bottomNavigationMain"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/md_theme_surface"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:elevation="4dp">
+
+        <!-- Home -->
+        <android.widget.LinearLayout
+            android:id="@+id/btnNavHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <android.widget.ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_storage"
+                android:tint="@color/md_theme_primary"
+                android:contentDescription="Home" />
+
+            <android.widget.TextView
+                android:id="@+id/tvNavHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_home"
+                android:textColor="@color/md_theme_primary"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium" />
+        </android.widget.LinearLayout>
+
+        <!-- Browse -->
+        <android.widget.LinearLayout
+            android:id="@+id/btnNavBrowse"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <android.widget.ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_folder"
+                android:tint="@color/md_theme_onSurfaceVariant"
+                android:contentDescription="Browse" />
+
+            <android.widget.TextView
+                android:id="@+id/tvNavBrowse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_browse"
+                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium" />
+        </android.widget.LinearLayout>
+
+        <!-- Analysis -->
+        <android.widget.LinearLayout
+            android:id="@+id/btnNavAnalysis"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <android.widget.ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_storage"
+                android:tint="@color/md_theme_onSurfaceVariant"
+                android:contentDescription="Analysis" />
+
+            <android.widget.TextView
+                android:id="@+id/tvNavAnalysis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_analysis"
+                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium" />
+        </android.widget.LinearLayout>
+
+        <!-- Settings -->
+        <android.widget.LinearLayout
+            android:id="@+id/btnNavSettings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <android.widget.ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_settings"
+                android:tint="@color/md_theme_onSurfaceVariant"
+                android:contentDescription="Settings" />
+
+            <android.widget.TextView
+                android:id="@+id/tvNavSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_settings"
+                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium" />
+        </android.widget.LinearLayout>
+    </android.widget.LinearLayout>
+
+    <!-- Bottom AdMob Banner Container -->
     <FrameLayout
         android:id="@+id/adViewContainer"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:minHeight="50dp"
-        android:background="@color/surface_dark"
+        android:background="@color/md_theme_surface"
         android:gravity="center"
         android:visibility="visible">
 
@@ -816,7 +939,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Sponsored"
-            android:textColor="@color/text_tertiary_dark"
+            android:textColor="@color/md_theme_onSurfaceVariant"
             android:textSize="10sp"
             android:letterSpacing="0.08" />
     </FrameLayout>

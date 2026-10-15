@@ -1,55 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutGridRoot"
     android:layout_width="match_parent"
-    android:layout_height="134dp"
-    android:background="@drawable/bg_card"
-    android:padding="6dp">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_material"
+    android:padding="8dp"
+    android:clipToPadding="false">
 
-    <FrameLayout
-        android:id="@+id/frameGridThumbnail"
+    <android.widget.LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="86dp"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <ImageView
-            android:id="@+id/imgGridIcon"
+        <!-- Thumbnail / Icon Container -->
+        <android.widget.FrameLayout
+            android:id="@+id/frameGridThumbnail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_file" />
+            android:layout_height="100dp"
+            android:layout_marginBottom="8dp">
 
-        <ImageView
-            android:id="@+id/imgGridSelectBadge"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="top|end"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_check_circle"
-            android:visibility="gone" />
-    </FrameLayout>
+            <android.widget.ImageView
+                android:id="@+id/imgGridIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_file" />
 
-    <TextView
-        android:id="@+id/tvGridFileName"
+            <!-- Selection Badge (top-right) -->
+            <android.widget.ImageView
+                android:id="@+id/imgGridSelectBadge"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="6dp"
+                android:src="@drawable/ic_check_circle_outline"
+                android:tint="@color/md_theme_primary"
+                android:background="@drawable/bg_button_primary_material"
+                android:visibility="gone" />
+
+            <!-- Encryption Badge (bottom-left) -->
+            <android.widget.ImageView
+                android:id="@+id/imgGridEncryptionBadge"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="6dp"
+                android:src="@drawable/ic_file"
+                android:tint="@color/status_warning"
+                android:visibility="gone" />
+        </android.widget.FrameLayout>
+
+        <!-- File Name -->
+        <android.widget.TextView
+            android:id="@+id/tvGridFileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/md_theme_onSurface"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Meta Info -->
+        <android.widget.TextView
+            android:id="@+id/tvGridFileMeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/md_theme_onSurfaceVariant"
+            android:textSize="10sp" />
+    </android.widget.LinearLayout>
+
+    <!-- Ripple touch feedback -->
+    <android.widget.View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/frameGridThumbnail"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:ellipsize="middle"
-        android:textColor="@color/text_primary_dark"
-        android:textSize="12sp"
-        android:textStyle="normal" />
+        android:layout_height="match_parent"
+        android:background="@drawable/ripple_material" />
 
-    <TextView
-        android:id="@+id/tvGridFileMeta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvGridFileName"
-        android:layout_marginTop="1dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:textColor="@color/text_secondary_dark"
-        android:textSize="10sp" />
-</RelativeLayout>
+</android.widget.FrameLayout>

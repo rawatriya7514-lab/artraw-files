@@ -101,6 +101,7 @@ class FileRepository(private val context: Context) {
             } else null
 
             val isApk = !isDir && ext == "apk"
+            val isEncrypted = !isDir && ext == "artrawenc"
             var pkgName: String? = null
             var verName: String? = null
             var label: String? = null
@@ -137,7 +138,8 @@ class FileRepository(private val context: Context) {
                     isApk = isApk,
                     apkPackageName = pkgName,
                     apkVersionName = verName,
-                    apkLabel = label
+                    apkLabel = label,
+                    isEncrypted = isEncrypted
                 )
             )
         }
@@ -234,6 +236,7 @@ class FileRepository(private val context: Context) {
         val isDir = file.isDirectory
         val ext = if (isDir) "" else MimeTypes.getExtension(file.name)
         val isApk = !isDir && ext == "apk"
+        val isEncrypted = !isDir && ext == "artrawenc"
 
         var pkgName: String? = null
         var verName: String? = null
@@ -266,7 +269,8 @@ class FileRepository(private val context: Context) {
             isApk = isApk,
             apkPackageName = pkgName,
             apkVersionName = verName,
-            apkLabel = label
+            apkLabel = label,
+            isEncrypted = isEncrypted
         )
     }
 }
