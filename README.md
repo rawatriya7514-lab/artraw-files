@@ -51,16 +51,15 @@ Artfiles incorporates commercial-grade anti-tamper and reverse-engineering prote
 7. **Advanced Duplicate Cleaner**:
    - Two-phase detection: fast file size matching followed by cryptographic SHA-256 hash verification.
    - **Auto-Select Copies**: Smart selection algorithm that automatically selects redundant copies while preserving the primary file.
-8. **100% Guaranteed AdMob Integration**:
-   - Official Google AdMob App ID & Banner Unit ID integration.
-   - Post-initialization lifecycle loading with automatic fallback to test banner if live ad inventory returns no fill, ensuring ads always appear!
+8. **100% Guaranteed AdMob Revenue Integration**:
+   - Official Google AdMob App ID (`ca-app-pub-7925407604309207~4393395283`), Banner Unit ID (`ca-app-pub-7925407604309207/7795338269`), and Interstitial Unit ID (`ca-app-pub-7925407604309207/4693787341`).
+   - Zero test banners — strictly requests verified production ads with automated retry.
 
 ---
 
 ## 📥 Official Downloads
 
-- **Official Release APK (Artfiles.apk)**: [Artfiles.apk (6.1 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/Artfiles.apk)
-- **Offline / Ad-Free APK (For Developers)**: [ArtFiles-Offline.apk (6.1 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/ArtFiles-Offline.apk)
+- **Official Release APK (Artfiles.apk)**: [Artfiles.apk (6.4 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/Artfiles.apk)
 - **Full Project Source ZIP**: [Artfiles-v1.1.0-SourceCode.zip](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/Artfiles-v1.1.0-SourceCode.zip)
 
 ---
