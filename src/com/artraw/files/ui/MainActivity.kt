@@ -140,6 +140,7 @@ class MainActivity : Activity() {
         val rawId = getString(R.string.admob_banner_ad_unit_id)
         val resolvedId = AppSecurity.resolveAdUnitId(rawId)
         loadBanner(resolvedId)
+        AdMobManager.loadInterstitial(this)
     }
 
     private fun loadBanner(adUnit: String) {

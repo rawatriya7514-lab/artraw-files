@@ -33,6 +33,12 @@ object AppSecurity {
         106, 108, 104, 111, 108, 101, 110, 108, 107, 115, 107, 107, 101, 105, 111, 111, 100,
         110, 106, 101
     )
+    // Masked byte sequence for production Interstitial Unit ID (ca-app-pub-7925407604309207/4693787341)
+    private val MASKED_PROD_INTERSTITIAL_UNIT = byteArrayOf(
+        63, 61, 113, 61, 44, 44, 113, 44, 41, 62, 113, 107, 101, 110, 105, 104, 108, 107,
+        106, 108, 104, 111, 108, 101, 110, 108, 107, 115, 104, 106, 101, 111, 107, 100, 107,
+        111, 104, 109
+    )
     private const val XOR_KEY: Byte = 0x5C
 
     /**
@@ -49,6 +55,20 @@ object AppSecurity {
                 }, Charsets.UTF_8)
                 if (decoded.startsWith("ca-app-pub-")) decoded else fallbackId
             }
+        } catch (_: Throwable) {
+            fallbackId
+        }
+    }
+
+    /**
+     * Resolves the verified Interstitial Ad Unit ID at runtime.
+     */
+    fun resolveInterstitialAdUnitId(fallbackId: String): String {
+        return try {
+            val decoded = String(ByteArray(MASKED_PROD_INTERSTITIAL_UNIT.size) { i ->
+                (MASKED_PROD_INTERSTITIAL_UNIT[i].toInt() xor XOR_KEY.toInt()).toByte()
+            }, Charsets.UTF_8)
+            if (decoded.startsWith("ca-app-pub-")) decoded else fallbackId
         } catch (_: Throwable) {
             fallbackId
         }

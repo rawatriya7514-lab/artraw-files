@@ -7,8 +7,9 @@ import java.io.File
 
 class AdMobIntegrationTest {
 
-    private val expectedAppId = "ca-app-pub-9417083543459963~7636088996"
+    private val expectedAppId = "ca-app-pub-7925407604309207~4393395283"
     private val expectedAdUnitId = "ca-app-pub-7925407604309207/7795338269"
+    private val expectedInterstitialId = "ca-app-pub-7925407604309207/4693787341"
 
     @Test
     fun testAdMobAppIdConfiguration() {
@@ -17,6 +18,7 @@ class AdMobIntegrationTest {
         val content = admobXml.readText()
         assertTrue("AdMob App ID must match configured value", content.contains(expectedAppId))
         assertTrue("AdMob Banner Ad Unit ID must match configured value", content.contains(expectedAdUnitId))
+        assertTrue("AdMob Interstitial Ad Unit ID must match configured value", content.contains(expectedInterstitialId))
     }
 
     @Test

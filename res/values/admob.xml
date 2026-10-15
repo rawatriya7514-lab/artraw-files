@@ -7,8 +7,9 @@
     <bool name="admob_enabled">true</bool>
 
     <!-- Production Identifiers -->
-    <string name="admob_app_id" translatable="false">ca-app-pub-9417083543459963~7636088996</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-7925407604309207~4393395283</string>
     <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/7795338269</string>
+    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/4693787341</string>
 
     <!-- Official Google Test Identifiers -->
     <string name="admob_test_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>

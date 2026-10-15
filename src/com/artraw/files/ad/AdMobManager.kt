@@ -131,4 +131,84 @@ object AdMobManager {
 
         return adView
     }
+
+    @Volatile
+    private var interstitialAd: com.google.android.gms.ads.interstitial.InterstitialAd? = null
+    @Volatile
+    private var isInterstitialLoading = false
+    private var lastInterstitialShownTime = 0L
+
+    fun loadInterstitial(activity: Activity) {
+        val isAdMobEnabled = try {
+            activity.resources.getBoolean(R.bool.admob_enabled)
+        } catch (_: Throwable) {
+            true
+        }
+        if (!isAdMobEnabled || interstitialAd != null || isInterstitialLoading) return
+
+        init(activity)
+
+        val rawId = try {
+            activity.getString(R.string.admob_interstitial_ad_unit_id)
+        } catch (_: Throwable) {
+            ""
+        }
+        val targetAdUnitId = AppSecurity.resolveInterstitialAdUnitId(rawId)
+        if (targetAdUnitId.isEmpty()) return
+
+        isInterstitialLoading = true
+        val adRequest = AdRequest.Builder().build()
+        com.google.android.gms.ads.interstitial.InterstitialAd.load(
+            activity,
+            targetAdUnitId,
+            adRequest,
+            object : com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: com.google.android.gms.ads.interstitial.InterstitialAd) {
+                    interstitialAd = ad
+                    isInterstitialLoading = false
+                    Log.i(TAG, "Interstitial ad loaded successfully! (Unit: $targetAdUnitId)")
+                }
+
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    interstitialAd = null
+                    isInterstitialLoading = false
+                    Log.w(TAG, "Interstitial ad failed to load ($targetAdUnitId) [code ${loadAdError.code}]: ${loadAdError.message}")
+                    mainHandler.postDelayed({
+                        if (!activity.isFinishing && !activity.isDestroyed) {
+                            loadInterstitial(activity)
+                        }
+                    }, 60000)
+                }
+            }
+        )
+    }
+
+    fun showInterstitial(activity: Activity, onDismissed: (() -> Unit)? = null): Boolean {
+        val ad = interstitialAd
+        val now = System.currentTimeMillis()
+        if (ad != null && now - lastInterstitialShownTime > 60000) {
+            ad.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    interstitialAd = null
+                    lastInterstitialShownTime = System.currentTimeMillis()
+                    loadInterstitial(activity)
+                    onDismissed?.invoke()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
+                    interstitialAd = null
+                    loadInterstitial(activity)
+                    onDismissed?.invoke()
+                }
+            }
+            ad.show(activity)
+            return true
+        } else {
+            onDismissed?.invoke()
+            if (interstitialAd == null) {
+                loadInterstitial(activity)
+            }
+            return false
+        }
+    }
 }

@@ -44,7 +44,7 @@
         <!-- Google Mobile Ads (AdMob) SDK Configuration -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9417083543459963~7636088996" />
+            android:value="ca-app-pub-7925407604309207~4393395283" />
 
         <meta-data
             android:name="com.google.android.gms.version"

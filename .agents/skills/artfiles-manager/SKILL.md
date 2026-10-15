@@ -37,11 +37,13 @@ Comprehensive automation and operations guide for **Artfiles** (`com.artraw.file
 
 Artfiles implements a dual-mode high-reliability banner engine (`AdMobManager.kt`):
 
-1. **Production Unit ID**: `ca-app-pub-7925407604309207/7795338269` (Runtime XOR obfuscated in `AppSecurity.kt`).
-2. **Serving Logic**:
-   - Strictly serves user's production ad unit.
+1. **AdMob App ID**: `ca-app-pub-7925407604309207~4393395283`.
+2. **Production Banner Unit ID**: `ca-app-pub-7925407604309207/7795338269` (Runtime XOR obfuscated in `AppSecurity.kt`).
+3. **Production Interstitial Unit ID**: `ca-app-pub-7925407604309207/4693787341` (Runtime XOR obfuscated in `AppSecurity.kt`).
+4. **Serving Logic**:
+   - Strictly serves user's production ad units.
    - Never falls back to sample test banners in production builds.
-   - On error or delayed fill, silently retries production ad unit after 30 seconds.
+   - On error or delayed fill, silently retries production ad units after 30-60 seconds.
 4. **Layout Requirements**:
    - `adViewContainer` must be `visibility="visible"` with a fixed `50dp` height so AdMob measures valid dimensions on the first layout pass.
 
