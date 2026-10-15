@@ -43,7 +43,7 @@ class MainActivity : Activity() {
     private lateinit var progressStorage: ProgressBar
     private lateinit var layoutRecentList: LinearLayout
     private lateinit var tvRecentEmpty: TextView
-    private lateinit var layoutAdContainer: FrameLayout
+    private lateinit var adViewContainer: FrameLayout
     private var adView: AdView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +63,7 @@ class MainActivity : Activity() {
             activity = this,
             topHeaders = listOf(findViewById(R.id.headerMain)),
             bottomScrollViews = listOf(findViewById(R.id.scrollMainContent)),
-            bottomStickyViews = listOf(layoutAdContainer)
+            bottomStickyViews = listOf(adViewContainer)
         )
         setupListeners()
         initAdMob()
@@ -106,13 +106,18 @@ class MainActivity : Activity() {
         progressStorage = findViewById(R.id.progressStorage)
         layoutRecentList = findViewById(R.id.layoutRecentList)
         tvRecentEmpty = findViewById(R.id.tvRecentEmpty)
-        layoutAdContainer = findViewById(R.id.layoutAdContainer)
+        adViewContainer = findViewById(R.id.adViewContainer)
     }
 
     private fun initAdMob() {
         runOnUiThread {
             try {
-                val container = layoutAdContainer
+                if (!resources.getBoolean(R.bool.admob_enabled)) {
+                    adViewContainer.visibility = View.GONE
+                    return@runOnUiThread
+                }
+
+                val container = adViewContainer
                 MobileAds.initialize(this) {
                     // Mobile Ads SDK initialized
                 }

@@ -1,0 +1,111 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.artraw.files"
+    android:versionCode="1"
+    android:versionName="1.0.0">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="35" />
+
+    <!-- Storage Management Permissions -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <!-- Granular Media Category Access for Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- Legacy Storage Permissions for Android 12 and below -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
+    <!-- User-initiated APK package inspection & installation -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- Google Mobile Ads (AdMob) Network & Advertising Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_storage"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_storage"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ArtrawFiles"
+        android:requestLegacyExternalStorage="true">
+
+        <!-- Google Mobile Ads (AdMob) SDK Test Configuration -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <property
+            android:name="android.adservices.AD_SERVICES_CONFIG"
+            android:resource="@xml/gma_ad_services_config" />
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.BrowserActivity"
+            android:exported="false"
+            android:label="@string/nav_browse" />
+
+        <activity
+            android:name=".ui.CategoryActivity"
+            android:exported="false"
+            android:label="Category" />
+
+        <activity
+            android:name=".ui.AnalyzerActivity"
+            android:exported="false"
+            android:label="@string/nav_analysis" />
+
+        <activity
+            android:name=".ui.TextPreviewActivity"
+            android:exported="false"
+            android:label="Text Viewer" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:label="@string/nav_settings" />
+
+        <activity
+            android:name=".ui.OnboardingActivity"
+            android:exported="false"
+            android:label="Get Started" />
+
+        <provider
+            android:name=".preview.ArtrawFileProvider"
+            android:authorities="com.artraw.files.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+</manifest>

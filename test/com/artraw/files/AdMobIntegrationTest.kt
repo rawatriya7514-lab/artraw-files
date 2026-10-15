@@ -48,7 +48,7 @@ class AdMobIntegrationTest {
         val layout = File("res/layout/activity_main.xml")
         assertTrue("res/layout/activity_main.xml must exist", layout.exists())
         val layoutContent = layout.readText()
-        assertTrue("Layout must contain layoutAdContainer", layoutContent.contains("android:id=\"@+id/layoutAdContainer\""))
+        assertTrue("Layout must contain adViewContainer", layoutContent.contains("android:id=\"@+id/adViewContainer\""))
 
         val mainActivity = File("src/com/artraw/files/ui/MainActivity.kt")
         assertTrue("MainActivity.kt must exist", mainActivity.exists())

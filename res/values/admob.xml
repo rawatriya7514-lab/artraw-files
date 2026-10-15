@@ -3,9 +3,16 @@
     <!-- Google Play Services & AdMob SDK Configuration -->
     <integer name="google_play_services_version">12451000</integer>
 
-    <!-- AdMob Production Identifiers -->
+    <!-- Master AdMob feature toggle -->
+    <bool name="admob_enabled">true</bool>
+
+    <!-- Production Identifiers -->
     <string name="admob_app_id" translatable="false">ca-app-pub-9417083543459963~7636088996</string>
     <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-9417083543459963/1228883736</string>
+
+    <!-- Official Google Test Identifiers -->
+    <string name="admob_test_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_test_banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
     <!-- AdMob XML Layout Attributes for AdView -->
     <declare-styleable name="AdsAttrs">

@@ -554,7 +554,7 @@
 
     <!-- Bottom AdMob Banner Container (Positioned directly above system gesture navigation bar) -->
     <FrameLayout
-        android:id="@+id/layoutAdContainer"
+        android:id="@+id/adViewContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="50dp"

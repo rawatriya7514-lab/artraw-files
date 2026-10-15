@@ -1,0 +1,89 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.artraw.files"
+    android:versionCode="1"
+    android:versionName="1.0.0">
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="35" />
+
+    <!-- Storage Management Permissions -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <!-- Granular Media Category Access for Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- Legacy Storage Permissions for Android 12 and below -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
+    <!-- User-initiated APK package inspection & installation -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- 100% Offline Build: Zero Internet, Zero Telemetry, Zero Ads -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_storage"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_storage"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ArtrawFiles"
+        android:requestLegacyExternalStorage="true">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.BrowserActivity"
+            android:exported="false"
+            android:label="@string/nav_browse" />
+
+        <activity
+            android:name=".ui.CategoryActivity"
+            android:exported="false"
+            android:label="Category" />
+
+        <activity
+            android:name=".ui.AnalyzerActivity"
+            android:exported="false"
+            android:label="@string/nav_analysis" />
+
+        <activity
+            android:name=".ui.TextPreviewActivity"
+            android:exported="false"
+            android:label="Text Viewer" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:label="@string/nav_settings" />
+
+        <activity
+            android:name=".ui.OnboardingActivity"
+            android:exported="false"
+            android:label="Get Started" />
+
+        <provider
+            android:name=".preview.ArtrawFileProvider"
+            android:authorities="com.artraw.files.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+</manifest>
