@@ -7,12 +7,24 @@
         android:minSdkVersion="21"
         android:targetSdkVersion="35" />
 
-    <!-- Storage Management Permissions -->
+    <!-- ====================================================================== -->
+    <!-- Google Play Store Storage Policy Compliance: File Management App       -->
+    <!-- ARTRAW Files core function is device file & folder management.         -->
+    <!-- ====================================================================== -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <!-- Granular Media Category Access for Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- Legacy Storage Permissions for Android 12 and below -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
+
+    <!-- User-initiated APK package inspection & installation -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application

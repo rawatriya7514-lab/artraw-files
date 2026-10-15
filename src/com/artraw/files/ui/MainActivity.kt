@@ -50,7 +50,7 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topSpacers = listOf(findViewById(R.id.statusBarSpacerMain)),
+            topHeaders = listOf(findViewById(R.id.headerMain)),
             bottomScrollViews = listOf(findViewById(R.id.scrollMainContent))
         )
         initViews()

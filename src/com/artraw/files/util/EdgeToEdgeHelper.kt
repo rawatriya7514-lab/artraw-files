@@ -94,7 +94,7 @@ object EdgeToEdgeHelper {
 
         val baseStatusBarHeight = getStatusBarHeight(activity)
         val baseNavBarHeight = getNavigationBarHeight(activity)
-        val extraTopGap = (8 * activity.resources.displayMetrics.density).toInt()
+        val extraTopGap = (16 * activity.resources.displayMetrics.density).toInt()
 
         fun applyInsets(statusBarInset: Int, navBarInset: Int) {
             val effectiveStatusBar = kotlin.math.max(statusBarInset, baseStatusBarHeight) + extraTopGap
@@ -109,11 +109,12 @@ object EdgeToEdgeHelper {
                 }
             }
 
-            // Adjust headers padding
+            // Adjust headers padding directly
             for ((index, header) in topHeaders.withIndex()) {
                 val (left, top, right) = topInitialPaddings[index].first
                 val bottom = topInitialPaddings[index].second
-                header.setPadding(left, top + effectiveStatusBar, right, bottom)
+                val targetTop = kotlin.math.max(top, effectiveStatusBar)
+                header.setPadding(left, targetTop, right, bottom)
             }
 
             // Apply navigation bar bottom padding to scroll views

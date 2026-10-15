@@ -6,25 +6,24 @@
     android:background="@color/bg_dark">
 
     <!-- Top App Bar -->
-    <!-- Top App Bar with Dedicated Status Bar Spacer -->
+    <!-- Top App Bar (Safe area padding applied directly to headerMain) -->
     <LinearLayout
         android:id="@+id/headerMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark">
-
-        <!-- Status Bar Spacer (Height handled dynamically & guaranteed min 44dp) -->
-        <View
-            android:id="@+id/statusBarSpacerMain"
-            android:layout_width="match_parent"
-            android:layout_height="44dp" />
+        android:background="@color/surface_dark"
+        android:paddingTop="48dp">
 
         <RelativeLayout
+            android:id="@+id/headerContentMain"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="64dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
