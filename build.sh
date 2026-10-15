@@ -124,7 +124,7 @@ aapt2 link -I "$ANDROID_JAR" \
 python3 -c "
 import zipfile
 with zipfile.ZipFile('build/var_offline/base.apk', 'a') as apk:
-    apk.write('build/dex_d8/classes.dex', 'classes.dex')
+    apk.write('build/dex_r8/classes.dex', 'classes.dex')
 "
 
 apksigner sign --ks "$RELEASE_KEYSTORE" \
@@ -155,7 +155,7 @@ aapt2 link -I "$ANDROID_JAR" \
 python3 -c "
 import zipfile
 with zipfile.ZipFile('build/var_test/base.apk', 'a') as apk:
-    apk.write('build/dex_d8/classes.dex', 'classes.dex')
+    apk.write('build/dex_r8/classes.dex', 'classes.dex')
 "
 
 apksigner sign --ks "$RELEASE_KEYSTORE" \
@@ -227,7 +227,7 @@ aapt2 link -I "$ANDROID_JAR" \
 python3 -c "
 import zipfile
 with zipfile.ZipFile('build/var_prod/base.apk', 'a') as apk:
-    apk.write('build/dex_d8/classes.dex', 'classes.dex')
+    apk.write('build/dex_r8/classes.dex', 'classes.dex')
 "
 
 apksigner sign --ks "$RELEASE_KEYSTORE" \

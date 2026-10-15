@@ -16,6 +16,7 @@ import com.artraw.files.R
 import com.artraw.files.model.FileCategory
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
+import com.artraw.files.util.AppSecurity
 import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.PermissionsHelper
@@ -50,6 +51,12 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         settingsManager = SettingsManager(this)
         repository = FileRepository(this)
+
+        if (!AppSecurity.verifyIntegrity(this)) {
+            Log.e("ARTRAW_SECURITY", "Integrity check failed: unauthorized re-signed build detected.")
+            finishAffinity()
+            return
+        }
 
         if (!settingsManager.isOnboardingCompleted && !PermissionsHelper.hasStoragePermission(this)) {
             startActivity(Intent(this, OnboardingActivity::class.java))
@@ -117,13 +124,22 @@ class MainActivity : Activity() {
                     return@runOnUiThread
                 }
 
+                if (!AppSecurity.verifyIntegrity(this)) {
+                    Log.w("ARTRAW_ADMOB", "Application integrity compromised. AdMob disabled.")
+                    adViewContainer.visibility = View.GONE
+                    return@runOnUiThread
+                }
+
                 val container = adViewContainer
                 MobileAds.initialize(this) {
                     // Mobile Ads SDK initialized
                 }
 
+                val rawId = getString(R.string.admob_banner_ad_unit_id)
+                val resolvedId = AppSecurity.resolveAdUnitId(rawId)
+
                 val ad = AdView(this).apply {
-                    adUnitId = getString(R.string.admob_banner_ad_unit_id)
+                    adUnitId = resolvedId
                     setAdSize(AdSize.BANNER)
                 }
                 this.adView = ad

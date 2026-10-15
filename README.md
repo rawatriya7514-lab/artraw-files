@@ -1,9 +1,26 @@
-# ARTRAW Files — Premium Native Android File Manager
+# ARTRAW Files — Secured Native Android Storage Manager
 
 **Package ID**: `com.artraw.files`  
-**Target SDK**: Android 16 (API Level 36 / 35 Compatibility)  
+**Target SDK**: Android 15 (API Level 35) / Android 16 Compatible  
 **Architecture**: Native Kotlin + Android SDK + Material 3 Design  
-**License**: Private & Open-Source Friendly (100% Offline, Zero Telemetry)
+**License**: Proprietary & Confidential — All Rights Reserved (Closed Source)
+
+---
+
+## 🔒 Security & Anti-Reverse Engineering Protection
+
+ARTRAW Files includes multi-tier bytecode hardening and tamper protection:
+
+1. **R8 Bytecode Obfuscation**:
+   - All proprietary business logic, models, analysis algorithms, and utilities are aggressively obfuscated and flattened into unreadable symbols.
+   - Stripped debugging metadata, line number tables, and source file identifiers (`!SourceFile,!LineNumberTable`).
+2. **Cryptographic Anti-Tamper Signature Verification**:
+   - The application verifies its own cryptographic SHA-256 certificate fingerprint (`81:2D:A6:11:CA:...`) at runtime.
+   - Any attempt to decompile, patch, replace ad units, and re-sign the APK with a custom key will fail integrity checks and prevent unauthorized clone execution.
+3. **Dynamic In-Memory AdMob Decryption**:
+   - Google AdMob ad unit identifiers are encrypted using runtime masking in bytecode, preventing plaintext scraping or replacement via decompilation tools.
+4. **Anti-Debugging & Anti-Cloning**:
+   - Enforces production runtime environment integrity and rejects debuggable hooks.
 
 ---
 
@@ -38,32 +55,22 @@
 
 ---
 
-## Build Instructions
-
-### Prerequisites (Termux or Linux aarch64)
-- `openjdk-21`
-- `kotlin` (v2.4+)
-- `aapt2`
-- `d8`
-- `apksigner`
-- `python3`
-
-### Run Single-Command Build & Verification
-```bash
-cd artraw-files
-./build.sh
-```
-
----
-
 ## Downloads & Releases
 
-Direct production APK download with Google AdMob integration:
-- **Production APK (Direct Android Install)**: [ARTRAW-Files-Production.apk](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.0.0-admob/ARTRAW-Files-Production.apk)
+Direct download for the secured, hardened production APK with Google AdMob revenue integration:
+- **Production APK (Secured & Hardened)**: [ARTRAW-Files-Production.apk (2.8 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.0.0-admob/ARTRAW-Files-Production.apk)
 
 ---
 
-## Test & Verification Summary
+## Verification Summary
 - **JUnit Test Runner**: 12/12 Tests PASSED
 - **APK Signatures**: v1, v2, v3 Verified True
+- **Obfuscation**: R8 Release Minification Active
+- **Integrity**: SHA-256 Release Keystore Binding Active
 - **Latest Release**: [v1.0.0-admob](https://github.com/rawatriya7514-lab/artraw-files/releases/tag/v1.0.0-admob)
+
+---
+
+## Legal & Intellectual Property Notice
+Copyright © 2026 ARTRAW. All Rights Reserved.  
+This software and associated documentation files are proprietary and confidential. Decompilation, disassembly, reverse engineering, unauthorized extraction of source code or assets, tampering, redistribution, or creation of derivative works without prior written permission is strictly prohibited.

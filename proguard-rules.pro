@@ -1,27 +1,31 @@
 # ==============================================================================
-# ARTRAW Files — ProGuard & R8 Release Optimization Rules
+# ARTRAW Files — ProGuard & R8 Obfuscation & Hardening Rules
 # Target: Android 15 / 16 (API Level 35 / 36)
 # ==============================================================================
 
-# 1. Preserve Application & Android Components
+# 1. Preserve Application & Android Components Declared in Manifest
+-keep public class com.artraw.files.ui.MainActivity
+-keep public class com.artraw.files.ui.BrowserActivity
+-keep public class com.artraw.files.ui.CategoryActivity
+-keep public class com.artraw.files.ui.AnalyzerActivity
+-keep public class com.artraw.files.ui.TextPreviewActivity
+-keep public class com.artraw.files.ui.SettingsActivity
+-keep public class com.artraw.files.ui.OnboardingActivity
+-keep public class com.artraw.files.preview.ArtrawFileProvider
+
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
 -keep public class * extends android.content.ContentProvider
--keep public class * extends android.app.backup.BackupAgentHelper
--keep public class * extends android.preference.Preference
 
-# 2. Preserve ARTRAW Files Specific Components
--keep class com.artraw.files.ui.** { *; }
--keep class com.artraw.files.model.** { *; }
--keep class com.artraw.files.preview.ArtrawFileProvider { *; }
--keep class com.artraw.files.util.** { *; }
--keep class com.artraw.files.operations.** { *; }
--keep class com.artraw.files.repository.** { *; }
--keep class com.artraw.files.analysis.** { *; }
+# 2. Preserve Enums
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
-# 3. Preserve Custom Views and Attributes
+# 3. Preserve Custom Views and View Attributes (if inflated via XML)
 -keep public class * extends android.view.View {
     public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
@@ -34,14 +38,16 @@
     public static <fields>;
 }
 
-# 5. Preserve Kotlin Metadata and Reflection Attributes
+# 5. Anti-Reverse Engineering & Anti-Decompilation Protections
+-renamesourcefileattribute ""
+-keepattributes !SourceFile,!LineNumberTable,!LocalVariableTable,!LocalVariableTypeTable
 -keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
--keepattributes SourceFile,LineNumberTable
+
 -dontwarn org.jetbrains.annotations.**
 -dontwarn kotlin.**
 -dontwarn javax.annotation.**
 
-# 6. Google Mobile Ads (AdMob) & Play Services Rules
+# 6. Google Mobile Ads (AdMob) & Play Services Rules (Full Retention)
 -dontwarn androidx.**
 -dontwarn com.google.errorprone.annotations.**
 -dontwarn org.checkerframework.**
@@ -55,7 +61,6 @@
 -dontwarn android.security.NetworkSecurityPolicy
 -dontwarn android.app.Notification
 
-# AdMob and Google Play Services broad keep rules to prevent stripping
 -keep class com.google.android.gms.ads.** { *; }
 -keep interface com.google.android.gms.ads.** { *; }
 -keep class com.google.android.gms.** { *; }
@@ -81,7 +86,8 @@
 -keepnames class * implements com.google.android.gms.common.internal.ReflectedParcelable
 -keepclassmembers class * implements android.os.Parcelable { public static final *** CREATOR; }
 
-# 7. Optimization & Shrinking settings
--repackageclasses
+# 7. Aggressive Bytecode Obfuscation & Flat Repackaging
+-repackageclasses 'com.artraw.files.core'
 -allowaccessmodification
+-overloadaggressively
 -mergeinterfacesaggressively
