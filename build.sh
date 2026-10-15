@@ -89,17 +89,14 @@ java -cp "build/classes:build/test-classes:$JUNIT_JAR:$HAMCREST_JAR:$KOTLIN_STDL
     com.artraw.files.SortingRulesTest \
     com.artraw.files.AdMobIntegrationTest
 
-# 6. R8 Code Shrinking, Minification & Optimization
-echo "[6/8] Executing R8 release code shrinking & optimization..."
-r8 --release \
-   --min-api 26 \
-   --lib "$ANDROID_JAR" \
-   --pg-conf proguard-rules.pro \
-   --pg-map-output build/mapping.txt \
-   --output build/dex/ \
-   $(find build/classes -name "*.class") \
+# 6. Generate DEX Bytecode with D8 (Full class retention, minification disabled)
+echo "[6/8] Generating DEX bytecode with D8 (Full runtime class retention)..."
+rm -rf build/dex/*
+d8 $(find build/classes -name "*.class") \
    "$KOTLIN_STDLIB" \
-   $(find "$ADMOB_LIBS_DIR" -name "*.jar")
+   $(find "$ADMOB_LIBS_DIR" -name "*.jar") \
+   --min-api 26 \
+   --output build/dex/
 
 # 7. Package and Sign Release APK (Universal)
 echo "[7/8] Packaging and signing Release APK..."
@@ -157,10 +154,16 @@ java -jar "$BUNDLETOOL_JAR" validate --bundle=build/artraw-files-release.aab > /
 echo "       -> BundleTool structure validation: PASSED"
 jarsigner -verify build/artraw-files-release.aab > /dev/null
 echo "       -> Jarsigner release signature:      PASSED"
-echo ""
 echo " [APK] Validating Release APK..."
 apksigner verify -v build/artraw-files-release.apk | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
 echo "--------------------------------------------------------"
+
+cp build/artraw-files-release.apk /storage/emulated/0/Download/ARTRAW-Files-Fixed.apk || true
+if [ -d "/sdcard/Download" ]; then
+    cp build/artraw-files-release.apk /sdcard/Download/ARTRAW-Files-Fixed.apk || true
+fi
+
+echo "========================================================"
 echo " RELEASE ARTIFACTS:"
 echo " - AAB (Google Play Store): $(pwd)/build/artraw-files-release.aab"
 echo "   Size: $(du -h build/artraw-files-release.aab | cut -f1)"
@@ -171,4 +174,7 @@ echo " - APK (Universal Direct):  $(pwd)/build/artraw-files-release.apk"
 echo "   Size: $(du -h build/artraw-files-release.apk | cut -f1)"
 echo -n "   SHA-256: "
 sha256sum build/artraw-files-release.apk | cut -d' ' -f1
+echo ""
+echo " - Fixed APK: /sdcard/Download/ARTRAW-Files-Fixed.apk"
+echo "   Size: $(du -h /storage/emulated/0/Download/ARTRAW-Files-Fixed.apk | cut -f1)"
 echo "========================================================"

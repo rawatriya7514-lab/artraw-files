@@ -34,15 +34,23 @@ class OnboardingActivity : Activity() {
         super.onResume()
         if (PermissionsHelper.hasStoragePermission(this)) {
             settingsManager.isOnboardingCompleted = true
-            startActivity(Intent(this, MainActivity::class.java))
+            val intent = Intent(this, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(intent)
             finish()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        settingsManager.isOnboardingCompleted = true
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        if (PermissionsHelper.hasStoragePermission(this)) {
+            settingsManager.isOnboardingCompleted = true
+            val intent = Intent(this, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(intent)
+            finish()
+        }
     }
 }

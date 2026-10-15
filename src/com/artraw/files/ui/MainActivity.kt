@@ -3,9 +3,11 @@ package com.artraw.files.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -20,6 +22,7 @@ import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -40,7 +43,7 @@ class MainActivity : Activity() {
     private lateinit var progressStorage: ProgressBar
     private lateinit var layoutRecentList: LinearLayout
     private lateinit var tvRecentEmpty: TextView
-    private lateinit var layoutAdContainer: View
+    private lateinit var layoutAdContainer: FrameLayout
     private var adView: AdView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,18 +71,29 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        adView?.resume()
+        try {
+            adView?.resume()
+        } catch (_: Throwable) {}
         checkPermissionsAndLoad()
     }
 
     override fun onPause() {
-        adView?.pause()
+        try {
+            adView?.pause()
+        } catch (_: Throwable) {}
         super.onPause()
     }
 
     override fun onDestroy() {
-        adView?.destroy()
+        try {
+            adView?.destroy()
+        } catch (_: Throwable) {}
         super.onDestroy()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        checkPermissionsAndLoad()
     }
 
     private fun initViews() {
@@ -93,35 +107,55 @@ class MainActivity : Activity() {
         layoutRecentList = findViewById(R.id.layoutRecentList)
         tvRecentEmpty = findViewById(R.id.tvRecentEmpty)
         layoutAdContainer = findViewById(R.id.layoutAdContainer)
-        adView = findViewById(R.id.adView)
     }
 
     private fun initAdMob() {
-        try {
-            MobileAds.initialize(this) {
-                // Mobile Ads SDK initialized
-            }
-            val ad = adView ?: return
-            val request = AdRequest.Builder().build()
-            ad.adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                    layoutAdContainer.visibility = View.VISIBLE
+        runOnUiThread {
+            try {
+                val container = layoutAdContainer
+                MobileAds.initialize(this) {
+                    // Mobile Ads SDK initialized
                 }
 
-                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    super.onAdFailedToLoad(loadAdError)
+                val ad = AdView(this).apply {
+                    adUnitId = getString(R.string.admob_banner_ad_unit_id)
+                    setAdSize(AdSize.BANNER)
                 }
+                this.adView = ad
+
+                val params = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    gravity = android.view.Gravity.CENTER_HORIZONTAL
+                }
+
+                container.removeAllViews()
+                container.addView(ad, params)
+
+                ad.adListener = object : AdListener() {
+                    override fun onAdLoaded() {
+                        super.onAdLoaded()
+                        container.visibility = View.VISIBLE
+                    }
+
+                    override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                        super.onAdFailedToLoad(loadAdError)
+                        Log.w("ARTRAW_ADMOB", "Ad failed to load: ${loadAdError.message}")
+                    }
+                }
+
+                val request = AdRequest.Builder().build()
+                ad.loadAd(request)
+            } catch (t: Throwable) {
+                Log.e("ARTRAW_ADMOB", "AdMob safe fallback: ${t.message}", t)
             }
-            ad.loadAd(request)
-        } catch (_: Exception) {
-            // Graceful fallback if Google Play Services is unavailable
         }
     }
 
     private fun setupListeners() {
         btnGrantPermission.setOnClickListener {
-            PermissionsHelper.requestStoragePermission(this)
+            PermissionsHelper.requestStoragePermission(this, 1001)
         }
 
         findViewById<View>(R.id.btnSettings).setOnClickListener {
@@ -185,73 +219,95 @@ class MainActivity : Activity() {
     }
 
     private fun checkPermissionsAndLoad() {
-        val hasPerm = PermissionsHelper.hasStoragePermission(this)
-        if (hasPerm) {
-            layoutPermissionBanner.visibility = View.GONE
-            loadStorageStats()
-            loadRecentFiles()
-        } else {
-            layoutPermissionBanner.visibility = View.VISIBLE
-            tvStorageUsed.text = "Permission required"
-            tvRecentEmpty.text = "Permission required to display recent files."
+        try {
+            val hasPerm = PermissionsHelper.hasStoragePermission(this)
+            if (hasPerm) {
+                layoutPermissionBanner.visibility = View.GONE
+                loadStorageStats()
+                loadRecentFiles()
+            } else {
+                layoutPermissionBanner.visibility = View.VISIBLE
+                tvStorageUsed.text = "Permission required"
+                tvRecentEmpty.text = "Permission required to display recent files."
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "checkPermissionsAndLoad error", e)
         }
     }
 
     private fun loadStorageStats() {
         executor.execute {
-            val statsList = repository.getStorageStats()
-            val primary = statsList.firstOrNull { !it.isExternalSd } ?: return@execute
+            try {
+                val statsList = repository.getStorageStats()
+                val primary = statsList.firstOrNull { !it.isExternalSd } ?: return@execute
 
-            runOnUiThread {
-                tvStorageTitle.text = primary.name
-                tvStoragePercent.text = "${primary.usedPercent}%"
-                progressStorage.progress = primary.usedPercent
+                runOnUiThread {
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+                    try {
+                        tvStorageTitle.text = primary.name
+                        tvStoragePercent.text = "${primary.usedPercent}%"
+                        progressStorage.progress = primary.usedPercent
 
-                val usedStr = Formatters.formatFileSize(primary.usedBytes)
-                val totalStr = Formatters.formatFileSize(primary.totalBytes)
-                val freeStr = Formatters.formatFileSize(primary.freeBytes)
+                        val usedStr = Formatters.formatFileSize(primary.usedBytes)
+                        val totalStr = Formatters.formatFileSize(primary.totalBytes)
+                        val freeStr = Formatters.formatFileSize(primary.freeBytes)
 
-                tvStorageUsed.text = getString(R.string.storage_used, usedStr, totalStr)
-                tvStorageFree.text = getString(R.string.storage_free, freeStr)
+                        tvStorageUsed.text = getString(R.string.storage_used, usedStr, totalStr)
+                        tvStorageFree.text = getString(R.string.storage_free, freeStr)
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "Error updating storage UI", e)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error calculating storage stats", e)
             }
         }
     }
 
     private fun loadRecentFiles() {
         executor.execute {
-            val recent = repository.getRecentFiles(limit = 6)
-            runOnUiThread {
-                layoutRecentList.removeAllViews()
-                if (recent.isEmpty()) {
-                    layoutRecentList.addView(tvRecentEmpty)
-                    tvRecentEmpty.text = getString(R.string.search_no_results)
-                } else {
-                    for (item in recent) {
-                        val row = LayoutInflater.from(this).inflate(R.layout.item_file_list, layoutRecentList, false)
-                        val icon = row.findViewById<ImageView>(R.id.imgFileIcon)
-                        val name = row.findViewById<TextView>(R.id.tvFileName)
-                        val meta = row.findViewById<TextView>(R.id.tvFileMeta)
+            try {
+                val recent = repository.getRecentFiles(limit = 6)
+                runOnUiThread {
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+                    try {
+                        layoutRecentList.removeAllViews()
+                        if (recent.isEmpty()) {
+                            layoutRecentList.addView(tvRecentEmpty)
+                            tvRecentEmpty.text = getString(R.string.search_no_results)
+                        } else {
+                            for (item in recent) {
+                                val row = LayoutInflater.from(this).inflate(R.layout.item_file_list, layoutRecentList, false)
+                                val icon = row.findViewById<ImageView>(R.id.imgFileIcon)
+                                val name = row.findViewById<TextView>(R.id.tvFileName)
+                                val meta = row.findViewById<TextView>(R.id.tvFileMeta)
 
-                        name.text = item.name
-                        meta.text = "${Formatters.formatFileSize(item.size)} • ${Formatters.formatDate(item.lastModified)}"
+                                name.text = item.name
+                                meta.text = "${Formatters.formatFileSize(item.size)} • ${Formatters.formatDate(item.lastModified)}"
 
-                        val iconRes = when {
-                            item.isApk -> R.drawable.ic_apk
-                            item.category == FileCategory.IMAGES -> R.drawable.ic_image
-                            item.category == FileCategory.VIDEOS -> R.drawable.ic_video
-                            item.category == FileCategory.AUDIO -> R.drawable.ic_audio
-                            item.category == FileCategory.DOCUMENTS -> R.drawable.ic_document
-                            item.category == FileCategory.ARCHIVES -> R.drawable.ic_archive
-                            else -> R.drawable.ic_file
+                                val iconRes = when {
+                                    item.isApk -> R.drawable.ic_apk
+                                    item.category == FileCategory.IMAGES -> R.drawable.ic_image
+                                    item.category == FileCategory.VIDEOS -> R.drawable.ic_video
+                                    item.category == FileCategory.AUDIO -> R.drawable.ic_audio
+                                    item.category == FileCategory.DOCUMENTS -> R.drawable.ic_document
+                                    item.category == FileCategory.ARCHIVES -> R.drawable.ic_archive
+                                    else -> R.drawable.ic_file
+                                }
+                                icon.setImageResource(iconRes)
+
+                                row.setOnClickListener {
+                                    com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
+                                }
+                                layoutRecentList.addView(row)
+                            }
                         }
-                        icon.setImageResource(iconRes)
-
-                        row.setOnClickListener {
-                            com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
-                        }
-                        layoutRecentList.addView(row)
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "Error displaying recent files", e)
                     }
                 }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error fetching recent files", e)
             }
         }
     }

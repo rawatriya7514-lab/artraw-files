@@ -47,10 +47,14 @@ class AdMobIntegrationTest {
     fun testActivityMainLayoutBannerAd() {
         val layout = File("res/layout/activity_main.xml")
         assertTrue("res/layout/activity_main.xml must exist", layout.exists())
-        val content = layout.readText()
+        val layoutContent = layout.readText()
+        assertTrue("Layout must contain layoutAdContainer", layoutContent.contains("android:id=\"@+id/layoutAdContainer\""))
 
-        assertTrue("Layout must contain layoutAdContainer", content.contains("android:id=\"@+id/layoutAdContainer\""))
-        assertTrue("Layout must contain adView", content.contains("android:id=\"@+id/adView\""))
-        assertTrue("AdView must be com.google.android.gms.ads.AdView", content.contains("com.google.android.gms.ads.AdView"))
+        val mainActivity = File("src/com/artraw/files/ui/MainActivity.kt")
+        assertTrue("MainActivity.kt must exist", mainActivity.exists())
+        val mainContent = mainActivity.readText()
+        assertTrue("MainActivity must create AdView programmatically", mainContent.contains("AdView(this)"))
+        assertTrue("MainActivity must initialize MobileAds", mainContent.contains("MobileAds.initialize"))
+        assertTrue("MainActivity must attach AdListener", mainContent.contains("ad.adListener = object : AdListener()"))
     }
 }

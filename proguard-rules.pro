@@ -55,6 +55,14 @@
 -dontwarn android.security.NetworkSecurityPolicy
 -dontwarn android.app.Notification
 
+# AdMob and Google Play Services broad keep rules to prevent stripping
+-keep class com.google.android.gms.ads.** { *; }
+-keep interface com.google.android.gms.ads.** { *; }
+-keep class com.google.android.gms.** { *; }
+-keep interface com.google.android.gms.** { *; }
+-keep class androidx.** { *; }
+-keep interface androidx.** { *; }
+
 -keep class * implements com.google.android.gms.ads.mediation.MediationAdapter { public *; }
 -keep class * implements com.google.ads.mediation.MediationAdapter { public *; }
 -keep class * implements com.google.android.gms.ads.mediation.customevent.CustomEvent { public *; }
