@@ -5,50 +5,61 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <!-- Top Bar -->
-    <RelativeLayout
+    <!-- Top Bar with Dedicated Status Bar Spacer -->
+    <LinearLayout
         android:id="@+id/headerCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:background="@color/surface_dark"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:orientation="vertical"
+        android:background="@color/surface_dark">
 
-        <ImageView
-            android:id="@+id/btnCatBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+        <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
+        <View
+            android:id="@+id/statusBarSpacerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
 
-        <TextView
-            android:id="@+id/tvCatTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btnCatBack"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:text="Category"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
-        <TextView
-            android:id="@+id/tvCatItemCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
-            android:text="0 files"
-            android:textColor="@color/text_secondary_dark"
-            android:textSize="13sp" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/btnCatBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:id="@+id/tvCatTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnCatBack"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:text="Category"
+                android:textColor="@color/text_primary_dark"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCatItemCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:text="0 files"
+                android:textColor="@color/text_secondary_dark"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <!-- Archive Capability Banner (Visible for Archives category) -->
     <LinearLayout

@@ -74,6 +74,7 @@ class BrowserActivity : Activity() {
     private lateinit var listAdapter: FileListAdapter
     private lateinit var gridAdapter: FileListAdapter
 
+    private lateinit var tvPcPathDisplay: TextView
     private var isGridMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +87,7 @@ class BrowserActivity : Activity() {
 
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.toolbarNormal), findViewById(R.id.toolbarSelection)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerBrowser)),
             bottomScrollViews = listOf(findViewById(R.id.listViewFiles), findViewById(R.id.gridViewFiles)),
             bottomStickyViews = listOf(findViewById(R.id.layoutPasteBar))
         )
@@ -103,6 +104,7 @@ class BrowserActivity : Activity() {
         toolbarNormal = findViewById(R.id.toolbarNormal)
         toolbarSelection = findViewById(R.id.toolbarSelection)
         tvCurrentFolderName = findViewById(R.id.tvCurrentFolderName)
+        tvPcPathDisplay = findViewById(R.id.tvPcPathDisplay)
         tvSelectionCount = findViewById(R.id.tvSelectionCount)
         layoutSearchBar = findViewById(R.id.layoutSearchBar)
         etSearchQuery = findViewById(R.id.etSearchQuery)
@@ -168,6 +170,10 @@ class BrowserActivity : Activity() {
             layoutSearchBar.visibility = View.GONE
         }
 
+        findViewById<View>(R.id.layoutPcAddressBar).setOnClickListener {
+            showTypePathDialog()
+        }
+
         etSearchQuery.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -176,22 +182,24 @@ class BrowserActivity : Activity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // File Item Click
+        // File Item Click: Provide Open and Copy Path options
         val onItemClick = { position: Int ->
             val adapter = activeAdapter()
             if (adapter.isSelectionMode) {
                 adapter.toggleSelection(adapter.getItem(position))
             } else {
                 val item = adapter.getItem(position)
-                if (item.isDirectory) {
-                    if (PathSecurity.isAndroidRestrictedStorage(item.file)) {
-                        Toast.makeText(this, R.string.perm_restricted_notice, Toast.LENGTH_LONG).show()
+                com.artraw.files.ui.dialog.FileActionDialog.show(this, item, onOpen = {
+                    if (item.isDirectory) {
+                        if (PathSecurity.isAndroidRestrictedStorage(item.file)) {
+                            Toast.makeText(this, R.string.perm_restricted_notice, Toast.LENGTH_LONG).show()
+                        } else {
+                            loadDirectory(item.file)
+                        }
                     } else {
-                        loadDirectory(item.file)
+                        FileViewerHelper.openFile(this, item)
                     }
-                } else {
-                    FileViewerHelper.openFile(this, item)
-                }
+                })
             }
         }
 
@@ -281,6 +289,7 @@ class BrowserActivity : Activity() {
     private fun loadDirectory(dir: File) {
         currentDirectory = dir
         tvCurrentFolderName.text = if (dir.name.isEmpty()) "Storage" else dir.name
+        tvPcPathDisplay.text = dir.absolutePath
         updateBreadcrumbs(dir)
         progressLoading.visibility = View.VISIBLE
         layoutEmptyState.visibility = View.GONE

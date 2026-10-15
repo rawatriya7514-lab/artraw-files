@@ -5,219 +5,290 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <!-- Normal Top Bar -->
-    <RelativeLayout
-        android:id="@+id/toolbarNormal"
+    <!-- Top Header Area with Status Bar Spacer -->
+    <LinearLayout
+        android:id="@+id/layoutTopBrowser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:background="@color/surface_dark"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:orientation="vertical"
+        android:background="@color/surface_dark">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+        <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
+        <View
+            android:id="@+id/statusBarSpacerBrowser"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
 
-        <TextView
-            android:id="@+id/tvCurrentFolderName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btnBack"
-            android:layout_toStartOf="@+id/layoutNormalActions"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:singleLine="true"
-            android:ellipsize="middle"
-            android:text="Storage"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+        <!-- Normal Top Bar -->
+        <RelativeLayout
+            android:id="@+id/toolbarNormal"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:id="@+id/tvCurrentFolderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnBack"
+                android:layout_toStartOf="@+id/layoutNormalActions"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:text="Storage"
+                android:textColor="@color/text_primary_dark"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/layoutNormalActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btnSearch"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_search"
+                    android:contentDescription="Search" />
+
+                <ImageView
+                    android:id="@+id/btnSort"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_sort"
+                    android:contentDescription="Sort" />
+
+                <ImageView
+                    android:id="@+id/btnViewToggle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_grid"
+                    android:contentDescription="Toggle View" />
+
+                <ImageView
+                    android:id="@+id/btnRefresh"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_refresh"
+                    android:contentDescription="Refresh" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Contextual Selection Toolbar (Top) -->
+        <RelativeLayout
+            android:id="@+id/toolbarSelection"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/surface_elevated_dark"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/btnCloseSelection"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Close Selection" />
+
+            <TextView
+                android:id="@+id/tvSelectionCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnCloseSelection"
+                android:layout_toStartOf="@+id/layoutSelectionActions"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="0 selected"
+                android:textColor="@color/text_primary_dark"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/layoutSelectionActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btnActionCopy"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_copy"
+                    android:contentDescription="Copy" />
+
+                <ImageView
+                    android:id="@+id/btnActionCut"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_cut"
+                    android:contentDescription="Cut" />
+
+                <ImageView
+                    android:id="@+id/btnActionShare"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_share"
+                    android:contentDescription="Share" />
+
+                <ImageView
+                    android:id="@+id/btnActionDelete"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_delete"
+                    android:contentDescription="Delete" />
+
+                <ImageView
+                    android:id="@+id/btnActionMore"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_more"
+                    android:contentDescription="More" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Search Input Bar (Visible during search) -->
         <LinearLayout
-            android:id="@+id/layoutNormalActions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
+            android:id="@+id/layoutSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:background="@color/surface_dark"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/etSearchQuery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search_hint"
+                android:textColor="@color/text_primary_dark"
+                android:textColorHint="@color/text_tertiary_dark"
+                android:textSize="14sp"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
 
             <ImageView
-                android:id="@+id/btnSearch"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/btnClearSearch"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Search" />
-
-            <ImageView
-                android:id="@+id/btnSort"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_sort"
-                android:contentDescription="Sort" />
-
-            <ImageView
-                android:id="@+id/btnViewToggle"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_grid"
-                android:contentDescription="Toggle View" />
-
-            <ImageView
-                android:id="@+id/btnRefresh"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_refresh"
-                android:contentDescription="Refresh" />
+                android:src="@drawable/ic_more"
+                android:contentDescription="Clear" />
         </LinearLayout>
-    </RelativeLayout>
 
-    <!-- Contextual Selection Toolbar (Top) -->
-    <RelativeLayout
-        android:id="@+id/toolbarSelection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:background="@color/surface_elevated_dark"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/btnCloseSelection"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Close Selection" />
-
-        <TextView
-            android:id="@+id/tvSelectionCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btnCloseSelection"
-            android:layout_toStartOf="@+id/layoutSelectionActions"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:text="0 selected"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
+        <!-- PC-Style Address Bar (Windows Explorer / Desktop style) -->
         <LinearLayout
-            android:id="@+id/layoutSelectionActions"
-            android:layout_width="wrap_content"
+            android:id="@+id/layoutPcAddressBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_address_bar"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="6dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <ImageView
-                android:id="@+id/btnActionCopy"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_folder"
+                android:tint="@color/artraw_crimson_accent"
+                android:contentDescription="Path" />
+
+            <TextView
+                android:id="@+id/tvPcPathDisplay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="6dp"
+                android:text="/storage/emulated/0"
+                android:textColor="@color/text_primary_dark"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:singleLine="true"
+                android:ellipsize="start" />
+
+            <!-- Instant Copy Path Button right in the address bar -->
+            <ImageView
+                android:id="@+id/btnCopyCurrentPath"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="6dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_copy"
-                android:contentDescription="Copy" />
+                android:contentDescription="Copy Current Path" />
 
+            <!-- Direct Jump / Type Path Button right in the address bar -->
             <ImageView
-                android:id="@+id/btnActionCut"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
+                android:id="@+id/btnTypePath"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="6dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_cut"
-                android:contentDescription="Cut" />
-
-            <ImageView
-                android:id="@+id/btnActionShare"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_share"
-                android:contentDescription="Share" />
-
-            <ImageView
-                android:id="@+id/btnActionDelete"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_delete"
-                android:contentDescription="Delete" />
-
-            <ImageView
-                android:id="@+id/btnActionMore"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_more"
-                android:contentDescription="More" />
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Type Path" />
         </LinearLayout>
-    </RelativeLayout>
-
-    <!-- Search Input Bar (Visible during search) -->
-    <LinearLayout
-        android:id="@+id/layoutSearchBar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:background="@color/surface_dark"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:gravity="center_vertical"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/etSearchQuery"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/search_hint"
-            android:textColor="@color/text_primary_dark"
-            android:textColorHint="@color/text_tertiary_dark"
-            android:textSize="14sp"
-            android:imeOptions="actionSearch"
-            android:singleLine="true" />
-
-        <ImageView
-            android:id="@+id/btnClearSearch"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_more"
-            android:contentDescription="Clear" />
     </LinearLayout>
 
-    <!-- Breadcrumb Bar with Direct Path & Copy Path Buttons -->
+    <!-- Breadcrumb Bar -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="38dp"
         android:background="@color/bg_dark"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
@@ -226,7 +297,6 @@
             android:id="@+id/scrollBreadcrumbs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toStartOf="@+id/layoutPathActions"
             android:layout_centerVertical="true"
             android:scrollbars="none">
 
@@ -237,34 +307,6 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical" />
         </HorizontalScrollView>
-
-        <LinearLayout
-            android:id="@+id/layoutPathActions"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/btnTypePath"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:padding="6dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_edit"
-                android:contentDescription="Type Path" />
-
-            <ImageView
-                android:id="@+id/btnCopyCurrentPath"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:padding="6dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_copy"
-                android:contentDescription="Copy Current Path" />
-        </LinearLayout>
     </RelativeLayout>
 
     <View

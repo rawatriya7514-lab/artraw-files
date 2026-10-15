@@ -50,7 +50,7 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerMain)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerMain)),
             bottomScrollViews = listOf(findViewById(R.id.scrollMainContent))
         )
         initViews()
@@ -202,7 +202,7 @@ class MainActivity : Activity() {
                         icon.setImageResource(iconRes)
 
                         row.setOnClickListener {
-                            FileViewerHelper.openFile(this, item)
+                            com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
                         }
                         layoutRecentList.addView(row)
                     }

@@ -26,7 +26,7 @@ class TextPreviewActivity : Activity() {
 
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerPreview)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerPreview)),
             bottomScrollViews = listOf(findViewById(R.id.scrollPreviewContent))
         )
 

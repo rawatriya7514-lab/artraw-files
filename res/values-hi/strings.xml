@@ -51,6 +51,10 @@
     <string name="action_refresh">रिफ्रेश</string>
     <string name="action_view_grid">ग्रिड व्यू</string>
     <string name="action_view_list">लिस्ट व्यू</string>
+    <string name="action_open">खोलें</string>
+    <string name="action_copy_path">पाथ कॉपी करें</string>
+    <string name="action_open_folder">फ़ोल्डर खोलें</string>
+    <string name="path_copied_toast">पाथ कॉपी किया गया: %1$s</string>
     <string name="action_undo">पूर्ववत करें (Undo)</string>
 
     <!-- Selection -->

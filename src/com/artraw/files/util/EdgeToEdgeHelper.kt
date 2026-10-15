@@ -1,6 +1,7 @@
 package com.artraw.files.util
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.view.View
@@ -10,8 +11,25 @@ import android.view.WindowInsetsController
 
 object EdgeToEdgeHelper {
 
+    fun getStatusBarHeight(context: Context): Int {
+        val res = context.resources
+        val resId = res.getIdentifier("status_bar_height", "dimen", "android")
+        val dimenHeight = if (resId > 0) res.getDimensionPixelSize(resId) else 0
+        val minDimen = (36 * res.displayMetrics.density).toInt()
+        return kotlin.math.max(dimenHeight, minDimen)
+    }
+
+    fun getNavigationBarHeight(context: Context): Int {
+        val res = context.resources
+        val resId = res.getIdentifier("navigation_bar_height", "dimen", "android")
+        val dimenHeight = if (resId > 0) res.getDimensionPixelSize(resId) else 0
+        val minDimen = (24 * res.displayMetrics.density).toInt()
+        return kotlin.math.max(dimenHeight, minDimen)
+    }
+
     fun applyEdgeToEdge(
         activity: Activity,
+        topSpacers: List<View> = emptyList(),
         topHeaders: List<View> = emptyList(),
         bottomScrollViews: List<View> = emptyList(),
         bottomStickyViews: List<View> = emptyList()
@@ -74,7 +92,49 @@ object EdgeToEdgeHelper {
             Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
         }
 
-        // 4. Listen for WindowInsets and apply safe insets
+        val baseStatusBarHeight = getStatusBarHeight(activity)
+        val baseNavBarHeight = getNavigationBarHeight(activity)
+        val extraTopGap = (8 * activity.resources.displayMetrics.density).toInt()
+
+        fun applyInsets(statusBarInset: Int, navBarInset: Int) {
+            val effectiveStatusBar = kotlin.math.max(statusBarInset, baseStatusBarHeight) + extraTopGap
+            val effectiveNavBar = kotlin.math.max(navBarInset, baseNavBarHeight)
+
+            // Adjust status bar spacers
+            for (spacer in topSpacers) {
+                val params = spacer.layoutParams
+                if (params != null && params.height != effectiveStatusBar) {
+                    params.height = effectiveStatusBar
+                    spacer.layoutParams = params
+                }
+            }
+
+            // Adjust headers padding
+            for ((index, header) in topHeaders.withIndex()) {
+                val (left, top, right) = topInitialPaddings[index].first
+                val bottom = topInitialPaddings[index].second
+                header.setPadding(left, top + effectiveStatusBar, right, bottom)
+            }
+
+            // Apply navigation bar bottom padding to scroll views
+            for ((index, scroll) in bottomScrollViews.withIndex()) {
+                val (left, top, right) = bottomScrollPaddings[index].first
+                val bottom = bottomScrollPaddings[index].second
+                scroll.setPadding(left, top, right, bottom + effectiveNavBar)
+            }
+
+            // Apply navigation bar bottom padding to sticky bottom bars
+            for ((index, sticky) in bottomStickyViews.withIndex()) {
+                val (left, top, right) = bottomStickyPaddings[index].first
+                val bottom = bottomStickyPaddings[index].second
+                sticky.setPadding(left, top, right, bottom + effectiveNavBar)
+            }
+        }
+
+        // Apply immediately so first frame is never clipped
+        applyInsets(baseStatusBarHeight, baseNavBarHeight)
+
+        // 4. Listen for WindowInsets when system reports exact insets
         window.decorView.setOnApplyWindowInsetsListener { _, insets ->
             val statusBarInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 insets.getInsets(WindowInsets.Type.statusBars()).top
@@ -90,28 +150,10 @@ object EdgeToEdgeHelper {
                 insets.systemWindowInsetBottom
             }
 
-            // Apply status bar top padding to headers so title & controls sit cleanly below status bar
-            for ((index, header) in topHeaders.withIndex()) {
-                val (left, top, right) = topInitialPaddings[index].first
-                val bottom = topInitialPaddings[index].second
-                header.setPadding(left, top + statusBarInset, right, bottom)
-            }
-
-            // Apply navigation bar bottom padding to scroll views so items scroll above gesture pill
-            for ((index, scroll) in bottomScrollViews.withIndex()) {
-                val (left, top, right) = bottomScrollPaddings[index].first
-                val bottom = bottomScrollPaddings[index].second
-                scroll.setPadding(left, top, right, bottom + navBarInset)
-            }
-
-            // Apply navigation bar bottom padding to sticky bottom bars
-            for ((index, sticky) in bottomStickyViews.withIndex()) {
-                val (left, top, right) = bottomStickyPaddings[index].first
-                val bottom = bottomStickyPaddings[index].second
-                sticky.setPadding(left, top, right, bottom + navBarInset)
-            }
-
+            applyInsets(statusBarInset, navBarInset)
             insets
         }
+
+        window.decorView.requestApplyInsets()
     }
 }

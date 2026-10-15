@@ -28,7 +28,7 @@ class SettingsActivity : Activity() {
 
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerSettings)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerSettings)),
             bottomScrollViews = listOf(findViewById(R.id.scrollSettingsContent))
         )
 

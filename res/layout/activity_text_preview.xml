@@ -5,67 +5,78 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <!-- Top Bar -->
-    <RelativeLayout
+    <!-- Top Bar with Dedicated Status Bar Spacer -->
+    <LinearLayout
         android:id="@+id/headerPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:background="@color/surface_dark"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:orientation="vertical"
+        android:background="@color/surface_dark">
 
-        <ImageView
-            android:id="@+id/btnPreviewBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+        <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
+        <View
+            android:id="@+id/statusBarSpacerPreview"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btnPreviewBack"
-            android:layout_toStartOf="@+id/btnPreviewShare"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
 
-            <TextView
-                android:id="@+id/tvPreviewTitle"
+            <ImageView
+                android:id="@+id/btnPreviewBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Back" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ellipsize="middle"
-                android:text="Text Viewer"
-                android:textColor="@color/text_primary_dark"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_toEndOf="@id/btnPreviewBack"
+                android:layout_toStartOf="@+id/btnPreviewShare"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvPreviewMeta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UTF-8 • 0 lines • 0 B"
-                android:textColor="@color/text_secondary_dark"
-                android:textSize="11sp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvPreviewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:text="Text Viewer"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/btnPreviewShare"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_share"
-            android:contentDescription="Share" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvPreviewMeta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UTF-8 • 0 lines • 0 B"
+                    android:textColor="@color/text_secondary_dark"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnPreviewShare"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_share"
+                android:contentDescription="Share" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollPreviewContent"

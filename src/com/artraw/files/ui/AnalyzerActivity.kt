@@ -53,7 +53,7 @@ class AnalyzerActivity : Activity() {
 
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerAnalyzer)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerAnalyzer)),
             bottomScrollViews = listOf(findViewById(R.id.listViewLargeFiles), findViewById(R.id.listViewDuplicates))
         )
 
@@ -89,7 +89,7 @@ class AnalyzerActivity : Activity() {
 
         listViewLargeFiles.setOnItemClickListener { _, _, position, _ ->
             val item = largeFilesAdapter.getItem(position)
-            FileViewerHelper.openFile(this, item)
+            com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
         }
     }
 
@@ -206,7 +206,7 @@ class AnalyzerActivity : Activity() {
                     setTextColor(Color.parseColor("#F0F2F5"))
                     textSize = 12f
                     setOnClickListener {
-                        FileViewerHelper.openFile(this@AnalyzerActivity, item)
+                        com.artraw.files.ui.dialog.FileActionDialog.show(this@AnalyzerActivity, item)
                     }
                 }
 

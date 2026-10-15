@@ -77,4 +77,29 @@ object FileViewerHelper {
             context.startActivity(Intent.createChooser(intent, "Share files"))
         }
     }
+
+    fun showFileDetails(activity: Activity, item: FileItem) {
+        val msg = buildString {
+            append("Name: ${item.name}\n\n")
+            append("Path: ${item.file.absolutePath}\n\n")
+            append("Type: ${if (item.isDirectory) "Folder" else item.mimeType}\n\n")
+            append("Size: ${com.artraw.files.util.Formatters.formatFileSize(item.size)}\n\n")
+            append("Modified: ${com.artraw.files.util.Formatters.formatDate(item.lastModified)}\n")
+            if (item.isApk) {
+                append("\nPackage: ${item.apkPackageName ?: "Unknown"}\n")
+                append("Version: ${item.apkVersionName ?: "Unknown"}\n")
+            }
+        }
+        android.app.AlertDialog.Builder(activity)
+            .setTitle(com.artraw.files.R.string.action_details)
+            .setMessage(msg)
+            .setPositiveButton(com.artraw.files.R.string.btn_ok, null)
+            .setNeutralButton(com.artraw.files.R.string.action_copy_path) { _, _ ->
+                val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                val clip = android.content.ClipData.newPlainText("File Path", item.file.absolutePath)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(activity, "Path copied: ${item.file.absolutePath}", Toast.LENGTH_SHORT).show()
+            }
+            .show()
+    }
 }

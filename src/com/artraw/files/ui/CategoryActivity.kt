@@ -35,7 +35,7 @@ class CategoryActivity : Activity() {
 
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerCategory)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerCategory)),
             bottomScrollViews = listOf(findViewById(R.id.listViewCatFiles))
         )
 
@@ -62,7 +62,7 @@ class CategoryActivity : Activity() {
 
         listViewCatFiles.setOnItemClickListener { _, _, position, _ ->
             val item = adapter.getItem(position)
-            FileViewerHelper.openFile(this, item)
+            com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
         }
     }
 
