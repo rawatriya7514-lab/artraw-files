@@ -18,14 +18,14 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 
 /**
- * High-reliability AdMob manager for Artfiles.
- * Guarantees ad presentation with instant fallback to official Google test banner
- * if production ad returns NO_FILL or error.
+ * Production AdMob manager for Artfiles.
+ * Strictly serves user configured production ad units.
+ * Never falls back to sample test banners in production builds.
  */
 object AdMobManager {
 
     private const val TAG = "ARTRAW_ADMOB"
-    private const val GOOGLE_TEST_BANNER_ID = "ca-app-pub-3940256099942544/6300978111"
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     @Volatile
     private var isInitialized = false
@@ -72,22 +72,18 @@ object AdMobManager {
         val rawId = try {
             activity.getString(R.string.admob_banner_ad_unit_id)
         } catch (_: Throwable) {
-            GOOGLE_TEST_BANNER_ID
+            ""
         }
         val targetAdUnitId = AppSecurity.resolveAdUnitId(rawId)
 
-        return setupBannerView(activity, container, targetAdUnitId, isFallback = false)
+        return setupBannerView(activity, container, targetAdUnitId)
     }
 
     private fun setupBannerView(
         activity: Activity,
         container: FrameLayout,
-        adUnitId: String,
-        isFallback: Boolean
+        adUnitId: String
     ): AdView {
-        val mainHandler = Handler(Looper.getMainLooper())
-        var adLoaded = false
-
         val adView = AdView(activity).apply {
             this.adUnitId = adUnitId
             setAdSize(AdSize.BANNER)
@@ -106,7 +102,6 @@ object AdMobManager {
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 super.onAdLoaded()
-                adLoaded = true
                 Log.i(TAG, "Banner loaded successfully! (Unit: $adUnitId)")
                 activity.runOnUiThread {
                     container.visibility = View.VISIBLE
@@ -116,12 +111,13 @@ object AdMobManager {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 super.onAdFailedToLoad(loadAdError)
                 Log.w(TAG, "Banner failed to load ($adUnitId) [code ${loadAdError.code}]: ${loadAdError.message}")
-                if (!isFallback && adUnitId != GOOGLE_TEST_BANNER_ID) {
-                    activity.runOnUiThread {
-                        Log.i(TAG, "Switching to Google test banner fallback...")
-                        setupBannerView(activity, container, GOOGLE_TEST_BANNER_ID, isFallback = true)
+                // Retry loading the production unit after 30 seconds
+                mainHandler.postDelayed({
+                    if (!activity.isFinishing && !activity.isDestroyed) {
+                        Log.d(TAG, "Retrying banner load for unit: $adUnitId")
+                        setupBannerView(activity, container, adUnitId)
                     }
-                }
+                }, 30000)
             }
         }
 
@@ -131,19 +127,6 @@ object AdMobManager {
             Log.d(TAG, "Banner load request sent for unit: $adUnitId")
         } catch (t: Throwable) {
             Log.e(TAG, "adView.loadAd error: ${t.message}", t)
-            if (!isFallback && adUnitId != GOOGLE_TEST_BANNER_ID) {
-                setupBannerView(activity, container, GOOGLE_TEST_BANNER_ID, isFallback = true)
-            }
-        }
-
-        // Safety watchdog: if live inventory has not responded in 4.5s, fallback to test banner
-        if (!isFallback && adUnitId != GOOGLE_TEST_BANNER_ID) {
-            mainHandler.postDelayed({
-                if (!adLoaded && !activity.isFinishing) {
-                    Log.i(TAG, "Safety watchdog triggered fallback to test banner.")
-                    setupBannerView(activity, container, GOOGLE_TEST_BANNER_ID, isFallback = true)
-                }
-            }, 4500)
         }
 
         return adView

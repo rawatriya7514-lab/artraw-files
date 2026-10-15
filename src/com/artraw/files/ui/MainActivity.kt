@@ -92,6 +92,7 @@ class MainActivity : Activity() {
 
     override fun onDestroy() {
         try {
+            adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
             adView?.destroy()
         } catch (_: Throwable) {}
         super.onDestroy()
@@ -116,7 +117,8 @@ class MainActivity : Activity() {
     }
 
     private var isAdMobInitializing = false
-    private var hasFallbackToTestAd = false
+    private val adRetryHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private var adRetryRunnable: Runnable? = null
 
     private fun initAdMob() {
         if (!resources.getBoolean(R.bool.admob_enabled)) {
@@ -137,14 +139,20 @@ class MainActivity : Activity() {
 
         val rawId = getString(R.string.admob_banner_ad_unit_id)
         val resolvedId = AppSecurity.resolveAdUnitId(rawId)
-        loadBanner(resolvedId, isFallback = false)
+        loadBanner(resolvedId)
     }
 
-    private fun loadBanner(adUnit: String, isFallback: Boolean) {
+    private fun loadBanner(adUnit: String) {
         runOnUiThread {
             try {
+                if (isFinishing || isDestroyed) return@runOnUiThread
                 val container = adViewContainer
                 container.visibility = View.VISIBLE
+
+                try {
+                    adView?.destroy()
+                } catch (_: Throwable) {}
+
                 val ad = AdView(this).apply {
                     adUnitId = adUnit
                     setAdSize(AdSize.BANNER)
@@ -164,34 +172,28 @@ class MainActivity : Activity() {
                 ad.adListener = object : AdListener() {
                     override fun onAdLoaded() {
                         super.onAdLoaded()
-                        Log.d("ARTRAW_ADMOB", "Ad loaded successfully! (Unit: $adUnit)")
+                        Log.i("ARTRAW_ADMOB", "Production ad loaded successfully! (Unit: $adUnit)")
                         container.visibility = View.VISIBLE
                     }
 
                     override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                         super.onAdFailedToLoad(loadAdError)
-                        Log.w("ARTRAW_ADMOB", "Ad failed to load (code ${loadAdError.code}): ${loadAdError.message}")
+                        Log.w("ARTRAW_ADMOB", "Production ad failed to load (Unit: $adUnit, Code ${loadAdError.code}): ${loadAdError.message}")
 
-                        if (!isFallback && !hasFallbackToTestAd) {
-                            hasFallbackToTestAd = true
-                            Log.i("ARTRAW_ADMOB", "Falling back to Google official test banner...")
-                            loadBanner("ca-app-pub-3940256099942544/6300978111", isFallback = true)
+                        // Strictly retry the production ad unit. NEVER display a test banner in production.
+                        adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
+                        adRetryRunnable = Runnable {
+                            if (!isFinishing && !isDestroyed) {
+                                Log.d("ARTRAW_ADMOB", "Retrying production banner load...")
+                                loadBanner(adUnit)
+                            }
                         }
+                        adRetryHandler.postDelayed(adRetryRunnable!!, 30000)
                     }
                 }
 
                 val request = AdRequest.Builder().build()
                 ad.loadAd(request)
-
-                if (!isFallback && !hasFallbackToTestAd) {
-                    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                        if (!hasFallbackToTestAd && !isFinishing) {
-                            hasFallbackToTestAd = true
-                            Log.i("ARTRAW_ADMOB", "Watchdog triggered fallback to Google test banner.")
-                            loadBanner("ca-app-pub-3940256099942544/6300978111", isFallback = true)
-                        }
-                    }, 4500)
-                }
             } catch (t: Throwable) {
                 Log.e("ARTRAW_ADMOB", "loadBanner error: ${t.message}", t)
             }
