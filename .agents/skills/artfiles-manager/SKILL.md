@@ -37,12 +37,11 @@ Comprehensive automation and operations guide for **Artfiles** (`com.artraw.file
 
 Artfiles implements a dual-mode high-reliability banner engine (`AdMobManager.kt`):
 
-1. **Production Unit ID**: `ca-app-pub-9417083543459963/1228883736` (Runtime XOR obfuscated in `AppSecurity.kt`).
-2. **Google Guaranteed Test Unit ID**: `ca-app-pub-3940256099942544/6300978111`.
-3. **Fallback Logic**:
-   - When sideloaded or before Google Play review, AdMob live ads frequently return Error Code 3 (`ERROR_CODE_NO_FILL`).
-   - `AdMobManager` catches `onAdFailedToLoad` and immediately re-requests Google's official test banner.
-   - A 4.5-second safety watchdog ensures ads are displayed even if network requests hang.
+1. **Production Unit ID**: `ca-app-pub-7925407604309207/7795338269` (Runtime XOR obfuscated in `AppSecurity.kt`).
+2. **Serving Logic**:
+   - Strictly serves user's production ad unit.
+   - Never falls back to sample test banners in production builds.
+   - On error or delayed fill, silently retries production ad unit after 30 seconds.
 4. **Layout Requirements**:
    - `adViewContainer` must be `visibility="visible"` with a fixed `50dp` height so AdMob measures valid dimensions on the first layout pass.
 

@@ -26,12 +26,12 @@ object AppSecurity {
     // Google Test Banner Unit ID
     private const val TEST_BANNER_ID = "ca-app-pub-3940256099942544/6300978111"
 
-    // Masked byte sequence for production Banner Unit ID (ca-app-pub-9417083543459963/1228883736)
+    // Masked byte sequence for production Banner Unit ID (ca-app-pub-7925407604309207/7795338269)
     // XOR key: 0x5C
     private val MASKED_PROD_AD_UNIT = byteArrayOf(
-        63, 61, 113, 61, 44, 44, 113, 44, 41, 62, 113, 101, 104, 109, 107, 108, 100, 111,
-        105, 104, 111, 104, 105, 101, 101, 106, 111, 115, 109, 110, 110, 100, 100, 100, 111,
-        107, 111, 106
+        63, 61, 113, 61, 44, 44, 113, 44, 41, 62, 113, 107, 101, 110, 105, 104, 108, 107,
+        106, 108, 104, 111, 108, 101, 110, 108, 107, 115, 107, 107, 101, 105, 111, 111, 100,
+        110, 106, 101
     )
     private const val XOR_KEY: Byte = 0x5C
 

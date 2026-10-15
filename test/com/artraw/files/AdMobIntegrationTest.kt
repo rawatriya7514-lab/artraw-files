@@ -8,7 +8,7 @@ import java.io.File
 class AdMobIntegrationTest {
 
     private val expectedAppId = "ca-app-pub-9417083543459963~7636088996"
-    private val expectedAdUnitId = "ca-app-pub-9417083543459963/1228883736"
+    private val expectedAdUnitId = "ca-app-pub-7925407604309207/7795338269"
 
     @Test
     fun testAdMobAppIdConfiguration() {
