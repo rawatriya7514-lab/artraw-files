@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base Theme -->
+    <!-- Base Dark Theme -->
     <style name="Theme.ArtrawFiles" parent="@android:style/Theme.Material.NoActionBar">
         <item name="android:colorPrimary">@color/artraw_crimson</item>
         <item name="android:colorPrimaryDark">@color/artraw_crimson_dark</item>
         <item name="android:colorAccent">@color/artraw_crimson_accent</item>
         <item name="android:windowBackground">@color/bg_dark</item>
         <item name="android:colorBackground">@color/bg_dark</item>
-        <item name="android:navigationBarColor">@color/bg_dark</item>
-        <item name="android:statusBarColor">@color/bg_dark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.ArtrawFiles.Light" parent="@android:style/Theme.Material.Light.NoActionBar">
@@ -17,7 +18,8 @@
         <item name="android:colorAccent">@color/artraw_crimson_accent</item>
         <item name="android:windowBackground">@color/bg_light</item>
         <item name="android:colorBackground">@color/bg_light</item>
-        <item name="android:navigationBarColor">@color/bg_light</item>
-        <item name="android:statusBarColor">@color/bg_light</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 </resources>

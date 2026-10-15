@@ -24,6 +24,12 @@ class TextPreviewActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_preview)
 
+        com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(findViewById(R.id.headerPreview)),
+            bottomScrollViews = listOf(findViewById(R.id.scrollPreviewContent))
+        )
+
         val path = intent.getStringExtra(EXTRA_FILE_PATH)
         if (path.isNullOrBlank()) {
             finish()

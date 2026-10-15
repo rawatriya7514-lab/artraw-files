@@ -7,8 +7,10 @@
 
     <!-- Top Bar -->
     <RelativeLayout
+        android:id="@+id/headerAnalyzer"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:background="@color/surface_dark"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
@@ -86,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@color/border_dark"
-                android:dividerHeight="0.5dp" />
+                android:dividerHeight="0.5dp"
+                android:clipToPadding="false" />
         </LinearLayout>
 
         <!-- Duplicates Container -->
@@ -148,7 +151,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:divider="@color/border_dark"
-                android:dividerHeight="0.5dp" />
+                android:dividerHeight="0.5dp"
+                android:clipToPadding="false" />
         </LinearLayout>
 
         <ProgressBar

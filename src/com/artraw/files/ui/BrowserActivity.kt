@@ -34,6 +34,7 @@ import com.artraw.files.operations.FileOperationManager
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
 import com.artraw.files.ui.adapter.FileListAdapter
+import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.PathSecurity
 import com.artraw.files.util.PermissionsHelper
@@ -82,6 +83,13 @@ class BrowserActivity : Activity() {
         isGridMode = settingsManager.isGridView
 
         setContentView(R.layout.activity_browser)
+
+        EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(findViewById(R.id.toolbarNormal), findViewById(R.id.toolbarSelection)),
+            bottomScrollViews = listOf(findViewById(R.id.listViewFiles), findViewById(R.id.gridViewFiles)),
+            bottomStickyViews = listOf(findViewById(R.id.layoutPasteBar))
+        )
 
         val pathArg = intent.getStringExtra("initial_path")
         currentDirectory = if (!pathArg.isNullOrBlank()) File(pathArg) else repository.getPrimaryStorageRoot()

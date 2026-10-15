@@ -51,6 +51,12 @@ class AnalyzerActivity : Activity() {
         repository = FileRepository(this)
         setContentView(R.layout.activity_analyzer)
 
+        com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(findViewById(R.id.headerAnalyzer)),
+            bottomScrollViews = listOf(findViewById(R.id.listViewLargeFiles), findViewById(R.id.listViewDuplicates))
+        )
+
         initViews()
         setupListeners()
 

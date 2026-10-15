@@ -26,6 +26,12 @@ class SettingsActivity : Activity() {
         settingsManager = SettingsManager(this)
         setContentView(R.layout.activity_settings)
 
+        com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(findViewById(R.id.headerSettings)),
+            bottomScrollViews = listOf(findViewById(R.id.scrollSettingsContent))
+        )
+
         initViews()
         setupListeners()
     }

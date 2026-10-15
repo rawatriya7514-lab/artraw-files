@@ -7,8 +7,10 @@
 
     <!-- Top Bar -->
     <RelativeLayout
+        android:id="@+id/headerPreview"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:background="@color/surface_dark"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
@@ -66,9 +68,11 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollPreviewContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
+        android:clipToPadding="false"
         android:fillViewport="true">
 
         <TextView

@@ -17,6 +17,13 @@ class OnboardingActivity : Activity() {
         settingsManager = SettingsManager(this)
         setContentView(R.layout.activity_onboarding)
 
+        val root = findViewById<android.view.View>(R.id.layoutOnboardingRoot)
+        com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(root),
+            bottomScrollViews = listOf(root)
+        )
+
         findViewById<Button>(R.id.btnOnboardingGrant).setOnClickListener {
             settingsManager.isOnboardingCompleted = true
             PermissionsHelper.requestStoragePermission(this, 2001)

@@ -7,8 +7,10 @@
 
     <!-- Top App Bar -->
     <RelativeLayout
+        android:id="@+id/headerMain"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:gravity="center_vertical"
@@ -52,9 +54,11 @@
 
     <!-- Scrollable Content -->
     <ScrollView
+        android:id="@+id/scrollMainContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:fillViewport="true">
 
         <LinearLayout

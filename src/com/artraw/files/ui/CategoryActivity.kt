@@ -33,6 +33,12 @@ class CategoryActivity : Activity() {
         repository = FileRepository(this)
         setContentView(R.layout.activity_category)
 
+        com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(findViewById(R.id.headerCategory)),
+            bottomScrollViews = listOf(findViewById(R.id.listViewCatFiles))
+        )
+
         val catId = intent.getStringExtra("category_id") ?: FileCategory.DOCUMENTS.id
 
         initViews()

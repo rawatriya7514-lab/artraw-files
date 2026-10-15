@@ -7,8 +7,10 @@
 
     <!-- Top Bar -->
     <RelativeLayout
+        android:id="@+id/headerSettings"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:background="@color/surface_dark"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
@@ -37,8 +39,10 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollSettingsContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"

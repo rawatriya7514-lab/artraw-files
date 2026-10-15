@@ -14,6 +14,7 @@ import com.artraw.files.R
 import com.artraw.files.model.FileCategory
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
+import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
@@ -47,6 +48,11 @@ class MainActivity : Activity() {
         }
 
         setContentView(R.layout.activity_main)
+        EdgeToEdgeHelper.applyEdgeToEdge(
+            activity = this,
+            topHeaders = listOf(findViewById(R.id.headerMain)),
+            bottomScrollViews = listOf(findViewById(R.id.scrollMainContent))
+        )
         initViews()
         setupListeners()
     }

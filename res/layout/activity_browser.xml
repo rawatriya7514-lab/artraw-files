@@ -9,7 +9,8 @@
     <RelativeLayout
         android:id="@+id/toolbarNormal"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:background="@color/surface_dark"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
@@ -91,7 +92,8 @@
     <RelativeLayout
         android:id="@+id/toolbarSelection"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:background="@color/surface_elevated_dark"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
@@ -274,7 +276,8 @@
     <RelativeLayout
         android:id="@+id/layoutPasteBar"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="wrap_content"
+        android:minHeight="52dp"
         android:background="@color/surface_elevated_dark"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -333,6 +336,7 @@
             android:layout_height="match_parent"
             android:divider="@color/border_dark"
             android:dividerHeight="0.5dp"
+            android:clipToPadding="false"
             android:fastScrollEnabled="true" />
 
         <GridView
@@ -343,6 +347,7 @@
             android:padding="8dp"
             android:horizontalSpacing="8dp"
             android:verticalSpacing="8dp"
+            android:clipToPadding="false"
             android:visibility="gone" />
 
         <!-- Empty State View -->
