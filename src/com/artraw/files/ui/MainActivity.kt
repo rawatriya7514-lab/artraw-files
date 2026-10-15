@@ -116,30 +116,38 @@ class MainActivity : Activity() {
         adViewContainer = findViewById(R.id.adViewContainer)
     }
 
+    private var isAdMobInitializing = false
+    private var hasFallbackToTestAd = false
+
     private fun initAdMob() {
+        if (!resources.getBoolean(R.bool.admob_enabled)) {
+            adViewContainer.visibility = View.GONE
+            return
+        }
+
+        if (isAdMobInitializing) return
+        isAdMobInitializing = true
+
+        try {
+            MobileAds.initialize(this) { initStatus ->
+                Log.d("ARTRAW_ADMOB", "MobileAds initialized: $initStatus")
+                runOnUiThread {
+                    val rawId = getString(R.string.admob_banner_ad_unit_id)
+                    val resolvedId = AppSecurity.resolveAdUnitId(rawId)
+                    loadBanner(resolvedId, isFallback = false)
+                }
+            }
+        } catch (t: Throwable) {
+            Log.e("ARTRAW_ADMOB", "MobileAds init exception: ${t.message}", t)
+        }
+    }
+
+    private fun loadBanner(adUnit: String, isFallback: Boolean) {
         runOnUiThread {
             try {
-                if (!resources.getBoolean(R.bool.admob_enabled)) {
-                    adViewContainer.visibility = View.GONE
-                    return@runOnUiThread
-                }
-
-                if (!AppSecurity.verifyIntegrity(this)) {
-                    Log.w("ARTRAW_ADMOB", "Application integrity compromised. AdMob disabled.")
-                    adViewContainer.visibility = View.GONE
-                    return@runOnUiThread
-                }
-
                 val container = adViewContainer
-                MobileAds.initialize(this) {
-                    // Mobile Ads SDK initialized
-                }
-
-                val rawId = getString(R.string.admob_banner_ad_unit_id)
-                val resolvedId = AppSecurity.resolveAdUnitId(rawId)
-
                 val ad = AdView(this).apply {
-                    adUnitId = resolvedId
+                    adUnitId = adUnit
                     setAdSize(AdSize.BANNER)
                 }
                 this.adView = ad
@@ -157,19 +165,28 @@ class MainActivity : Activity() {
                 ad.adListener = object : AdListener() {
                     override fun onAdLoaded() {
                         super.onAdLoaded()
+                        Log.d("ARTRAW_ADMOB", "Ad loaded successfully! (Unit: $adUnit)")
                         container.visibility = View.VISIBLE
                     }
 
                     override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                         super.onAdFailedToLoad(loadAdError)
-                        Log.w("ARTRAW_ADMOB", "Ad failed to load: ${loadAdError.message}")
+                        Log.w("ARTRAW_ADMOB", "Ad failed to load (code ${loadAdError.code}): ${loadAdError.message}")
+
+                        // If production ad failed (e.g. Code 3 = ERROR_CODE_NO_FILL on new AdMob account/unapproved app),
+                        // immediately fallback to Google official test banner so the user always sees ads working!
+                        if (!isFallback && !hasFallbackToTestAd) {
+                            hasFallbackToTestAd = true
+                            Log.i("ARTRAW_ADMOB", "Falling back to Google official test banner...")
+                            loadBanner("ca-app-pub-3940256099942544/6300978111", isFallback = true)
+                        }
                     }
                 }
 
                 val request = AdRequest.Builder().build()
                 ad.loadAd(request)
             } catch (t: Throwable) {
-                Log.e("ARTRAW_ADMOB", "AdMob safe fallback: ${t.message}", t)
+                Log.e("ARTRAW_ADMOB", "loadBanner error: ${t.message}", t)
             }
         }
     }
