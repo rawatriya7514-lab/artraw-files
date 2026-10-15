@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Artfiles</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --card-color: #252525;
+            --accent-color: #ff3366;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --border-color: #333333;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 24px 16px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--surface-color);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        h1 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 28px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+        h2 {
+            color: var(--text-primary);
+            font-size: 20px;
+            margin-top: 24px;
+        }
+        p, li {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--accent-color);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .card {
+            background-color: var(--card-color);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="badge">Google AdMob & Play Store Compliant</span>
+        <h1>Privacy Policy for Artfiles</h1>
+        <p><strong>Effective Date:</strong> October 15, 2026<br>
+        <strong>Application:</strong> Artfiles (<code>com.artraw.files</code>)<br>
+        <strong>Developer:</strong> rawatriya7514-lab</p>
+
+        <div class="card">
+            <p><strong>Core Privacy Pledge:</strong> Artfiles is designed as a privacy-first file management application. All file indexing, searching, audio/video playback, image viewing, and ZIP archive operations occur strictly on your local device. We never upload, transmit, or sell your files, photos, or documents to remote servers.</p>
+        </div>
+
+        <h2>1. Device Storage & Permissions</h2>
+        <p>To provide file management functions, Artfiles requests access to your device storage:</p>
+        <ul>
+            <li><strong>All Files Access (<code>MANAGE_EXTERNAL_STORAGE</code>):</strong> Required strictly to inspect, organize, rename, delete, move, and compress files across your internal and external storage cards.</li>
+            <li><strong>Media Permissions (<code>READ_MEDIA_IMAGES</code>, <code>READ_MEDIA_VIDEO</code>, <code>READ_MEDIA_AUDIO</code>):</strong> Used to populate the categorized dashboards and built-in offline media players.</li>
+            <li><strong>Package Inspection (<code>REQUEST_INSTALL_PACKAGES</code>):</strong> Allows the user to inspect APK package metadata (app name, icon, version) and initiate manual installation upon explicit user confirmation.</li>
+        </ul>
+
+        <h2>2. Third-Party Advertising (Google AdMob)</h2>
+        <p>To support free development and continuous updates, Artfiles integrates the official Google Mobile Ads SDK (AdMob). Google AdMob may automatically collect and process certain device data, including:</p>
+        <ul>
+            <li>Google Advertising ID (<code>com.google.android.gms.permission.AD_ID</code>)</li>
+            <li>IP address (for coarse geographic location and fraud prevention)</li>
+            <li>Device model, manufacturer, operating system version, and screen resolution</li>
+            <li>Interaction data (ad impressions, clicks, video completion for rewarded ads)</li>
+        </ul>
+        <p>This data is processed in accordance with Google's Privacy Policy. You can learn how Google uses data from apps that use its services by visiting <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">How Google uses information from sites or apps that use our services</a>.</p>
+
+        <h2>3. User Choices & Ad Settings</h2>
+        <p>You have full control over your advertising identifiers and personalized ads:</p>
+        <ul>
+            <li>You can opt out of personalized ads or reset your Advertising ID at any time via your Android device settings: <strong>Settings &rarr; Google &rarr; Ads</strong>.</li>
+            <li>You can manage your Google Ad settings globally at <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a>.</li>
+        </ul>
+
+        <h2>4. Child Privacy (COPPA Compliance)</h2>
+        <p>Artfiles does not knowingly collect any personal information from children under the age of 13. The application is configured with Google Mobile Ads <code>setTagForChildDirectedTreatment(false)</code> and general audience content ratings.</p>
+
+        <h2>5. Authorized Digital Sellers (app-ads.txt)</h2>
+        <p>In compliance with IAB Tech Lab and Google AdMob standards, our official Authorized Digital Sellers verification file is published at <a href="app-ads.txt">app-ads.txt</a>.</p>
+
+        <h2>6. Contact Us</h2>
+        <p>If you have any questions or suggestions regarding this Privacy Policy or the security of Artfiles, please open an issue on our GitHub repository: <a href="https://github.com/rawatriya7514-lab/artraw-files" target="_blank" rel="noopener">rawatriya7514-lab/artraw-files</a>.</p>
+
+        <footer>
+            &copy; 2026 Artfiles. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

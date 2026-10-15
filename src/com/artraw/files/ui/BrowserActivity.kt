@@ -11,6 +11,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -82,6 +84,10 @@ class BrowserActivity : Activity() {
     private var adViewContainerBrowser: FrameLayout? = null
     private var adView: AdView? = null
 
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
+    private var gridColumns: Int = 3
+    private var lastScaleTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settingsManager = SettingsManager(this)
@@ -109,10 +115,74 @@ class BrowserActivity : Activity() {
         currentDirectory = if (!pathArg.isNullOrBlank()) File(pathArg) else repository.getPrimaryStorageRoot()
 
         initViews()
+        setupScaleDetector()
         setupListeners()
         loadDirectory(currentDirectory)
 
         adView = AdMobManager.loadBanner(this, adViewContainerBrowser)
+    }
+
+    private fun setupScaleDetector() {
+        scaleGestureDetector = ScaleGestureDetector(this, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                val factor = detector.scaleFactor
+                val now = System.currentTimeMillis()
+                if (now - lastScaleTime < 320) return false
+
+                if (factor > 1.15f && gridColumns > 1) {
+                    gridColumns--
+                    applyGridColumns(gridColumns)
+                    lastScaleTime = now
+                    return true
+                } else if (factor < 0.85f && gridColumns < 5) {
+                    gridColumns++
+                    applyGridColumns(gridColumns)
+                    lastScaleTime = now
+                    return true
+                }
+                return false
+            }
+        })
+    }
+
+    private fun applyGridColumns(cols: Int) {
+        gridColumns = cols.coerceIn(1, 5)
+        gridViewFiles.numColumns = gridColumns
+        val density = resources.displayMetrics.density
+        val spacing = when (gridColumns) {
+            1 -> (2 * density).toInt()
+            2 -> (8 * density).toInt()
+            3 -> (6 * density).toInt()
+            4 -> (4 * density).toInt()
+            else -> (2 * density).toInt()
+        }
+        gridViewFiles.horizontalSpacing = spacing
+        gridViewFiles.verticalSpacing = spacing
+        gridAdapter.gridColumns = gridColumns
+        gridAdapter.notifyDataSetChanged()
+
+        val label = when (gridColumns) {
+            1 -> "1 Column (Single Large)"
+            2 -> "2 Columns (Large Preview)"
+            3 -> "3 Columns (Standard Grid)"
+            4 -> "4 Columns (Compact Grid)"
+            else -> "5 Columns (Mini Gallery)"
+        }
+        Toast.makeText(this, label, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (isGridMode && ev.pointerCount >= 2) {
+            scaleGestureDetector.onTouchEvent(ev)
+            if (scaleGestureDetector.isInProgress) {
+                val cancelEvent = MotionEvent.obtain(ev)
+                cancelEvent.action = MotionEvent.ACTION_CANCEL
+                gridViewFiles.dispatchTouchEvent(cancelEvent)
+                cancelEvent.recycle()
+                return true
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onResume() {

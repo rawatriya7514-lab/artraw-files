@@ -81,6 +81,18 @@ class MainActivity : Activity() {
             adView?.resume()
         } catch (_: Throwable) {}
         checkPermissionsAndLoad()
+        updateDeviceMonitorPreview()
+    }
+
+    private fun updateDeviceMonitorPreview() {
+        try {
+            val thermal = com.artraw.files.monitor.ThermalMonitorManager.getThermalSnapshot(this)
+            val cpu = com.artraw.files.monitor.DeviceHardwareHelper.getCpuSnapshot()
+            findViewById<android.widget.TextView>(R.id.tvMainLiveTempBadge)?.text = "🔥 ${String.format("%.1f", thermal.currentTempCelsius)}°C"
+            findViewById<android.widget.TextView>(R.id.tvMainCpuSummary)?.text = "${cpu.coreCount} Cores • ${cpu.governor}"
+            val hasUsage = com.artraw.files.monitor.AppUsageHelper.hasUsagePermission(this)
+            findViewById<android.widget.TextView>(R.id.tvMainUsageSummary)?.text = if (hasUsage) "Live Timeline →" else "Tap to Grant →"
+        } catch (_: Throwable) {}
     }
 
     override fun onPause() {
@@ -216,6 +228,14 @@ class MainActivity : Activity() {
         }
 
         // Quick action chips
+        findViewById<View>(R.id.cardDeviceMonitor)?.setOnClickListener {
+            startActivity(Intent(this, DeviceMonitorActivity::class.java))
+        }
+
+        findViewById<View>(R.id.chipDeviceMonitor)?.setOnClickListener {
+            startActivity(Intent(this, DeviceMonitorActivity::class.java))
+        }
+
         findViewById<View>(R.id.chipBrowseAll).setOnClickListener {
             openBrowser(repository.getPrimaryStorageRoot().absolutePath)
         }
@@ -344,6 +364,7 @@ class MainActivity : Activity() {
                                     else -> R.drawable.ic_file
                                 }
                                 icon.setImageResource(iconRes)
+                                com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 96, defaultIconRes = iconRes)
 
                                 row.setOnClickListener {
                                     com.artraw.files.ui.dialog.FileActionDialog.show(this, item)

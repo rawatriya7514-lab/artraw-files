@@ -3,6 +3,8 @@ package com.artraw.files.ui
 import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.GridView
 import android.widget.ImageView
@@ -47,6 +49,10 @@ class CategoryActivity : Activity() {
     private var isGridMode: Boolean = false
     private var allItems: List<FileItem> = emptyList()
 
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
+    private var gridColumns: Int = 3
+    private var lastScaleTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         repository = FileRepository(this)
@@ -63,8 +69,74 @@ class CategoryActivity : Activity() {
         isGridMode = (catId == FileCategory.IMAGES.id || catId == FileCategory.VIDEOS.id)
 
         initViews()
+        setupScaleDetector()
         setupListeners()
         setupCategory(catId)
+    }
+
+    private fun setupScaleDetector() {
+        scaleGestureDetector = ScaleGestureDetector(this, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                val factor = detector.scaleFactor
+                val now = System.currentTimeMillis()
+                if (now - lastScaleTime < 320) return false
+
+                if (factor > 1.15f && gridColumns > 1) {
+                    // Pinch OUT (Zoom IN) -> fewer columns, larger frames
+                    gridColumns--
+                    applyGridColumns(gridColumns)
+                    lastScaleTime = now
+                    return true
+                } else if (factor < 0.85f && gridColumns < 5) {
+                    // Pinch IN (Zoom OUT) -> more columns, smaller frames to see more items
+                    gridColumns++
+                    applyGridColumns(gridColumns)
+                    lastScaleTime = now
+                    return true
+                }
+                return false
+            }
+        })
+    }
+
+    private fun applyGridColumns(cols: Int) {
+        gridColumns = cols.coerceIn(1, 5)
+        gridViewCatFiles.numColumns = gridColumns
+        val density = resources.displayMetrics.density
+        val spacing = when (gridColumns) {
+            1 -> (2 * density).toInt()
+            2 -> (8 * density).toInt()
+            3 -> (6 * density).toInt()
+            4 -> (4 * density).toInt()
+            else -> (2 * density).toInt()
+        }
+        gridViewCatFiles.horizontalSpacing = spacing
+        gridViewCatFiles.verticalSpacing = spacing
+        gridAdapter.gridColumns = gridColumns
+        gridAdapter.notifyDataSetChanged()
+
+        val label = when (gridColumns) {
+            1 -> "1 Column (Single Large)"
+            2 -> "2 Columns (Large Preview)"
+            3 -> "3 Columns (Standard Grid)"
+            4 -> "4 Columns (Compact Grid)"
+            else -> "5 Columns (Mini Gallery)"
+        }
+        Toast.makeText(this, label, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (isGridMode && ev.pointerCount >= 2) {
+            scaleGestureDetector.onTouchEvent(ev)
+            if (scaleGestureDetector.isInProgress) {
+                val cancelEvent = MotionEvent.obtain(ev)
+                cancelEvent.action = MotionEvent.ACTION_CANCEL
+                gridViewCatFiles.dispatchTouchEvent(cancelEvent)
+                cancelEvent.recycle()
+                return true
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     private fun initViews() {

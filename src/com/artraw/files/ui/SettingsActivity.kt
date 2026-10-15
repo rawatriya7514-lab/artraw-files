@@ -2,6 +2,8 @@ package com.artraw.files.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -106,6 +108,66 @@ class SettingsActivity : Activity() {
                 ).show()
                 com.artraw.files.ad.AdMobManager.loadRewardedAd(this)
             }
+        }
+
+        findViewById<View>(R.id.rowPrivacyPolicy)?.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Artfiles Privacy Policy")
+                .setMessage(
+                    "Artfiles is committed to complete user privacy & transparency:\n\n" +
+                    "1. Local Storage: All file browsing, compression, audio, video, and image viewing happen 100% locally on your device. We never upload, transmit, or sell your files or personal documents.\n\n" +
+                    "2. Google AdMob Disclosure: To support free development and updates, Artfiles integrates Google Mobile Ads SDK (AdMob). Google AdMob may collect device identifiers (such as the Google Advertising ID), IP addresses, and coarse performance diagnostics to serve personalized or non-personalized advertisements according to Google's Privacy Policy.\n\n" +
+                    "3. User Data Rights: You can manage, reset, or opt out of personalized ads at any time via Android System Settings (Settings > Google > Ads) or online at adssettings.google.com."
+                )
+                .setPositiveButton("Online Policy") { _, _ ->
+                    try {
+                        val browserIntent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://rawatriya7514-lab.github.io/artraw-files/privacy-policy.html")
+                        )
+                        startActivity(browserIntent)
+                    } catch (e: Exception) {
+                        android.widget.Toast.makeText(this, "Could not open browser", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Close", null)
+                .show()
+        }
+
+        findViewById<View>(R.id.rowGoogleAdSettings)?.setOnClickListener {
+            try {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://adssettings.google.com")
+                )
+                startActivity(intent)
+            } catch (e: Exception) {
+                android.widget.Toast.makeText(this, "Could not open Google Ad Settings", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        findViewById<View>(R.id.rowAppAdsTxt)?.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Authorized Digital Sellers")
+                .setMessage(
+                    "Google AdMob Authorized Digital Sellers (app-ads.txt):\n\n" +
+                    "• Publisher ID: pub-7925407604309207\n" +
+                    "• Record: google.com, pub-7925407604309207, DIRECT, f08c47fec0942fa0\n\n" +
+                    "This verifies domain ownership and protects your app revenue against unauthorized ad inventory manipulation."
+                )
+                .setPositiveButton("View app-ads.txt") { _, _ ->
+                    try {
+                        val browserIntent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://rawatriya7514-lab.github.io/artraw-files/app-ads.txt")
+                        )
+                        startActivity(browserIntent)
+                    } catch (e: Exception) {
+                        android.widget.Toast.makeText(this, "Could not open browser", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("OK", null)
+                .show()
         }
     }
 

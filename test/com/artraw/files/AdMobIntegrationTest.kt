@@ -61,4 +61,30 @@ class AdMobIntegrationTest {
         assertTrue("MainActivity must initialize MobileAds", mainContent.contains("MobileAds.initialize"))
         assertTrue("MainActivity must attach AdListener", mainContent.contains("ad.adListener = object : AdListener()"))
     }
+
+    @Test
+    fun testAppAdsTxtCompliance() {
+        val rootAppAds = File("app-ads.txt")
+        assertTrue("Root app-ads.txt must exist", rootAppAds.exists())
+        val docsAppAds = File("docs/app-ads.txt")
+        assertTrue("docs/app-ads.txt must exist for GitHub Pages", docsAppAds.exists())
+
+        val content = rootAppAds.readText()
+        assertTrue("app-ads.txt must contain publisher ID", content.contains("pub-7925407604309207"))
+        assertTrue("app-ads.txt must contain Google domain and direct flag", content.contains("google.com, pub-7925407604309207, DIRECT, f08c47fec0942fa0"))
+    }
+
+    @Test
+    fun testPrivacyPolicyAndRequestConfiguration() {
+        val privacyHtml = File("docs/privacy-policy.html")
+        assertTrue("docs/privacy-policy.html must exist", privacyHtml.exists())
+        val htmlContent = privacyHtml.readText()
+        assertTrue("Privacy policy must reference AdMob", htmlContent.contains("Google Mobile Ads"))
+        assertTrue("Privacy policy must reference Advertising ID", htmlContent.contains("AD_ID"))
+
+        val adMobManager = File("src/com/artraw/files/ad/AdMobManager.kt")
+        val mgrContent = adMobManager.readText()
+        assertTrue("AdMobManager must configure RequestConfiguration", mgrContent.contains("setRequestConfiguration"))
+        assertTrue("AdMobManager must configure COPPA", mgrContent.contains("TAG_FOR_CHILD_DIRECTED_TREATMENT_FALSE"))
+    }
 }

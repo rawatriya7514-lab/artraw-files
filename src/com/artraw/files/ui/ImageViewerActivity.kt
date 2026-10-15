@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -40,6 +41,13 @@ class ImageViewerActivity : Activity() {
     private var barsVisible = true
     private val executor = Executors.newSingleThreadExecutor()
     private lateinit var gestureDetector: GestureDetector
+    private lateinit var scaleDetector: ScaleGestureDetector
+
+    private var currentScale = 1.0f
+    private val minScale = 1.0f
+    private val maxScale = 5.0f
+    private var lastTouchX = 0f
+    private var lastTouchY = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,9 +127,51 @@ class ImageViewerActivity : Activity() {
             }
         }
 
+        scaleDetector = ScaleGestureDetector(this, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                val factor = detector.scaleFactor
+                val targetScale = (currentScale * factor).coerceIn(minScale, maxScale)
+                val delta = targetScale / currentScale
+                currentScale = targetScale
+
+                imgFull.scaleX = currentScale
+                imgFull.scaleY = currentScale
+
+                val focusX = detector.focusX - imgFull.width / 2f
+                val focusY = detector.focusY - imgFull.height / 2f
+                imgFull.translationX += (1 - delta) * (focusX - imgFull.translationX)
+                imgFull.translationY += (1 - delta) * (focusY - imgFull.translationY)
+                clampTranslation()
+                return true
+            }
+        })
+
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 toggleBars()
+                return true
+            }
+
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                if (currentScale > 1.2f) {
+                    resetZoom(animate = true)
+                } else {
+                    currentScale = 2.5f
+                    val focusX = e.x - imgFull.width / 2f
+                    val focusY = e.y - imgFull.height / 2f
+                    val targetTransX = -focusX * (currentScale - 1f)
+                    val targetTransY = -focusY * (currentScale - 1f)
+                    val maxTransX = ((imgFull.width * currentScale - imgFull.width) / 2f).coerceAtLeast(0f)
+                    val maxTransY = ((imgFull.height * currentScale - imgFull.height) / 2f).coerceAtLeast(0f)
+
+                    imgFull.animate()
+                        .scaleX(currentScale)
+                        .scaleY(currentScale)
+                        .translationX(targetTransX.coerceIn(-maxTransX, maxTransX))
+                        .translationY(targetTransY.coerceIn(-maxTransY, maxTransY))
+                        .setDuration(250)
+                        .start()
+                }
                 return true
             }
 
@@ -131,6 +181,7 @@ class ImageViewerActivity : Activity() {
                 velocityX: Float,
                 velocityY: Float
             ): Boolean {
+                if (currentScale > 1.05f) return false
                 if (e1 == null) return false
                 val diffX = e2.x - e1.x
                 val diffY = e2.y - e1.y
@@ -147,8 +198,57 @@ class ImageViewerActivity : Activity() {
         })
 
         imgFull.setOnTouchListener { _, event ->
+            scaleDetector.onTouchEvent(event)
             gestureDetector.onTouchEvent(event)
+
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    lastTouchX = event.x
+                    lastTouchY = event.y
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    if (!scaleDetector.isInProgress && currentScale > 1.05f) {
+                        val dx = event.x - lastTouchX
+                        val dy = event.y - lastTouchY
+                        imgFull.translationX += dx
+                        imgFull.translationY += dy
+                        clampTranslation()
+                    }
+                    lastTouchX = event.x
+                    lastTouchY = event.y
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    if (currentScale <= 1.02f) {
+                        resetZoom(animate = true)
+                    }
+                }
+            }
             true
+        }
+    }
+
+    private fun clampTranslation() {
+        val maxTransX = ((imgFull.width * currentScale - imgFull.width) / 2f).coerceAtLeast(0f)
+        val maxTransY = ((imgFull.height * currentScale - imgFull.height) / 2f).coerceAtLeast(0f)
+        imgFull.translationX = imgFull.translationX.coerceIn(-maxTransX, maxTransX)
+        imgFull.translationY = imgFull.translationY.coerceIn(-maxTransY, maxTransY)
+    }
+
+    private fun resetZoom(animate: Boolean = true) {
+        currentScale = 1.0f
+        if (animate) {
+            imgFull.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .translationX(0f)
+                .translationY(0f)
+                .setDuration(200)
+                .start()
+        } else {
+            imgFull.scaleX = 1.0f
+            imgFull.scaleY = 1.0f
+            imgFull.translationX = 0f
+            imgFull.translationY = 0f
         }
     }
 
@@ -188,6 +288,7 @@ class ImageViewerActivity : Activity() {
             val infoStr = if (w > 0 && h > 0) "${w}x${h} • $sizeStr" else sizeStr
 
             runOnUiThread {
+                resetZoom(animate = false)
                 if (bmp != null) {
                     imgFull.setImageBitmap(bmp)
                 } else {

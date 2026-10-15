@@ -1,0 +1,4 @@
+# Google AdMob Authorized Digital Sellers (app-ads.txt)
+# Developer: rawatriya7514-lab
+# App: Artfiles (com.artraw.files)
+google.com, pub-7925407604309207, DIRECT, f08c47fec0942fa0

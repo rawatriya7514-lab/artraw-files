@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 
 /**
  * Production AdMob manager for Artfiles.
@@ -39,6 +40,14 @@ object AdMobManager {
                     Log.d(TAG, "AdMob is disabled in configuration.")
                     return
                 }
+                // AdMob Qualification & Policy Compliance: Declare COPPA & rating
+                val reqConfig = MobileAds.getRequestConfiguration().toBuilder()
+                    .setTagForChildDirectedTreatment(RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_FALSE)
+                    .setTagForUnderAgeOfConsent(RequestConfiguration.TAG_FOR_UNDER_AGE_OF_CONSENT_FALSE)
+                    .setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_G)
+                    .build()
+                MobileAds.setRequestConfiguration(reqConfig)
+
                 MobileAds.initialize(context.applicationContext) { status ->
                     Log.d(TAG, "MobileAds initialized: $status")
                 }
