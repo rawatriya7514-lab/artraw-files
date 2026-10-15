@@ -32,7 +32,8 @@ object ThumbnailLoader {
     }
 
     fun loadThumbnail(imageView: ImageView, item: FileItem, targetSize: Int = 180, defaultIconRes: Int) {
-        if (item.isDirectory || (item.category != FileCategory.IMAGES && item.category != FileCategory.VIDEOS)) {
+        val isSupported = !item.isDirectory && (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || item.isApk)
+        if (!isSupported) {
             imageView.tag = null
             imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
             imageView.setImageResource(defaultIconRes)
@@ -43,7 +44,7 @@ object ThumbnailLoader {
         val cached = memoryCache.get(path)
         if (cached != null) {
             imageView.tag = path
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            imageView.scaleType = if (item.isApk) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
             imageView.setImageBitmap(cached)
             return
         }
@@ -53,13 +54,15 @@ object ThumbnailLoader {
         imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
         imageView.setImageResource(defaultIconRes)
 
+        val appContext = imageView.context.applicationContext
         executor.execute {
             val bitmap = try {
-                if (item.category == FileCategory.IMAGES) {
-                    decodeSampledBitmap(item.file, targetSize, targetSize)
-                } else if (item.category == FileCategory.VIDEOS) {
-                    ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND)
-                } else null
+                when {
+                    item.category == FileCategory.IMAGES -> decodeSampledBitmap(item.file, targetSize, targetSize)
+                    item.category == FileCategory.VIDEOS -> ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.MINI_KIND)
+                    item.isApk -> decodeApkIcon(appContext, item.file)
+                    else -> null
+                }
             } catch (_: Throwable) {
                 null
             }
@@ -68,11 +71,35 @@ object ThumbnailLoader {
                 memoryCache.put(path, bitmap)
                 mainHandler.post {
                     if (imageView.tag == path) {
-                        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                        imageView.scaleType = if (item.isApk) ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_CROP
                         imageView.setImageBitmap(bitmap)
                     }
                 }
             }
+        }
+    }
+
+    private fun decodeApkIcon(context: android.content.Context, file: File): Bitmap? {
+        return try {
+            val pm = context.packageManager
+            val pkgInfo = pm.getPackageArchiveInfo(file.absolutePath, 0) ?: return null
+            val appInfo = pkgInfo.applicationInfo ?: return null
+            appInfo.sourceDir = file.absolutePath
+            appInfo.publicSourceDir = file.absolutePath
+            val iconDrawable = appInfo.loadIcon(pm) ?: return null
+            if (iconDrawable is android.graphics.drawable.BitmapDrawable && iconDrawable.bitmap != null) {
+                iconDrawable.bitmap
+            } else {
+                val w = if (iconDrawable.intrinsicWidth > 0) iconDrawable.intrinsicWidth else 96
+                val h = if (iconDrawable.intrinsicHeight > 0) iconDrawable.intrinsicHeight else 96
+                val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+                val canvas = android.graphics.Canvas(bmp)
+                iconDrawable.setBounds(0, 0, canvas.width, canvas.height)
+                iconDrawable.draw(canvas)
+                bmp
+            }
+        } catch (_: Throwable) {
+            null
         }
     }
 

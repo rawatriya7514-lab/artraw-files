@@ -211,4 +211,88 @@ object AdMobManager {
             return false
         }
     }
+
+    @Volatile
+    private var rewardedAd: com.google.android.gms.ads.rewarded.RewardedAd? = null
+    @Volatile
+    private var isRewardedLoading = false
+
+    fun loadRewardedAd(activity: Activity) {
+        val isAdMobEnabled = try {
+            activity.resources.getBoolean(R.bool.admob_enabled)
+        } catch (_: Throwable) {
+            true
+        }
+        if (!isAdMobEnabled || rewardedAd != null || isRewardedLoading) return
+
+        init(activity)
+
+        val rawId = try {
+            activity.getString(R.string.admob_rewarded_ad_unit_id)
+        } catch (_: Throwable) {
+            ""
+        }
+        val targetAdUnitId = AppSecurity.resolveRewardedAdUnitId(rawId)
+        if (targetAdUnitId.isEmpty()) return
+
+        isRewardedLoading = true
+        val adRequest = AdRequest.Builder().build()
+        com.google.android.gms.ads.rewarded.RewardedAd.load(
+            activity,
+            targetAdUnitId,
+            adRequest,
+            object : com.google.android.gms.ads.rewarded.RewardedAdLoadCallback() {
+                override fun onAdLoaded(ad: com.google.android.gms.ads.rewarded.RewardedAd) {
+                    rewardedAd = ad
+                    isRewardedLoading = false
+                    Log.i(TAG, "Rewarded ad loaded successfully! (Unit: $targetAdUnitId)")
+                }
+
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    rewardedAd = null
+                    isRewardedLoading = false
+                    Log.w(TAG, "Rewarded ad failed to load ($targetAdUnitId) [code ${loadAdError.code}]: ${loadAdError.message}")
+                    mainHandler.postDelayed({
+                        if (!activity.isFinishing && !activity.isDestroyed) {
+                            loadRewardedAd(activity)
+                        }
+                    }, 60000)
+                }
+            }
+        )
+    }
+
+    fun isRewardedAdReady(): Boolean = rewardedAd != null
+
+    fun showRewardedAd(
+        activity: Activity,
+        onRewardEarned: ((com.google.android.gms.ads.rewarded.RewardItem) -> Unit)? = null,
+        onDismissed: (() -> Unit)? = null
+    ): Boolean {
+        val ad = rewardedAd
+        if (ad != null) {
+            ad.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    rewardedAd = null
+                    loadRewardedAd(activity)
+                    onDismissed?.invoke()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
+                    rewardedAd = null
+                    loadRewardedAd(activity)
+                    onDismissed?.invoke()
+                }
+            }
+            ad.show(activity) { rewardItem ->
+                Log.i(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
+                onRewardEarned?.invoke(rewardItem)
+            }
+            return true
+        } else {
+            loadRewardedAd(activity)
+            onDismissed?.invoke()
+            return false
+        }
+    }
 }

@@ -141,6 +141,7 @@ class MainActivity : Activity() {
         val resolvedId = AppSecurity.resolveAdUnitId(rawId)
         loadBanner(resolvedId)
         AdMobManager.loadInterstitial(this)
+        AdMobManager.loadRewardedAd(this)
     }
 
     private fun loadBanner(adUnit: String) {

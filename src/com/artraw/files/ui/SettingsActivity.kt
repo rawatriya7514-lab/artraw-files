@@ -39,6 +39,7 @@ class SettingsActivity : Activity() {
     override fun onResume() {
         super.onResume()
         updatePermissionStatus()
+        com.artraw.files.ad.AdMobManager.loadRewardedAd(this)
     }
 
     private fun initViews() {
@@ -81,6 +82,30 @@ class SettingsActivity : Activity() {
 
         btnManagePermission.setOnClickListener {
             PermissionsHelper.requestStoragePermission(this)
+        }
+
+        findViewById<Button>(R.id.btnWatchRewardedAd)?.setOnClickListener {
+            val shown = com.artraw.files.ad.AdMobManager.showRewardedAd(
+                activity = this,
+                onRewardEarned = { reward ->
+                    android.widget.Toast.makeText(
+                        this,
+                        "Thank you for supporting Artfiles! You earned ${reward.amount} ${reward.type}",
+                        android.widget.Toast.LENGTH_LONG
+                    ).show()
+                },
+                onDismissed = {
+                    com.artraw.files.ad.AdMobManager.loadRewardedAd(this)
+                }
+            )
+            if (!shown) {
+                android.widget.Toast.makeText(
+                    this,
+                    "Loading video ad... Please try again in a moment.",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+                com.artraw.files.ad.AdMobManager.loadRewardedAd(this)
+            }
         }
     }
 

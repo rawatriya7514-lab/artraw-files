@@ -75,6 +75,13 @@ object AppSecurity {
     }
 
     /**
+     * Resolves the verified Rewarded Ad Unit ID at runtime.
+     */
+    fun resolveRewardedAdUnitId(fallbackId: String): String {
+        return resolveInterstitialAdUnitId(fallbackId)
+    }
+
+    /**
      * Verifies that the running application has not been altered, decompiled, or re-signed.
      */
     fun verifyIntegrity(context: Context): Boolean {

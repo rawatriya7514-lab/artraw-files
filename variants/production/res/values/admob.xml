@@ -6,6 +6,7 @@
     <integer name="google_play_services_version">12451000</integer>
     <string name="admob_app_id" translatable="false">ca-app-pub-7925407604309207~4393395283</string>
     <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/7795338269</string>
+    <string name="admob_rewarded_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/4693787341</string>
     <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/4693787341</string>
 
     <declare-styleable name="AdsAttrs">

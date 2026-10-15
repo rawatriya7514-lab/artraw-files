@@ -52,7 +52,7 @@ Artfiles incorporates commercial-grade anti-tamper and reverse-engineering prote
    - Two-phase detection: fast file size matching followed by cryptographic SHA-256 hash verification.
    - **Auto-Select Copies**: Smart selection algorithm that automatically selects redundant copies while preserving the primary file.
 8. **100% Guaranteed AdMob Revenue Integration**:
-   - Official Google AdMob App ID (`ca-app-pub-7925407604309207~4393395283`), Banner Unit ID (`ca-app-pub-7925407604309207/7795338269`), and Interstitial Unit ID (`ca-app-pub-7925407604309207/4693787341`).
+   - Official Google AdMob App ID (`ca-app-pub-7925407604309207~4393395283`), Banner Unit ID (`ca-app-pub-7925407604309207/7795338269`), and Rewarded Video / Interstitial Unit ID (`ca-app-pub-7925407604309207/4693787341`).
    - Zero test banners — strictly requests verified production ads with automated retry.
 
 ---

@@ -211,6 +211,43 @@
                     android:textSize="11sp" />
             </LinearLayout>
 
+            <!-- Support Developer & Rewarded Ad Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Support Artfiles"
+                    android:textColor="@color/artraw_crimson_accent"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Support our free, private file manager by watching a short rewarded video ad."
+                    android:textColor="@color/text_secondary_dark"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/btnWatchRewardedAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_button_primary"
+                    android:text="Watch Video Ad"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <!-- Privacy & About Card -->
             <LinearLayout
                 android:layout_width="match_parent"

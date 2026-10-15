@@ -10,6 +10,7 @@ class AdMobIntegrationTest {
     private val expectedAppId = "ca-app-pub-7925407604309207~4393395283"
     private val expectedAdUnitId = "ca-app-pub-7925407604309207/7795338269"
     private val expectedInterstitialId = "ca-app-pub-7925407604309207/4693787341"
+    private val expectedRewardedId = "ca-app-pub-7925407604309207/4693787341"
 
     @Test
     fun testAdMobAppIdConfiguration() {
@@ -19,6 +20,7 @@ class AdMobIntegrationTest {
         assertTrue("AdMob App ID must match configured value", content.contains(expectedAppId))
         assertTrue("AdMob Banner Ad Unit ID must match configured value", content.contains(expectedAdUnitId))
         assertTrue("AdMob Interstitial Ad Unit ID must match configured value", content.contains(expectedInterstitialId))
+        assertTrue("AdMob Rewarded Ad Unit ID must match configured value", content.contains(expectedRewardedId))
     }
 
     @Test
