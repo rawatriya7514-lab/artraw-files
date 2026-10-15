@@ -223,5 +223,39 @@
                 android:textColor="@color/text_secondary_dark"
                 android:textSize="13sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="18dp"
+            android:background="@color/border_dark" />
+
+        <LinearLayout
+            android:id="@+id/btnDialogActionCompress"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivDialogCompressIcon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_compress"
+                android:tint="@color/text_secondary_dark"
+                android:contentDescription="Archive" />
+
+            <TextView
+                android:id="@+id/tvDialogCompressText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="Compress"
+                android:textColor="@color/text_secondary_dark"
+                android:textSize="13sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

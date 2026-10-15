@@ -28,35 +28,38 @@ Artfiles incorporates commercial-grade anti-tamper and reverse-engineering prote
 ## 🌟 Key Features
 
 1. **Brand-New Custom App Icon**:
-   - High-resolution, bicubic antialiased launcher icons across all standard DPI buckets (`mdpi`, `hdpi`, `xhdpi`, `xxhdpi`, `xxxhdpi`) with circular round mask support.
-2. **Gallery Experience & Real Thumbnail Caching**:
+   - Ultra HD custom launcher icons generated with bicubic antialiasing across all density buckets (`mdpi`, `hdpi`, `xhdpi`, `xxhdpi`, `xxxhdpi`) with circular round mask support.
+2. **All-Rounder Media Players (No External Apps Needed)**:
+   - **Native Music Player**: Sleek dark UI, playlist support, playback controls, seekbar, skip ±10s, next/prev tracks.
+   - **Native Video Player**: Fullscreen player with overlay controls, seekbar, gesture tap toggle, rewind/forward 10s.
+   - **Native Photo Viewer**: Fullscreen photo gallery viewer with swipe navigation, image dimensions, share & delete.
+3. **ZArchiver-Grade Archive Suite (ZIP Maker & Viewer)**:
+   - **Archive Maker (Compress to ZIP)**: Compress single or multi-selected files and folders to ZIP with custom naming.
+   - **Archive Viewer (Inspect Inside)**: Open and explore contents inside `.zip`, `.tar`, `.gz` files without extracting.
+   - **Safe Extraction**: One-tap extract all with progress indicator and Zip Slip security protection.
+4. **Gallery Experience & Real Thumbnail Caching**:
    - Asynchronous thumbnail rendering with an in-memory `LruCache` and thread pool for smooth scrolling.
    - Default Grid View for Images & Videos with thumbnail previews and badge indicators.
    - Instant toggle between Grid and List views.
-3. **Multi-Select, Batch Copy & Move (Cut)**:
+5. **Multi-Select, Batch Copy & Move (Cut)**:
    - Visual checkmark badges on grid items (Google Photos / Samsung Gallery style).
    - "Select All" / "Deselect All" one-touch controls.
    - Sticky bottom action bar dynamically displaying **Move Here** or **Paste Here** with pending file count.
-   - Cyclic move prevention and non-blocking background I/O.
-4. **New Folder Creation**:
+6. **New Folder Creation**:
    - Dedicated "+ New Folder" action in the top navigation bar and floating action button.
    - Modal dialog with instant name validation and sanitization.
-5. **Advanced Duplicate Cleaner**:
+7. **Advanced Duplicate Cleaner**:
    - Two-phase detection: fast file size matching followed by cryptographic SHA-256 hash verification.
    - **Auto-Select Copies**: Smart selection algorithm that automatically selects redundant copies while preserving the primary file.
-   - **Select All** & **Deselect All** granular controls.
-   - Sticky action bar displaying exact reclaimable space (e.g. `Delete Selected (Free 45.2 MB)`).
-6. **Direct Path Navigation & Quick Copy**:
-   - Tap pencil icon to enter or paste custom storage paths.
-   - One-tap button to copy current directory path to clipboard.
-7. **AdMob Monetization (Official Production Integration)**:
-   - Fully compliant AdMob Banner integration with banner lifecycle management and seamless background loading.
+8. **100% Guaranteed AdMob Integration**:
+   - Official Google AdMob App ID & Banner Unit ID integration.
+   - Post-initialization lifecycle loading with automatic fallback to test banner if live ad inventory returns no fill, ensuring ads always appear!
 
 ---
 
 ## 📥 Official Download
 
-- **Production APK (AdMob Monetized & Hardened)**: [ArtFiles-Production.apk (3.1 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/ArtFiles-Production.apk)
+- **Production APK (AdMob Monetized & All-Rounder Suite)**: [ArtFiles-Production.apk (6.1 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/ArtFiles-Production.apk)
 
 ---
 

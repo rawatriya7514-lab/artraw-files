@@ -71,6 +71,27 @@
             android:label="@string/nav_settings" />
 
         <activity
+            android:name=".ui.AudioPlayerActivity"
+            android:exported="false"
+            android:label="Music Player" />
+
+        <activity
+            android:name=".ui.VideoPlayerActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
+            android:label="Video Player" />
+
+        <activity
+            android:name=".ui.ImageViewerActivity"
+            android:exported="false"
+            android:label="Photo Viewer" />
+
+        <activity
+            android:name=".ui.ArchiveViewerActivity"
+            android:exported="false"
+            android:label="Archive Viewer" />
+
+        <activity
             android:name=".ui.OnboardingActivity"
             android:exported="false"
             android:label="Get Started" />

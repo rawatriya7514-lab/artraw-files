@@ -190,6 +190,15 @@
                     android:contentDescription="Share" />
 
                 <ImageView
+                    android:id="@+id/btnActionCompress"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:padding="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_compress"
+                    android:contentDescription="Compress to ZIP" />
+
+                <ImageView
                     android:id="@+id/btnActionDelete"
                     android:layout_width="38dp"
                     android:layout_height="38dp"

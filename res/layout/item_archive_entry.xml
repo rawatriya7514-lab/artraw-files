@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/imgEntryIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_file" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvEntryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="file.txt"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="middle" />
+
+        <TextView
+            android:id="@+id/tvEntryDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="12.4 KB • Compressed 8.2 KB"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnExtractEntry"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_unarchive"
+        android:contentDescription="Extract" />
+</LinearLayout>

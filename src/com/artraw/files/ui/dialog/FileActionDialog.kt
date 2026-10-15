@@ -17,6 +17,7 @@ import com.artraw.files.model.FileItem
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.ui.BrowserActivity
 import com.artraw.files.util.Formatters
+import java.io.File
 
 object FileActionDialog {
 
@@ -102,6 +103,59 @@ object FileActionDialog {
         btnDetails.setOnClickListener {
             dialog.dismiss()
             FileViewerHelper.showFileDetails(activity, item)
+        }
+
+        // Action: COMPRESS or EXTRACT
+        val btnCompress = dialogView.findViewById<View>(R.id.btnDialogActionCompress)
+        val ivCompressIcon = dialogView.findViewById<ImageView>(R.id.ivDialogCompressIcon)
+        val tvCompressText = dialogView.findViewById<TextView>(R.id.tvDialogCompressText)
+
+        val isArchive = item.extension.lowercase() in listOf("zip", "tar", "gz", "tgz", "jar")
+        if (isArchive) {
+            ivCompressIcon?.setImageResource(R.drawable.ic_unarchive)
+            tvCompressText?.text = "Extract"
+        } else {
+            ivCompressIcon?.setImageResource(R.drawable.ic_compress)
+            tvCompressText?.text = "Compress"
+        }
+
+        btnCompress?.setOnClickListener {
+            dialog.dismiss()
+            if (isArchive) {
+                val intent = Intent(activity, com.artraw.files.ui.ArchiveViewerActivity::class.java).apply {
+                    putExtra(com.artraw.files.ui.ArchiveViewerActivity.EXTRA_FILE_PATH, item.file.absolutePath)
+                }
+                activity.startActivity(intent)
+            } else {
+                // Compress single file or folder to ZIP
+                val defaultZipName = "${item.file.nameWithoutExtension}.zip"
+                val destZip = File(item.file.parentFile, defaultZipName)
+                val progressDialog = android.app.ProgressDialog(activity).apply {
+                    setTitle("Compressing to ZIP")
+                    setMessage("Creating $defaultZipName...")
+                    setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL)
+                    max = 100
+                    setCancelable(false)
+                    show()
+                }
+
+                java.util.concurrent.Executors.newSingleThreadExecutor().execute {
+                    val ok = com.artraw.files.archive.ArchiveManager.compress(listOf(item.file), destZip) { pct, _ ->
+                        activity.runOnUiThread { progressDialog.progress = pct }
+                    }
+                    activity.runOnUiThread {
+                        progressDialog.dismiss()
+                        if (ok) {
+                            Toast.makeText(activity, "Created: $defaultZipName", Toast.LENGTH_LONG).show()
+                            if (activity is BrowserActivity) {
+                                activity.refreshCurrentDirectory()
+                            }
+                        } else {
+                            Toast.makeText(activity, "Compression failed.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
 
         btnClose.setOnClickListener {

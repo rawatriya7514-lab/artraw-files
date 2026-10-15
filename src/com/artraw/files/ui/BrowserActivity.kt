@@ -245,6 +245,13 @@ class BrowserActivity : Activity() {
             activeAdapter().clearSelection()
         }
 
+        findViewById<View>(R.id.btnActionCompress)?.setOnClickListener {
+            val selected = activeAdapter().getSelectedItems()
+            if (selected.isNotEmpty()) {
+                showCompressDialog(selected.map { it.file })
+            }
+        }
+
         findViewById<View>(R.id.btnActionDelete).setOnClickListener {
             confirmDelete(activeAdapter().getSelectedItems())
         }
@@ -724,6 +731,56 @@ class BrowserActivity : Activity() {
         } else {
             finish()
         }
+    }
+
+    fun refreshCurrentDirectory() {
+        loadDirectory(currentDirectory)
+    }
+
+    private fun showCompressDialog(files: List<File>) {
+        val input = android.widget.EditText(this).apply {
+            val defaultName = if (files.size == 1) "${files[0].nameWithoutExtension}.zip" else "Archive.zip"
+            setText(defaultName)
+            setSelection(defaultName.indexOf('.'))
+            setTextColor(getColor(R.color.text_primary_dark))
+            setHintTextColor(getColor(R.color.text_tertiary_dark))
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Compress to ZIP")
+            .setMessage("Enter archive name:")
+            .setView(input)
+            .setPositiveButton("Compress") { _, _ ->
+                val rawName = input.text.toString().trim()
+                val name = if (rawName.endsWith(".zip", ignoreCase = true)) rawName else "$rawName.zip"
+                val destZip = File(currentDirectory, name)
+                val progressDialog = android.app.ProgressDialog(this).apply {
+                    setTitle("Compressing to ZIP")
+                    setMessage("Creating $name...")
+                    setProgressStyle(android.app.ProgressDialog.STYLE_HORIZONTAL)
+                    max = 100
+                    setCancelable(false)
+                    show()
+                }
+
+                executor.execute {
+                    val ok = com.artraw.files.archive.ArchiveManager.compress(files, destZip) { pct, _ ->
+                        runOnUiThread { progressDialog.progress = pct }
+                    }
+                    runOnUiThread {
+                        progressDialog.dismiss()
+                        if (ok) {
+                            Toast.makeText(this@BrowserActivity, "Created: $name", Toast.LENGTH_LONG).show()
+                            activeAdapter().clearSelection()
+                            loadDirectory(currentDirectory)
+                        } else {
+                            Toast.makeText(this@BrowserActivity, "Compression failed.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+            .setNegativeButton(R.string.btn_cancel, null)
+            .show()
     }
 
     override fun onBackPressed() {

@@ -83,25 +83,15 @@ java -cp "build/classes:build/test-classes:$JUNIT_JAR:$HAMCREST_JAR:$KOTLIN_STDL
 # STEP 3: Generate DEX Bytecodes
 # (D8 for zero-crash runtime retention; R8 for Play Store minified bundle)
 # ------------------------------------------------------------------------------
-echo "[4/6] Generating DEX bytecodes (D8 & R8)..."
+# ------------------------------------------------------------------------------
+echo "[4/6] Generating DEX bytecodes (D8)..."
 
-# D8: Full runtime class retention
+# D8: Full runtime class retention (5.6 - 5.8 MB production size with full AdMob & player support)
 d8 $(find build/classes -name "*.class") \
    "$KOTLIN_STDLIB" \
    $(find "$ADMOB_LIBS_DIR" -name "*.jar") \
    --min-api 26 \
    --output build/dex_d8/
-
-# R8: Release minification with AdMob keep rules for production AAB
-r8 --release \
-   --min-api 26 \
-   --lib "$ANDROID_JAR" \
-   --pg-conf proguard-rules.pro \
-   --pg-map-output build/mapping.txt \
-   --output build/dex_r8/ \
-   $(find build/classes -name "*.class") \
-   "$KOTLIN_STDLIB" \
-   $(find "$ADMOB_LIBS_DIR" -name "*.jar")
 
 # ------------------------------------------------------------------------------
 # STEP 4: Build Artifact 1 — ArtFiles-Offline.apk
@@ -124,7 +114,7 @@ aapt2 link -I "$ANDROID_JAR" \
 python3 -c "
 import zipfile
 with zipfile.ZipFile('build/var_offline/base.apk', 'a') as apk:
-    apk.write('build/dex_r8/classes.dex', 'classes.dex')
+    apk.write('build/dex_d8/classes.dex', 'classes.dex')
 "
 
 apksigner sign --ks "$RELEASE_KEYSTORE" \
@@ -155,7 +145,7 @@ aapt2 link -I "$ANDROID_JAR" \
 python3 -c "
 import zipfile
 with zipfile.ZipFile('build/var_test/base.apk', 'a') as apk:
-    apk.write('build/dex_r8/classes.dex', 'classes.dex')
+    apk.write('build/dex_d8/classes.dex', 'classes.dex')
 "
 
 apksigner sign --ks "$RELEASE_KEYSTORE" \
@@ -186,7 +176,7 @@ aapt2 link -I "$ANDROID_JAR" \
 python3 -c "
 import zipfile
 with zipfile.ZipFile('build/var_prod/base.apk', 'a') as apk:
-    apk.write('build/dex_r8/classes.dex', 'classes.dex')
+    apk.write('build/dex_d8/classes.dex', 'classes.dex')
 "
 
 apksigner sign --ks "$RELEASE_KEYSTORE" \
