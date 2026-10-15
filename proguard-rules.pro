@@ -41,7 +41,39 @@
 -dontwarn kotlin.**
 -dontwarn javax.annotation.**
 
-# 6. Optimization & Shrinking settings
+# 6. Google Mobile Ads (AdMob) & Play Services Rules
+-dontwarn androidx.**
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn org.checkerframework.**
+-dontwarn com.google.android.apps.common.proguard.**
+-dontwarn com.google.android.gms.**
+-dontwarn android.support.**
+-dontwarn org.jspecify.nullness.**
+-dontwarn sun.misc.Unsafe
+-dontwarn libcore.io.Memory
+-dontwarn **.R$*
+-dontwarn android.security.NetworkSecurityPolicy
+-dontwarn android.app.Notification
+
+-keep class * implements com.google.android.gms.ads.mediation.MediationAdapter { public *; }
+-keep class * implements com.google.ads.mediation.MediationAdapter { public *; }
+-keep class * implements com.google.android.gms.ads.mediation.customevent.CustomEvent { public *; }
+-keep class * implements com.google.ads.mediation.customevent.CustomEvent { public *; }
+-keep class * extends com.google.android.gms.ads.mediation.MediationAdNetworkAdapter { public *; }
+-keep class * extends com.google.android.gms.ads.mediation.Adapter { public *; }
+-keep class com.google.android.gms.ads.internal.client.LiteSdkInfo { public *; }
+-keep class com.google.android.gms.ads.MobileAds { *; }
+-keep class com.google.android.gms.ads.AdView { *; }
+-keep class com.google.android.gms.ads.AdRequest { *; }
+-keep class com.google.android.gms.ads.AdSize { *; }
+-keep class com.google.android.gms.ads.AdListener { *; }
+-keep class com.google.android.gms.ads.LoadAdError { *; }
+-keep class com.google.android.gms.common.internal.safeparcel.SafeParcelable { public static final *** NULL; }
+-keep class com.google.android.gms.common.internal.ReflectedParcelable
+-keepnames class * implements com.google.android.gms.common.internal.ReflectedParcelable
+-keepclassmembers class * implements android.os.Parcelable { public static final *** CREATOR; }
+
+# 7. Optimization & Shrinking settings
 -repackageclasses
 -allowaccessmodification
 -mergeinterfacesaggressively

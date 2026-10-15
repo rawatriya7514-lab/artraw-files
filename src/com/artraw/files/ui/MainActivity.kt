@@ -18,6 +18,11 @@ import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
@@ -35,6 +40,8 @@ class MainActivity : Activity() {
     private lateinit var progressStorage: ProgressBar
     private lateinit var layoutRecentList: LinearLayout
     private lateinit var tvRecentEmpty: TextView
+    private lateinit var layoutAdContainer: View
+    private var adView: AdView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,18 +55,31 @@ class MainActivity : Activity() {
         }
 
         setContentView(R.layout.activity_main)
+        initViews()
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topHeaders = listOf(findViewById(R.id.headerMain)),
-            bottomScrollViews = listOf(findViewById(R.id.scrollMainContent))
+            bottomScrollViews = listOf(findViewById(R.id.scrollMainContent)),
+            bottomStickyViews = listOf(layoutAdContainer)
         )
-        initViews()
         setupListeners()
+        initAdMob()
     }
 
     override fun onResume() {
         super.onResume()
+        adView?.resume()
         checkPermissionsAndLoad()
+    }
+
+    override fun onPause() {
+        adView?.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        adView?.destroy()
+        super.onDestroy()
     }
 
     private fun initViews() {
@@ -72,6 +92,31 @@ class MainActivity : Activity() {
         progressStorage = findViewById(R.id.progressStorage)
         layoutRecentList = findViewById(R.id.layoutRecentList)
         tvRecentEmpty = findViewById(R.id.tvRecentEmpty)
+        layoutAdContainer = findViewById(R.id.layoutAdContainer)
+        adView = findViewById(R.id.adView)
+    }
+
+    private fun initAdMob() {
+        try {
+            MobileAds.initialize(this) {
+                // Mobile Ads SDK initialized
+            }
+            val ad = adView ?: return
+            val request = AdRequest.Builder().build()
+            ad.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    layoutAdContainer.visibility = View.VISIBLE
+                }
+
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    super.onAdFailedToLoad(loadAdError)
+                }
+            }
+            ad.loadAd(request)
+        } catch (_: Exception) {
+            // Graceful fallback if Google Play Services is unavailable
+        }
     }
 
     private fun setupListeners() {

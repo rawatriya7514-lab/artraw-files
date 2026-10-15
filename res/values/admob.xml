@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Google Play Services & AdMob SDK Configuration -->
+    <integer name="google_play_services_version">12451000</integer>
+
+    <!-- AdMob Production Identifiers -->
+    <string name="admob_app_id" translatable="false">ca-app-pub-9417083543459963~7636088996</string>
+    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-9417083543459963/1228883736</string>
+
+    <!-- AdMob XML Layout Attributes for AdView -->
+    <declare-styleable name="AdsAttrs">
+        <attr name="adSize" format="string" />
+        <attr name="adSizes" format="string" />
+        <attr name="adUnitId" format="string" />
+    </declare-styleable>
+
+    <!-- Translucent theme for Google Mobile Ads in-app browser/activity -->
+    <style name="Theme.IAPTheme" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

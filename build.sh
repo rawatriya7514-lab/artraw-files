@@ -17,6 +17,8 @@ KOTLIN_STDLIB="/data/data/com.termux/files/usr/opt/kotlin/lib/kotlin-stdlib.jar"
 BUNDLETOOL_JAR="/data/data/com.termux/files/home/android-sdk/libs/bundletool.jar"
 JUNIT_JAR="/data/data/com.termux/files/home/android-sdk/libs/junit-4.13.2.jar"
 HAMCREST_JAR="/data/data/com.termux/files/home/android-sdk/libs/hamcrest-core-1.3.jar"
+ADMOB_LIBS_DIR="/data/data/com.termux/files/home/android-sdk/libs/admob"
+ADMOB_CLASSPATH="$(find "$ADMOB_LIBS_DIR" -name "*.jar" | tr '\n' ':')"
 
 # Release Keystore Configuration
 RELEASE_KEYSTORE="${RELEASE_KEYSTORE:-$PROJECT_DIR/keystore/artraw-release.keystore}"
@@ -33,6 +35,7 @@ echo " Version Code:      1"
 echo " Target SDK:        API 35 (Android 15)"
 echo " Min SDK:           API 21 (Android 5.0)"
 echo " Keystore:          $RELEASE_KEYSTORE"
+echo " AdMob Banner ID:   ca-app-pub-9417083543459963/1228883736"
 echo "========================================================"
 
 mkdir -p build/gen build/compiled build/classes build/test-classes build/dex build/module
@@ -67,23 +70,24 @@ aapt2 link -I "$ANDROID_JAR" \
 
 # 4. Compile Kotlin Sources with kotlinc
 echo "[4/8] Compiling Kotlin application sources..."
-kotlinc -classpath "$ANDROID_JAR" \
+kotlinc -classpath "$ANDROID_JAR:$ADMOB_CLASSPATH" \
     -d build/classes \
     build/gen/com/artraw/files/R.java \
     $(find src -name "*.kt")
 
 # 5. Compile and Run Unit Tests
 echo "[5/8] Compiling and running unit tests..."
-kotlinc -classpath "$ANDROID_JAR:build/classes:$JUNIT_JAR:$HAMCREST_JAR" \
+kotlinc -classpath "$ANDROID_JAR:build/classes:$JUNIT_JAR:$HAMCREST_JAR:$ADMOB_CLASSPATH" \
     -d build/test-classes \
     $(find test -name "*.kt")
 
-java -cp "build/classes:build/test-classes:$JUNIT_JAR:$HAMCREST_JAR:$KOTLIN_STDLIB" \
+java -cp "build/classes:build/test-classes:$JUNIT_JAR:$HAMCREST_JAR:$KOTLIN_STDLIB:$ADMOB_CLASSPATH" \
     org.junit.runner.JUnitCore \
     com.artraw.files.FileClassificationTest \
     com.artraw.files.PathValidationTest \
     com.artraw.files.ConflictResolutionTest \
-    com.artraw.files.SortingRulesTest
+    com.artraw.files.SortingRulesTest \
+    com.artraw.files.AdMobIntegrationTest
 
 # 6. R8 Code Shrinking, Minification & Optimization
 echo "[6/8] Executing R8 release code shrinking & optimization..."
@@ -94,7 +98,8 @@ r8 --release \
    --pg-map-output build/mapping.txt \
    --output build/dex/ \
    $(find build/classes -name "*.class") \
-   "$KOTLIN_STDLIB"
+   "$KOTLIN_STDLIB" \
+   $(find "$ADMOB_LIBS_DIR" -name "*.jar")
 
 # 7. Package and Sign Release APK (Universal)
 echo "[7/8] Packaging and signing Release APK..."

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ad-services-config>
+    <!-- Privacy Sandbox Attribution API -->
+    <attribution allowAllToAccess="true" />
+    <!-- Privacy Sandbox Topics API -->
+    <topics allowAllToAccess="true" />
+</ad-services-config>
