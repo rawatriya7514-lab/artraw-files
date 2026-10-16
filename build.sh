@@ -51,8 +51,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/production/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 2 \
-    --version-name "1.1.0" \
+    --version-code 3 \
+    --version-name "1.2.0" \
     --java build/gen \
     -o build/temp_base.apk \
     build/base_res.zip
@@ -107,8 +107,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/offline/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 2 \
-    --version-name "1.1.0" \
+    --version-code 3 \
+    --version-name "1.2.0" \
     -o build/var_offline/base.apk \
     build/var_offline/resources.zip
 
@@ -138,8 +138,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/test/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 2 \
-    --version-name "1.1.0" \
+    --version-code 3 \
+    --version-name "1.2.0" \
     -o build/var_test/base.apk \
     build/var_test/resources.zip
 
@@ -169,8 +169,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest variants/production/AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 2 \
-    --version-name "1.1.0" \
+    --version-code 3 \
+    --version-name "1.2.0" \
     -o build/var_prod/base.apk \
     build/var_prod/resources.zip
 

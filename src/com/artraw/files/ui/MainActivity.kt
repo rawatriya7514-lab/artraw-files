@@ -58,12 +58,6 @@ class MainActivity : Activity() {
             Log.w("ARTRAW_SECURITY", "Non-standard environment detected; continuing in safe mode.")
         }
 
-        if (!settingsManager.isOnboardingCompleted && !PermissionsHelper.hasStoragePermission(this)) {
-            startActivity(Intent(this, OnboardingActivity::class.java))
-            finish()
-            return
-        }
-
         setContentView(R.layout.activity_main)
         initViews()
         EdgeToEdgeHelper.applyEdgeToEdge(
@@ -75,6 +69,9 @@ class MainActivity : Activity() {
         setupListeners()
         initAdMob()
         setupBottomNavigation()
+
+        // Check storage permission on app launch
+        checkPermissionsAndLoad()
 
         // Check for app updates on startup
         UpdateChecker.checkForUpdates(this)
