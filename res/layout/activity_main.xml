@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/md_theme_background">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top App Bar with Edge-to-Edge Safe Padding -->
     <LinearLayout
@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/md_theme_surface"
+        android:background="@color/aurora_background_surface"
         android:paddingTop="48dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/headerContentMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,21 +22,21 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true">
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:src="@drawable/ic_launcher"
-                    android:contentDescription="Artfiles Logo" />
+                    android:contentDescription="ArtFiles Logo" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"
-                            android:textColor="@color/md_theme_onSurface"
+                            android:textColor="@color/aurora_text_primary"
                             android:textSize="20sp"
                             android:fontFamily="sans-serif-medium"
                             android:textStyle="bold" />
@@ -64,14 +64,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:background="@drawable/bg_badge"
+                            android:background="@drawable/bg_aurora_category_badge"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
-                            android:text="PRO"
-                            android:textColor="@color/md_theme_primary"
-                            android:textSize="10sp"
+                            android:text="PREMIUM"
+                            android:textColor="@color/aurora_glow_teal"
+                            android:textSize="9sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -79,22 +79,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Storage &amp; All-Rounder Media Studio"
-                        android:textColor="@color/md_theme_onSurfaceVariant"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="11sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/btnSettings"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:padding="9dp"
-                android:background="@drawable/bg_quick_tool"
+                android:background="@drawable/ripple_aurora"
                 android:contentDescription="@string/nav_settings"
-                android:src="@drawable/ic_settings" />
-        </RelativeLayout>
+                android:src="@drawable/ic_settings"
+                android:tint="@color/aurora_text_secondary" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Scrollable Content -->
@@ -112,42 +116,43 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Permission Banner (Shown only when permission missing) -->
+            <!-- Permission Banner -->
             <LinearLayout
                 android:id="@+id/layoutPermissionBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_aurora_glow_card"
+                android:padding="20dp"
+                android:layout_marginBottom="20dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/perm_title"
-                    android:textColor="@color/md_theme_primary"
-                    android:textSize="16sp"
+                    android:textColor="@color/aurora_glow_teal"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/perm_desc"
-                    android:textColor="@color/md_theme_onSurfaceVariant"
-                    android:textSize="13sp" />
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/btnGrantPermission"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_button_primary"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_aurora_glow_button"
                     android:text="@string/perm_btn_grant"
-                    android:textColor="@android:color/white"
-                    android:textSize="13sp" />
+                    android:textColor="@color/aurora_on_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <!-- Storage Overview Card -->
@@ -156,9 +161,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_storage_card"
-                android:padding="18dp"
-                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_aurora_glow_card"
+                android:padding="22dp"
+                android:layout_marginBottom="20dp"
                 android:clickable="true"
                 android:focusable="true">
 
@@ -177,11 +182,12 @@
 
                         <ImageView
                             android:id="@+id/iconStorage"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:background="@drawable/bg_badge"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_storage" />
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_aurora_category_card"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_storage"
+                            android:tint="@color/aurora_glow_teal" />
 
                         <TextView
                             android:id="@+id/tvStorageTitle"
@@ -189,7 +195,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:text="@string/storage_internal"
-                            android:textColor="@color/md_theme_onSurface"
+                            android:textColor="@color/aurora_text_primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -200,13 +206,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
                         android:text="0%"
-                        android:textColor="@color/md_theme_primary"
+                        android:textColor="@color/aurora_glow_teal"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -216,11 +222,12 @@
                     android:id="@+id/progressStorage"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="6dp"
                     android:layout_marginTop="14dp"
-                    android:progressDrawable="@drawable/bg_progress_storage"
+                    android:progressDrawable="@drawable/divider_aurora"
                     android:max="100"
-                    android:progress="0" />
+                    android:progress="0"
+                    android:indeterminateTint="@color/aurora_glow_teal" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -233,7 +240,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="Calculating storage…"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="13sp" />
 
                     <TextView
@@ -242,7 +249,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="--"
-                        android:textColor="@color/md_theme_onSurfaceVariant"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="13sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -253,9 +260,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_aurora_glow_card"
+                android:padding="20dp"
+                android:layout_marginBottom="20dp"
                 android:clickable="true"
                 android:focusable="true">
 
@@ -274,9 +281,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="⚡ CPU-Z &amp; Hardware Monitor"
-                            android:textColor="@color/md_theme_primary"
-                            android:textSize="14sp"
+                            android:text="⚡ Device Monitor"
+                            android:textColor="@color/aurora_glow_violet"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -286,13 +293,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
                         android:text="🔥 Live Stats"
-                        android:textColor="@color/status_success"
+                        android:textColor="@color/aurora_success"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -309,7 +316,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:background="@drawable/bg_quick_tool"
+                        android:background="@drawable/bg_aurora_card"
                         android:padding="8dp"
                         android:layout_marginEnd="6dp">
 
@@ -317,7 +324,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="CPU Status"
-                            android:textColor="@color/md_theme_onSurfaceVariant"
+                            android:textColor="@color/aurora_text_secondary"
                             android:textSize="10sp" />
 
                         <TextView
@@ -326,7 +333,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="8 Cores Live"
-                            android:textColor="@color/md_theme_onSurface"
+                            android:textColor="@color/aurora_text_primary"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -336,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:background="@drawable/bg_quick_tool"
+                        android:background="@drawable/bg_aurora_card"
                         android:padding="8dp"
                         android:layout_marginStart="6dp">
 
@@ -344,7 +351,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="App Screen Time"
-                            android:textColor="@color/md_theme_onSurfaceVariant"
+                            android:textColor="@color/aurora_text_secondary"
                             android:textSize="10sp" />
 
                         <TextView
@@ -353,14 +360,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="App Timeline →"
-                            android:textColor="@color/md_theme_primary"
+                            android:textColor="@color/aurora_glow_teal"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Quick Action Filter Chips -->
+            <!-- Quick Action Chips -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -376,12 +383,12 @@
                         android:id="@+id/chipDeviceMonitor"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="CPU-Z Monitor"
-                        android:textColor="@color/md_theme_primary"
+                        android:text="Device Monitor"
+                        android:textColor="@color/aurora_glow_violet"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -390,12 +397,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:layout_marginStart="8dp"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_browse_all"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
@@ -404,39 +411,42 @@
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:layout_marginStart="8dp"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_recent"
-                        android:textColor="@color/md_theme_onSurface"
-                        android:textSize="13sp" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/chipLargeFiles"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:layout_marginStart="8dp"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_large_files"
-                        android:textColor="@color/md_theme_onSurface"
-                        android:textSize="13sp" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/chipDuplicates"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:layout_marginStart="8dp"
-                        android:background="@drawable/bg_badge"
+                        android:background="@drawable/bg_aurora_category_badge"
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:text="@string/action_duplicates"
-                        android:textColor="@color/md_theme_onSurface"
-                        android:textSize="13sp" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -445,7 +455,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Categories"
-                android:textColor="@color/md_theme_onSurface"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp" />
@@ -457,28 +467,28 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="10dp">
 
-                <!-- Images -->
                 <LinearLayout
                     android:id="@+id/catImages"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_images">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_image" />
+                            android:src="@drawable/ic_image"
+                            android:tint="@color/aurora_glow_teal" />
                     </FrameLayout>
 
                     <TextView
@@ -486,34 +496,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_images"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Videos -->
                 <LinearLayout
                     android:id="@+id/catVideos"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_videos">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_video" />
+                            android:src="@drawable/ic_video"
+                            android:tint="@color/aurora_glow_violet" />
                     </FrameLayout>
 
                     <TextView
@@ -521,34 +531,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_videos"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Audio -->
                 <LinearLayout
                     android:id="@+id/catAudio"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_audio">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_audio" />
+                            android:src="@drawable/ic_audio"
+                            android:tint="@color/aurora_glow_blue" />
                     </FrameLayout>
 
                     <TextView
@@ -556,34 +566,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_audio"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Documents -->
                 <LinearLayout
                     android:id="@+id/catDocuments"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_documents">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_document" />
+                            android:src="@drawable/ic_document"
+                            android:tint="@color/aurora_glow_cyan" />
                     </FrameLayout>
 
                     <TextView
@@ -591,7 +601,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_documents"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -604,28 +614,28 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="18dp">
 
-                <!-- Downloads -->
                 <LinearLayout
                     android:id="@+id/catDownloads"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_downloads">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_storage" />
+                            android:src="@drawable/ic_storage"
+                            android:tint="@color/aurora_glow_blue" />
                     </FrameLayout>
 
                     <TextView
@@ -633,34 +643,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_downloads"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Archives -->
                 <LinearLayout
                     android:id="@+id/catArchives"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_archives">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_archive" />
+                            android:src="@drawable/ic_archive"
+                            android:tint="@color/aurora_glow_violet" />
                     </FrameLayout>
 
                     <TextView
@@ -668,34 +678,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_archives"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- APKs -->
                 <LinearLayout
                     android:id="@+id/catApks"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_apks">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_apk" />
+                            android:src="@drawable/ic_apk"
+                            android:tint="@color/aurora_success" />
                     </FrameLayout>
 
                     <TextView
@@ -703,34 +713,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_apks"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Other -->
                 <LinearLayout
                     android:id="@+id/catOther"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_category_card"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true">
 
                     <FrameLayout
-                        android:layout_width="38dp"
-                        android:layout_height="38dp"
-                        android:background="@drawable/bg_cat_badge_other">
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_aurora_category_badge">
 
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_file" />
+                            android:src="@drawable/ic_file"
+                            android:tint="@color/aurora_text_secondary" />
                     </FrameLayout>
 
                     <TextView
@@ -738,7 +748,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_other"
-                        android:textColor="@color/md_theme_onSurface"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -754,7 +764,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/action_recent"
-                    android:textColor="@color/md_theme_onSurface"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_alignParentStart="true"
@@ -767,7 +777,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="View All"
-                    android:textColor="@color/md_theme_primary"
+                    android:textColor="@color/aurora_glow_teal"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:padding="6dp" />
@@ -779,7 +789,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_aurora_card"
                 android:padding="8dp">
 
                 <TextView
@@ -789,7 +799,7 @@
                     android:gravity="center"
                     android:padding="20dp"
                     android:text="@string/state_loading"
-                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -799,130 +809,117 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/md_theme_outlineVariant" />
+        android:background="@color/aurora_divider" />
 
-    <!-- Material 3 Bottom Navigation Bar -->
-    <android.widget.LinearLayout
+    <!-- Aurora Bottom Navigation Bar -->
+    <LinearLayout
         android:id="@+id/bottomNavigationMain"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@color/md_theme_surface"
+        android:background="@color/aurora_background_surface"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:elevation="4dp">
+        android:gravity="center">
 
-        <!-- Home -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
-                android:tint="@color/md_theme_primary"
+                android:tint="@color/aurora_glow_teal"
                 android:contentDescription="Home" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_home"
-                android:textColor="@color/md_theme_primary"
+                android:textColor="@color/aurora_glow_teal"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
+        </LinearLayout>
 
-        <!-- Browse -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavBrowse"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_folder"
-                android:tint="@color/md_theme_onSurfaceVariant"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Browse" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavBrowse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_browse"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
+        </LinearLayout>
 
-        <!-- Analysis -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavAnalysis"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
-                android:tint="@color/md_theme_onSurfaceVariant"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Analysis" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavAnalysis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_analysis"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
+        </LinearLayout>
 
-        <!-- Settings -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavSettings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_settings"
-                android:tint="@color/md_theme_onSurfaceVariant"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Settings" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_settings"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
-    </android.widget.LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- Bottom AdMob Banner Container -->
     <FrameLayout
@@ -930,7 +927,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:minHeight="50dp"
-        android:background="@color/md_theme_surface"
+        android:background="@color/aurora_background_surface"
         android:gravity="center"
         android:visibility="visible">
 
@@ -939,7 +936,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Sponsored"
-            android:textColor="@color/md_theme_onSurfaceVariant"
+            android:textColor="@color/aurora_text_tertiary"
             android:textSize="10sp"
             android:letterSpacing="0.08" />
     </FrameLayout>

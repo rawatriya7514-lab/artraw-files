@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Subtle Aurora Glow Behind Card -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:startColor="#2A4ECDC4"
+                android:centerColor="#1A4ECDC4"
+                android:endColor="#00000000"
+                android:gradientRadius="120dp" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <!-- Main Card Surface -->
+    <item android:left="4dp" android:top="4dp" android:right="4dp" android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/aurora_background_surface" />
+            <corners android:radius="20dp" />
+            <stroke
+                android:width="0.5dp"
+                android:color="@color/aurora_outline" />
+        </shape>
+    </item>
+</layer-list>

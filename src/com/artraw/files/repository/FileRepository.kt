@@ -1,9 +1,11 @@
 package com.artraw.files.repository
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.os.StatFs
+import com.artraw.files.model.AppStorageInfo
 import com.artraw.files.model.FileCategory
 import com.artraw.files.model.FileItem
 import com.artraw.files.model.SortOption
@@ -272,5 +274,109 @@ class FileRepository(private val context: Context) {
             apkLabel = label,
             isEncrypted = isEncrypted
         )
+    }
+
+    /**
+     * Get installed apps with their storage usage (code + data + cache).
+     * Requires PACKAGE_USAGE_STATS or queries PackageManager directly.
+     */
+    fun getInstalledAppsWithStorage(): List<AppStorageInfo> {
+        val pm = context.packageManager
+        val apps = mutableListOf<AppStorageInfo>()
+        val packages = pm.getInstalledApplications(PackageManager.GET_META_DATA)
+
+        for (appInfo in packages) {
+            try {
+                val pkgName = appInfo.packageName
+
+                // Skip system apps if they have no label or are framework
+                val appLabel = appInfo.loadLabel(pm)?.toString() ?: pkgName
+
+                // Get package info for version
+                var versionName = ""
+                var versionCode = 0
+                try {
+                    val pkgInfo = pm.getPackageInfo(pkgName, 0)
+                    versionName = pkgInfo.versionName ?: ""
+                    versionCode = pkgInfo.versionCode
+                } catch (e: Exception) {}
+
+                // Get code size (APK size)
+                var codeSize: Long = 0L
+                var dataSize: Long = 0L
+                var cacheSize: Long = 0L
+
+                try {
+                    val appFile = File(appInfo.sourceDir)
+                    if (appFile.exists()) {
+                        codeSize = appFile.length()
+                    }
+                } catch (e: Exception) {}
+
+                try {
+                    val dataDir = appInfo.dataDir
+                    if (dataDir != null) {
+                        val dataFile = File(dataDir)
+                        if (dataFile.exists()) {
+                            dataSize = dirSize(dataFile)
+                        }
+                    }
+                } catch (e: Exception) {}
+
+                try {
+                    // Construct cache/data dir paths manually since ApplicationInfo.cacheDir may not be available
+                    val pkgName = appInfo.packageName
+                    val dataRoot = File("/data/data/$pkgName")
+                    if (dataRoot.exists()) {
+                        val cacheDir = File(dataRoot, "cache")
+                        if (cacheDir.exists()) {
+                            cacheSize = dirSize(cacheDir)
+                        }
+                    }
+                } catch (e: Exception) {}
+
+                val totalSize = codeSize + dataSize + cacheSize
+
+                // Get icon resource id
+                var iconRes: Int = 0
+                try {
+                    iconRes = appInfo.icon
+                } catch (e: Exception) {}
+
+                apps.add(AppStorageInfo(
+                    packageName = pkgName,
+                    appName = appLabel,
+                    icon = iconRes,
+                    codeSize = codeSize,
+                    dataSize = dataSize,
+                    cacheSize = cacheSize,
+                    totalSize = totalSize,
+                    versionName = versionName,
+                    versionCode = versionCode
+                ))
+            } catch (e: Exception) {
+                // Skip apps that can't be read
+            }
+        }
+
+        // Sort by total size descending
+        apps.sortByDescending { it.totalSize }
+        return apps
+    }
+
+    /**
+     * Recursively calculate directory size.
+     */
+    private fun dirSize(dir: File): Long {
+        var size: Long = 0
+        val files = dir.listFiles() ?: return 0
+        for (file in files) {
+            if (file.isDirectory) {
+                size += dirSize(file)
+            } else {
+                size += file.length()
+            }
+        }
+        return size
     }
 }

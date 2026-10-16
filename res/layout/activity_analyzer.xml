@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top Bar with Dedicated Status Bar Spacer -->
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark">
+        android:background="@color/aurora_background_surface">
 
         <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
         <View
@@ -32,9 +32,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Back" />
+                android:contentDescription="Back"
+                android:tint="@color/aurora_text_primary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
                 android:text="@string/nav_analysis"
-                android:textColor="@color/text_primary_dark"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -54,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:background="@color/surface_elevated_dark">
+        android:background="@color/aurora_background_elevated">
 
         <TextView
             android:id="@+id/tabLargeFiles"
@@ -63,8 +64,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/action_large_files"
-            android:textColor="@color/artraw_crimson_accent"
-            android:textSize="14sp"
+            android:textColor="@color/aurora_glow_teal"
+            android:textSize="13sp"
             android:textStyle="bold"
             android:clickable="true"
             android:focusable="true" />
@@ -76,8 +77,20 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/action_duplicates"
-            android:textColor="@color/text_secondary_dark"
-            android:textSize="14sp"
+            android:textColor="@color/aurora_text_secondary"
+            android:textSize="13sp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/tabApps"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Apps"
+            android:textColor="@color/aurora_text_secondary"
+            android:textSize="13sp"
             android:clickable="true"
             android:focusable="true" />
     </LinearLayout>
@@ -98,7 +111,7 @@
                 android:id="@+id/listViewLargeFiles"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@color/border_dark"
+                android:divider="@color/aurora_divider"
                 android:dividerHeight="0.5dp"
                 android:clipToPadding="false" />
         </LinearLayout>
@@ -116,35 +129,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
-                android:padding="14dp"
-                android:layout_marginBottom="10dp">
+                android:background="@drawable/bg_aurora_card"
+                android:padding="16dp"
+                android:layout_marginBottom="14dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cryptographic Duplicate Cleaner"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:text="Scan your device to find identical duplicate files. Auto-select extra copies and free up storage instantly."
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/btnStartDuplicateScan"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_button_primary"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_aurora_glow_button"
                     android:text="Scan for Duplicates"
-                    android:textColor="@android:color/white"
-                    android:textSize="13sp" />
+                    android:textColor="@color/aurora_on_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
@@ -152,18 +166,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/artraw_crimson_accent"
+                android:textColor="@color/aurora_glow_teal"
                 android:textSize="13sp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:visibility="gone" />
 
-            <!-- Quick Selection Actions (Auto Select, Select All, Deselect) -->
+            <!-- Quick Selection Actions -->
             <LinearLayout
                 android:id="@+id/layoutDuplicateSelectionActions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:visibility="gone">
 
                 <Button
@@ -171,20 +185,21 @@
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_weight="1.2"
-                    android:background="@drawable/bg_button_primary"
+                    android:background="@drawable/bg_aurora_button_outlined"
                     android:text="Auto-Select Copies"
-                    android:textColor="@android:color/white"
-                    android:textSize="11sp" />
+                    android:textColor="@color/aurora_primary"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnSelectAllDuplicates"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    android:background="@drawable/bg_button_outlined"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_aurora_button_outlined"
                     android:text="Select All"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="11sp" />
 
                 <Button
@@ -192,10 +207,10 @@
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    android:background="@drawable/bg_button_outlined"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_aurora_button_outlined"
                     android:text="Deselect"
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -204,7 +219,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:divider="@color/border_dark"
+                android:divider="@color/aurora_divider"
                 android:dividerHeight="0.5dp"
                 android:clipToPadding="false" />
 
@@ -214,10 +229,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_aurora_card"
                 android:gravity="center_vertical"
-                android:padding="12dp"
-                android:layout_marginTop="8dp"
+                android:padding="14dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone">
 
                 <TextView
@@ -226,22 +241,48 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="0 duplicates selected"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnDeleteSelectedDuplicates"
                     android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:background="@drawable/bg_button_primary"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_aurora_button_primary"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
                     android:text="Delete Selected"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
+                    android:textColor="@color/aurora_on_primary"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
+        </LinearLayout>
+
+        <!-- Apps Storage Container -->
+        <LinearLayout
+            android:id="@+id/layoutAppsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Installed Apps Storage"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:padding="16dp" />
+
+            <ListView
+                android:id="@+id/listViewApps"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/aurora_divider"
+                android:dividerHeight="0.5dp"
+                android:clipToPadding="false" />
         </LinearLayout>
 
         <ProgressBar
@@ -250,7 +291,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTint="@color/artraw_crimson"
+            android:indeterminateTint="@color/aurora_glow_teal"
             android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>

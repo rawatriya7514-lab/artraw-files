@@ -131,6 +131,12 @@
             android:exported="false"
             android:label="Device &amp; App Monitor" />
 
+        <activity
+            android:name=".ui.ImageEditorActivity"
+            android:exported="false"
+            android:label="Photo Editor"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout" />
+
         <provider
             android:name=".preview.ArtrawFileProvider"
             android:authorities="com.artraw.files.fileprovider"

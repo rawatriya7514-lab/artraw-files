@@ -1,6 +1,7 @@
 package com.artraw.files.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -102,6 +103,14 @@ class ImageViewerActivity : Activity() {
                     category = com.artraw.files.model.FileCategory.IMAGES
                 )
                 FileViewerHelper.shareFiles(this, listOf(item))
+            }
+        }
+
+        findViewById<ImageView>(R.id.btnEditImage).setOnClickListener {
+            currentFile?.let { f ->
+                val intent = Intent(this, ImageEditorActivity::class.java)
+                intent.putExtra("image_path", f.absolutePath)
+                startActivity(intent)
             }
         }
 

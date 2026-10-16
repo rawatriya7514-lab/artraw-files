@@ -417,7 +417,11 @@ class MainActivity : Activity() {
                                     else -> R.drawable.ic_file
                                 }
                                 icon.setImageResource(iconRes)
-                                com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 96, defaultIconRes = iconRes)
+                                icon.setColorFilter(null)
+                                // Load thumbnail only for media files, otherwise keep category icon
+                                if (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || item.isApk) {
+                                    com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 96, defaultIconRes = iconRes)
+                                }
 
                                 row.setOnClickListener {
                                     com.artraw.files.ui.dialog.FileActionDialog.show(this, item)

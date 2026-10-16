@@ -1,28 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ====================================================================== -->
+    <!-- AURORA Premium Theme - Dark -->
+    <!-- ====================================================================== -->
     <style name="Theme.ArtrawFiles">
-        <item name="android:colorPrimary">@color/md_theme_primary</item>
-        <item name="android:colorPrimaryDark">@color/artraw_crimson_dark</item>
-        <item name="android:colorAccent">@color/artraw_crimson_accent</item>
-        <item name="android:windowBackground">@color/md_theme_background</item>
-        <item name="android:colorBackground">@color/md_theme_background</item>
+        <item name="android:colorPrimary">@color/aurora_primary</item>
+        <item name="android:colorPrimaryDark">@color/aurora_glow_teal</item>
+        <item name="android:colorAccent">@color/aurora_glow_cyan</item>
+        <item name="android:windowBackground">@color/aurora_background_deep</item>
+        <item name="android:colorBackground">@color/aurora_background_deep</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="Theme" parent="Theme.ArtrawFiles" />
-
+    <!-- Light Theme Variant -->
     <style name="Theme.ArtrawFiles.Light">
-        <item name="android:colorPrimary">@color/artraw_crimson</item>
-        <item name="android:colorPrimaryDark">@color/artraw_crimson_dark</item>
-        <item name="android:colorAccent">@color/artraw_crimson_accent</item>
-        <item name="android:windowBackground">@color/bg_light</item>
-        <item name="android:colorBackground">@color/bg_light</item>
+        <item name="android:colorPrimary">@color/aurora_glow_teal</item>
+        <item name="android:colorPrimaryDark">@color/aurora_glow_teal</item>
+        <item name="android:colorAccent">@color/aurora_glow_cyan</item>
+        <item name="android:windowBackground">@color/aurora_bg_light</item>
+        <item name="android:colorBackground">@color/aurora_bg_light</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme" parent="Theme.ArtrawFiles" />
+
+    <style name="Widget" />
+
+    <!-- Component Styles -->
+    <style name="Widget.ArtrawFiles">
+        <item name="android:background">@drawable/bg_aurora_card</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Card">
+        <item name="android:background">@drawable/bg_aurora_card</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Card.Elevated">
+        <item name="android:background">@drawable/bg_aurora_card_elevated</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Button">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Button.Primary" parent="Widget.ArtrawFiles.Button">
+        <item name="android:background">@drawable/bg_aurora_button_primary</item>
+        <item name="android:textColor">@color/aurora_on_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Button.Outlined" parent="Widget.ArtrawFiles.Button">
+        <item name="android:background">@drawable/bg_aurora_button_outlined</item>
+        <item name="android:textColor">@color/aurora_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_primary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Headline" parent="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_primary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Title" parent="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Body" parent="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_primary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Caption" parent="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Label" parent="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_tertiary</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Bottom Navigation Item -->
+    <style name="Widget.ArtrawFiles.BottomNavItem">
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
     </style>
 </resources>

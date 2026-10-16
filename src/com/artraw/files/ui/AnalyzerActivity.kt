@@ -10,6 +10,7 @@ import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.ProgressBar
@@ -18,6 +19,7 @@ import android.widget.Toast
 import com.artraw.files.R
 import com.artraw.files.analysis.DuplicateDetector
 import com.artraw.files.analysis.DuplicateGroup
+import com.artraw.files.model.AppStorageInfo
 import com.artraw.files.model.FileItem
 import com.artraw.files.repository.FileRepository
 import com.artraw.files.ui.adapter.FileListAdapter
@@ -51,6 +53,12 @@ class AnalyzerActivity : Activity() {
     private lateinit var tvDuplicateSelectedSummary: TextView
     private lateinit var btnDeleteSelectedDuplicates: Button
 
+    // App Storage Analysis
+    private lateinit var tabApps: TextView
+    private lateinit var layoutAppsView: LinearLayout
+    private lateinit var listViewApps: ListView
+    private var appsAdapter: AppStorageAdapter? = null
+
     private lateinit var largeFilesAdapter: FileListAdapter
     private var duplicateGroups: List<DuplicateGroup> = emptyList()
     private var duplicateAdapter: DuplicateAdapter? = null
@@ -74,6 +82,9 @@ class AnalyzerActivity : Activity() {
         val initialTab = intent.getStringExtra("tab") ?: "large"
         if (initialTab == "duplicates") {
             selectTab(isDuplicates = true)
+        } else if (initialTab == "apps") {
+            selectTab(isDuplicates = false, isApps = true)
+            loadApps()
         } else {
             selectTab(isDuplicates = false)
             loadLargeFiles()
@@ -83,8 +94,11 @@ class AnalyzerActivity : Activity() {
     private fun initViews() {
         tabLargeFiles = findViewById(R.id.tabLargeFiles)
         tabDuplicates = findViewById(R.id.tabDuplicates)
+        tabApps = findViewById(R.id.tabApps)
         layoutLargeFilesView = findViewById(R.id.layoutLargeFilesView)
         layoutDuplicatesView = findViewById(R.id.layoutDuplicatesView)
+        layoutAppsView = findViewById(R.id.layoutAppsView)
+        listViewApps = findViewById(R.id.listViewApps)
         listViewLargeFiles = findViewById(R.id.listViewLargeFiles)
         listViewDuplicates = findViewById(R.id.listViewDuplicates)
         btnStartDuplicateScan = findViewById(R.id.btnStartDuplicateScan)
@@ -101,6 +115,11 @@ class AnalyzerActivity : Activity() {
 
         findViewById<View>(R.id.btnAnalyzerBack).setOnClickListener {
             finish()
+        }
+
+        tabApps.setOnClickListener {
+            selectTab(isDuplicates = false, isApps = true)
+            loadApps()
         }
 
         largeFilesAdapter = FileListAdapter(this, emptyList(), isGrid = false) { }
@@ -143,17 +162,28 @@ class AnalyzerActivity : Activity() {
         }
     }
 
-    private fun selectTab(isDuplicates: Boolean) {
-        if (isDuplicates) {
-            tabDuplicates.setTextColor(Color.parseColor("#FF5252"))
-            tabLargeFiles.setTextColor(Color.parseColor("#9AA0A6"))
+    private fun selectTab(isDuplicates: Boolean, isApps: Boolean = false) {
+        if (isApps) {
+            tabApps.setTextColor(Color.parseColor("#4ECDC4"))
+            tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
+            tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
+            layoutAppsView.visibility = View.VISIBLE
+            layoutLargeFilesView.visibility = View.GONE
+            layoutDuplicatesView.visibility = View.GONE
+        } else if (isDuplicates) {
+            tabDuplicates.setTextColor(Color.parseColor("#8338EC"))
+            tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
+            tabApps.setTextColor(Color.parseColor("#9AA5B1"))
             layoutDuplicatesView.visibility = View.VISIBLE
             layoutLargeFilesView.visibility = View.GONE
+            layoutAppsView.visibility = View.GONE
         } else {
-            tabLargeFiles.setTextColor(Color.parseColor("#FF5252"))
-            tabDuplicates.setTextColor(Color.parseColor("#9AA0A6"))
+            tabLargeFiles.setTextColor(Color.parseColor("#4ECDC4"))
+            tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
+            tabApps.setTextColor(Color.parseColor("#9AA5B1"))
             layoutLargeFilesView.visibility = View.VISIBLE
             layoutDuplicatesView.visibility = View.GONE
+            layoutAppsView.visibility = View.GONE
         }
     }
 
@@ -164,6 +194,18 @@ class AnalyzerActivity : Activity() {
             runOnUiThread {
                 progressAnalyzer.visibility = View.GONE
                 largeFilesAdapter.updateData(largeFiles)
+            }
+        }
+    }
+
+    private fun loadApps() {
+        progressAnalyzer.visibility = View.VISIBLE
+        executor.execute {
+            val apps = repository.getInstalledAppsWithStorage()
+            runOnUiThread {
+                progressAnalyzer.visibility = View.GONE
+                appsAdapter = AppStorageAdapter(apps)
+                listViewApps.adapter = appsAdapter
             }
         }
     }
@@ -389,4 +431,108 @@ class AnalyzerActivity : Activity() {
             return view
         }
     }
+
+    // ========================================================================
+    // App Storage Adapter — Shows installed apps with storage usage
+    // ========================================================================
+    private inner class AppStorageAdapter(private val apps: List<AppStorageInfo>) : BaseAdapter() {
+
+        override fun getCount(): Int = apps.size
+        override fun getItem(position: Int): AppStorageInfo = apps[position]
+        override fun getItemId(position: Int): Long = position.toLong()
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val view: View
+            val holder: AppStorageViewHolder
+
+            if (convertView == null) {
+                view = LinearLayout(this@AnalyzerActivity).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    gravity = android.view.Gravity.CENTER_VERTICAL
+                    setPadding(16, 14, 16, 14)
+                    setBackgroundResource(R.drawable.bg_aurora_card)
+                    val params = AbsListView.LayoutParams(
+                        AbsListView.LayoutParams.MATCH_PARENT,
+                        AbsListView.LayoutParams.WRAP_CONTENT
+                    )
+                    layoutParams = params
+                }
+                val container = view as LinearLayout
+
+                val icon = ImageView(this@AnalyzerActivity).apply {
+                    layoutParams = LinearLayout.LayoutParams(48, 48)
+                    scaleType = ImageView.ScaleType.CENTER_INSIDE
+                }
+                container.addView(icon)
+
+                val info = LinearLayout(this@AnalyzerActivity).apply {
+                    orientation = LinearLayout.VERTICAL
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                        marginStart = 12
+                    }
+                }
+                container.addView(info)
+
+                val nameTv = TextView(this@AnalyzerActivity).apply {
+                    textSize = 15f
+                    setTextColor(Color.parseColor("#F0F4F8"))
+                    setSingleLine()
+                    ellipsize = android.text.TextUtils.TruncateAt.END
+                }
+                info.addView(nameTv)
+
+                val metaTv = TextView(this@AnalyzerActivity).apply {
+                    textSize = 12f
+                    setTextColor(Color.parseColor("#9AA5B1"))
+                    setSingleLine()
+                    ellipsize = android.text.TextUtils.TruncateAt.END
+                }
+                info.addView(metaTv)
+
+                val sizeTv = TextView(this@AnalyzerActivity).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    textSize = 14f
+                    setTextColor(Color.parseColor("#4ECDC4"))
+                    setTypeface(null, android.graphics.Typeface.BOLD)
+                }
+                container.addView(sizeTv)
+
+                holder = AppStorageViewHolder(icon = icon, nameTv = nameTv, metaTv = metaTv, sizeTv = sizeTv)
+                view.tag = holder
+            } else {
+                view = convertView
+                holder = view.tag as AppStorageViewHolder
+            }
+
+            val app = apps[position]
+
+            // Load app icon
+            try {
+                val drawable = this@AnalyzerActivity.packageManager.getApplicationIcon(app.packageName)
+                holder.icon.setImageDrawable(drawable)
+            } catch (e: Exception) {
+                holder.icon.setImageResource(R.drawable.ic_apk)
+            }
+
+            holder.nameTv.text = app.appName
+            holder.metaTv.text = "${app.packageName} • v${app.versionName}"
+            holder.sizeTv.text = app.formattedSize
+
+            return view
+        }
+
+    }
 }
+
+// ========================================================================
+// Standalone ViewHolder for AppStorageAdapter
+// ========================================================================
+class AppStorageViewHolder(
+    val icon: ImageView,
+    val nameTv: TextView,
+    val metaTv: TextView,
+    val sizeTv: TextView
+)

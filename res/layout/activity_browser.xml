@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/md_theme_background">
+    android:background="@color/aurora_background_deep">
 
-    <!-- Top Header Area with Status Bar Spacer -->
+    <!-- Top Header Area -->
     <LinearLayout
         android:id="@+id/layoutTopBrowser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/md_theme_surface">
+        android:background="@color/aurora_background_surface">
 
-        <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
+        <!-- Status Bar Spacer -->
         <View
             android:id="@+id/statusBarSpacerBrowser"
             android:layout_width="match_parent"
@@ -34,9 +34,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Back" />
+                android:contentDescription="Back"
+                android:tint="@color/aurora_text_primary" />
 
             <TextView
                 android:id="@+id/tvCurrentFolderName"
@@ -50,7 +51,7 @@
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:text="Storage"
-                android:textColor="@color/md_theme_onSurface"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
@@ -67,54 +68,59 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_search"
-                    android:contentDescription="Search" />
+                    android:contentDescription="Search"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnSort"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_sort"
-                    android:contentDescription="Sort" />
+                    android:contentDescription="Sort"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnViewToggle"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_grid"
-                    android:contentDescription="Toggle View" />
+                    android:contentDescription="Toggle View"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnNewFolder"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_new_folder"
-                    android:contentDescription="New Folder" />
+                    android:contentDescription="New Folder"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnRefresh"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_refresh"
-                    android:contentDescription="Refresh" />
+                    android:contentDescription="Refresh"
+                    android:tint="@color/aurora_text_secondary" />
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- Contextual Selection Toolbar (Top) -->
+        <!-- Contextual Selection Toolbar -->
         <RelativeLayout
             android:id="@+id/toolbarSelection"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/md_theme_surfaceVariant"
+            android:background="@color/aurora_background_elevated"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:visibility="gone">
@@ -126,9 +132,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:padding="8dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Close Selection" />
+                android:contentDescription="Close Selection"
+                android:tint="@color/aurora_text_primary" />
 
             <TextView
                 android:id="@+id/tvSelectionCount"
@@ -141,7 +148,7 @@
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:text="0 selected"
-                android:textColor="@color/md_theme_onSurface"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -158,73 +165,80 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
-                    android:contentDescription="Select All" />
+                    android:contentDescription="Select All"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionCopy"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
-                    android:contentDescription="Copy" />
+                    android:contentDescription="Copy"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionCut"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
-                    android:contentDescription="Cut" />
+                    android:contentDescription="Cut"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionShare"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
-                    android:contentDescription="Share" />
+                    android:contentDescription="Share"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionCompress"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_compress"
-                    android:contentDescription="Compress to ZIP" />
+                    android:contentDescription="Compress to ZIP"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionDelete"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_delete"
-                    android:contentDescription="Delete" />
+                    android:contentDescription="Delete"
+                    android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionMore"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="8dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_more"
-                    android:contentDescription="More" />
+                    android:contentDescription="More"
+                    android:tint="@color/aurora_text_secondary" />
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- Search Input Bar (Visible during search) -->
+        <!-- Search Input Bar -->
         <LinearLayout
             android:id="@+id/layoutSearchBar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"
-            android:background="@color/md_theme_surface"
+            android:background="@drawable/bg_aurora_search"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:gravity="center_vertical"
@@ -237,8 +251,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/search_hint"
-                android:textColor="@color/md_theme_onSurface"
-                android:textColorHint="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_primary"
+                android:textColorHint="@color/aurora_text_secondary"
                 android:textSize="14sp"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
@@ -249,17 +263,18 @@
                 android:layout_height="36dp"
                 android:padding="8dp"
                 android:src="@drawable/ic_more"
-                android:contentDescription="Clear" />
+                android:contentDescription="Clear"
+                android:tint="@color/aurora_text_secondary" />
         </LinearLayout>
 
-        <!-- PC-Style Address Bar (Windows Explorer / Desktop style) -->
+        <!-- PC-Style Address Bar -->
         <LinearLayout
             android:id="@+id/layoutPcAddressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@drawable/bg_address_bar"
+            android:background="@drawable/bg_aurora_card"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="2dp"
@@ -273,7 +288,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_folder"
-                android:tint="@color/artraw_crimson_accent"
+                android:tint="@color/aurora_glow_teal"
                 android:contentDescription="Path" />
 
             <TextView
@@ -284,31 +299,31 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="6dp"
                 android:text="/storage/emulated/0"
-                android:textColor="@color/md_theme_onSurface"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="12sp"
                 android:fontFamily="monospace"
                 android:singleLine="true"
                 android:ellipsize="start" />
 
-            <!-- Instant Copy Path Button right in the address bar -->
             <ImageView
                 android:id="@+id/btnCopyCurrentPath"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="6dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_copy"
-                android:contentDescription="Copy Current Path" />
+                android:contentDescription="Copy Current Path"
+                android:tint="@color/aurora_text_secondary" />
 
-            <!-- Direct Jump / Type Path Button right in the address bar -->
             <ImageView
                 android:id="@+id/btnTypePath"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="6dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_edit"
-                android:contentDescription="Type Path" />
+                android:contentDescription="Type Path"
+                android:tint="@color/aurora_text_secondary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -316,7 +331,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="38dp"
-        android:background="@color/md_theme_background"
+        android:background="@color/aurora_background_deep"
         android:paddingStart="8dp"
         android:paddingEnd="8dp">
 
@@ -339,15 +354,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/md_theme_outlineVariant" />
+        android:background="@color/aurora_divider" />
 
-    <!-- Sticky Paste Toolbar (Visible when clipboard active) -->
+    <!-- Sticky Paste Toolbar -->
     <RelativeLayout
         android:id="@+id/layoutPasteBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="52dp"
-        android:background="@color/md_theme_surfaceVariant"
+        android:background="@color/aurora_background_elevated"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:visibility="gone">
@@ -361,7 +376,7 @@
             android:layout_centerVertical="true"
             android:singleLine="true"
             android:text="2 files ready to paste"
-            android:textColor="@color/md_theme_onSurface"
+            android:textColor="@color/aurora_text_primary"
             android:textSize="13sp" />
 
         <LinearLayout
@@ -376,9 +391,9 @@
                 android:id="@+id/btnCancelPaste"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:background="@drawable/bg_button_outlined"
+                android:background="@drawable/bg_aurora_button_outlined"
                 android:text="@string/btn_cancel"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="12sp" />
 
             <Button
@@ -386,9 +401,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/bg_button_primary"
+                android:background="@drawable/bg_aurora_button_primary"
                 android:text="@string/action_paste"
-                android:textColor="@android:color/white"
+                android:textColor="@color/aurora_on_primary"
                 android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
@@ -403,7 +418,7 @@
             android:id="@+id/listViewFiles"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/md_theme_outlineVariant"
+            android:divider="@color/aurora_divider"
             android:dividerHeight="0.5dp"
             android:clipToPadding="false"
             android:fastScrollEnabled="true" />
@@ -431,19 +446,20 @@
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/ic_folder"
-                android:alpha="0.5" />
+                android:alpha="0.3"
+                android:tint="@color/aurora_text_secondary" />
 
             <TextView
                 android:id="@+id/tvEmptyMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/state_empty"
-                android:textColor="@color/md_theme_onSurfaceVariant"
-                android:textSize="14sp" />
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Floating New Folder Action Button -->
@@ -454,7 +470,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_button_primary"
+            android:background="@drawable/bg_aurora_button_primary"
             android:orientation="horizontal"
             android:gravity="center"
             android:paddingStart="16dp"
@@ -485,7 +501,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTint="@color/artraw_crimson"
+            android:indeterminateTint="@color/aurora_glow_teal"
             android:visibility="gone" />
     </FrameLayout>
 
@@ -493,130 +509,117 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/md_theme_outlineVariant" />
+        android:background="@color/aurora_divider" />
 
-    <!-- Material 3 Bottom Navigation Bar -->
-    <android.widget.LinearLayout
+    <!-- Aurora Bottom Navigation Bar -->
+    <LinearLayout
         android:id="@+id/bottomNavigationBrowser"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@color/md_theme_surface"
+        android:background="@color/aurora_background_surface"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:elevation="4dp">
+        android:gravity="center">
 
-        <!-- Home -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavHomeBrowser"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
-                android:tint="@color/md_theme_primary"
+                android:tint="@color/aurora_glow_teal"
                 android:contentDescription="Home" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavHomeBrowser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_home"
-                android:textColor="@color/md_theme_primary"
+                android:textColor="@color/aurora_glow_teal"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
+        </LinearLayout>
 
-        <!-- Browse -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavBrowseBrowser"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_folder"
-                android:tint="@color/md_theme_onSurfaceVariant"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Browse" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavBrowseBrowser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_browse"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
+        </LinearLayout>
 
-        <!-- Analysis -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavAnalysisBrowser"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
-                android:tint="@color/md_theme_onSurfaceVariant"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Analysis" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavAnalysisBrowser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_analysis"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
+        </LinearLayout>
 
-        <!-- Settings -->
-        <android.widget.LinearLayout
+        <LinearLayout
             android:id="@+id/btnNavSettingsBrowser"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:gravity="center">
 
-            <android.widget.ImageView
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_settings"
-                android:tint="@color/md_theme_onSurfaceVariant"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Settings" />
 
-            <android.widget.TextView
+            <TextView
                 android:id="@+id/tvNavSettingsBrowser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_settings"
-                android:textColor="@color/md_theme_onSurfaceVariant"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
-        </android.widget.LinearLayout>
-    </android.widget.LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- Bottom AdMob Banner Container -->
     <FrameLayout
@@ -624,7 +627,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:minHeight="50dp"
-        android:background="@color/md_theme_surface"
+        android:background="@color/aurora_background_surface"
         android:gravity="center"
         android:visibility="visible">
 
@@ -633,7 +636,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Sponsored"
-            android:textColor="@color/md_theme_onSurfaceVariant"
+            android:textColor="@color/aurora_text_tertiary"
             android:textSize="10sp"
             android:letterSpacing="0.08" />
     </FrameLayout>

@@ -96,6 +96,16 @@
     <string name="favorites_title">Favorites</string>
     <string name="favorites_empty">No favorite files yet</string>
 
+    <!-- Storage Analysis -->
+    <string name="apps_storage_title">Installed Apps Storage</string>
+    <string name="apps_storage_subtitle">See which apps take how much space</string>
+
+    <!-- Image Editor -->
+    <string name="editor_title">Photo Editor</string>
+    <string name="editor_save">Save</string>
+    <string name="editor_discard">Discard Changes?</string>
+    <string name="editor_discard_msg">Unsaved edits will be lost.</string>
+
     <!-- States -->
     <string name="state_empty">This folder is empty</string>
     <string name="state_loading">Scanning files…</string>
