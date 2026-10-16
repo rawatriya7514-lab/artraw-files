@@ -3,18 +3,25 @@ package com.artraw.files.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import com.artraw.files.R
 import com.artraw.files.ad.AdMobManager
 import com.artraw.files.model.FileCategory
+import com.artraw.files.model.FileItem
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
 import com.artraw.files.util.AppSecurity
@@ -77,98 +84,6 @@ class MainActivity : Activity() {
         UpdateChecker.checkForUpdates(this)
     }
 
-    private fun setupBottomNavigation() {
-        val navItems = listOf(
-            R.id.btnNavHome to R.id.tvNavHome,
-            R.id.btnNavBrowse to R.id.tvNavBrowse,
-            R.id.btnNavAnalysis to R.id.tvNavAnalysis,
-            R.id.btnNavSettings to R.id.tvNavSettings
-        )
-
-        fun setActive(index: Int) {
-            navItems.forEachIndexed { i, (btnId, tvId) ->
-                val isActive = i == index
-                findViewById<android.widget.LinearLayout>(btnId).let {
-                    for (childIndex in 0 until it.childCount) {
-                        val child = it.getChildAt(childIndex)
-                        if (child is android.widget.ImageView) {
-                            child.setImageTintList(
-                                android.content.res.ColorStateList.valueOf(
-                                    if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
-                                )
-                            )
-                        }
-                        if (child is android.widget.TextView) {
-                            child.setTextColor(
-                                if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
-                            )
-                        }
-                    }
-                }
-            }
-        }
-
-        setActive(0)
-
-        findViewById<android.widget.LinearLayout>(R.id.btnNavHome).setOnClickListener {
-            if (navItems.indexOfFirst { it.first == R.id.btnNavHome } != 0) setActive(0)
-        }
-
-        findViewById<android.widget.LinearLayout>(R.id.btnNavBrowse).setOnClickListener {
-            startActivity(Intent(this, BrowserActivity::class.java).apply {
-                putExtra("initial_path", repository.getPrimaryStorageRoot().absolutePath)
-            })
-        }
-
-        findViewById<android.widget.LinearLayout>(R.id.btnNavAnalysis).setOnClickListener {
-            startActivity(Intent(this, AnalyzerActivity::class.java))
-        }
-
-        findViewById<android.widget.LinearLayout>(R.id.btnNavSettings).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        try {
-            adView?.resume()
-        } catch (_: Throwable) {}
-        checkPermissionsAndLoad()
-        updateDeviceMonitorPreview()
-    }
-
-    private fun updateDeviceMonitorPreview() {
-        try {
-            val thermal = com.artraw.files.monitor.ThermalMonitorManager.getThermalSnapshot(this)
-            val cpu = com.artraw.files.monitor.DeviceHardwareHelper.getCpuSnapshot()
-            findViewById<android.widget.TextView>(R.id.tvMainLiveTempBadge)?.text = "🔥 ${String.format("%.1f", thermal.currentTempCelsius)}°C"
-            findViewById<android.widget.TextView>(R.id.tvMainCpuSummary)?.text = "${cpu.coreCount} Cores • ${cpu.governor}"
-            val hasUsage = com.artraw.files.monitor.AppUsageHelper.hasUsagePermission(this)
-            findViewById<android.widget.TextView>(R.id.tvMainUsageSummary)?.text = if (hasUsage) "Live Timeline →" else "Tap to Grant →"
-        } catch (_: Throwable) {}
-    }
-
-    override fun onPause() {
-        try {
-            adView?.pause()
-        } catch (_: Throwable) {}
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        try {
-            adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
-            adView?.destroy()
-        } catch (_: Throwable) {}
-        super.onDestroy()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        checkPermissionsAndLoad()
-    }
-
     private fun initViews() {
         layoutPermissionBanner = findViewById(R.id.layoutPermissionBanner)
         btnGrantPermission = findViewById(R.id.btnGrantPermission)
@@ -183,7 +98,7 @@ class MainActivity : Activity() {
     }
 
     private var isAdMobInitializing = false
-    private val adRetryHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val adRetryHandler = Handler(Looper.getMainLooper())
     private var adRetryRunnable: Runnable? = null
 
     private fun initAdMob() {
@@ -248,7 +163,6 @@ class MainActivity : Activity() {
                         super.onAdFailedToLoad(loadAdError)
                         Log.w("ARTRAW_ADMOB", "Production ad failed to load (Unit: $adUnit, Code ${loadAdError.code}): ${loadAdError.message}")
 
-                        // Strictly retry the production ad unit. NEVER display a test banner in production.
                         adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
                         adRetryRunnable = Runnable {
                             if (!isFinishing && !isDestroyed) {
@@ -283,7 +197,6 @@ class MainActivity : Activity() {
             openBrowser(repository.getPrimaryStorageRoot().absolutePath)
         }
 
-        // Quick action chips
         findViewById<View>(R.id.cardDeviceMonitor)?.setOnClickListener {
             startActivity(Intent(this, DeviceMonitorActivity::class.java))
         }
@@ -318,7 +231,6 @@ class MainActivity : Activity() {
             openCategory("recent")
         }
 
-        // Categories
         findViewById<View>(R.id.catImages).setOnClickListener { openCategory(FileCategory.IMAGES.id) }
         findViewById<View>(R.id.catVideos).setOnClickListener { openCategory(FileCategory.VIDEOS.id) }
         findViewById<View>(R.id.catAudio).setOnClickListener { openCategory(FileCategory.AUDIO.id) }
@@ -421,7 +333,6 @@ class MainActivity : Activity() {
                                 }
                                 icon.setImageResource(iconRes)
                                 icon.setColorFilter(null)
-                                // Load thumbnail only for media files, otherwise keep category icon
                                 if (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || item.isApk) {
                                     com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 96, defaultIconRes = iconRes)
                                 }
@@ -440,5 +351,97 @@ class MainActivity : Activity() {
                 Log.e("MainActivity", "Error fetching recent files", e)
             }
         }
+    }
+
+    private fun setupBottomNavigation() {
+        val navItems = listOf(
+            R.id.btnNavHome to R.id.tvNavHome,
+            R.id.btnNavBrowse to R.id.tvNavBrowse,
+            R.id.btnNavAnalysis to R.id.tvNavAnalysis,
+            R.id.btnNavSettings to R.id.tvNavSettings
+        )
+
+        fun setActive(index: Int) {
+            navItems.forEachIndexed { i, (btnId, tvId) ->
+                val isActive = i == index
+                findViewById<LinearLayout>(btnId).let {
+                    for (childIndex in 0 until it.childCount) {
+                        val child = it.getChildAt(childIndex)
+                        if (child is ImageView) {
+                            child.setImageTintList(
+                                android.content.res.ColorStateList.valueOf(
+                                    if (isActive) resources.getColor(R.color.aurora_primary, null) else resources.getColor(R.color.aurora_text_secondary, null)
+                                )
+                            )
+                        }
+                        if (child is TextView) {
+                            child.setTextColor(
+                                if (isActive) resources.getColor(R.color.aurora_primary, null) else resources.getColor(R.color.aurora_text_secondary, null)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        setActive(0)
+
+        findViewById<LinearLayout>(R.id.btnNavHome).setOnClickListener {
+            if (navItems.indexOfFirst { it.first == R.id.btnNavHome } != 0) setActive(0)
+        }
+
+        findViewById<LinearLayout>(R.id.btnNavBrowse).setOnClickListener {
+            startActivity(Intent(this, BrowserActivity::class.java).apply {
+                putExtra("initial_path", repository.getPrimaryStorageRoot().absolutePath)
+            })
+        }
+
+        findViewById<LinearLayout>(R.id.btnNavAnalysis).setOnClickListener {
+            startActivity(Intent(this, AnalyzerActivity::class.java))
+        }
+
+        findViewById<LinearLayout>(R.id.btnNavSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            adView?.resume()
+        } catch (_: Throwable) {}
+        checkPermissionsAndLoad()
+        updateDeviceMonitorPreview()
+    }
+
+    private fun updateDeviceMonitorPreview() {
+        try {
+            val thermal = com.artraw.files.monitor.ThermalMonitorManager.getThermalSnapshot(this)
+            val cpu = com.artraw.files.monitor.DeviceHardwareHelper.getCpuSnapshot()
+            findViewById<TextView>(R.id.tvMainLiveTempBadge)?.text = "${String.format("%.1f", thermal.currentTempCelsius)}°C"
+            findViewById<TextView>(R.id.tvMainCpuSummary)?.text = "${cpu.coreCount} Cores • ${cpu.governor}"
+            val hasUsage = com.artraw.files.monitor.AppUsageHelper.hasUsagePermission(this)
+            findViewById<TextView>(R.id.tvMainUsageSummary)?.text = if (hasUsage) "Live Timeline →" else "Tap to Grant →"
+        } catch (_: Throwable) {}
+    }
+
+    override fun onPause() {
+        try {
+            adView?.pause()
+        } catch (_: Throwable) {}
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        try {
+            adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
+            adView?.destroy()
+        } catch (_: Throwable) {}
+        super.onDestroy()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        checkPermissionsAndLoad()
     }
 }

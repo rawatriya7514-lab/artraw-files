@@ -14,7 +14,9 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.FrameLayout
 import com.artraw.files.R
+import com.artraw.files.ad.AdMobManager
 import com.artraw.files.model.FileCategory
 import com.artraw.files.model.FileItem
 import com.artraw.files.operations.ClipboardMode
@@ -23,6 +25,7 @@ import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.repository.FileRepository
 import com.artraw.files.ui.adapter.FileListAdapter
 import com.artraw.files.util.Formatters
+import com.google.android.gms.ads.AdView
 import java.util.concurrent.Executors
 
 class CategoryActivity : Activity() {
@@ -43,6 +46,8 @@ class CategoryActivity : Activity() {
     private lateinit var toolbarCatNormal: RelativeLayout
     private lateinit var toolbarCatSelection: RelativeLayout
     private lateinit var tvCatSelectionCount: TextView
+    private lateinit var adViewContainerCategory: FrameLayout
+    private var adViewCategory: AdView? = null
 
     private lateinit var listAdapter: FileListAdapter
     private lateinit var gridAdapter: FileListAdapter
@@ -61,8 +66,12 @@ class CategoryActivity : Activity() {
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topSpacers = listOf(findViewById(R.id.statusBarSpacerCategory)),
-            bottomScrollViews = listOf(findViewById(R.id.listViewCatFiles), findViewById(R.id.gridViewCatFiles))
+            bottomScrollViews = listOf(findViewById(R.id.listViewCatFiles), findViewById(R.id.gridViewCatFiles)),
+            bottomStickyViews = listOf(findViewById(R.id.adViewContainerCategory))
         )
+
+        adViewContainerCategory = findViewById(R.id.adViewContainerCategory)
+        adViewCategory = AdMobManager.loadBanner(this, adViewContainerCategory)
 
         val catId = intent.getStringExtra("category_id") ?: FileCategory.DOCUMENTS.id
         // Default to Gallery Grid view for Images and Videos
@@ -72,6 +81,27 @@ class CategoryActivity : Activity() {
         setupScaleDetector()
         setupListeners()
         setupCategory(catId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            adViewCategory?.resume()
+        } catch (_: Throwable) {}
+    }
+
+    override fun onPause() {
+        try {
+            adViewCategory?.pause()
+        } catch (_: Throwable) {}
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        try {
+            adViewCategory?.destroy()
+        } catch (_: Throwable) {}
+        super.onDestroy()
     }
 
     private fun setupScaleDetector() {

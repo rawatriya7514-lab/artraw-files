@@ -72,6 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="Storage &amp; All-Rounder Media Studio"
                     android:textColor="@color/aurora_text_secondary"
                     android:textSize="11sp"

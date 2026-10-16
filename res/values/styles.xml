@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- AURORA Premium Theme — Refined Dark -->
+    <!-- CLAY ART + POP ART Theme                                               -->
     <!-- ====================================================================== -->
     <style name="Theme.ArtrawFiles">
         <item name="android:colorPrimary">@color/aurora_primary</item>
-        <item name="android:colorPrimaryDark">@color/aurora_primary</item>
+        <item name="android:colorPrimaryDark">@color/aurora_crimson_dark</item>
         <item name="android:colorAccent">@color/aurora_secondary</item>
         <item name="android:windowBackground">@color/aurora_background_deep</item>
         <item name="android:colorBackground">@color/aurora_background_deep</item>
@@ -18,7 +18,7 @@
     <!-- Light Theme Variant -->
     <style name="Theme.ArtrawFiles.Light">
         <item name="android:colorPrimary">@color/aurora_primary</item>
-        <item name="android:colorPrimaryDark">@color/aurora_primary</item>
+        <item name="android:colorPrimaryDark">@color/aurora_crimson_dark</item>
         <item name="android:colorAccent">@color/aurora_secondary</item>
         <item name="android:windowBackground">@color/aurora_bg_light</item>
         <item name="android:colorBackground">@color/aurora_bg_light</item>
@@ -32,15 +32,14 @@
     <style name="Widget" />
 
     <!-- ====================================================================== -->
-    <!-- Typography Scale — Modular, Accessible -->
-    <!-- Base: 14sp | Line height: 1.25–1.50 for scaling with system font size -->
+    <!-- Typography Scale — Clay Art + Pop Art                                  -->
     <!-- ====================================================================== -->
 
     <style name="Widget.ArtrawFiles.Text.Display" parent="Widget.ArtrawFiles.Text">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:lineHeight">32sp</item>
-        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:letterSpacing">-0.02</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Text.Headline" parent="Widget.ArtrawFiles.Text.Display">
@@ -58,7 +57,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineHeight">21sp</item>
-        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Text.Caption" parent="Widget.ArtrawFiles.Text.Display">
@@ -74,7 +73,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:lineHeight">16sp</item>
-        <item name="android:letterSpacing">0.1</item>
+        <item name="android:letterSpacing">0.12</item>
     </style>
 
     <!-- Base text style -->
@@ -86,19 +85,34 @@
         <item name="android:lineHeight">21sp</item>
     </style>
 
+    <!-- Splash Screen Theme (Android SplashScreen API, API 31+) -->
+    <style name="Theme.ArtrawFiles.Splash" parent="Theme.ArtrawFiles">
+        <item name="android:windowBackground">@drawable/bg_splash_background</item>
+        <item name="android:windowSplashScreenBackground">@color/aurora_background_deep</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="android:windowSplashScreenAnimationDuration">2500</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/aurora_background_deep</item>
+        <item name="android:windowSplashScreenBrandingImage">@mipmap/ic_launcher_foreground</item>
+    </style>
+
     <!-- ====================================================================== -->
-    <!-- Component Styles -->
+    <!-- Component Styles — Clay Art Cards & Pop-Art Buttons                    -->
     <!-- ====================================================================== -->
     <style name="Widget.ArtrawFiles">
-        <item name="android:background">@drawable/bg_aurora_card</item>
+        <item name="android:background">@drawable/bg_clay_card</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Card">
-        <item name="android:background">@drawable/bg_aurora_card</item>
+        <item name="android:background">@drawable/bg_clay_card</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Card.Elevated">
-        <item name="android:background">@drawable/bg_aurora_card_elevated</item>
+        <item name="android:background">@drawable/bg_clay_card_elevated</item>
+    </style>
+
+    <!-- Clay-style selected state -->
+    <style name="Widget.ArtrawFiles.Card.Selected">
+        <item name="android:background">@drawable/bg_clay_card_selected</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Button">
@@ -111,7 +125,7 @@
     </style>
 
     <style name="Widget.ArtrawFiles.Button.Primary" parent="Widget.ArtrawFiles.Button">
-        <item name="android:background">@drawable/bg_aurora_button_primary</item>
+        <item name="android:background">@drawable/bg_clay_button_primary</item>
         <item name="android:textColor">@color/aurora_on_primary</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
@@ -122,8 +136,20 @@
     </style>
 
     <style name="Widget.ArtrawFiles.Button.Outlined" parent="Widget.ArtrawFiles.Button">
-        <item name="android:background">@drawable/bg_aurora_button_outlined</item>
-        <item name="android:textColor">@color/aurora_primary</item>
+        <item name="android:background">@drawable/bg_clay_button_outlined</item>
+        <item name="android:textColor">@color/aurora_text_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <!-- Pop-Art Accent Button (Electric Blue) -->
+    <style name="Widget.ArtrawFiles.Button.Accent" parent="Widget.ArtrawFiles.Button">
+        <item name="android:background">@drawable/bg_clay_button_accent</item>
+        <item name="android:textColor">@color/aurora_text_on_blue</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
         <item name="android:paddingStart">20dp</item>
@@ -146,4 +172,25 @@
         <item name="android:lineHeight">16sp</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+
+    <!-- Category Card (Clay Style) -->
+    <style name="Widget.ArtrawFiles.CategoryCard">
+        <item name="android:background">@drawable/bg_clay_category_card</item>
+    </style>
+
+    <!-- File Item (Clay Style) -->
+    <style name="Widget.ArtrawFiles.FileItem">
+        <item name="android:background">@drawable/bg_clay_file_item</item>
+    </style>
+
+    <!-- File Item Selected (Clay Style) -->
+    <style name="Widget.ArtrawFiles.FileItem.Selected">
+        <item name="android:background">@drawable/bg_clay_file_item_selected</item>
+    </style>
+
+    <!-- Dialog Background (Clay) -->
+    <style name="Widget.ArtrawFiles.Dialog">
+        <item name="android:background">@drawable/bg_clay_dialog</item>
+    </style>
+
 </resources>

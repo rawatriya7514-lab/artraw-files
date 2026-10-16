@@ -47,7 +47,7 @@
         <!-- Google Mobile Ads (AdMob) SDK Configuration -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7925407604309207~4393395283" />
+            android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -64,11 +64,12 @@
             android:resource="@xml/gma_ad_services_config" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:label="@string/app_name"
+            android:theme="@style/Theme.ArtrawFiles.Splash"
             android:windowSoftInputMode="adjustResize|adjustPan"
             android:configChanges="orientation|screenSize|smallestScreenSize|uiMode">
             <intent-filter>
@@ -76,6 +77,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ArtrawFiles"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.BrowserActivity"
