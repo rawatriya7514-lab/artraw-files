@@ -36,7 +36,7 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:src="@drawable/ic_launcher"
-                    android:contentDescription="ArtFiles Logo" />
+                    android:contentDescription="@string/content_photo" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -278,13 +278,29 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="⚡ Device Monitor"
-                            android:textColor="@color/aurora_secondary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginEnd="8dp">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/ic_monitor"
+                                android:tint="@color/aurora_secondary"
+                                android:contentDescription="@string/content_device_monitor" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Device Monitor"
+                                android:textColor="@color/aurora_secondary"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:layout_marginStart="6dp" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <TextView
@@ -297,11 +313,30 @@
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:text="🔥 Live Stats"
-                        android:textColor="@color/aurora_success"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:paddingBottom="2dp" />
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_heart_pulse"
+                                android:tint="@color/aurora_success"
+                                android:contentDescription="@string/content_live_stats" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Live Stats"
+                                android:textColor="@color/aurora_success"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:layout_marginStart="4dp" />
+                        </LinearLayout>
                 </RelativeLayout>
 
                 <!-- Hardware Quick Chips -->
@@ -833,7 +868,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
                 android:tint="@color/aurora_primary"
-                android:contentDescription="Home" />
+                android:contentDescription="@string/content_home" />
 
             <TextView
                 android:id="@+id/tvNavHome"
@@ -858,7 +893,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_folder"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Browse" />
+                android:contentDescription="@string/content_browse" />
 
             <TextView
                 android:id="@+id/tvNavBrowse"
@@ -883,7 +918,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Analysis" />
+                android:contentDescription="@string/content_analysis" />
 
             <TextView
                 android:id="@+id/tvNavAnalysis"
@@ -908,7 +943,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_settings"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Settings" />
+                android:contentDescription="@string/content_settings" />
 
             <TextView
                 android:id="@+id/tvNavSettings"

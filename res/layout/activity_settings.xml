@@ -34,7 +34,7 @@
                 android:padding="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Back" />
+                android:contentDescription="@string/content_back" />
 
             <TextView
                 android:layout_width="wrap_content"

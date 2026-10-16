@@ -61,7 +61,7 @@
             android:padding="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Close" />
+            android:contentDescription="@string/content_close_selection" />
     </RelativeLayout>
 
     <!-- PC Address / Full Path Box -->
@@ -82,7 +82,7 @@
             android:layout_height="16dp"
             android:src="@drawable/ic_folder"
             android:tint="@color/artraw_crimson_accent"
-            android:contentDescription="Path Icon" />
+            android:contentDescription="@string/content_path" />
 
         <TextView
             android:id="@+id/tvDialogFilePath"
@@ -145,7 +145,7 @@
                 android:layout_marginEnd="6dp"
                 android:src="@drawable/ic_copy"
                 android:tint="@color/text_primary_dark"
-                android:contentDescription="Copy" />
+                android:contentDescription="@string/content_copy" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,7 +181,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/ic_share"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Share" />
+                android:contentDescription="@string/content_share" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -213,7 +213,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/ic_document"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Details" />
+                android:contentDescription="@string/content_copy" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -246,7 +246,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/ic_compress"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Archive" />
+                android:contentDescription="@string/content_copy" />
 
             <TextView
                 android:id="@+id/tvDialogCompressText"

@@ -31,7 +31,7 @@
                 android:padding="8dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Back"
+                android:contentDescription="@string/content_back"
                 android:tint="@color/aurora_text_primary" />
 
             <TextView

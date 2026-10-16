@@ -108,6 +108,8 @@
 
     <!-- Accessibility Content Descriptions -->
     <string name="content_photo">Photo</string>
+    <string name="content_device_monitor">Device Monitor</string>
+    <string name="content_live_stats">Live Stats</string>
     <string name="content_back">Back</string>
     <string name="content_share">Share</string>
     <string name="content_edit">Edit</string>
@@ -128,6 +130,22 @@
     <string name="content_paste">Paste</string>
     <string name="content_move">Move</string>
     <string name="content_close_selection">Close Selection</string>
+
+    <!-- Accessibility Content Descriptions -->
+    <string name="content_home">Home</string>
+    <string name="content_browse">Browse</string>
+    <string name="content_analysis">Storage Analysis</string>
+    <string name="content_toggle_view">Toggle View</string>
+    <string name="content_clear">Clear</string>
+    <string name="content_path">Path</string>
+    <string name="content_copy_current_path">Copy Current Path</string>
+    <string name="content_type_path">Type Path</string>
+
+    <!-- Accessibility Content Descriptions -->
+    <string name="content_play_pause">Play/Pause</string>
+    <string name="content_forward_10">Forward 10s</string>
+    <string name="content_skip_next">Next</string>
+    <string name="content_skip_previous">Previous</string>
 
     <!-- States -->
     <string name="state_empty">This folder is empty</string>

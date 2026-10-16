@@ -51,5 +51,5 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:src="@drawable/ic_unarchive"
-        android:contentDescription="Extract" />
+        android:contentDescription="@string/content_copy" />
 </LinearLayout>

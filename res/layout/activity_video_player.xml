@@ -40,7 +40,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Back" />
+                android:contentDescription="@string/content_back" />
 
             <TextView
                 android:id="@+id/tvVideoTitle"
@@ -66,7 +66,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:src="@drawable/ic_share"
-                android:contentDescription="Share" />
+                android:contentDescription="@string/content_share" />
         </RelativeLayout>
 
         <!-- Center Controls: Replay 10, Play/Pause, Forward 10 -->
@@ -85,7 +85,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:src="@drawable/ic_replay_10"
-                android:contentDescription="Replay 10s" />
+                android:contentDescription="@string/content_refresh" />
 
             <FrameLayout
                 android:id="@+id/btnPlayPauseVideo"
@@ -99,7 +99,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play"
-                    android:contentDescription="Play/Pause" />
+                    android:contentDescription="@string/content_play_pause" />
             </FrameLayout>
 
             <ImageView
@@ -110,7 +110,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
                 android:src="@drawable/ic_forward_10"
-                android:contentDescription="Forward 10s" />
+                android:contentDescription="@string/content_forward_10" />
         </LinearLayout>
 
         <!-- Bottom Bar: Timeline & Duration -->

@@ -27,7 +27,7 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+            android:contentDescription="@string/content_back" />
 
         <TextView
             android:id="@+id/tvHeaderTitleAudio"
@@ -50,7 +50,7 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:src="@drawable/ic_share"
-            android:contentDescription="Share" />
+            android:contentDescription="@string/content_share" />
     </RelativeLayout>
 
     <!-- Main Content -->
@@ -152,7 +152,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:src="@drawable/ic_replay_10"
-                android:contentDescription="Replay 10s" />
+                android:contentDescription="@string/content_refresh" />
 
             <ImageView
                 android:id="@+id/btnPrevTrack"
@@ -162,7 +162,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="10dp"
                 android:src="@drawable/ic_skip_previous"
-                android:contentDescription="Previous" />
+                android:contentDescription="@string/content_skip_previous" />
 
             <FrameLayout
                 android:id="@+id/btnPlayPauseAudio"
@@ -176,7 +176,7 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play"
-                    android:contentDescription="Play/Pause" />
+                    android:contentDescription="@string/content_play_pause" />
             </FrameLayout>
 
             <ImageView
@@ -187,7 +187,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="10dp"
                 android:src="@drawable/ic_skip_next"
-                android:contentDescription="Next" />
+                android:contentDescription="@string/content_skip_next" />
 
             <ImageView
                 android:id="@+id/btnForward10"
@@ -197,7 +197,7 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:src="@drawable/ic_forward_10"
-                android:contentDescription="Forward 10s" />
+                android:contentDescription="@string/content_forward_10" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

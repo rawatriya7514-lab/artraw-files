@@ -70,7 +70,7 @@
                     android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_search"
-                    android:contentDescription="Search"
+                    android:contentDescription="@string/content_search"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
@@ -80,7 +80,7 @@
                     android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_sort"
-                    android:contentDescription="Sort"
+                    android:contentDescription="@string/content_sort"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
@@ -90,7 +90,7 @@
                     android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_grid"
-                    android:contentDescription="Toggle View"
+                    android:contentDescription="@string/content_toggle_view"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
@@ -100,7 +100,7 @@
                     android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_new_folder"
-                    android:contentDescription="New Folder"
+                    android:contentDescription="@string/content_new_folder"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
@@ -110,7 +110,7 @@
                     android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_refresh"
-                    android:contentDescription="Refresh"
+                    android:contentDescription="@string/content_refresh"
                     android:tint="@color/aurora_text_secondary" />
             </LinearLayout>
         </RelativeLayout>
@@ -134,7 +134,7 @@
                 android:padding="8dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Close Selection"
+                android:contentDescription="@string/content_close_selection"
                 android:tint="@color/aurora_text_primary" />
 
             <TextView
@@ -263,7 +263,7 @@
                 android:layout_height="36dp"
                 android:padding="8dp"
                 android:src="@drawable/ic_more"
-                android:contentDescription="Clear"
+                android:contentDescription="@string/content_clear"
                 android:tint="@color/aurora_text_secondary" />
         </LinearLayout>
 
@@ -289,7 +289,7 @@
                 android:layout_height="16dp"
                 android:src="@drawable/ic_folder"
                 android:tint="@color/aurora_primary"
-                android:contentDescription="Path" />
+                android:contentDescription="@string/content_path" />
 
             <TextView
                 android:id="@+id/tvPcPathDisplay"
@@ -312,7 +312,7 @@
                 android:padding="6dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_copy"
-                android:contentDescription="Copy Current Path"
+                android:contentDescription="@string/content_copy_current_path"
                 android:tint="@color/aurora_text_secondary" />
 
             <ImageView
@@ -322,7 +322,7 @@
                 android:padding="6dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_edit"
-                android:contentDescription="Type Path"
+                android:contentDescription="@string/content_type_path"
                 android:tint="@color/aurora_text_secondary" />
         </LinearLayout>
     </LinearLayout>
@@ -533,7 +533,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
                 android:tint="@color/aurora_primary"
-                android:contentDescription="Home" />
+                android:contentDescription="@string/content_home" />
 
             <TextView
                 android:id="@+id/tvNavHomeBrowser"
@@ -558,7 +558,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_folder"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Browse" />
+                android:contentDescription="@string/content_browse" />
 
             <TextView
                 android:id="@+id/tvNavBrowseBrowser"
@@ -583,7 +583,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Analysis" />
+                android:contentDescription="@string/content_analysis" />
 
             <TextView
                 android:id="@+id/tvNavAnalysisBrowser"
@@ -608,7 +608,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/ic_settings"
                 android:tint="@color/aurora_text_secondary"
-                android:contentDescription="Settings" />
+                android:contentDescription="@string/content_settings" />
 
             <TextView
                 android:id="@+id/tvNavSettingsBrowser"
