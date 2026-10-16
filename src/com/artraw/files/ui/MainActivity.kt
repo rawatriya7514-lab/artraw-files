@@ -22,6 +22,7 @@ import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
+import com.artraw.files.util.UpdateChecker
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -74,6 +75,9 @@ class MainActivity : Activity() {
         setupListeners()
         initAdMob()
         setupBottomNavigation()
+
+        // Check for app updates on startup
+        UpdateChecker.checkForUpdates(this)
     }
 
     private fun setupBottomNavigation() {
