@@ -25,7 +25,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:padding="12dp"
             android:src="@drawable/ic_arrow_back"
             android:contentDescription="@string/content_back" />
 
@@ -37,9 +37,9 @@
             android:layout_marginStart="12dp"
             android:layout_toEndOf="@id/btnBackAudio"
             android:text="Music Player"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Title" />
 
         <ImageView
             android:id="@+id/btnShareAudio"
@@ -48,7 +48,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:padding="12dp"
             android:src="@drawable/ic_share"
             android:contentDescription="@string/content_share" />
     </RelativeLayout>
@@ -84,9 +84,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Song Title"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Headline"
             android:ellipsize="marquee"
             android:singleLine="true" />
 
@@ -107,8 +107,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:progressBackgroundTint="@color/aurora_outline"
-            android:progressTint="@color/artraw_crimson"
-            android:thumbTint="@color/artraw_crimson_accent" />
+            android:progressTint="@color/aurora_primary"
+            android:thumbTint="@color/aurora_primary" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -150,7 +150,7 @@
                 android:layout_height="44dp"
                 android:layout_marginEnd="16dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:src="@drawable/ic_replay_10"
                 android:contentDescription="@string/content_refresh" />
 
@@ -195,7 +195,7 @@
                 android:layout_height="44dp"
                 android:layout_marginStart="16dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:src="@drawable/ic_forward_10"
                 android:contentDescription="@string/content_forward_10" />
         </LinearLayout>

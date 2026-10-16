@@ -28,9 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="file.txt"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Body"
             android:singleLine="true"
             android:ellipsize="middle" />
 
@@ -46,10 +46,10 @@
 
     <ImageView
         android:id="@+id/btnExtractEntry"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:padding="8dp"
+        android:padding="12dp"
         android:src="@drawable/ic_unarchive"
         android:contentDescription="@string/content_copy" />
 </LinearLayout>

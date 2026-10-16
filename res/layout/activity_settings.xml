@@ -43,9 +43,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
                 android:text="@string/nav_settings"
-                android:textColor="@color/text_primary_dark"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Preferences"
-                    android:textColor="@color/artraw_crimson_accent"
+                    android:textColor="@color/aurora_primary"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp" />
@@ -93,8 +93,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:text="@string/pref_language"
-                        android:textColor="@color/text_primary_dark"
-                        android:textSize="15sp" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tvCurrentLanguage"
@@ -103,7 +103,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:text="English"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp" />
                 </RelativeLayout>
 
@@ -125,8 +125,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:text="@string/pref_show_hidden"
-                        android:textColor="@color/text_primary_dark"
-                        android:textSize="15sp" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="14sp" />
 
                     <CheckBox
                         android:id="@+id/cbShowHidden"
@@ -154,8 +154,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:text="@string/pref_show_extensions"
-                        android:textColor="@color/text_primary_dark"
-                        android:textSize="15sp" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="14sp" />
 
                     <CheckBox
                         android:id="@+id/cbShowExtensions"
@@ -179,7 +179,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Storage Permission Status"
-                    android:textColor="@color/artraw_crimson_accent"
+                    android:textColor="@color/aurora_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="All Files Access: Granted"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="14sp" />
 
                 <Button
@@ -199,7 +199,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_aurora_button_outlined"
                     android:text="Open System Permission Settings"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="12sp" />
 
                 <TextView
@@ -224,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Support Artfiles"
-                    android:textColor="@color/artraw_crimson_accent"
+                    android:textColor="@color/aurora_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -243,7 +243,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_aurora_button_primary"
                     android:text="Watch Video Ad"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -260,7 +260,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textColor="@color/text_primary_dark"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -278,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/pref_privacy_pledge"
-                    android:textColor="@color/status_success"
+                    android:textColor="@color/aurora_success"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -313,7 +313,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Privacy Policy &amp; Ad Disclosure"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -349,7 +349,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Google Ad Settings &amp; Personalization"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="14sp" />
 
                     <TextView
@@ -384,7 +384,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Authorized Digital Sellers (app-ads.txt)"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="14sp" />
 
                     <TextView
@@ -392,7 +392,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Publisher ID: pub-7925407604309207 (Direct Seller)"
-                        android:textColor="@color/status_success"
+                        android:textColor="@color/aurora_success"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:minHeight="56dp"
         android:background="@color/aurora_background_surface"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingTop="36dp"
-        android:paddingBottom="12dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/btnBackArchive"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="archive.zip"
-                android:textColor="@color/text_primary_dark"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:singleLine="true"
@@ -72,7 +72,7 @@
                 android:layout_height="36dp"
                 android:background="@drawable/bg_aurora_button_primary"
                 android:text="Extract All"
-                android:textColor="@android:color/white"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:paddingStart="14dp"

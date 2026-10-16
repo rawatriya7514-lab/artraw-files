@@ -31,7 +31,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_back" />
@@ -52,9 +52,9 @@
                     android:singleLine="true"
                     android:ellipsize="middle"
                     android:text="Text Viewer"
-                    android:textColor="@color/text_primary_dark"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/aurora_text_primary"
+                    style="@style/Widget.ArtrawFiles.Text.Title" />
 
                 <TextView
                     android:id="@+id/tvPreviewMeta"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="UTF-8 • 0 lines • 0 B"
                     android:textColor="@color/aurora_text_secondary"
-                    android:textSize="11sp" />
+                    style="@style/Widget.ArtrawFiles.Text.Caption" />
             </LinearLayout>
 
             <ImageView
@@ -71,7 +71,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_share"
                 android:contentDescription="@string/content_share" />
@@ -91,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="13sp"
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Body"
             android:textIsSelectable="true"
             android:lineSpacingExtra="4dp" />
     </ScrollView>

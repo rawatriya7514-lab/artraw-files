@@ -17,7 +17,7 @@
         android:id="@+id/layoutVideoControls"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66000000">
+        android:background="@color/aurora_overlay_scrim">
 
         <!-- Top Bar -->
         <RelativeLayout
@@ -38,7 +38,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_back" />
 
@@ -51,9 +51,9 @@
                 android:layout_toEndOf="@id/btnBackVideo"
                 android:layout_toStartOf="@id/btnShareVideo"
                 android:text="Video Title"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title"
                 android:singleLine="true"
                 android:ellipsize="end" />
 
@@ -64,7 +64,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:src="@drawable/ic_share"
                 android:contentDescription="@string/content_share" />
         </RelativeLayout>
@@ -128,9 +128,9 @@
                 android:id="@+id/seekBarVideo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressBackgroundTint="#88FFFFFF"
-                android:progressTint="@color/artraw_crimson"
-                android:thumbTint="@color/artraw_crimson_accent" />
+                android:progressBackgroundTint="@color/aurora_text_secondary"
+                android:progressTint="@color/aurora_primary"
+                android:thumbTint="@color/aurora_primary" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:text="0:00"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="12sp" />
 
                 <TextView
@@ -154,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="0:00"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/aurora_text_primary"
                     android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>

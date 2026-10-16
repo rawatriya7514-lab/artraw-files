@@ -34,9 +34,9 @@
                 android:id="@+id/tvDialogFileName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_primary_dark"
-                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Headline"
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:text="filename.ext" />
@@ -81,7 +81,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_folder"
-            android:tint="@color/artraw_crimson_accent"
+            android:tint="@color/aurora_primary"
             android:contentDescription="@string/content_path" />
 
         <TextView
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="@color/text_primary_dark"
+            android:textColor="@color/aurora_text_primary"
             android:textSize="12sp"
             android:fontFamily="monospace"
             android:textIsSelectable="true"
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/action_open"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/aurora_on_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -144,14 +144,14 @@
                 android:layout_height="18dp"
                 android:layout_marginEnd="6dp"
                 android:src="@drawable/ic_copy"
-                android:tint="@color/text_primary_dark"
+                android:tint="@color/aurora_text_primary"
                 android:contentDescription="@string/content_copy" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/action_copy_path"
-                android:textColor="@color/text_primary_dark"
+                android:textColor="@color/aurora_text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -16,7 +16,7 @@
         <View
             android:id="@+id/statusBarSpacerMonitor"
             android:layout_width="match_parent"
-            android:layout_height="44dp" />
+            android:layout_height="1dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,10 +42,10 @@
                 android:layout_toEndOf="@id/btnMonitorBack"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
-                android:text="CPU-Z &amp; Hardware Monitor"
-                android:textColor="@color/text_primary_dark"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:text="Device Monitor"
+                android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title" />
 
             <TextView
                 android:id="@+id/tvLivePulse"
@@ -54,7 +54,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="● LIVE"
-                android:textColor="@color/status_success"
+                android:textColor="@color/aurora_success"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -78,42 +78,41 @@
             <Button
                 android:id="@+id/btnTabCpu"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/bg_aurora_button_primary"
                 android:text="CPU &amp; RAM"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btnTabThermal"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/bg_aurora_button_outlined"
                 android:text="Thermal &amp; Heat"
                 android:textColor="@color/aurora_text_secondary"
-                android:textSize="12sp" />
+                android:textSize="12sp" android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btnTabUsage"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/bg_aurora_button_outlined"
                 android:text="App Usage"
                 android:textColor="@color/aurora_text_secondary"
-                android:textSize="12sp" />
+                android:textSize="12sp" android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btnTabSpecs"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="40dp"
                 android:background="@drawable/bg_aurora_button_outlined"
                 android:text="Device Specs"
                 android:textColor="@color/aurora_text_secondary"
-                android:textSize="12sp" />
+                android:textSize="12sp" android:textStyle="normal" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -151,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Processor &amp; Architecture"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -161,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="Qualcomm Snapdragon / ARMv8"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -172,7 +171,7 @@
                         android:layout_marginTop="2dp"
                         android:text="8 Cores • aarch64 • schedutil"
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" android:textStyle="normal" />
                 </LinearLayout>
 
                 <!-- Live CPU Cores Card -->
@@ -188,7 +187,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Real-Time CPU Cores (Live Frequencies)"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -217,7 +216,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="System Memory (RAM)"
-                            android:textColor="@color/artraw_crimson_accent"
+                            android:textColor="@color/aurora_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -227,7 +226,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="62% Used"
-                            android:textColor="@color/status_success"
+                            android:textColor="@color/aurora_success"
                             android:textSize="13sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -240,7 +239,7 @@
                         android:layout_marginTop="10dp"
                         android:max="100"
                         android:progress="62"
-                        android:progressTint="@color/artraw_crimson_accent" />
+                        android:progressTint="@color/aurora_primary" />
 
                     <TextView
                         android:id="@+id/tvRamDetails"
@@ -249,7 +248,7 @@
                         android:layout_marginTop="8dp"
                         android:text="Used: 4.8 GB / Total: 8.0 GB (3.2 GB Free)"
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" android:textStyle="normal" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -276,7 +275,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Current Battery &amp; Thermal State"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -286,7 +285,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="36.5°C"
-                        android:textColor="@color/status_success"
+                        android:textColor="@color/aurora_success"
                         android:textSize="28sp"
                         android:textStyle="bold" />
 
@@ -297,7 +296,7 @@
                         android:layout_marginTop="2dp"
                         android:text="Normal Temperature • Health: Good ✓ • Discharging"
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" android:textStyle="normal" />
 
                     <TextView
                         android:id="@+id/tvBatteryDetails"
@@ -322,7 +321,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Thermal Timeline (Kab Heat Hua Tha)"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -332,7 +331,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Peak Heat: 44.5°C at 15:30"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="13sp" />
 
                     <com.artraw.files.ui.view.ThermalGraphView
@@ -355,7 +354,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Heat Spike History Log"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -393,7 +392,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Usage Access Permission Required"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -403,7 +402,7 @@
                         android:layout_marginTop="4dp"
                         android:text="To calculate exact screen time and show which apps you used, Android requires Usage Access permission."
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" android:textStyle="normal" />
 
                     <Button
                         android:id="@+id/btnGrantUsagePerm"
@@ -412,9 +411,8 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/bg_aurora_button_primary"
                         android:text="Grant Usage Access"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="12sp" android:textStyle="normal" />
                 </LinearLayout>
 
                 <!-- Total Screen Time Card -->
@@ -430,7 +428,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Today's Total Screen Time"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -440,7 +438,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="4h 32m"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="26sp"
                         android:textStyle="bold" />
 
@@ -451,7 +449,7 @@
                         android:layout_marginTop="2dp"
                         android:text="Active apps used today"
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" android:textStyle="normal" />
                 </LinearLayout>
 
                 <!-- App Usage Bar Chart Card -->
@@ -467,7 +465,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="App Usage Distribution (Graph)"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -491,7 +489,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apps Ranked By Usage Time"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -526,7 +524,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="System &amp; Hardware Identity"
-                        android:textColor="@color/artraw_crimson_accent"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -536,7 +534,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Device: Model"
-                        android:textColor="@color/text_primary_dark"
+                        android:textColor="@color/aurora_text_primary"
                         android:textSize="14sp" />
 
                     <TextView
@@ -564,7 +562,7 @@
                         android:layout_marginTop="4dp"
                         android:text="Kernel: Linux"
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
+                        android:textSize="12sp" android:textStyle="normal" />
                 </LinearLayout>
             </LinearLayout>
 
