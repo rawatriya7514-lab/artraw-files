@@ -147,6 +147,9 @@
     <string name="content_skip_next">Next</string>
     <string name="content_skip_previous">Previous</string>
 
+    <!-- Accessibility Content Descriptions -->
+    <string name="content_storage">Storage</string>
+
     <!-- States -->
     <string name="state_empty">This folder is empty</string>
     <string name="state_loading">Scanning files…</string>
