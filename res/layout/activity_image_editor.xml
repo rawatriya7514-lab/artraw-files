@@ -93,10 +93,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Adjustments"
-            android:textColor="@color/aurora_text_secondary"
-            android:textSize="12sp"
             android:textStyle="bold"
-            android:textAllCaps="true"
+            android:textColor="@color/aurora_text_secondary"
+            style="@style/Widget.ArtrawFiles.Text.Label"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp" />
@@ -112,8 +111,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Brightness"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -145,8 +145,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contrast"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -163,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -178,8 +179,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saturation"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -196,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -211,8 +213,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hue"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -229,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -244,8 +247,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Temperature"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -262,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -277,8 +281,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shadows"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -295,7 +300,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -310,8 +315,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Highlights"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -328,7 +334,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -343,8 +349,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Clarity"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -361,7 +368,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
@@ -376,8 +383,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vignette"
+                android:textStyle="normal"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
@@ -394,7 +402,7 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/aurora_primary"
-                android:textSize="13sp"
+                style="@style/Widget.ArtrawFiles.Text.Caption"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp" />
         </LinearLayout>

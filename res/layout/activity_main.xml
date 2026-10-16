@@ -55,10 +55,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"
+                            android:textStyle="bold"
                             android:textColor="@color/aurora_text_primary"
-                            android:textSize="20sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:textStyle="bold" />
+                            style="@style/Widget.ArtrawFiles.Text.Headline" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -69,10 +68,10 @@
                             android:paddingEnd="6dp"
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
-                            android:text="PREMIUM"
+                            android:text="Premium"
                             android:textColor="@color/aurora_primary"
-                            android:textSize="9sp"
-                            android:textStyle="bold" />
+                            android:textSize="10sp"
+                            android:textStyle="normal" />
                     </LinearLayout>
 
                     <TextView
@@ -80,7 +79,8 @@
                         android:layout_height="wrap_content"
                         android:text="Storage &amp; All-Rounder Media Studio"
                         android:textColor="@color/aurora_text_secondary"
-                        android:textSize="11sp" />
+                        android:textSize="11sp"
+                        android:lineHeight="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -455,9 +455,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Categories"
-                android:textColor="@color/aurora_text_primary"
-                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title"
                 android:layout_marginBottom="12dp" />
 
             <!-- Category Grid (Row 1: Images, Videos, Audio, Documents) -->
@@ -496,9 +496,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:text="@string/cat_images"
+                        android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        style="@style/Widget.ArtrawFiles.Text.Caption" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -60,9 +60,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Wireless Transfer"
-            android:textColor="@color/aurora_text_primary"
-            android:textSize="18sp"
             android:textStyle="bold"
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Title"
             android:layout_marginBottom="8dp" />
 
         <TextView
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:text="Connect your PC to the same WiFi network"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="14sp"
+            style="@style/Widget.ArtrawFiles.Text.Body"
             android:layout_marginBottom="16dp" />
 
         <LinearLayout
@@ -134,9 +134,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="How to use:"
-            android:textColor="@color/aurora_text_primary"
-            android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Title"
             android:layout_marginBottom="12dp" />
 
         <TextView
@@ -144,8 +144,7 @@
             android:layout_height="wrap_content"
             android:text="1. Make sure your phone and PC are on the same WiFi network\n2. Tap 'Start Server' above\n3. Open a browser on your PC\n4. Go to: http://[IP]:[PORT]\n5. Browse and download files wirelessly"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="14sp"
-            android:lineSpacingExtra="4dp" />
+            style="@style/Widget.ArtrawFiles.Text.Body" />
     </LinearLayout>
 
 </LinearLayout>

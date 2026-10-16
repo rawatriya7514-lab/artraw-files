@@ -65,8 +65,8 @@
             android:gravity="center"
             android:text="@string/action_large_files"
             android:textColor="@color/aurora_primary"
-            android:textSize="13sp"
             android:textStyle="bold"
+            android:textSize="12sp"
             android:clickable="true"
             android:focusable="true" />
 
@@ -78,7 +78,8 @@
             android:gravity="center"
             android:text="@string/action_duplicates"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="13sp"
+            android:textStyle="normal"
+            android:textSize="12sp"
             android:clickable="true"
             android:focusable="true" />
 
@@ -90,7 +91,8 @@
             android:gravity="center"
             android:text="Apps"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="13sp"
+            android:textStyle="normal"
+            android:textSize="12sp"
             android:clickable="true"
             android:focusable="true" />
 
@@ -102,7 +104,8 @@
             android:gravity="center"
             android:text="WiFi"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="13sp"
+            android:textStyle="normal"
+            android:textSize="12sp"
             android:clickable="true"
             android:focusable="true" />
     </LinearLayout>
@@ -149,9 +152,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cryptographic Duplicate Cleaner"
+                    android:textStyle="bold"
                     android:textColor="@color/aurora_text_primary"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    style="@style/Widget.ArtrawFiles.Text.Title" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -159,7 +162,7 @@
                     android:layout_marginTop="6dp"
                     android:text="Scan your device to find identical duplicate files. Auto-select extra copies and free up storage instantly."
                     android:textColor="@color/aurora_text_secondary"
-                    android:textSize="12sp" />
+                    style="@style/Widget.ArtrawFiles.Text.Body" />
 
                 <Button
                     android:id="@+id/btnStartDuplicateScan"
@@ -283,9 +286,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Installed Apps Storage"
-                android:textColor="@color/aurora_text_primary"
-                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title"
                 android:padding="16dp" />
 
             <ListView
@@ -309,9 +312,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="WiFi File Transfer"
-                android:textColor="@color/aurora_text_primary"
-                android:textSize="18sp"
                 android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title"
                 android:padding="16dp" />
 
             <TextView
@@ -319,10 +322,9 @@
                 android:layout_height="wrap_content"
                 android:text="Start a wireless server to transfer files between your phone and PC over WiFi.\n\nMake sure both devices are on the same WiFi network.\n\nTap 'Open WiFi Transfer' to launch the server."
                 android:textColor="@color/aurora_text_secondary"
-                android:textSize="14sp"
+                style="@style/Widget.ArtrawFiles.Text.Body"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:lineSpacingExtra="4dp" />
+                android:paddingEnd="16dp" />
 
             <Button
                 android:id="@+id/btnOpenWifiTransfer"

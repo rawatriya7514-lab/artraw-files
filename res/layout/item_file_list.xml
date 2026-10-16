@@ -60,10 +60,9 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textColor="@color/aurora_text_primary"
-            android:textSize="14sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-medium" />
+            android:textColor="@color/aurora_text_primary"
+            style="@style/Widget.ArtrawFiles.Text.Body" />
 
         <android.widget.TextView
             android:id="@+id/tvFileMeta"
@@ -73,7 +72,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="12sp" />
+            style="@style/Widget.ArtrawFiles.Text.Caption" />
     </android.widget.LinearLayout>
 
     <android.widget.CheckBox

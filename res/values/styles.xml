@@ -31,12 +31,68 @@
     <style name="Theme" parent="Theme.ArtrawFiles" />
     <style name="Widget" />
 
+    <!-- ====================================================================== -->
+    <!-- Typography Scale — Modular, Accessible -->
+    <!-- Base: 14sp | Line height: 1.25–1.50 for scaling with system font size -->
+    <!-- ====================================================================== -->
+
+    <style name="Widget.ArtrawFiles.Text.Display" parent="Widget.ArtrawFiles.Text">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineHeight">32sp</item>
+        <item name="android:letterSpacing">-0.04</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Headline" parent="Widget.ArtrawFiles.Text.Display">
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineHeight">28sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Title" parent="Widget.ArtrawFiles.Text.Display">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineHeight">24sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Body" parent="Widget.ArtrawFiles.Text.Display">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight">21sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Caption" parent="Widget.ArtrawFiles.Text.Display">
+        <item name="android:textColor">@color/aurora_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight">18sp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.Text.Label" parent="Widget.ArtrawFiles.Text.Display">
+        <item name="android:textColor">@color/aurora_text_tertiary</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:letterSpacing">0.1</item>
+    </style>
+
+    <!-- Base text style -->
+    <style name="Widget.ArtrawFiles.Text">
+        <item name="android:textColor">@color/aurora_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineHeight">21sp</item>
+    </style>
+
+    <!-- ====================================================================== -->
     <!-- Component Styles -->
+    <!-- ====================================================================== -->
     <style name="Widget.ArtrawFiles">
         <item name="android:background">@drawable/bg_aurora_card</item>
     </style>
 
-    <!-- Card — Subtle border, no excessive glow -->
     <style name="Widget.ArtrawFiles.Card">
         <item name="android:background">@drawable/bg_aurora_card</item>
     </style>
@@ -45,10 +101,13 @@
         <item name="android:background">@drawable/bg_aurora_card_elevated</item>
     </style>
 
-    <!-- Buttons — Restrained gradients only for primary actions -->
     <style name="Widget.ArtrawFiles.Button">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight">21sp</item>
+        <item name="android:letterSpacing">0.025</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Button.Primary" parent="Widget.ArtrawFiles.Button">
@@ -73,44 +132,18 @@
         <item name="android:paddingBottom">12dp</item>
     </style>
 
-    <!-- Text Scale — Modular -->
-    <style name="Widget.ArtrawFiles.Text">
-        <item name="android:textColor">@color/aurora_text_primary</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="Widget.ArtrawFiles.Text.Headline" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <style name="Widget.ArtrawFiles.Text.Title" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <style name="Widget.ArtrawFiles.Text.Body" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="Widget.ArtrawFiles.Text.Caption" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textColor">@color/aurora_text_secondary</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="Widget.ArtrawFiles.Text.Label" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textColor">@color/aurora_text_tertiary</item>
-        <item name="android:textSize">10sp</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
-
     <!-- Bottom Navigation Item -->
     <style name="Widget.ArtrawFiles.BottomNavItem">
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="Widget.ArtrawFiles.BottomNavItem.Label">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 </resources>

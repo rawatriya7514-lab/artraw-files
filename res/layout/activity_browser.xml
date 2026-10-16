@@ -51,9 +51,9 @@
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:text="@string/storage_internal"
+                android:textStyle="bold"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                style="@style/Widget.ArtrawFiles.Text.Title" />
 
             <LinearLayout
                 android:id="@+id/layoutNormalActions"
@@ -148,9 +148,9 @@
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:text="0 selected"
+                android:textStyle="bold"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                style="@style/Widget.ArtrawFiles.Text.Body" />
 
             <LinearLayout
                 android:id="@+id/layoutSelectionActions"
