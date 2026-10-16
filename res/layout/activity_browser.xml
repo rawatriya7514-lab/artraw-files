@@ -71,7 +71,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_search"
                     android:contentDescription="@string/content_search"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnSort"
@@ -81,7 +81,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_sort"
                     android:contentDescription="@string/content_sort"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnViewToggle"
@@ -91,7 +91,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_grid"
                     android:contentDescription="@string/content_toggle_view"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnNewFolder"
@@ -101,7 +101,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_new_folder"
                     android:contentDescription="@string/content_new_folder"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnRefresh"
@@ -111,7 +111,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_refresh"
                     android:contentDescription="@string/content_refresh"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -168,7 +168,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
                     android:contentDescription="@string/content_select_all"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnActionCopy"
@@ -178,7 +178,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
                     android:contentDescription="@string/content_copy"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnActionCut"
@@ -188,7 +188,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
                     android:contentDescription="@string/content_cut"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnActionShare"
@@ -198,7 +198,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
                     android:contentDescription="@string/content_share"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnActionCompress"
@@ -208,7 +208,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_compress"
                     android:contentDescription="@string/content_move"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
 
                 <ImageView
                     android:id="@+id/btnActionDelete"
@@ -228,7 +228,7 @@
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_more"
                     android:contentDescription="@string/content_more"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:tint="@color/aurora_text_primary" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -264,7 +264,7 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_more"
                 android:contentDescription="@string/content_clear"
-                android:tint="@color/aurora_text_secondary" />
+                android:tint="@color/aurora_text_primary" />
         </LinearLayout>
 
         <!-- PC-Style Address Bar -->
@@ -313,7 +313,7 @@
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_copy"
                 android:contentDescription="@string/content_copy_current_path"
-                android:tint="@color/aurora_text_secondary" />
+                android:tint="@color/aurora_text_primary" />
 
             <ImageView
                 android:id="@+id/btnTypePath"
@@ -323,7 +323,7 @@
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_edit"
                 android:contentDescription="@string/content_type_path"
-                android:tint="@color/aurora_text_secondary" />
+                android:tint="@color/aurora_text_primary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -450,7 +450,7 @@
                 android:layout_height="64dp"
                 android:src="@drawable/ic_folder"
                 android:alpha="0.3"
-                android:tint="@color/aurora_text_secondary" />
+                android:tint="@color/aurora_text_primary" />
 
             <TextView
                 android:id="@+id/tvEmptyMessage"
@@ -557,7 +557,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_folder"
-                android:tint="@color/aurora_text_secondary"
+                android:tint="@color/aurora_text_primary"
                 android:contentDescription="@string/content_browse" />
 
             <TextView
@@ -582,7 +582,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
-                android:tint="@color/aurora_text_secondary"
+                android:tint="@color/aurora_text_primary"
                 android:contentDescription="@string/content_analysis" />
 
             <TextView
@@ -607,7 +607,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_settings"
-                android:tint="@color/aurora_text_secondary"
+                android:tint="@color/aurora_text_primary"
                 android:contentDescription="@string/content_settings" />
 
             <TextView
