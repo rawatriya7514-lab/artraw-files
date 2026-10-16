@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AURORA Design System — Dimension Tokens -->
+    <!-- All spacing, sizes, and radii use these tokens for consistency -->
+
+    <!-- Touch Targets (48dp minimum for accessibility) -->
+    <dimen name="aurora_touch_target">48dp</dimen>
+    <dimen name="aurora_icon_container">48dp</dimen>
+    <dimen name="aurora_icon_size">24dp</dimen>
+
+    <!-- Corner Radii -->
+    <dimen name="aurora_radius_card">12dp</dimen>
+    <dimen name="aurora_radius_button">10dp</dimen>
+    <dimen name="aurora_radius_badge">8dp</dimen>
+    <dimen name="aurora_radius_small">6dp</dimen>
+    <dimen name="aurora_radius_large">16dp</dimen>
+
+    <!-- Spacing Scale -->
+    <dimen name="aurora_space_4">4dp</dimen>
+    <dimen name="aurora_space_8">8dp</dimen>
+    <dimen name="aurora_space_12">12dp</dimen>
+    <dimen name="aurora_space_16">16dp</dimen>
+    <dimen name="aurora_space_20">20dp</dimen>
+    <dimen name="aurora_space_24">24dp</dimen>
+    <dimen name="aurora_space_32">32dp</dimen>
+
+    <!-- Header / Bar Heights -->
+    <dimen name="aurora_height_toolbar">56dp</dimen>
+    <dimen name="aurora_height_bottom_nav">72dp</dimen>
+    <dimen name="aurora_height_admob_banner">50dp</dimen>
+    <dimen name="aurora_height_status_spacer">0dp</dimen>
+
+    <!-- Card Padding -->
+    <dimen name="aurora_padding_card">16dp</dimen>
+    <dimen name="aurora_padding_card_compact">12dp</dimen>
+    <dimen name="aurora_padding_card_wide">24dp</dimen>
+
+    <!-- Item Heights -->
+    <dimen name="aurora_height_item_list">64dp</dimen>
+    <dimen name="aurora_height_item_grid_thumbnail">100dp</dimen>
+    <dimen name="aurora_height_item_grid_card">110dp</dimen>
+    <dimen name="aurora_height_badge">36dp</dimen>
+
+    <!-- Text Sizes (SP) -->
+    <dimen name="aurora_text_display">24sp</dimen>
+    <dimen name="aurora_text_headline">20sp</dimen>
+    <dimen name="aurora_text_title">16sp</dimen>
+    <dimen name="aurora_text_body">14sp</dimen>
+    <dimen name="aurora_text_caption">12sp</dimen>
+    <dimen name="aurora_text_label">10sp</dimen>
+    <dimen name="aurora_text_small">11sp</dimen>
+    <dimen name="aurora_text_extra_small">9sp</dimen>
+
+    <!-- Line Heights -->
+    <dimen name="aurora_line_height_display">32sp</dimen>
+    <dimen name="aurora_line_height_headline">28sp</dimen>
+    <dimen name="aurora_line_height_title">24sp</dimen>
+    <dimen name="aurora_line_height_body">21sp</dimen>
+    <dimen name="aurora_line_height_caption">18sp</dimen>
+    <dimen name="aurora_line_height_label">16sp</dimen>
+
+    <!-- Stroke Widths -->
+    <dimen name="aurora_stroke_hairline">0.5dp</dimen>
+    <dimen name="aurora_stroke_thin">1dp</dimen>
+    <dimen name="aurora_stroke_button_outline">1.5dp</dimen>
+</resources>
