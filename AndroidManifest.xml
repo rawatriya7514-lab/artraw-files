@@ -68,7 +68,9 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -78,69 +80,93 @@
         <activity
             android:name=".ui.BrowserActivity"
             android:exported="false"
-            android:label="@string/nav_browse" />
+            android:label="@string/nav_browse"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.CategoryActivity"
             android:exported="false"
-            android:label="Category" />
+            android:label="Category"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.AnalyzerActivity"
             android:exported="false"
-            android:label="@string/nav_analysis" />
+            android:label="@string/nav_analysis"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.TextPreviewActivity"
             android:exported="false"
-            android:label="Text Viewer" />
+            android:label="Text Viewer"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.SettingsActivity"
             android:exported="false"
-            android:label="@string/nav_settings" />
+            android:label="@string/nav_settings"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.AudioPlayerActivity"
             android:exported="false"
-            android:label="Music Player" />
+            android:label="Music Player"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.VideoPlayerActivity"
             android:exported="false"
-            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
-            android:label="Video Player" />
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+            android:label="Video Player"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
 
         <activity
             android:name=".ui.ImageViewerActivity"
             android:exported="false"
-            android:label="Photo Viewer" />
+            android:label="Photo Viewer"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.ArchiveViewerActivity"
             android:exported="false"
-            android:label="Archive Viewer" />
+            android:label="Archive Viewer"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.OnboardingActivity"
             android:exported="false"
-            android:label="Get Started" />
+            android:label="Get Started"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.DeviceMonitorActivity"
             android:exported="false"
-            android:label="Device &amp; App Monitor" />
+            android:label="Device &amp; App Monitor"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
             android:name=".ui.ImageEditorActivity"
             android:exported="false"
             android:label="Photo Editor"
-            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout" />
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
 
         <activity
             android:name=".ui.WiFiTransferActivity"
             android:exported="false"
-            android:label="WiFi Transfer" />
+            android:label="WiFi Transfer"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <provider
             android:name=".preview.ArtrawFileProvider"

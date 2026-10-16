@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/aurora_background_deep">
+
+    <!-- Top Header Area -->
+    <LinearLayout
+        android:id="@+id/layoutTopBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/aurora_background_surface">
+
+        <View
+            android:id="@+id/statusBarSpacerBrowser"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
+
+        <RelativeLayout
+            android:id="@+id/toolbarNormal"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="12dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/content_back"
+                android:tint="@color/aurora_text_primary" />
+
+            <TextView
+                android:id="@+id/tvCurrentFolderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnBack"
+                android:layout_toStartOf="@+id/layoutNormalActions"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:text="@string/storage_internal"
+                android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Title" />
+
+            <LinearLayout
+                android:id="@+id/layoutNormalActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btnSearch"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_search"
+                    android:contentDescription="@string/content_search"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnSort"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_sort"
+                    android:contentDescription="@string/content_sort"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnViewToggle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_grid"
+                    android:contentDescription="@string/content_toggle_view"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnNewFolder"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_new_folder"
+                    android:contentDescription="@string/content_new_folder"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnRefresh"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_refresh"
+                    android:contentDescription="@string/content_refresh"
+                    android:tint="@color/aurora_text_secondary" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/toolbarSelection"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/aurora_background_elevated"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/btnCloseSelection"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="12dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/content_close_selection"
+                android:tint="@color/aurora_text_primary" />
+
+            <TextView
+                android:id="@+id/tvSelectionCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnCloseSelection"
+                android:layout_toStartOf="@+id/layoutSelectionActions"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="0 selected"
+                android:textStyle="bold"
+                android:textColor="@color/aurora_text_primary"
+                style="@style/Widget.ArtrawFiles.Text.Body" />
+
+            <LinearLayout
+                android:id="@+id/layoutSelectionActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btnActionSelectAll"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_select_all"
+                    android:contentDescription="@string/content_select_all"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnActionCopy"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_copy"
+                    android:contentDescription="@string/content_copy"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnActionCut"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_cut"
+                    android:contentDescription="@string/content_cut"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnActionShare"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_share"
+                    android:contentDescription="@string/content_share"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnActionCompress"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_compress"
+                    android:contentDescription="@string/content_move"
+                    android:tint="@color/aurora_text_secondary" />
+
+                <ImageView
+                    android:id="@+id/btnActionDelete"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_delete"
+                    android:contentDescription="@string/content_delete"
+                    android:tint="@color/aurora_error" />
+
+                <ImageView
+                    android:id="@+id/btnActionMore"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_more"
+                    android:contentDescription="@string/content_more"
+                    android:tint="@color/aurora_text_secondary" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_aurora_search"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/etSearchQuery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/search_hint"
+                android:textColor="@color/aurora_text_primary"
+                android:textColorHint="@color/aurora_text_secondary"
+                android:textSize="14sp"
+                android:imeOptions="actionSearch"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/btnClearSearch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_more"
+                android:contentDescription="@string/content_clear"
+                android:tint="@color/aurora_text_secondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPcAddressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_aurora_card"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="6dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_folder"
+                android:tint="@color/aurora_primary"
+                android:contentDescription="@string/content_path" />
+
+            <TextView
+                android:id="@+id/tvPcPathDisplay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="6dp"
+                android:text="/storage/emulated/0"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:singleLine="true"
+                android:ellipsize="start" />
+
+            <ImageView
+                android:id="@+id/btnCopyCurrentPath"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_copy"
+                android:contentDescription="@string/content_copy_current_path"
+                android:tint="@color/aurora_text_secondary" />
+
+            <ImageView
+                android:id="@+id/btnTypePath"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="@string/content_type_path"
+                android:tint="@color/aurora_text_secondary" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="@color/aurora_background_deep"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <HorizontalScrollView
+            android:id="@+id/scrollBreadcrumbs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/layoutBreadcrumbs"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical" />
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/aurora_divider" />
+
+    <RelativeLayout
+        android:id="@+id/layoutPasteBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="52dp"
+        android:background="@color/aurora_background_elevated"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvPasteStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/layoutPasteButtons"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:text="2 files ready to paste"
+            android:textColor="@color/aurora_text_primary"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/layoutPasteButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancelPaste"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_aurora_button_outlined"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnExecutePaste"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_aurora_button_primary"
+                android:text="@string/action_paste"
+                android:textColor="@color/aurora_on_primary"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/listViewFiles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/aurora_divider"
+            android:dividerHeight="0.5dp"
+            android:clipToPadding="false"
+            android:fastScrollEnabled="true" />
+
+        <GridView
+            android:id="@+id/gridViewFiles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="5"
+            android:padding="8dp"
+            android:horizontalSpacing="8dp"
+            android:verticalSpacing="8dp"
+            android:clipToPadding="false"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layoutEmptyState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_folder"
+                android:alpha="0.3"
+                android:tint="@color/aurora_text_secondary" />
+
+            <TextView
+                android:id="@+id/tvEmptyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/state_empty"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fabNewFolder"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_aurora_button_primary"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="18dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_new_folder"
+                android:tint="@android:color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="New Folder"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressLoading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/aurora_primary"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/aurora_divider" />
+
+    <LinearLayout
+        android:id="@+id/bottomNavigationBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/aurora_background_surface"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/btnNavHomeBrowser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/ripple_aurora">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_home"
+                android:tint="@color/aurora_primary"
+                android:contentDescription="@string/content_home" />
+
+            <TextView
+                android:id="@+id/tvNavHomeBrowser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_home"
+                android:textColor="@color/aurora_primary"
+                android:textSize="10sp"
+                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnNavBrowseBrowser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/ripple_aurora">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_storage"
+                android:tint="@color/aurora_text_secondary"
+                android:contentDescription="@string/content_browse" />
+
+            <TextView
+                android:id="@+id/tvNavBrowseBrowser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_browse"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="10sp"
+                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnNavAnalysisBrowser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/ripple_aurora">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_storage"
+                android:tint="@color/aurora_text_secondary"
+                android:contentDescription="@string/content_analysis" />
+
+            <TextView
+                android:id="@+id/tvNavAnalysisBrowser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_analysis"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="10sp"
+                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnNavSettingsBrowser"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/ripple_aurora">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_settings"
+                android:tint="@color/aurora_text_secondary"
+                android:contentDescription="@string/content_settings" />
+
+            <TextView
+                android:id="@+id/tvNavSettingsBrowser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_settings"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="10sp"
+                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/adViewContainerBrowser"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:minHeight="50dp"
+        android:background="@color/aurora_background_surface"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Sponsored"
+            android:textColor="@color/aurora_text_tertiary"
+            android:textSize="10sp"
+            android:letterSpacing="0.08" />
+    </FrameLayout>
+</LinearLayout>
