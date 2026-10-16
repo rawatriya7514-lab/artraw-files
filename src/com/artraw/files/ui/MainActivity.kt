@@ -269,7 +269,9 @@ class MainActivity : Activity() {
 
     private fun setupListeners() {
         btnGrantPermission.setOnClickListener {
-            PermissionsHelper.requestStoragePermission(this, 1001)
+            PermissionsHelper.showPermissionJustification(this) {
+                PermissionsHelper.requestStoragePermission(this, 1001)
+            }
         }
 
         findViewById<View>(R.id.btnSettings).setOnClickListener {

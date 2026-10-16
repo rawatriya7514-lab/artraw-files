@@ -2,6 +2,7 @@ package com.artraw.files.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -59,6 +60,10 @@ class AnalyzerActivity : Activity() {
     private lateinit var listViewApps: ListView
     private var appsAdapter: AppStorageAdapter? = null
 
+    // WiFi Transfer
+    private lateinit var tabWifi: TextView
+    private lateinit var layoutWifiView: LinearLayout
+
     private lateinit var largeFilesAdapter: FileListAdapter
     private var duplicateGroups: List<DuplicateGroup> = emptyList()
     private var duplicateAdapter: DuplicateAdapter? = null
@@ -95,9 +100,11 @@ class AnalyzerActivity : Activity() {
         tabLargeFiles = findViewById(R.id.tabLargeFiles)
         tabDuplicates = findViewById(R.id.tabDuplicates)
         tabApps = findViewById(R.id.tabApps)
+        tabWifi = findViewById(R.id.tabWifi)
         layoutLargeFilesView = findViewById(R.id.layoutLargeFilesView)
         layoutDuplicatesView = findViewById(R.id.layoutDuplicatesView)
         layoutAppsView = findViewById(R.id.layoutAppsView)
+        layoutWifiView = findViewById(R.id.layoutWifiView)
         listViewApps = findViewById(R.id.listViewApps)
         listViewLargeFiles = findViewById(R.id.listViewLargeFiles)
         listViewDuplicates = findViewById(R.id.listViewDuplicates)
@@ -120,6 +127,14 @@ class AnalyzerActivity : Activity() {
         tabApps.setOnClickListener {
             selectTab(isDuplicates = false, isApps = true)
             loadApps()
+        }
+
+        tabWifi.setOnClickListener {
+            selectTab(isDuplicates = false, isApps = false, isWifi = true)
+        }
+
+        findViewById<View>(R.id.btnOpenWifiTransfer).setOnClickListener {
+            startWifiTransfer()
         }
 
         largeFilesAdapter = FileListAdapter(this, emptyList(), isGrid = false) { }
@@ -162,28 +177,43 @@ class AnalyzerActivity : Activity() {
         }
     }
 
-    private fun selectTab(isDuplicates: Boolean, isApps: Boolean = false) {
-        if (isApps) {
+    private fun selectTab(isDuplicates: Boolean, isApps: Boolean = false, isWifi: Boolean = false) {
+        if (isWifi) {
+            tabWifi.setTextColor(Color.parseColor("#4ECDC4"))
+            tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
+            tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
+            tabApps.setTextColor(Color.parseColor("#9AA5B1"))
+            layoutWifiView.visibility = View.VISIBLE
+            layoutLargeFilesView.visibility = View.GONE
+            layoutDuplicatesView.visibility = View.GONE
+            layoutAppsView.visibility = View.GONE
+        } else if (isApps) {
             tabApps.setTextColor(Color.parseColor("#4ECDC4"))
             tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
             tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
+            tabWifi.setTextColor(Color.parseColor("#9AA5B1"))
             layoutAppsView.visibility = View.VISIBLE
             layoutLargeFilesView.visibility = View.GONE
             layoutDuplicatesView.visibility = View.GONE
+            layoutWifiView.visibility = View.GONE
         } else if (isDuplicates) {
             tabDuplicates.setTextColor(Color.parseColor("#8338EC"))
             tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
             tabApps.setTextColor(Color.parseColor("#9AA5B1"))
+            tabWifi.setTextColor(Color.parseColor("#9AA5B1"))
             layoutDuplicatesView.visibility = View.VISIBLE
             layoutLargeFilesView.visibility = View.GONE
             layoutAppsView.visibility = View.GONE
+            layoutWifiView.visibility = View.GONE
         } else {
             tabLargeFiles.setTextColor(Color.parseColor("#4ECDC4"))
             tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
             tabApps.setTextColor(Color.parseColor("#9AA5B1"))
+            tabWifi.setTextColor(Color.parseColor("#9AA5B1"))
             layoutLargeFilesView.visibility = View.VISIBLE
             layoutDuplicatesView.visibility = View.GONE
             layoutAppsView.visibility = View.GONE
+            layoutWifiView.visibility = View.GONE
         }
     }
 
@@ -208,6 +238,11 @@ class AnalyzerActivity : Activity() {
                 listViewApps.adapter = appsAdapter
             }
         }
+    }
+
+    private fun startWifiTransfer() {
+        val intent = Intent(this, WiFiTransferActivity::class.java)
+        startActivity(intent)
     }
 
     private fun startCryptographicDuplicateScan() {

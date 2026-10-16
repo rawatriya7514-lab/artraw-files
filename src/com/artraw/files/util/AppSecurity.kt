@@ -109,7 +109,7 @@ object AppSecurity {
             return true
         } catch (t: Throwable) {
             Log.e(TAG, "Integrity check exception: ${t.message}")
-            return true
+            return false
         }
     }
 

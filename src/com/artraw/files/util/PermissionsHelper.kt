@@ -1,7 +1,9 @@
 package com.artraw.files.util
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -19,6 +21,26 @@ object PermissionsHelper {
             val write = context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
             read == PackageManager.PERMISSION_GRANTED && write == PackageManager.PERMISSION_GRANTED
         }
+    }
+
+    /**
+     * Shows Play Store required justification dialog before requesting All Files Access.
+     */
+    fun showPermissionJustification(activity: Activity, onConfirm: () -> Unit) {
+        AlertDialog.Builder(activity)
+            .setTitle("Storage Access Required")
+            .setMessage(
+                "ArtFiles needs 'All Files Access' permission to browse, copy, move, " +
+                "encrypt, and manage files on your device. " +
+                "This is required for core file manager functionality.\n\n" +
+                "You will be redirected to system settings to grant this permission."
+            )
+            .setPositiveButton("Grant Access") { _, _ ->
+                onConfirm.invoke()
+            }
+            .setNegativeButton("Cancel", null)
+            .setCancelable(false)
+            .show()
     }
 
     fun requestStoragePermission(activity: Activity, requestCode: Int = 1001) {

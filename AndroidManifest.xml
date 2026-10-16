@@ -137,6 +137,11 @@
             android:label="Photo Editor"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout" />
 
+        <activity
+            android:name=".ui.WiFiTransferActivity"
+            android:exported="false"
+            android:label="WiFi Transfer" />
+
         <provider
             android:name=".preview.ArtrawFileProvider"
             android:authorities="com.artraw.files.fileprovider"

@@ -83,7 +83,9 @@ class SettingsActivity : Activity() {
         }
 
         btnManagePermission.setOnClickListener {
-            PermissionsHelper.requestStoragePermission(this)
+            PermissionsHelper.showPermissionJustification(this) {
+                PermissionsHelper.requestStoragePermission(this)
+            }
         }
 
         findViewById<Button>(R.id.btnWatchRewardedAd)?.setOnClickListener {
