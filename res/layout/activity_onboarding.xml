@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="28dp"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <ImageView
         android:layout_width="72dp"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/app_tagline"
-        android:textColor="@color/text_secondary_dark"
+        android:textColor="@color/aurora_text_secondary"
         android:textSize="13sp" />
 
     <LinearLayout
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
-        android:background="@drawable/bg_card"
+        android:background="@drawable/bg_aurora_card"
         android:padding="16dp">
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/perm_desc"
-            android:textColor="@color/text_secondary_dark"
+            android:textColor="@color/aurora_text_secondary"
             android:textSize="13sp"
             android:lineSpacingExtra="3dp" />
 
@@ -70,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
-        android:background="@drawable/bg_button_primary"
+        android:background="@drawable/bg_aurora_button_primary"
         android:text="@string/perm_btn_grant"
         android:textColor="@android:color/white"
         android:textSize="14sp"

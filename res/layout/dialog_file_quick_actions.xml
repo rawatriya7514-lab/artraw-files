@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_card"
+    android:background="@drawable/bg_aurora_card"
     android:padding="20dp">
 
     <!-- Header: File Icon, Name, and Close Button -->
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="12sp"
                 android:singleLine="true"
                 android:text="2.4 MB • Oct 15, 2026" />
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_address_bar"
+        android:background="@drawable/bg_aurora_search"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="12dp"
@@ -110,7 +110,7 @@
             android:layout_height="46dp"
             android:layout_weight="1"
             android:layout_marginEnd="6dp"
-            android:background="@drawable/bg_button_primary"
+            android:background="@drawable/bg_aurora_button_primary"
             android:gravity="center"
             android:orientation="horizontal"
             android:clickable="true"
@@ -133,7 +133,7 @@
             android:layout_height="46dp"
             android:layout_weight="1"
             android:layout_marginStart="6dp"
-            android:background="@drawable/bg_button_outlined"
+            android:background="@drawable/bg_aurora_button_outlined"
             android:gravity="center"
             android:orientation="horizontal"
             android:clickable="true"
@@ -180,7 +180,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_share"
-                android:tint="@color/text_secondary_dark"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Share" />
 
             <TextView
@@ -188,14 +188,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="@string/action_share"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="13sp" />
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="18dp"
-            android:background="@color/border_dark" />
+            android:background="@color/aurora_outline" />
 
         <LinearLayout
             android:id="@+id/btnDialogActionDetails"
@@ -212,7 +212,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_document"
-                android:tint="@color/text_secondary_dark"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Details" />
 
             <TextView
@@ -220,14 +220,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="@string/action_details"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="13sp" />
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="18dp"
-            android:background="@color/border_dark" />
+            android:background="@color/aurora_outline" />
 
         <LinearLayout
             android:id="@+id/btnDialogActionCompress"
@@ -245,7 +245,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_compress"
-                android:tint="@color/text_secondary_dark"
+                android:tint="@color/aurora_text_secondary"
                 android:contentDescription="Archive" />
 
             <TextView
@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="Compress"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>

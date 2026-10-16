@@ -3,7 +3,7 @@
     android:id="@+id/rootImageViewer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A0C">
+    android:background="@color/aurora_background_deep">
 
     <!-- Main Fullscreen Image -->
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:contentDescription="Photo" />
+        android:contentDescription="@string/content_photo" />
 
     <!-- Top Overlay Bar -->
     <RelativeLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="56dp"
-        android:background="#88000000"
+        android:background="@color/aurora_overlay_scrim"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingTop="36dp"
@@ -28,14 +28,15 @@
 
         <ImageView
             android:id="@+id/btnBackImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:padding="12dp"
+            android:background="@drawable/ripple_aurora"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+            android:contentDescription="@string/content_back"
+            android:tint="@color/aurora_text_primary" />
 
         <TextView
             android:id="@+id/tvImageTitle"
@@ -46,7 +47,7 @@
             android:layout_toEndOf="@id/btnBackImage"
             android:layout_toStartOf="@id/layoutImageActions"
             android:text="Photo Name"
-            android:textColor="@android:color/white"
+            android:textColor="@color/aurora_text_primary"
             android:textSize="16sp"
             android:textStyle="bold"
             android:singleLine="true"
@@ -62,32 +63,35 @@
 
             <ImageView
                 android:id="@+id/btnShareImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/ripple_aurora"
+                android:padding="12dp"
                 android:src="@drawable/ic_share"
-                android:contentDescription="Share" />
+                android:contentDescription="@string/content_share"
+                android:tint="@color/aurora_text_secondary" />
 
             <ImageView
                 android:id="@+id/btnEditImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="4dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:background="@drawable/ripple_aurora"
+                android:padding="12dp"
                 android:src="@drawable/ic_edit"
-                android:contentDescription="Edit" />
+                android:contentDescription="@string/content_edit"
+                android:tint="@color/aurora_text_secondary" />
 
             <ImageView
                 android:id="@+id/btnDeleteImage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="4dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:background="@drawable/ripple_aurora"
+                android:padding="12dp"
                 android:src="@drawable/ic_delete"
-                android:contentDescription="Delete" />
+                android:contentDescription="@string/content_delete"
+                android:tint="@color/aurora_error" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -97,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#88000000"
+        android:background="@color/aurora_overlay_scrim"
         android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -110,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="1920x1080 • 2.4 MB"
-            android:textColor="@color/text_secondary_dark"
+            android:textColor="@color/aurora_text_secondary"
             android:textSize="13sp" />
 
         <TextView
@@ -118,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 of 1"
-            android:textColor="@color/text_tertiary_dark"
+            android:textColor="@color/aurora_text_tertiary"
             android:textSize="13sp" />
     </LinearLayout>
 </FrameLayout>

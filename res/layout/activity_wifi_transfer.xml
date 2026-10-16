@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_aurora_glow_card"
+        android:background="@drawable/bg_aurora_card"
         android:padding="24dp"
         android:layout_margin="16dp">
 
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IP: --"
-                android:textColor="@color/aurora_glow_teal"
+                android:textColor="@color/aurora_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginEnd="24dp" />
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Port: --"
-                android:textColor="@color/aurora_glow_teal"
+                android:textColor="@color/aurora_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -114,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_aurora_glow_button"
+            android:background="@drawable/bg_aurora_button_primary"
             android:text="Start Server"
             android:textColor="@color/aurora_on_primary"
             android:textSize="15sp"

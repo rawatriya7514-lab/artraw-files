@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top Bar with Dedicated Status Bar Spacer -->
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark">
+        android:background="@color/aurora_background_surface">
 
         <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
         <View
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_aurora_card"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp">
 
@@ -110,7 +110,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/border_dark"
+                    android:background="@color/aurora_outline"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp" />
 
@@ -139,7 +139,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/border_dark"
+                    android:background="@color/aurora_outline"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp" />
 
@@ -171,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_aurora_card"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp">
 
@@ -197,7 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="38dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_button_outlined"
+                    android:background="@drawable/bg_aurora_button_outlined"
                     android:text="Open System Permission Settings"
                     android:textColor="@color/text_primary_dark"
                     android:textSize="12sp" />
@@ -207,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/perm_restricted_notice"
-                    android:textColor="@color/text_tertiary_dark"
+                    android:textColor="@color/aurora_text_tertiary"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -216,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_aurora_card"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp">
 
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Support our free, private file manager by watching a short rewarded video ad."
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="13sp" />
 
                 <Button
@@ -241,7 +241,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_button_primary"
+                    android:background="@drawable/bg_aurora_button_primary"
                     android:text="Watch Video Ad"
                     android:textColor="@android:color/white"
                     android:textSize="13sp"
@@ -253,7 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_card"
+                android:background="@drawable/bg_aurora_card"
                 android:padding="16dp">
 
                 <TextView
@@ -270,7 +270,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Version 1.1.0 (Target Android 15)"
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="12sp" />
 
                 <TextView
@@ -287,13 +287,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Artfiles processes all files exclusively on your local device. Fast, secure and modern storage management."
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/border_dark"
+                    android:background="@color/aurora_outline"
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="10dp" />
 
@@ -322,14 +322,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Read our AdMob &amp; Play Store compliant data safety disclosure."
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/border_dark"
+                    android:background="@color/aurora_outline"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp" />
 
@@ -357,14 +357,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Manage your advertising ID and ad preferences on Google."
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/border_dark"
+                    android:background="@color/aurora_outline"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp" />
 

@@ -29,14 +29,14 @@
 
             <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:contentDescription="Back"
+                android:contentDescription="@string/content_back"
                 android:tint="@color/aurora_text_primary" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_marginEnd="8dp"
                 android:singleLine="true"
                 android:ellipsize="middle"
-                android:text="Storage"
+                android:text="@string/storage_internal"
                 android:textColor="@color/aurora_text_primary"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -162,72 +162,72 @@
 
                 <ImageView
                     android:id="@+id/btnActionSelectAll"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
-                    android:contentDescription="Select All"
+                    android:contentDescription="@string/content_select_all"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionCopy"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
-                    android:contentDescription="Copy"
+                    android:contentDescription="@string/content_copy"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionCut"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
-                    android:contentDescription="Cut"
+                    android:contentDescription="@string/content_cut"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionShare"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
-                    android:contentDescription="Share"
+                    android:contentDescription="@string/content_share"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionCompress"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_compress"
-                    android:contentDescription="Compress to ZIP"
+                    android:contentDescription="@string/content_move"
                     android:tint="@color/aurora_text_secondary" />
 
                 <ImageView
                     android:id="@+id/btnActionDelete"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_delete"
-                    android:contentDescription="Delete"
-                    android:tint="@color/aurora_text_secondary" />
+                    android:contentDescription="@string/content_delete"
+                    android:tint="@color/aurora_error" />
 
                 <ImageView
                     android:id="@+id/btnActionMore"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_more"
-                    android:contentDescription="More"
+                    android:contentDescription="@string/content_more"
                     android:tint="@color/aurora_text_secondary" />
             </LinearLayout>
         </RelativeLayout>
@@ -288,7 +288,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_folder"
-                android:tint="@color/aurora_glow_teal"
+                android:tint="@color/aurora_primary"
                 android:contentDescription="Path" />
 
             <TextView
@@ -501,7 +501,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:indeterminate="true"
-            android:indeterminateTint="@color/aurora_glow_teal"
+            android:indeterminateTint="@color/aurora_primary"
             android:visibility="gone" />
     </FrameLayout>
 
@@ -532,7 +532,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_storage"
-                android:tint="@color/aurora_glow_teal"
+                android:tint="@color/aurora_primary"
                 android:contentDescription="Home" />
 
             <TextView
@@ -540,7 +540,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_home"
-                android:textColor="@color/aurora_glow_teal"
+                android:textColor="@color/aurora_primary"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top Bar -->
     <RelativeLayout
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="56dp"
-        android:background="@color/surface_dark"
+        android:background="@color/aurora_background_surface"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingTop="36dp"
@@ -66,7 +66,7 @@
         <FrameLayout
             android:layout_width="220dp"
             android:layout_height="220dp"
-            android:background="@drawable/bg_card"
+            android:background="@drawable/bg_aurora_card"
             android:layout_marginBottom="32dp">
 
             <ImageView
@@ -97,7 +97,7 @@
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:text="Folder Name"
-            android:textColor="@color/text_secondary_dark"
+            android:textColor="@color/aurora_text_secondary"
             android:textSize="14sp" />
 
         <!-- SeekBar & Time -->
@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:progressBackgroundTint="@color/border_dark"
+            android:progressBackgroundTint="@color/aurora_outline"
             android:progressTint="@color/artraw_crimson"
             android:thumbTint="@color/artraw_crimson_accent" />
 
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:text="0:00"
-                android:textColor="@color/text_tertiary_dark"
+                android:textColor="@color/aurora_text_tertiary"
                 android:textSize="12sp" />
 
             <TextView
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:text="0:00"
-                android:textColor="@color/text_tertiary_dark"
+                android:textColor="@color/aurora_text_tertiary"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -168,7 +168,7 @@
                 android:id="@+id/btnPlayPauseAudio"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:background="@drawable/bg_button_primary">
+                android:background="@drawable/bg_aurora_button_primary">
 
                 <ImageView
                     android:id="@+id/imgPlayPause"

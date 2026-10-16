@@ -91,7 +91,7 @@
                 android:id="@+id/btnPlayPauseVideo"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:background="@drawable/bg_button_primary">
+                android:background="@drawable/bg_aurora_button_primary">
 
                 <ImageView
                     android:id="@+id/imgPlayPauseVideo"

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- AURORA Premium Theme - Dark -->
+    <!-- AURORA Premium Theme — Refined Dark -->
     <!-- ====================================================================== -->
     <style name="Theme.ArtrawFiles">
         <item name="android:colorPrimary">@color/aurora_primary</item>
-        <item name="android:colorPrimaryDark">@color/aurora_glow_teal</item>
-        <item name="android:colorAccent">@color/aurora_glow_cyan</item>
+        <item name="android:colorPrimaryDark">@color/aurora_primary</item>
+        <item name="android:colorAccent">@color/aurora_secondary</item>
         <item name="android:windowBackground">@color/aurora_background_deep</item>
         <item name="android:colorBackground">@color/aurora_background_deep</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -17,9 +17,9 @@
 
     <!-- Light Theme Variant -->
     <style name="Theme.ArtrawFiles.Light">
-        <item name="android:colorPrimary">@color/aurora_glow_teal</item>
-        <item name="android:colorPrimaryDark">@color/aurora_glow_teal</item>
-        <item name="android:colorAccent">@color/aurora_glow_cyan</item>
+        <item name="android:colorPrimary">@color/aurora_primary</item>
+        <item name="android:colorPrimaryDark">@color/aurora_primary</item>
+        <item name="android:colorAccent">@color/aurora_secondary</item>
         <item name="android:windowBackground">@color/aurora_bg_light</item>
         <item name="android:colorBackground">@color/aurora_bg_light</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -29,7 +29,6 @@
     </style>
 
     <style name="Theme" parent="Theme.ArtrawFiles" />
-
     <style name="Widget" />
 
     <!-- Component Styles -->
@@ -37,6 +36,7 @@
         <item name="android:background">@drawable/bg_aurora_card</item>
     </style>
 
+    <!-- Card — Subtle border, no excessive glow -->
     <style name="Widget.ArtrawFiles.Card">
         <item name="android:background">@drawable/bg_aurora_card</item>
     </style>
@@ -45,6 +45,7 @@
         <item name="android:background">@drawable/bg_aurora_card_elevated</item>
     </style>
 
+    <!-- Buttons — Restrained gradients only for primary actions -->
     <style name="Widget.ArtrawFiles.Button">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
@@ -72,27 +73,25 @@
         <item name="android:paddingBottom">12dp</item>
     </style>
 
+    <!-- Text Scale — Modular -->
     <style name="Widget.ArtrawFiles.Text">
         <item name="android:textColor">@color/aurora_text_primary</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Text.Headline" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textColor">@color/aurora_text_primary</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Text.Title" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textColor">@color/aurora_text_primary</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Text.Body" parent="Widget.ArtrawFiles.Text">
-        <item name="android:textColor">@color/aurora_text_primary</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -111,7 +110,7 @@
     <style name="Widget.ArtrawFiles.BottomNavItem">
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingTop">6dp</item>
-        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 </resources>

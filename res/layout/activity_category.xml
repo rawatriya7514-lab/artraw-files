@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top Bar with Dedicated Status Bar Spacer -->
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark">
+        android:background="@color/aurora_background_surface">
 
         <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
         <View
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0 files"
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -89,7 +89,7 @@
             android:id="@+id/toolbarCatSelection"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/surface_elevated_dark"
+            android:background="@color/aurora_background_elevated"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:visibility="gone">
@@ -181,7 +181,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_elevated_dark"
+        android:background="@color/aurora_background_elevated"
         android:padding="12dp"
         android:visibility="gone">
 
@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/archive_notice_unsupported"
-            android:textColor="@color/text_secondary_dark"
+            android:textColor="@color/aurora_text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -210,7 +210,7 @@
             android:id="@+id/listViewCatFiles"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/border_dark"
+            android:divider="@color/aurora_outline"
             android:dividerHeight="0.5dp"
             android:clipToPadding="false" />
 
@@ -245,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/state_empty"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 

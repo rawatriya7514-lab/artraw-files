@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <!-- Header with Dedicated Status Bar Spacer -->
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark">
+        android:background="@color/aurora_background_surface">
 
         <View
             android:id="@+id/statusBarSpacerMonitor"
@@ -64,7 +64,7 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface_elevated_dark"
+        android:background="@color/aurora_background_elevated"
         android:scrollbars="none">
 
         <LinearLayout
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginEnd="6dp"
-                android:background="@drawable/bg_button_primary"
+                android:background="@drawable/bg_aurora_button_primary"
                 android:text="CPU &amp; RAM"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
@@ -91,9 +91,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginEnd="6dp"
-                android:background="@drawable/bg_button_outlined"
+                android:background="@drawable/bg_aurora_button_outlined"
                 android:text="Thermal &amp; Heat"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="12sp" />
 
             <Button
@@ -101,18 +101,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginEnd="6dp"
-                android:background="@drawable/bg_button_outlined"
+                android:background="@drawable/bg_aurora_button_outlined"
                 android:text="App Usage"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="12sp" />
 
             <Button
                 android:id="@+id/btnTabSpecs"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:background="@drawable/bg_button_outlined"
+                android:background="@drawable/bg_aurora_button_outlined"
                 android:text="Device Specs"
-                android:textColor="@color/text_secondary_dark"
+                android:textColor="@color/aurora_text_secondary"
                 android:textSize="12sp" />
         </LinearLayout>
     </HorizontalScrollView>
@@ -143,7 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -171,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="8 Cores • aarch64 • schedutil"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -180,7 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -205,7 +205,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -248,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Used: 4.8 GB / Total: 8.0 GB (3.2 GB Free)"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -268,7 +268,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -296,7 +296,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Normal Temperature • Health: Good ✓ • Discharging"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
 
                     <TextView
@@ -305,7 +305,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Battery: 78% • 3920 mV • Li-poly"
-                        android:textColor="@color/text_tertiary_dark"
+                        android:textColor="@color/aurora_text_tertiary"
                         android:textSize="11sp" />
                 </LinearLayout>
 
@@ -314,7 +314,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -347,7 +347,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -384,7 +384,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp"
                     android:visibility="gone">
@@ -402,7 +402,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="To calculate exact screen time and show which apps you used, Android requires Usage Access permission."
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
 
                     <Button
@@ -410,7 +410,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_button_primary"
+                        android:background="@drawable/bg_aurora_button_primary"
                         android:text="Grant Usage Access"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"
@@ -422,7 +422,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -450,7 +450,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Active apps used today"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -459,7 +459,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -483,7 +483,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -518,7 +518,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_card"
+                    android:background="@drawable/bg_aurora_card"
                     android:padding="16dp"
                     android:layout_marginBottom="14dp">
 
@@ -545,7 +545,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Android: 15 (API 35)"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="13sp" />
 
                     <TextView
@@ -554,7 +554,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Display: 1080x2400 @ 120Hz"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="13sp" />
 
                     <TextView
@@ -563,7 +563,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Kernel: Linux"
-                        android:textColor="@color/text_secondary_dark"
+                        android:textColor="@color/aurora_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

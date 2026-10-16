@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Colored Glow Based on Category -->
-    <item>
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="radial"
-                android:startColor="#2A4ECDC4"
-                android:centerColor="#00000000"
-                android:endColor="#00000000"
-                android:gradientRadius="80dp" />
-            <corners android:radius="14dp" />
-        </shape>
-    </item>
-    <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/aurora_background_surface" />
-            <corners android:radius="12dp" />
-            <stroke
-                android:width="0.5dp"
-                android:color="@color/aurora_outline" />
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/aurora_background_surface" />
+    <corners android:radius="12dp" />
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/aurora_outline" />
+</shape>

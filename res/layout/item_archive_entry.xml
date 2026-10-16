@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="12.4 KB • Compressed 8.2 KB"
-            android:textColor="@color/text_secondary_dark"
+            android:textColor="@color/aurora_text_secondary"
             android:textSize="11sp" />
     </LinearLayout>
 

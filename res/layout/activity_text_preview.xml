@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top Bar with Dedicated Status Bar Spacer -->
     <LinearLayout
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface_dark">
+        android:background="@color/aurora_background_surface">
 
         <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
         <View
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UTF-8 • 0 lines • 0 B"
-                    android:textColor="@color/text_secondary_dark"
+                    android:textColor="@color/aurora_text_secondary"
                     android:textSize="11sp" />
             </LinearLayout>
 
