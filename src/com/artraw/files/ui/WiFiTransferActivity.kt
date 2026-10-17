@@ -71,9 +71,7 @@ class WiFiTransferActivity : Activity() {
 
         // Auto-check permission
         if (!android.os.Environment.isExternalStorageManager()) {
-            com.artraw.files.util.PermissionsHelper.showPermissionJustification(this) {
-                com.artraw.files.util.PermissionsHelper.requestStoragePermission(this, 1002)
-            }
+            com.artraw.files.util.PermissionsHelper.requestStoragePermission(this, 1002)
         }
     }
 

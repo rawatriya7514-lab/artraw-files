@@ -20,5 +20,6 @@ data class FileItem(
     val apkPackageName: String? = null,
     val apkVersionName: String? = null,
     val apkLabel: String? = null,
-    val isEncrypted: Boolean = false
+    val isEncrypted: Boolean = false,
+    val iconRes: Int = 0
 )

@@ -214,6 +214,14 @@
             android:windowSoftInputMode="adjustResize|adjustPan"
             android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
+        <activity
+            android:name=".ui.PermissionActivity"
+            android:exported="false"
+            android:label="Storage Permission"
+            android:theme="@style/Theme.ArtrawFiles.Splash"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
         <provider
             android:name=".preview.ArtrawFileProvider"
             android:authorities="com.artraw.files.fileprovider"

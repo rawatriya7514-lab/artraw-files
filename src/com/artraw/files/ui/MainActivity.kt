@@ -192,9 +192,7 @@ class MainActivity : Activity() {
 
     private fun setupListeners() {
         btnGrantPermission.setOnClickListener {
-            PermissionsHelper.showPermissionJustification(this) {
-                PermissionsHelper.requestStoragePermission(this, 1001)
-            }
+            PermissionsHelper.requestStoragePermission(this, 1001)
         }
 
         findViewById<View>(R.id.btnSettings).setOnClickListener {
@@ -271,9 +269,8 @@ class MainActivity : Activity() {
                 loadStorageStats()
                 loadRecentFiles()
             } else {
-                layoutPermissionBanner.visibility = View.VISIBLE
-                tvStorageUsed.text = "Permission required"
-                tvRecentEmpty.text = "Permission required to display recent files."
+                // Launch beautiful PermissionActivity instead of showing inline banner
+                PermissionsHelper.requestStoragePermission(this, 1001)
             }
         } catch (e: Exception) {
             Log.e("MainActivity", "checkPermissionsAndLoad error", e)

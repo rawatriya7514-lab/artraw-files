@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_heaven_gradient">
+
+    <!-- Status Bar Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="44dp" />
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/aurora_background_surface"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/permIcon"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_storage"
+            android:tint="@color/aurora_primary"
+            android:contentDescription="Storage Permission" />
+
+        <TextView
+            android:id="@+id/permTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:text="Storage Access Required"
+            android:textColor="@color/aurora_text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/permSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:text="ArtFiles needs All Files Access to browse, copy, move, and manage your files."
+            android:textColor="@color/aurora_text_secondary"
+            android:textSize="14sp"
+            android:lineHeight="20sp" />
+    </LinearLayout>
+
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Step 1 -->
+            <LinearLayout
+                android:id="@+id/permStep1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_lock"
+                    android:tint="@color/aurora_text_secondary"
+                    android:contentDescription="Step 1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Allow All Files Access"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="36dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="We need access to your device storage to show files, folders, and media."
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="13sp"
+                    android:lineHeight="18sp" />
+            </LinearLayout>
+
+            <!-- Step 2 -->
+            <LinearLayout
+                android:id="@+id/permStep2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_settings"
+                    android:tint="@color/aurora_secondary"
+                    android:contentDescription="Step 2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Open System Settings"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="36dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap 'Open Settings' below, then enable 'All Files Access' for ArtFiles."
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="13sp"
+                    android:lineHeight="18sp" />
+            </LinearLayout>
+
+            <!-- Step 3 -->
+            <LinearLayout
+                android:id="@+id/permStep3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_check_circle"
+                    android:tint="@color/aurora_success"
+                    android:contentDescription="Step 3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Return to ArtFiles"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="36dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Come back to this screen. Permissions will be verified automatically."
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="13sp"
+                    android:lineHeight="18sp" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/aurora_divider"
+                android:layout_marginVertical="24dp" />
+
+            <!-- Why we need it -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Why we need this"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Browse, copy, move, and delete files\n• Create and extract ZIP archives\n• Encrypt and decrypt sensitive files\n• View images, videos, and documents\n• Manage storage and clean junk files"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="13sp"
+                android:lineHeight="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/aurora_background_surface"
+        android:padding="24dp">
+
+        <Button
+            android:id="@+id/btnOpenSettings"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_glass_clay_button_primary"
+            android:text="Open Settings &amp; Grant Access"
+            android:textColor="@color/aurora_on_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false" />
+    </LinearLayout>
+</LinearLayout>
