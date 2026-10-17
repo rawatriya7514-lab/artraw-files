@@ -2,12 +2,10 @@
 set -e
 
 # ==============================================================================
-# ARTRAW Files — Multi-Artifact Production Build Pipeline
+# ARTRAW Files — Single Production APK Build Pipeline
 #
-# Generates 3 Distinct Verified Artifacts:
-# 1. ARTRAW-Files-Offline.apk     (Personal Use: 0 Telemetry, 0 Ads, 0 Network)
-# 2. ARTRAW-Files-Test-AdMob.apk  (Validation: Google Sample Banner Test Ads)
-# 3. ARTRAW-Files-Production.aab  (Play Store: Real AdMob + R8/ProGuard Shrunk)
+# Generates ONE verified production artifact:
+#   Artfiles.apk  (Production Release: Signed, v1+v2+v3)
 # ==============================================================================
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -15,7 +13,6 @@ cd "$PROJECT_DIR"
 
 ANDROID_JAR="/data/data/com.termux/files/home/android-sdk/platforms/android-35/android.jar"
 KOTLIN_STDLIB="/data/data/com.termux/files/usr/opt/kotlin/lib/kotlin-stdlib.jar"
-BUNDLETOOL_JAR="/data/data/com.termux/files/home/android-sdk/libs/bundletool.jar"
 JUNIT_JAR="/data/data/com.termux/files/home/android-sdk/libs/junit-4.13.2.jar"
 HAMCREST_JAR="/data/data/com.termux/files/home/android-sdk/libs/hamcrest-core-1.3.jar"
 ADMOB_LIBS_DIR="/data/data/com.termux/files/home/android-sdk/libs/admob"
@@ -31,42 +28,43 @@ DOWNLOAD_DIR="/sdcard/Download"
 mkdir -p "$DOWNLOAD_DIR"
 
 echo "========================================================"
-echo " Starting Art files (Artfiles) Multi-Artifact Pipeline"
+echo "  ArtFiles — Production APK Build Pipeline"
 echo "========================================================"
-echo " Package ID:        com.artraw.files"
-echo " Version:           1.2.0 (versionCode: 3)"
-echo " Target SDK:        API 35 (Android 15)"
-echo " Keystore:          $RELEASE_KEYSTORE"
-echo " Output Directory:  $DOWNLOAD_DIR"
+echo "  Package ID:    com.artraw.files"
+echo "  Version:       1.2.0 (versionCode: 3)"
+echo "  Target SDK:    API 35 (Android 15)"
+echo "  Min SDK:       21"
+echo "  Keystore:      $RELEASE_KEYSTORE"
+echo "  Output:        $DOWNLOAD_DIR/Artfiles.apk"
 echo "========================================================"
 
-mkdir -p build/gen build/classes build/test-classes build/dex_d8 build/dex_r8 build/artifacts
+mkdir -p build/gen build/classes build/test-classes build/dex_d8 build/artifacts
 
 # ------------------------------------------------------------------------------
 # STEP 1: Generate R.java & Compile Application Sources
 # ------------------------------------------------------------------------------
-echo "[1/6] Compiling resources & generating base R.java..."
+echo "[1/5] Compiling resources & generating R.java..."
 aapt2 compile --dir res -o build/base_res.zip
 aapt2 link -I "$ANDROID_JAR" \
-    --manifest variants/production/AndroidManifest.xml \
+    --manifest AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
     --version-code 3 \
     --version-name "1.2.0" \
     --java build/gen \
-    -o build/temp_base.apk \
+    -o build/base.apk \
     build/base_res.zip
 
-echo "[2/6] Compiling Kotlin application sources..."
+echo "[2/5] Compiling Kotlin application sources..."
 kotlinc -classpath "$ANDROID_JAR:$ADMOB_CLASSPATH" \
     -d build/classes \
     build/gen/com/artraw/files/R.java \
     $(find src -name "*.kt")
 
 # ------------------------------------------------------------------------------
-# STEP 2: Run Automated Unit Tests
+# STEP 2: Run Unit Tests
 # ------------------------------------------------------------------------------
-echo "[3/6] Running unit tests..."
+echo "[3/5] Running unit tests..."
 kotlinc -classpath "$ANDROID_JAR:build/classes:$JUNIT_JAR:$HAMCREST_JAR:$ADMOB_CLASSPATH" \
     -d build/test-classes \
     $(find test -name "*.kt")
@@ -81,119 +79,58 @@ java -cp "build/classes:build/test-classes:$JUNIT_JAR:$HAMCREST_JAR:$KOTLIN_STDL
     com.artraw.files.DeviceMonitorTest
 
 # ------------------------------------------------------------------------------
-# STEP 3: Generate DEX Bytecodes
-# (D8 for zero-crash runtime retention; R8 for Play Store minified bundle)
+# STEP 3: Generate DEX Bytecodes (D8)
 # ------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
-echo "[4/6] Generating DEX bytecodes (D8)..."
-
-# D8: Full runtime class retention (5.6 - 5.8 MB production size with full AdMob & player support)
+echo "[4/5] Generating DEX bytecodes (D8)..."
 d8 $(find build/classes -name "*.class") \
-   "$KOTLIN_STDLIB" \
-   $(find "$ADMOB_LIBS_DIR" -name "*.jar") \
-   --min-api 26 \
-   --output build/dex_d8/
+    "$KOTLIN_STDLIB" \
+    $(find "$ADMOB_LIBS_DIR" -name "*.jar") \
+    --min-api 26 \
+    --output build/dex_d8/
 
 # ------------------------------------------------------------------------------
-# STEP 4: Build Artifact 1 — ArtFiles-Offline.apk
+# STEP 4: Build Production APK
 # ------------------------------------------------------------------------------
-echo "[5/6] Building Artifact 1: ArtFiles-Offline.apk..."
-rm -rf build/var_offline && mkdir -p build/var_offline/res
-cp -r res/* build/var_offline/res/
-cp variants/offline/res/values/admob.xml build/var_offline/res/values/admob.xml
+echo "[5/5] Building production APK: Artfiles.apk..."
 
-aapt2 compile --dir build/var_offline/res -o build/var_offline/resources.zip
-aapt2 link -I "$ANDROID_JAR" \
-    --manifest variants/offline/AndroidManifest.xml \
-    --min-sdk-version 21 \
-    --target-sdk-version 35 \
-    --version-code 3 \
-    --version-name "1.2.0" \
-    -o build/var_offline/base.apk \
-    build/var_offline/resources.zip
-
+# Create a clean APK with resources + DEX
 python3 -c "
-import zipfile
-with zipfile.ZipFile('build/var_offline/base.apk', 'a') as apk:
+import zipfile, shutil, os
+
+# Start from the linked base APK (has resources.arsc, manifest, etc.)
+shutil.copy('build/base.apk', 'build/artifacts/Artfiles.apk')
+
+# Add classes.dex
+with zipfile.ZipFile('build/artifacts/Artfiles.apk', 'a') as apk:
     apk.write('build/dex_d8/classes.dex', 'classes.dex')
 "
 
-apksigner sign --ks "$RELEASE_KEYSTORE" \
-    --ks-pass "pass:$RELEASE_STORE_PASS" \
-    --ks-key-alias "$RELEASE_KEY_ALIAS" \
-    --key-pass "pass:$RELEASE_KEY_PASS" \
-    --out build/artifacts/ArtFiles-Offline.apk \
-    build/var_offline/base.apk
-
-# ------------------------------------------------------------------------------
-# STEP 5: Build Artifact 2 — ArtFiles-Test-AdMob.apk
-# ------------------------------------------------------------------------------
-echo "      Building Artifact 2: ArtFiles-Test-AdMob.apk..."
-rm -rf build/var_test && mkdir -p build/var_test/res
-cp -r res/* build/var_test/res/
-cp variants/test/res/values/admob.xml build/var_test/res/values/admob.xml
-
-aapt2 compile --dir build/var_test/res -o build/var_test/resources.zip
-aapt2 link -I "$ANDROID_JAR" \
-    --manifest variants/test/AndroidManifest.xml \
-    --min-sdk-version 21 \
-    --target-sdk-version 35 \
-    --version-code 3 \
-    --version-name "1.2.0" \
-    -o build/var_test/base.apk \
-    build/var_test/resources.zip
-
-python3 -c "
-import zipfile
-with zipfile.ZipFile('build/var_test/base.apk', 'a') as apk:
-    apk.write('build/dex_d8/classes.dex', 'classes.dex')
-"
-
-apksigner sign --ks "$RELEASE_KEYSTORE" \
-    --ks-pass "pass:$RELEASE_STORE_PASS" \
-    --ks-key-alias "$RELEASE_KEY_ALIAS" \
-    --key-pass "pass:$RELEASE_KEY_PASS" \
-    --out build/artifacts/ArtFiles-Test-AdMob.apk \
-    build/var_test/base.apk
-
-# ------------------------------------------------------------------------------
-# STEP 6: Build Artifact 3 — Artfiles.apk (Official Release with AdMob)
-# ------------------------------------------------------------------------------
-echo "      Building Official Release APK: Artfiles.apk..."
-rm -rf build/var_prod && mkdir -p build/var_prod/res
-cp -r res/* build/var_prod/res/
-cp variants/production/res/values/admob.xml build/var_prod/res/values/admob.xml
-
-aapt2 compile --dir build/var_prod/res -o build/var_prod/resources.zip
-aapt2 link -I "$ANDROID_JAR" \
-    --manifest variants/production/AndroidManifest.xml \
-    --min-sdk-version 21 \
-    --target-sdk-version 35 \
-    --version-code 3 \
-    --version-name "1.2.0" \
-    -o build/var_prod/base.apk \
-    build/var_prod/resources.zip
-
-python3 -c "
-import zipfile
-with zipfile.ZipFile('build/var_prod/base.apk', 'a') as apk:
-    apk.write('build/dex_d8/classes.dex', 'classes.dex')
-"
-
+# Sign the APK
 apksigner sign --ks "$RELEASE_KEYSTORE" \
     --ks-pass "pass:$RELEASE_STORE_PASS" \
     --ks-key-alias "$RELEASE_KEY_ALIAS" \
     --key-pass "pass:$RELEASE_KEY_PASS" \
     --out build/artifacts/Artfiles.apk \
-    build/var_prod/base.apk
+    build/artifacts/Artfiles.apk 2>/dev/null || true
 
-# ------------------------------------------------------------------------------
-# STEP 7: Create Full Project Source Code ZIP & Copy to /sdcard/Download/
-# ------------------------------------------------------------------------------
-echo "      Packaging complete project source code ZIP..."
+# If in-place signing failed, sign to a temp file and move
+if [ ! -f "build/artifacts/Artfiles.apk" ] || ! apksigner verify -v "build/artifacts/Artfiles.apk" >/dev/null 2>&1; then
+    apksigner sign --ks "$RELEASE_KEYSTORE" \
+        --ks-pass "pass:$RELEASE_STORE_PASS" \
+        --ks-key-alias "$RELEASE_KEY_ALIAS" \
+        --key-pass "pass:$RELEASE_KEY_PASS" \
+        --out build/artifacts/Artfiles.apk.signed \
+        build/artifacts/Artfiles.apk
+    mv build/artifacts/Artfiles.apk.signed build/artifacts/Artfiles.apk
+fi
+
+# Copy to Download directory
+cp build/artifacts/Artfiles.apk "$DOWNLOAD_DIR/Artfiles.apk"
+
+# Also copy source ZIP
 python3 -c "
 import os, zipfile
-target = 'build/artifacts/Artfiles-v1.1.0-SourceCode.zip'
+target = '$DOWNLOAD_DIR/Artfiles-v1.2.1-SourceCode.zip'
 if os.path.exists(target):
     os.remove(target)
 with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
@@ -207,51 +144,29 @@ with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
             zf.write(path, arcname)
 "
 
-echo "[6/6] Copying artifacts to $DOWNLOAD_DIR..."
-cp build/artifacts/ArtFiles-Offline.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/ArtFiles-Test-AdMob.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/Artfiles.apk "$DOWNLOAD_DIR/"
-cp build/artifacts/Artfiles-v1.1.0-SourceCode.zip "$DOWNLOAD_DIR/"
-
-# Also keep copy in storage emulated 0
-cp build/artifacts/Artfiles* /storage/emulated/0/Download/ 2>/dev/null || true
-cp build/artifacts/ArtFiles* /storage/emulated/0/Download/ 2>/dev/null || true
-
 # ------------------------------------------------------------------------------
-# STEP 8: Verification Summary
+# STEP 5: Verification
 # ------------------------------------------------------------------------------
+echo ""
 echo "========================================================"
-echo " MULTI-ARTIFACT VERIFICATION SUMMARY:"
-echo "--------------------------------------------------------"
+echo "  VERIFICATION SUMMARY"
+echo "========================================================"
 
-echo " 1. [Official Release APK (Artfiles.apk)]:"
-apksigner verify -v "$DOWNLOAD_DIR/Artfiles.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/Artfiles.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/Artfiles.apk" | cut -f1)"
-echo -n "    SHA-256: "
+echo "  APK Path:    $DOWNLOAD_DIR/Artfiles.apk"
+echo "  APK Size:    $(stat -c%s "$DOWNLOAD_DIR/Artfiles.apk") bytes"
+echo -n "  APK SHA-256: "
 sha256sum "$DOWNLOAD_DIR/Artfiles.apk" | cut -d' ' -f1
 
 echo ""
-echo " 2. [Offline APK (No Ads)]:"
-apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Offline.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | cut -f1)"
-echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ArtFiles-Offline.apk" | cut -d' ' -f1
+echo "  Signature Verification:"
+apksigner verify -v "$DOWNLOAD_DIR/Artfiles.apk" 2>&1 | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
 
 echo ""
-echo " 3. [Test AdMob APK]:"
-apksigner verify -v "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
-echo "    Path:    $DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | cut -f1)"
-echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/ArtFiles-Test-AdMob.apk" | cut -d' ' -f1
+echo "  Source ZIP:    $DOWNLOAD_DIR/Artfiles-v1.2.1-SourceCode.zip"
+echo "  Source SHA-256:"
+sha256sum "$DOWNLOAD_DIR/Artfiles-v1.2.1-SourceCode.zip" | cut -d' ' -f1
 
 echo ""
-echo " 4. [Full Source Code ZIP]:"
-echo "    Path:    $DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip"
-echo "    Size:    $(du -h "$DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip" | cut -f1)"
-echo -n "    SHA-256: "
-sha256sum "$DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip" | cut -d' ' -f1
 echo "========================================================"
-
+echo "  BUILD COMPLETE — Artfiles.apk ready for release"
+echo "========================================================"
