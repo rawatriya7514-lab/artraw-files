@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_splash_background">
+    android:background="@drawable/bg_heaven_splash">
 
-    <!-- Centered ArtFiles Logo with Clay Pop Animation -->
+    <!-- Centered ArtFiles Logo with Heavenly Animation -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,21 +12,28 @@
         android:orientation="vertical"
         android:gravity="center">
 
+        <!-- Glow ring behind logo -->
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/bg_pop_dot_gold"
+            android:alpha="0.3" />
+
         <ImageView
             android:id="@+id/ivSplashLogo"
             android:layout_width="112dp"
             android:layout_height="112dp"
             android:src="@mipmap/ic_launcher_foreground"
-            android:contentDescription="@string/content_photo" />
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/tvSplashAppName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="16dp"
             android:text="@string/app_name"
             android:textColor="@color/aurora_text_primary"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:letterSpacing="0.04" />
 
@@ -34,40 +41,49 @@
             android:id="@+id/tvSplashTagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="@string/app_tagline"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="13sp"
-            android:letterSpacing="0.06" />
+            android:textSize="15sp"
+            android:letterSpacing="0.08" />
+
+        <TextView
+            android:id="@+id/tvSplashSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/app_subtitle"
+            android:textColor="@color/aurora_text_tertiary"
+            android:textSize="12sp"
+            android:letterSpacing="0.12" />
     </LinearLayout>
 
     <!-- Pop-Art decorative corner dots -->
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
         android:src="@drawable/bg_pop_dot_red" />
 
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="28dp"
         android:src="@drawable/bg_pop_dot_orange" />
 
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="28dp"
         android:src="@drawable/bg_pop_dot_blue" />
 
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
         android:src="@drawable/bg_pop_dot_ivory" />
-
 </FrameLayout>

@@ -1,8 +1,10 @@
 package com.artraw.files.util
 
+import com.artraw.files.R
 import com.artraw.files.model.ArchiveCapability
 import com.artraw.files.model.ArchiveSupportLevel
 import com.artraw.files.model.FileCategory
+import com.artraw.files.model.FileItem
 import java.io.File
 import java.util.Locale
 
@@ -76,6 +78,24 @@ object MimeTypes {
         val ext = getExtension(file.name)
         return MIME_MAP[ext] ?: "application/octet-stream"
     }
+
+    /**
+     * Returns the appropriate drawable resource ID for a file based on its category.
+     */
+    fun getIconRes(item: FileItem): Int {
+        return when (item.category) {
+            FileCategory.IMAGES -> R.drawable.ic_image
+            FileCategory.VIDEOS -> R.drawable.ic_video
+            FileCategory.AUDIO -> R.drawable.ic_audio
+            FileCategory.DOCUMENTS -> R.drawable.ic_document
+            FileCategory.DOWNLOADS -> R.drawable.ic_download
+            FileCategory.ARCHIVES -> R.drawable.ic_archive
+            FileCategory.APKS -> R.drawable.ic_apk
+            FileCategory.OTHER -> R.drawable.ic_file
+        }
+    }
+
+    fun isFolder(item: FileItem): Boolean = item.isDirectory
 
     fun getExtension(fileName: String): String {
         val lastDot = fileName.lastIndexOf('.')

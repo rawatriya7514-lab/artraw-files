@@ -3,6 +3,7 @@ package com.artraw.files.ui
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -556,9 +557,33 @@ class AnalyzerActivity : Activity() {
             holder.metaTv.text = "${app.packageName} • v${app.versionName}"
             holder.sizeTv.text = app.formattedSize
 
+            // App row click — show options (Uninstall / App Info)
+            view.setOnClickListener {
+                showAppOptionsDialog(app)
+            }
+
             return view
         }
+    }
 
+    private fun showAppOptionsDialog(app: AppStorageInfo) {
+        AlertDialog.Builder(this@AnalyzerActivity)
+            .setTitle(app.appName)
+            .setMessage("${app.packageName}\nv${app.versionName} • ${app.formattedSize}")
+            .setPositiveButton("Uninstall App") { _, _ ->
+                val intent = Intent(Intent.ACTION_DELETE).apply {
+                    data = android.net.Uri.parse("package:${app.packageName}")
+                }
+                startActivity(intent)
+            }
+            .setNeutralButton("App Info") { _, _ ->
+                val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = android.net.Uri.parse("package:${app.packageName}")
+                }
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }
 

@@ -18,6 +18,7 @@ class SettingsActivity : Activity() {
     private lateinit var settingsManager: SettingsManager
 
     private lateinit var tvCurrentLanguage: TextView
+    private lateinit var tvCurrentTheme: TextView
     private lateinit var cbShowHidden: CheckBox
     private lateinit var cbShowExtensions: CheckBox
     private lateinit var tvPermissionStatus: TextView
@@ -50,12 +51,14 @@ class SettingsActivity : Activity() {
         }
 
         tvCurrentLanguage = findViewById(R.id.tvCurrentLanguage)
+        tvCurrentTheme = findViewById(R.id.tvCurrentTheme)
         cbShowHidden = findViewById(R.id.cbShowHidden)
         cbShowExtensions = findViewById(R.id.cbShowExtensions)
         tvPermissionStatus = findViewById(R.id.tvPermissionStatus)
         btnManagePermission = findViewById(R.id.btnManagePermission)
 
         tvCurrentLanguage.text = if (settingsManager.language == "hi") "हिन्दी (Hindi)" else "English"
+        tvCurrentTheme.text = if (settingsManager.themeMode == "dark") getString(R.string.pref_theme_dark) else getString(R.string.pref_theme_light)
         cbShowHidden.isChecked = settingsManager.showHiddenFiles
         cbShowExtensions.isChecked = settingsManager.showFileExtensions
 
@@ -80,6 +83,23 @@ class SettingsActivity : Activity() {
 
         cbShowExtensions.setOnCheckedChangeListener { _, isChecked ->
             settingsManager.showFileExtensions = isChecked
+        }
+
+        // Theme Dark/Light Toggle
+        findViewById<View>(R.id.rowTheme).setOnClickListener {
+            val themes = arrayOf(getString(R.string.pref_theme_dark), getString(R.string.pref_theme_light))
+            val current = if (settingsManager.themeMode == "dark") 0 else 1
+            AlertDialog.Builder(this)
+                .setTitle(R.string.pref_theme)
+                .setSingleChoiceItems(themes, current) { _, which ->
+                    val newMode = if (which == 0) "dark" else "light"
+                    settingsManager.themeMode = newMode
+                    tvCurrentTheme.text = themes[which]
+                    // Recreate activity to apply theme immediately
+                    recreate()
+                }
+                .setPositiveButton("OK", null)
+                .show()
         }
 
         btnManagePermission.setOnClickListener {
@@ -170,6 +190,23 @@ class SettingsActivity : Activity() {
                 }
                 .setNegativeButton("OK", null)
                 .show()
+        }
+
+        // Tools & Utilities
+        findViewById<View>(R.id.rowToolTrash).setOnClickListener {
+            startActivity(Intent(this, TrashActivity::class.java))
+        }
+
+        findViewById<View>(R.id.rowToolJunk).setOnClickListener {
+            startActivity(Intent(this, JunkCleanerActivity::class.java))
+        }
+
+        findViewById<View>(R.id.rowToolChecksum).setOnClickListener {
+            startActivity(Intent(this, ChecksumActivity::class.java))
+        }
+
+        findViewById<View>(R.id.rowToolVault).setOnClickListener {
+            startActivity(Intent(this, VaultActivity::class.java))
         }
     }
 

@@ -94,7 +94,7 @@ object EdgeToEdgeHelper {
 
         val baseStatusBarHeight = getStatusBarHeight(activity)
         val baseNavBarHeight = getNavigationBarHeight(activity)
-        val extraTopGap = (16 * activity.resources.displayMetrics.density).toInt()
+        val extraTopGap = 0
 
         fun applyInsets(statusBarInset: Int, navBarInset: Int) {
             val effectiveStatusBar = kotlin.math.max(statusBarInset, baseStatusBarHeight) + extraTopGap

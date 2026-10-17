@@ -61,6 +61,14 @@ class MainActivity : Activity() {
         settingsManager = SettingsManager(this)
         repository = FileRepository(this)
 
+        // Apply saved theme before setContentView
+        val themeRes = if (settingsManager.themeMode == "light") {
+            R.style.Theme_ArtrawFiles_Light
+        } else {
+            R.style.Theme_ArtrawFiles
+        }
+        setTheme(themeRes)
+
         if (!AppSecurity.verifyIntegrity(this)) {
             Log.w("ARTRAW_SECURITY", "Non-standard environment detected; continuing in safe mode.")
         }

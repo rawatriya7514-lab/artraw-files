@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Deep space background circle -->
+    <group>
+        <clipPath android:pathData="M54,54 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0" />
+        <path
+            android:fillColor="#050507"
+            android:pathData="M4,4 h100 v100 h-100 z" />
+    </group>
+
+    <!-- Nebula gradient ring -->
+    <group>
+        <clipPath android:pathData="M54,54 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0" />
+        <path
+            android:fillColor="#2E1A2E"
+            android:pathData="M12,12 h84 v84 h-84 z" />
+    </group>
+
+    <!-- Heavenly gold ring accent -->
+    <group>
+        <clipPath android:pathData="M54,54 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+        <path
+            android:fillColor="#FFD700"
+            android:strokeWidth="3"
+            android:strokeColor="#FFD700"
+            android:pathData="M16,16 h76 v76 h-76 z" />
+    </group>
+
+    <!-- Central "A" letter (Artfiles) -->
+    <group>
+        <clipPath android:pathData="M54,54 m-24,0 a24,24 0 1,1 48,0 a24,24 0 1,1 -48,0" />
+        <path
+            android:fillColor="#FFFFF0"
+            android:pathData="
+                M44,44
+                L54,66
+                L64,44
+                L54,30
+                L44,44 Z
+                M48,50 L60,50
+                M48,56 L60,56" />
+    </group>
+
+    <!-- Pop-art corner dots -->
+    <path
+        android:fillColor="#E53935"
+        android:pathData="M22,22 m-6,0 a6,6 0 1,1 12,0 a6,6 0 1,1 -12,0" />
+    <path
+        android:fillColor="#FF8C42"
+        android:pathData="M86,22 m-6,0 a6,6 0 1,1 12,0 a6,6 0 1,1 -12,0" />
+    <path
+        android:fillColor="#00D4FF"
+        android:pathData="M22,86 m-6,0 a6,6 0 1,1 12,0 a6,6 0 1,1 -12,0" />
+    <path
+        android:fillColor="#FFFFF0"
+        android:pathData="M86,86 m-6,0 a6,6 0 1,1 12,0 a6,6 0 1,1 -12,0" />
+</vector>

@@ -95,9 +95,20 @@ object FileEncryption {
 
             val buffer = ByteArray(64 * 1024)
             var read: Int
+            var isFirstChunk = true
             while (input.read(buffer).also { read = it } != -1) {
                 val chunk = if (read == buffer.size) buffer else buffer.copyOfRange(0, read)
-                output.write(cipher.doFinal(chunk))
+                if (read < buffer.size) {
+                    // Last chunk — finalize GCM
+                    output.write(cipher.doFinal(chunk))
+                } else if (isFirstChunk) {
+                    // First chunk — initialize with update
+                    output.write(cipher.update(chunk))
+                    isFirstChunk = false
+                } else {
+                    // Middle chunks — continue update
+                    output.write(cipher.update(chunk))
+                }
             }
             output.flush()
 
@@ -148,9 +159,20 @@ object FileEncryption {
             output = FileOutputStream(decryptedFile)
             val buffer = ByteArray(64 * 1024)
             var read: Int
+            var isFirstChunk = true
             while (input.read(buffer).also { read = it } != -1) {
                 val chunk = if (read == buffer.size) buffer else buffer.copyOfRange(0, read)
-                output.write(cipher.doFinal(chunk))
+                if (read < buffer.size) {
+                    // Last chunk — finalize GCM
+                    output.write(cipher.doFinal(chunk))
+                } else if (isFirstChunk) {
+                    // First chunk — initialize with update
+                    output.write(cipher.update(chunk))
+                    isFirstChunk = false
+                } else {
+                    // Middle chunks — continue update
+                    output.write(cipher.update(chunk))
+                }
             }
             output.flush()
 

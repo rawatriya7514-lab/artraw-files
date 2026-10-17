@@ -617,7 +617,19 @@ class BrowserActivity : Activity() {
         AlertDialog.Builder(this)
             .setTitle(R.string.dialog_delete_title)
             .setMessage(getString(R.string.dialog_delete_msg, items.size, sizeStr))
-            .setPositiveButton(R.string.action_delete) { _, _ ->
+            .setPositiveButton("Move to Trash") { _, _ ->
+                com.artraw.files.util.TrashManager.init(this@BrowserActivity)
+                var success = 0
+                var failed = 0
+                for (item in items) {
+                    val f = File(item.path)
+                    if (com.artraw.files.util.TrashManager.moveToTrash(f)) success++ else failed++
+                }
+                activeAdapter().clearSelection()
+                loadDirectory(currentDirectory)
+                Toast.makeText(this, "Moved $success to trash${if (failed > 0) ", $failed failed" else ""}", Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton("Delete Permanently") { _, _ ->
                 val result = operationManager.deleteFiles(items)
                 activeAdapter().clearSelection()
                 loadDirectory(currentDirectory)
@@ -724,6 +736,7 @@ class BrowserActivity : Activity() {
             } else {
                 add("Copy Paths")
                 add("Details")
+                add("Batch Rename ($items.count { !it.isDirectory })")
                 if (encryptedCount > 0) {
                     add("Decrypt Selected ($encryptedCount)")
                 }
@@ -761,6 +774,11 @@ class BrowserActivity : Activity() {
                     }
                     "Decrypt Selected ($encryptedCount)" -> {
                         decryptMultipleFiles(items.filter { it.isEncrypted })
+                    }
+                    selected -> {
+                        if (selected.startsWith("Batch Rename")) {
+                            showBatchRenameDialog(items.filter { !it.isDirectory })
+                        }
                     }
                     getString(R.string.action_favorite_add) -> {
                         toggleFavorite(items[0])
@@ -845,6 +863,42 @@ class BrowserActivity : Activity() {
                 } else {
                     Toast.makeText(this, error ?: "Rename failed", Toast.LENGTH_SHORT).show()
                 }
+            }
+            .setNegativeButton(R.string.btn_cancel, null)
+            .show()
+    }
+
+    private fun showBatchRenameDialog(items: List<FileItem>) {
+        if (items.isEmpty()) return
+        val input = EditText(this).apply {
+            setHint("Add prefix (e.g., 'vacation_')")
+            setSingleLine()
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Batch Rename ${items.size} files")
+            .setMessage("Enter a prefix to add to each filename. Extension will be preserved.")
+            .setView(input)
+            .setPositiveButton("Rename All") { _, _ ->
+                val prefix = input.text.toString().trim()
+                if (prefix.isEmpty()) {
+                    Toast.makeText(this, "Prefix cannot be empty", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                var success = 0
+                var failed = 0
+                for (item in items) {
+                    val ext = if (item.isDirectory) "" else {
+                        val dot = item.name.lastIndexOf('.')
+                        if (dot > 0) item.name.substring(dot) else ""
+                    }
+                    val baseName = if (item.isDirectory) item.name else item.name.removeSuffix(ext)
+                    val newName = prefix + baseName + ext
+                    val (ok, error) = operationManager.renameFile(item, newName)
+                    if (ok) success++ else failed++
+                }
+                activeAdapter().clearSelection()
+                loadDirectory(currentDirectory)
+                Toast.makeText(this, "Renamed $success file(s)${if (failed > 0) ", $failed failed" else ""}", Toast.LENGTH_LONG).show()
             }
             .setNegativeButton(R.string.btn_cancel, null)
             .show()

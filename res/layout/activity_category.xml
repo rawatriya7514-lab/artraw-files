@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/aurora_background_deep">
+    android:background="@drawable/bg_heaven_gradient">
 
-    <!-- Top Bar with Dedicated Status Bar Spacer -->
+    <!-- ======================================================================
+         Top Bar
+         ====================================================================== -->
     <LinearLayout
         android:id="@+id/headerCategory"
         android:layout_width="match_parent"
@@ -13,28 +15,28 @@
         android:orientation="vertical"
         android:background="@color/aurora_background_surface">
 
-        <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
+        <!-- Status Bar Spacer -->
         <View
             android:id="@+id/statusBarSpacerCategory"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:layout_height="44dp" />
 
         <!-- Normal Category Toolbar -->
         <RelativeLayout
             android:id="@+id/toolbarCatNormal"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <ImageView
                 android:id="@+id/btnCatBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:padding="12dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_back" />
 
@@ -44,7 +46,7 @@
                 android:layout_toEndOf="@id/btnCatBack"
                 android:layout_toStartOf="@+id/layoutCatActions"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -62,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:text="0 files"
                     android:textColor="@color/aurora_text_secondary"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -77,8 +79,8 @@
                     android:id="@+id/btnCatViewToggle"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="10dp"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_grid"
                     android:contentDescription="@string/content_toggle_view" />
             </LinearLayout>
@@ -90,8 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/aurora_background_elevated"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:visibility="gone">
 
             <ImageView
@@ -100,8 +102,8 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="12dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="10dp"
+                android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_close_selection" />
 
@@ -112,7 +114,7 @@
                 android:layout_toEndOf="@id/btnCatCloseSelection"
                 android:layout_toStartOf="@+id/layoutCatSelectionActions"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
                 android:singleLine="true"
                 android:text="0 selected"
                 android:textColor="@color/aurora_text_primary"
@@ -129,60 +131,60 @@
 
                 <ImageView
                     android:id="@+id/btnCatActionSelectAll"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
                     android:contentDescription="@string/content_select_all" />
 
                 <ImageView
                     android:id="@+id/btnCatActionCopy"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
                     android:contentDescription="@string/content_copy" />
 
                 <ImageView
                     android:id="@+id/btnCatActionCut"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
                     android:contentDescription="@string/content_move" />
 
                 <ImageView
                     android:id="@+id/btnCatActionShare"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
                     android:contentDescription="@string/content_share" />
 
                 <ImageView
                     android:id="@+id/btnCatActionDelete"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:padding="12dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_delete"
                     android:contentDescription="@string/content_delete" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
-    <!-- Archive Capability Banner (Visible for Archives category) -->
+    <!-- Archive Capability Banner -->
     <LinearLayout
         android:id="@+id/layoutArchiveBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/aurora_background_elevated"
-        android:padding="12dp"
+        android:padding="14dp"
         android:visibility="gone">
 
         <TextView
@@ -190,15 +192,15 @@
             android:layout_height="wrap_content"
             android:text="@string/archive_notice_zip"
             android:textColor="@color/aurora_success"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:text="@string/archive_notice_unsupported"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <FrameLayout
@@ -219,7 +221,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="3"
-            android:padding="12dp"
+            android:padding="10dp"
             android:horizontalSpacing="8dp"
             android:verticalSpacing="8dp"
             android:clipToPadding="false"
@@ -235,24 +237,24 @@
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:src="@drawable/ic_file"
-                android:alpha="0.4" />
+                android:alpha="0.25" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="18dp"
                 android:text="@string/state_empty"
                 android:textColor="@color/aurora_text_secondary"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressCatLoading"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:layout_gravity="center"
             android:indeterminate="true"
             android:indeterminateTint="@color/aurora_primary"

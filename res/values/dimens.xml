@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ====================================================================== -->
-    <!-- CLAY ART + POP ART — Dimension Tokens (Compact, One-Hand Friendly)     -->
-    <!-- ====================================================================== -->
-
-    <!-- Touch Targets (48dp minimum for accessibility) -->
     <dimen name="aurora_touch_target">48dp</dimen>
     <dimen name="aurora_icon_container">44dp</dimen>
     <dimen name="aurora_icon_size">22dp</dimen>
-
-    <!-- Corner Radii — Clay Art: soft, pill-like rounded corners -->
-    <dimen name="aurora_radius_card">14dp</dimen>
-    <dimen name="aurora_radius_button">12dp</dimen>
+    <dimen name="aurora_icon_small">18dp</dimen>
+    <dimen name="aurora_icon_large">28dp</dimen>
+    <dimen name="aurora_radius_card">16dp</dimen>
+    <dimen name="aurora_radius_button">14dp</dimen>
     <dimen name="aurora_radius_badge">10dp</dimen>
     <dimen name="aurora_radius_small">8dp</dimen>
-    <dimen name="aurora_radius_large">20dp</dimen>
-    <dimen name="aurora_radius_pill">24dp</dimen>
-
-    <!-- Spacing Scale — Compact, no huge gaps -->
+    <dimen name="aurora_radius_large">24dp</dimen>
+    <dimen name="aurora_radius_pill">28dp</dimen>
+    <dimen name="aurora_radius_circle">1000dp</dimen>
+    <dimen name="aurora_space_2">2dp</dimen>
     <dimen name="aurora_space_4">4dp</dimen>
+    <dimen name="aurora_space_6">6dp</dimen>
     <dimen name="aurora_space_8">8dp</dimen>
-    <dimen name="aurora_space_12">10dp</dimen>
-    <dimen name="aurora_space_16">14dp</dimen>
-    <dimen name="aurora_space_20">16dp</dimen>
-    <dimen name="aurora_space_24">20dp</dimen>
-    <dimen name="aurora_space_32">24dp</dimen>
-
-    <!-- Header / Bar Heights -->
-    <dimen name="aurora_height_toolbar">52dp</dimen>
-    <dimen name="aurora_height_bottom_nav">64dp</dimen>
+    <dimen name="aurora_space_10">10dp</dimen>
+    <dimen name="aurora_space_12">12dp</dimen>
+    <dimen name="aurora_space_14">14dp</dimen>
+    <dimen name="aurora_space_16">16dp</dimen>
+    <dimen name="aurora_space_20">20dp</dimen>
+    <dimen name="aurora_space_24">24dp</dimen>
+    <dimen name="aurora_space_32">32dp</dimen>
+    <dimen name="aurora_space_40">40dp</dimen>
+    <dimen name="aurora_height_status_spacer">44dp</dimen>
+    <dimen name="aurora_height_toolbar">56dp</dimen>
+    <dimen name="aurora_height_bottom_nav">76dp</dimen>
     <dimen name="aurora_height_admob_banner">50dp</dimen>
-    <dimen name="aurora_height_status_spacer">0dp</dimen>
-
-    <!-- Card Padding — Compact -->
-    <dimen name="aurora_padding_card">14dp</dimen>
-    <dimen name="aurora_padding_card_compact">10dp</dimen>
-    <dimen name="aurora_padding_card_wide">20dp</dimen>
-
-    <!-- Item Heights -->
-    <dimen name="aurora_height_item_list">56dp</dimen>
-    <dimen name="aurora_height_item_grid_thumbnail">92dp</dimen>
-    <dimen name="aurora_height_item_grid_card">100dp</dimen>
+    <dimen name="aurora_height_fab">50dp</dimen>
+    <dimen name="aurora_height_chip">36dp</dimen>
+    <dimen name="aurora_padding_card">18dp</dimen>
+    <dimen name="aurora_padding_card_compact">12dp</dimen>
+    <dimen name="aurora_padding_card_wide">24dp</dimen>
+    <dimen name="aurora_padding_screen">16dp</dimen>
+    <dimen name="aurora_height_item_list">60dp</dimen>
+    <dimen name="aurora_height_item_grid_thumbnail">100dp</dimen>
+    <dimen name="aurora_height_item_grid_card">120dp</dimen>
+    <dimen name="aurora_height_category_card">120dp</dimen>
     <dimen name="aurora_height_badge">32dp</dimen>
-
-    <!-- Text Sizes (SP) -->
-    <dimen name="aurora_text_display">24sp</dimen>
-    <dimen name="aurora_text_headline">20sp</dimen>
-    <dimen name="aurora_text_title">16sp</dimen>
-    <dimen name="aurora_text_body">14sp</dimen>
-    <dimen name="aurora_text_caption">12sp</dimen>
-    <dimen name="aurora_text_label">10sp</dimen>
-    <dimen name="aurora_text_small">11sp</dimen>
-    <dimen name="aurora_text_extra_small">9sp</dimen>
-
-    <!-- Line Heights -->
-    <dimen name="aurora_line_height_display">32sp</dimen>
-    <dimen name="aurora_line_height_headline">28sp</dimen>
-    <dimen name="aurora_line_height_title">24sp</dimen>
-    <dimen name="aurora_line_height_body">20sp</dimen>
-    <dimen name="aurora_line_height_caption">16sp</dimen>
+    <dimen name="aurora_text_display">34sp</dimen>
+    <dimen name="aurora_text_headline">26sp</dimen>
+    <dimen name="aurora_text_title">20sp</dimen>
+    <dimen name="aurora_text_body">15sp</dimen>
+    <dimen name="aurora_text_caption">13sp</dimen>
+    <dimen name="aurora_text_label">11sp</dimen>
+    <dimen name="aurora_text_small">12sp</dimen>
+    <dimen name="aurora_text_extra_small">10sp</dimen>
+    <dimen name="aurora_line_height_display">42sp</dimen>
+    <dimen name="aurora_line_height_headline">34sp</dimen>
+    <dimen name="aurora_line_height_title">26sp</dimen>
+    <dimen name="aurora_line_height_body">22sp</dimen>
+    <dimen name="aurora_line_height_caption">18sp</dimen>
     <dimen name="aurora_line_height_label">16sp</dimen>
+    <dimen name="aurora_border_thin">0.5dp</dimen>
+    <dimen name="aurora_border_medium">1dp</dimen>
+    <dimen name="aurora_border_thick">1.5dp</dimen>
+    <dimen name="aurora_shadow_offset_x">0dp</dimen>
+    <dimen name="aurora_shadow_offset_y">4dp</dimen>
+    <dimen name="aurora_shadow_radius">12dp</dimen>
 </resources>

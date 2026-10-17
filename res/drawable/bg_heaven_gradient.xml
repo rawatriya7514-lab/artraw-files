@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Deep space base -->
+    <item android:drawable="@color/aurora_background_deep" />
+
+    <!-- Heavenly gradient overlay (subtle radial glow from center-top) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="140%"
+                android:centerX="50%"
+                android:centerY="0%"
+                android:startColor="#1A1A2E00"
+                android:endColor="#00000000" />
+        </shape>
+    </item>
+
+    <!-- Pop-Art decorative corner dots -->
+    <item android:drawable="@drawable/bg_pop_dot_red" android:left="24dp" android:top="24dp" />
+    <item android:drawable="@drawable/bg_pop_dot_orange" android:right="24dp" android:top="24dp" />
+    <item android:drawable="@drawable/bg_pop_dot_blue" android:left="24dp" android:bottom="24dp" />
+    <item android:drawable="@drawable/bg_pop_dot_ivory" android:right="24dp" android:bottom="24dp" />
+    <item android:drawable="@drawable/bg_pop_dot_purple" android:left="80dp" android:top="80dp" />
+    <item android:drawable="@drawable/bg_pop_dot_gold" android:right="80dp" android:bottom="80dp" />
+</layer-list>

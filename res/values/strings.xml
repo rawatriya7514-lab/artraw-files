@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App Identity -->
     <string name="app_name">Artfiles</string>
-    <string name="app_tagline">Smart, Private &amp; Modern Storage Manager</string>
+    <string name="app_tagline">Heavenly Storage &amp; Media Manager</string>
+    <string name="app_subtitle">Smart • Private • Modern</string>
 
     <!-- Navigation & Titles -->
     <string name="nav_home">Home</string>
     <string name="nav_browse">Browse</string>
-    <string name="nav_analysis">Storage Analysis</string>
+    <string name="nav_analysis">Analysis</string>
     <string name="nav_settings">Settings</string>
 
     <!-- Storage Overview -->
     <string name="storage_internal">Internal Storage</string>
     <string name="storage_sdcard">SD Card</string>
-    <string name="storage_used">%1$s used of %2$s</string>
+    <string name="storage_used">%1$s of %2$s used</string>
     <string name="storage_free">%1$s free</string>
     <string name="storage_status">Storage Overview</string>
 
@@ -24,16 +26,16 @@
     <string name="cat_downloads">Downloads</string>
     <string name="cat_archives">Archives</string>
     <string name="cat_apks">APKs</string>
-    <string name="cat_other">Other Files</string>
+    <string name="cat_other">Other</string>
 
     <!-- Quick Actions -->
-    <string name="action_recent">Recent Files</string>
+    <string name="action_recent">Recent</string>
     <string name="action_large_files">Large Files</string>
-    <string name="action_duplicates">Duplicate Finder</string>
-    <string name="action_browse_all">Browse Storage</string>
+    <string name="action_duplicates">Duplicates</string>
+    <string name="action_browse_all">Browse All</string>
 
     <!-- Search -->
-    <string name="search_hint">Search files and folders…</string>
+    <string name="search_hint">Search files &amp; folders…</string>
     <string name="search_no_results">No matching files found</string>
 
     <!-- Contextual Toolbar -->
@@ -63,7 +65,7 @@
 
     <!-- Dialogs & Prompts -->
     <string name="dialog_delete_title">Confirm Permanent Deletion</string>
-    <string name="dialog_delete_msg">Are you sure you want to permanently delete %1$d item(s) (%2$s)? This action cannot be undone.</string>
+    <string name="dialog_delete_msg">Are you sure you want to permanently delete %1$d item(s) (%2$s)? This cannot be undone.</string>
     <string name="dialog_conflict_title">File Already Exists</string>
     <string name="dialog_conflict_msg">A file named \"%1$s\" already exists in the destination folder.</string>
     <string name="btn_replace">Replace</string>
@@ -73,13 +75,13 @@
 
     <!-- Permissions & Onboarding -->
     <string name="perm_title">Storage Access Required</string>
-    <string name="perm_desc">Artfiles requires All Files Access permission to browse, copy, organize, and inspect files on your device. Android 11+ manages file access via system settings.</string>
+    <string name="perm_desc">Artfiles needs All Files Access to browse, copy, organize, and inspect files on your device.</string>
     <string name="perm_btn_grant">Grant All Files Access</string>
-    <string name="perm_restricted_notice">Note: System directories like Android/data and Android/obb are protected by Android OS privacy policies and cannot be accessed.</string>
+    <string name="perm_restricted_notice">System directories like Android/data and Android/obb are protected by Android OS.</string>
 
     <!-- Archive Support Notes -->
     <string name="archive_notice_zip">ZIP format is natively supported for extraction and inspection.</string>
-    <string name="archive_notice_unsupported">Formats like 7Z and RAR require an external archive manager (e.g., ZArchiver or RAR) on Android.</string>
+    <string name="archive_notice_unsupported">7Z and RAR require an external archive manager (e.g., ZArchiver or RAR).</string>
 
     <!-- Encryption -->
     <string name="action_encrypt">Encrypt</string>
@@ -130,8 +132,6 @@
     <string name="content_paste">Paste</string>
     <string name="content_move">Move</string>
     <string name="content_close_selection">Close Selection</string>
-
-    <!-- Accessibility Content Descriptions -->
     <string name="content_home">Home</string>
     <string name="content_browse">Browse</string>
     <string name="content_analysis">Storage Analysis</string>
@@ -140,14 +140,10 @@
     <string name="content_path">Path</string>
     <string name="content_copy_current_path">Copy Current Path</string>
     <string name="content_type_path">Type Path</string>
-
-    <!-- Accessibility Content Descriptions -->
     <string name="content_play_pause">Play/Pause</string>
     <string name="content_forward_10">Forward 10s</string>
     <string name="content_skip_next">Next</string>
     <string name="content_skip_previous">Previous</string>
-
-    <!-- Accessibility Content Descriptions -->
     <string name="content_storage">Storage</string>
 
     <!-- States -->
@@ -157,9 +153,51 @@
 
     <!-- Settings -->
     <string name="pref_theme">Theme</string>
+    <string name="pref_theme_dark">Dark</string>
+    <string name="pref_theme_light">Light</string>
     <string name="pref_language">Language</string>
     <string name="pref_show_hidden">Show Hidden Files</string>
     <string name="pref_show_extensions">Show File Extensions</string>
     <string name="pref_about">About Artfiles</string>
     <string name="pref_privacy_pledge">Fast • Modern • Private Storage</string>
+
+    <!-- Trash / Recycle Bin -->
+    <string name="trash_title">Recycle Bin</string>
+    <string name="trash_empty">Recycle bin is empty</string>
+    <string name="trash_restore">Restore</string>
+    <string name="trash_delete_permanent">Delete Permanently</string>
+    <string name="trash_empty_all">Empty Recycle Bin</string>
+    <string name="trash_item_deleted">Moved to recycle bin</string>
+    <string name="trash_restored">File restored</string>
+
+    <!-- Junk Cleaner -->
+    <string name="junk_title">Junk Cleaner</string>
+    <string name="junk_scan">Scan for Junk</string>
+    <string name="junk_clean">Clean Selected</string>
+    <string name="junk_no_junk">No junk files found</string>
+    <string name="junk_cleaned">Cleaned %1$d item(s), freed %2$s</string>
+
+    <!-- Secure Vault -->
+    <string name="vault_title">Secure Vault</string>
+    <string name="vault_lock">Lock Vault</string>
+    <string name="vault_unlock">Unlock Vault</string>
+    <string name="vault_set_pin">Set Vault PIN</string>
+    <string name="vault_enter_pin">Enter Vault PIN</string>
+    <string name="vault_empty">Vault is empty</string>
+    <string name="vault_locked">Vault is locked</string>
+    <string name="vault_unlocked">Vault unlocked</string>
+
+    <!-- File Tagging -->
+    <string name="tag_title">Tags</string>
+    <string name="tag_set">Set Tag</string>
+    <string name="tag_remove">Remove Tag</string>
+
+    <!-- Quick Access -->
+    <string name="quick_access_title">Quick Access</string>
+    <string name="quick_pin">Pin Folder</string>
+    <string name="quick_unpin">Unpin Folder</string>
+
+    <!-- Checksum -->
+    <string name="checksum_title">File Checksum</string>
+    <string name="checksum_no_file">No file selected</string>
 </resources>

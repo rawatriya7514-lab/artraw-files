@@ -179,6 +179,41 @@
             android:windowSoftInputMode="adjustResize|adjustPan"
             android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
+        <activity
+            android:name=".ui.FavoritesActivity"
+            android:exported="false"
+            android:label="Favorites"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
+        <activity
+            android:name=".ui.ChecksumActivity"
+            android:exported="false"
+            android:label="File Checksum"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
+        <activity
+            android:name=".ui.TrashActivity"
+            android:exported="false"
+            android:label="Recycle Bin"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
+        <activity
+            android:name=".ui.JunkCleanerActivity"
+            android:exported="false"
+            android:label="Junk Cleaner"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
+        <activity
+            android:name=".ui.VaultActivity"
+            android:exported="false"
+            android:label="Secure Vault"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
         <provider
             android:name=".preview.ArtrawFileProvider"
             android:authorities="com.artraw.files.fileprovider"

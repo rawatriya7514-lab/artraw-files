@@ -16,6 +16,14 @@ class SplashActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
+            val settingsManager = SettingsManager(this)
+            val themeRes = if (settingsManager.themeMode == "light") {
+                R.style.Theme_ArtrawFiles_Light
+            } else {
+                R.style.Theme_ArtrawFiles
+            }
+            setTheme(themeRes)
+
             val tv = TextView(this)
             tv.text = "Artfiles"
             tv.setTextColor(0xFFFFFFFF.toInt())
