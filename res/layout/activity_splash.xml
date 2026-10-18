@@ -1,52 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutSplashRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_heaven_splash">
 
-    <!-- Centered ArtFiles Logo with Heavenly Animation -->
+    <!-- Centered Artfiles Brand Identity -->
     <LinearLayout
+        android:id="@+id/layoutSplashBrand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
-        <!-- Glow ring behind logo -->
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/bg_pop_dot_gold"
-            android:alpha="0.3" />
+        <!-- App Icon with Sleek Matte Container -->
+        <FrameLayout
+            android:id="@+id/flSplashLogoCard"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:background="@drawable/bg_splash_logo_container"
+            android:padding="14dp"
+            android:elevation="8dp">
 
-        <ImageView
-            android:id="@+id/ivSplashLogo"
-            android:layout_width="112dp"
-            android:layout_height="112dp"
-            android:src="@mipmap/ic_launcher_foreground"
-            android:contentDescription="@string/app_name" />
+            <ImageView
+                android:id="@+id/ivSplashLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/app_name" />
+        </FrameLayout>
 
+        <!-- Brand Name -->
         <TextView
             android:id="@+id/tvSplashAppName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="@string/app_name"
             android:textColor="@color/aurora_text_primary"
-            android:textSize="28sp"
+            android:textSize="26sp"
             android:textStyle="bold"
-            android:letterSpacing="0.04" />
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05" />
 
+        <!-- Tagline -->
         <TextView
             android:id="@+id/tvSplashTagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:text="@string/app_tagline"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="15sp"
-            android:letterSpacing="0.08" />
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.04" />
 
+        <!-- Subtitle / Value Proposition -->
         <TextView
             android:id="@+id/tvSplashSubtitle"
             android:layout_width="wrap_content"
@@ -55,35 +68,29 @@
             android:text="@string/app_subtitle"
             android:textColor="@color/aurora_text_tertiary"
             android:textSize="12sp"
-            android:letterSpacing="0.12" />
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.08" />
     </LinearLayout>
 
-    <!-- Pop-Art decorative corner dots -->
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/bg_pop_dot_red" />
+    <!-- Bottom Minimalist Branding Footer -->
+    <LinearLayout
+        android:id="@+id/layoutSplashFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="42dp"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/bg_pop_dot_orange" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SMART • PRIVATE • LIGHTNING FAST"
+            android:textColor="#5E6378"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.16" />
+    </LinearLayout>
 
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="28dp"
-        android:src="@drawable/bg_pop_dot_blue" />
-
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="28dp"
-        android:src="@drawable/bg_pop_dot_ivory" />
 </FrameLayout>

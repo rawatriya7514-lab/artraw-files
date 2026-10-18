@@ -1,7 +1,7 @@
 # Artfiles — Modern, Fast & Private Android Storage & Gallery Manager
 
 **Package ID**: `com.artraw.files`  
-**Version**: `1.2.0` (Version Code `3`)  
+**Version**: `1.0.0` (Version Code `1`)  
 **Target SDK**: Android 15 (API Level 35) / Android 16 Compatible  
 **Architecture**: Native Kotlin + Android SDK + Material 3 Design  
 **License**: Proprietary & Confidential — All Rights Reserved (Closed Source)

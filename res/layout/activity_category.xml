@@ -5,9 +5,7 @@
     android:orientation="vertical"
     android:background="@drawable/bg_heaven_gradient">
 
-    <!-- ======================================================================
-         Top Bar
-         ====================================================================== -->
+    <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/headerCategory"
         android:layout_width="match_parent"
@@ -15,13 +13,11 @@
         android:orientation="vertical"
         android:background="@color/aurora_background_surface">
 
-        <!-- Status Bar Spacer -->
         <View
             android:id="@+id/statusBarSpacerCategory"
             android:layout_width="match_parent"
             android:layout_height="44dp" />
 
-        <!-- Normal Category Toolbar -->
         <RelativeLayout
             android:id="@+id/toolbarCatNormal"
             android:layout_width="match_parent"
@@ -56,7 +52,7 @@
                     android:text="Category"
                     android:textStyle="bold"
                     android:textColor="@color/aurora_text_primary"
-                    style="@style/Widget.ArtrawFiles.Text.Title" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tvCatItemCount"

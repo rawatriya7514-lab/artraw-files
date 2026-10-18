@@ -327,8 +327,9 @@ class MainActivity : Activity() {
                                 name.text = item.name
                                 meta.text = "${Formatters.formatFileSize(item.size)} • ${Formatters.formatDate(item.lastModified)}"
 
+                                val isApk = item.isApk || item.category == FileCategory.APKS || item.extension.equals("apk", ignoreCase = true)
                                 val iconRes = when {
-                                    item.isApk -> R.drawable.ic_apk
+                                    isApk -> R.drawable.ic_apk
                                     item.category == FileCategory.IMAGES -> R.drawable.ic_image
                                     item.category == FileCategory.VIDEOS -> R.drawable.ic_video
                                     item.category == FileCategory.AUDIO -> R.drawable.ic_audio
@@ -336,10 +337,12 @@ class MainActivity : Activity() {
                                     item.category == FileCategory.ARCHIVES -> R.drawable.ic_archive
                                     else -> R.drawable.ic_file
                                 }
+                                icon.imageTintList = null
+                                icon.colorFilter = null
+                                icon.clearColorFilter()
                                 icon.setImageResource(iconRes)
-                                icon.setColorFilter(null)
-                                if (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || item.isApk) {
-                                    com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 96, defaultIconRes = iconRes)
+                                if (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || isApk) {
+                                    com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 120, defaultIconRes = iconRes)
                                 }
 
                                 row.setOnClickListener {

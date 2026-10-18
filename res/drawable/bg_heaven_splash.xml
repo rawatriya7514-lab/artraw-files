@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Deep space base -->
-    <item android:drawable="@color/aurora_background_deep" />
-
-    <!-- Subtle radial nebula glow -->
+    <!-- Deep Space Base Canvas -->
     <item>
-        <shape android:shape="oval">
-            <gradient
-                android:type="radial"
-                android:gradientRadius="60%"
-                android:centerX="50%"
-                android:centerY="50%"
-                android:startColor="#2E1A2E33"
-                android:centerColor="#1A0A1A11"
-                android:endColor="#00000000" />
+        <shape android:shape="rectangle">
+            <solid android:color="#07080C" />
         </shape>
     </item>
 
-    <!-- Gold accent sparkles -->
-    <item android:drawable="@drawable/bg_pop_dot_gold" android:left="20dp" android:top="20dp" />
-    <item android:drawable="@drawable/bg_pop_dot_blue" android:right="20dp" android:top="20dp" />
-    <item android:drawable="@drawable/bg_pop_dot_red" android:left="20dp" android:bottom="20dp" />
-    <item android:drawable="@drawable/bg_pop_dot_ivory" android:right="20dp" android:bottom="20dp" />
+    <!-- Subtle Centered Aurora Glow -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="85%"
+                android:centerX="50%"
+                android:centerY="45%"
+                android:startColor="#22283D"
+                android:centerColor="#111420"
+                android:endColor="#0007080C" />
+        </shape>
+    </item>
+
+    <!-- Gentle Top Vignette Gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="270"
+                android:startColor="#0D1018"
+                android:endColor="#0007080C" />
+        </shape>
+    </item>
 </layer-list>

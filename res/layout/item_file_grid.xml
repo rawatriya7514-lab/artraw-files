@@ -24,8 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_file"
-                android:tint="@color/aurora_text_primary" />
+                android:src="@drawable/ic_file" />
 
             <android.widget.ImageView
                 android:id="@+id/imgGridSelectBadge"

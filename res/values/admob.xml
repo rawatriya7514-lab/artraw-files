@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- Google Mobile Ads SDK Configuration — ArtFiles                        -->
-    <!-- NOTE: Placeholder / Test AD_UNIT_IDs are used by default for dev.     -->
-    <!-- Replace with production IDs in variants/*/res/values/adbom.xml later. -->
+    <!-- Google Mobile Ads (AdMob) Production Configuration — Artfiles 1.0.0   -->
     <!-- ====================================================================== -->
 
     <integer name="google_play_services_version">12451000</integer>
@@ -11,39 +9,20 @@
     <!-- Master AdMob feature toggle -->
     <bool name="admob_enabled">true</bool>
 
-    <!-- ====================================================================== -->
-    <!-- App Open Ad — Shown on cold start (app launch)                        -->
-    <!-- ====================================================================== -->
+    <!-- AdMob Production App ID -->
+    <string name="admob_app_id" translatable="false">ca-app-pub-7925407604309207~4393395283</string>
+
+    <!-- AdMob Production Banner Ad Unit ID -->
+    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/7795338269</string>
+
+    <!-- AdMob Production Rewarded Ad Unit ID -->
+    <string name="admob_rewarded_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/4693787341</string>
+
+    <!-- AdMob Production Interstitial Ad Unit ID -->
+    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-7925407604309207/4693787341</string>
+
+    <!-- AdMob App Open Ad Unit ID (Test fallback for cold start) -->
     <string name="admob_app_open_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
-
-    <!-- ====================================================================== -->
-    <!-- Banner Ad — Persistent bottom banner on main screens                  -->
-    <!-- ====================================================================== -->
-    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-
-    <!-- ====================================================================== -->
-    <!-- Rewarded Ad — Grants reward on successful video completion            -->
-    <!-- ====================================================================== -->
-    <string name="admob_rewarded_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
-
-    <!-- ====================================================================== -->
-    <!-- Interstitial Ad — Full-screen ad at natural transition points         -->
-    <!-- ====================================================================== -->
-    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-
-    <!-- ====================================================================== -->
-    <!-- Production IDs (commented out — uncomment and replace before release) -->
-    <!-- ====================================================================== -->
-    <!--
-    <string name="admob_app_id" translatable="false">ca-app-pub-XXXXXXXXXXXXXXXX~YYYYYYYYYY</string>
-    <string name="admob_app_open_ad_unit_id" translatable="false">ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY</string>
-    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY</string>
-    <string name="admob_rewarded_ad_unit_id" translatable="false">ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY</string>
-    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-XXXXXXXXXXXXXXXX/YYYYYYYYYY</string>
-    -->
-
-    <!-- AdMob App ID (used in AndroidManifest.xml meta-data) -->
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
 
     <!-- AdMob XML Layout Attributes for AdView -->
     <declare-styleable name="AdsAttrs">

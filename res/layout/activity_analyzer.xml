@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/aurora_background_deep">
+    android:background="@drawable/bg_heaven_gradient">
 
-    <!-- Top Bar with Dedicated Status Bar Spacer -->
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/headerAnalyzer"
         android:layout_width="match_parent"
@@ -13,7 +13,6 @@
         android:orientation="vertical"
         android:background="@color/aurora_background_surface">
 
-        <!-- Status Bar Spacer (Guaranteed min 44dp, never clipped) -->
         <View
             android:id="@+id/statusBarSpacerAnalyzer"
             android:layout_width="match_parent"
@@ -22,40 +21,57 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <ImageView
                 android:id="@+id/btnAnalyzerBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_back"
                 android:tint="@color/aurora_text_primary" />
 
             <TextView
+                android:id="@+id/tvAnalyzerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/btnAnalyzerBack"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
                 android:text="@string/nav_analysis"
+                android:textStyle="bold"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvAnalyzerSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnAnalyzerBack"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_below="@id/tvAnalyzerTitle"
+                android:text="Storage insights &amp; cleanup"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="11sp" />
         </RelativeLayout>
     </LinearLayout>
 
-    <!-- Tabs / Section selector -->
+    <!-- Tab Bar -->
     <LinearLayout
+        android:id="@+id/tabBarAnalyzer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:background="@color/aurora_background_elevated">
+        android:background="@color/aurora_background_surface"
+        android:clipToPadding="false"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
 
         <TextView
             android:id="@+id/tabLargeFiles"
@@ -68,46 +84,53 @@
             android:textStyle="bold"
             android:textSize="12sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:background="@drawable/bg_glass_clay_button_primary" />
 
         <TextView
             android:id="@+id/tabDuplicates"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginStart="4dp"
             android:gravity="center"
             android:text="@string/action_duplicates"
             android:textColor="@color/aurora_text_secondary"
             android:textStyle="normal"
             android:textSize="12sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:background="@drawable/bg_glass_clay_button_outlined" />
 
         <TextView
             android:id="@+id/tabApps"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginStart="4dp"
             android:gravity="center"
             android:text="Apps"
             android:textColor="@color/aurora_text_secondary"
             android:textStyle="normal"
             android:textSize="12sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:background="@drawable/bg_glass_clay_button_outlined" />
 
         <TextView
             android:id="@+id/tabWifi"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginStart="4dp"
             android:gravity="center"
             android:text="WiFi"
             android:textColor="@color/aurora_text_secondary"
             android:textStyle="normal"
             android:textSize="12sp"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:background="@drawable/bg_glass_clay_button_outlined" />
     </LinearLayout>
 
     <FrameLayout
@@ -128,7 +151,8 @@
                 android:layout_height="match_parent"
                 android:divider="@color/aurora_divider"
                 android:dividerHeight="0.5dp"
-                android:clipToPadding="false" />
+                android:clipToPadding="false"
+                android:padding="8dp" />
         </LinearLayout>
 
         <!-- Duplicates Container -->
@@ -137,21 +161,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="14dp"
             android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_aurora_card"
+                android:background="@drawable/bg_glass_clay_card"
                 android:padding="16dp"
-                android:layout_marginBottom="14dp">
+                android:layout_margin="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cryptographic Duplicate Cleaner"
+                    android:text="Duplicate Cleaner"
                     android:textStyle="bold"
                     android:textColor="@color/aurora_text_primary"
                     style="@style/Widget.ArtrawFiles.Text.Title" />
@@ -160,16 +183,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="Scan your device to find identical duplicate files. Auto-select extra copies and free up storage instantly."
+                    android:text="Find identical files across storage. Auto-select copies to free space."
                     android:textColor="@color/aurora_text_secondary"
-                    style="@style/Widget.ArtrawFiles.Text.Body" />
+                    android:textSize="13sp"
+                    android:lineHeight="18sp" />
 
                 <Button
                     android:id="@+id/btnStartDuplicateScan"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_aurora_button_primary"
+                    android:background="@drawable/bg_glass_clay_button_primary"
                     android:text="Scan for Duplicates"
                     android:textColor="@color/aurora_on_primary"
                     android:textSize="14sp"
@@ -186,13 +210,14 @@
                 android:layout_marginBottom="10dp"
                 android:visibility="gone" />
 
-            <!-- Quick Selection Actions -->
             <LinearLayout
                 android:id="@+id/layoutDuplicateSelectionActions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:visibility="gone">
 
                 <Button
@@ -200,7 +225,7 @@
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_weight="1.2"
-                    android:background="@drawable/bg_aurora_button_outlined"
+                    android:background="@drawable/bg_glass_clay_button_outlined"
                     android:text="Auto-Select Copies"
                     android:textColor="@color/aurora_primary"
                     android:textSize="11sp"
@@ -212,7 +237,7 @@
                     android:layout_height="36dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_aurora_button_outlined"
+                    android:background="@drawable/bg_glass_clay_button_outlined"
                     android:text="Select All"
                     android:textColor="@color/aurora_text_primary"
                     android:textSize="11sp" />
@@ -223,7 +248,7 @@
                     android:layout_height="36dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_aurora_button_outlined"
+                    android:background="@drawable/bg_glass_clay_button_outlined"
                     android:text="Deselect"
                     android:textColor="@color/aurora_text_secondary"
                     android:textSize="11sp" />
@@ -236,18 +261,18 @@
                 android:layout_weight="1"
                 android:divider="@color/aurora_divider"
                 android:dividerHeight="0.5dp"
-                android:clipToPadding="false" />
+                android:clipToPadding="false"
+                android:padding="8dp" />
 
-            <!-- Sticky Bottom Delete Bar -->
             <LinearLayout
                 android:id="@+id/layoutDuplicateDeleteBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/bg_aurora_card"
+                android:background="@drawable/bg_glass_clay_card"
                 android:gravity="center_vertical"
                 android:padding="14dp"
-                android:layout_marginTop="10dp"
+                android:layout_margin="16dp"
                 android:visibility="gone">
 
                 <TextView
@@ -255,7 +280,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="0 duplicates selected"
+                    android:text="0 items selected"
                     android:textColor="@color/aurora_text_primary"
                     android:textSize="13sp"
                     android:textStyle="bold" />
@@ -264,13 +289,13 @@
                     android:id="@+id/btnDeleteSelectedDuplicates"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:background="@drawable/bg_aurora_button_primary"
-                    android:paddingStart="18dp"
-                    android:paddingEnd="18dp"
+                    android:background="@drawable/bg_glass_clay_button_primary"
                     android:text="Delete Selected"
                     android:textColor="@color/aurora_on_primary"
                     android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -282,22 +307,31 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Installed Apps Storage"
-                android:textStyle="bold"
-                android:textColor="@color/aurora_text_primary"
-                style="@style/Widget.ArtrawFiles.Text.Title"
-                android:padding="16dp" />
+                android:orientation="vertical"
+                android:background="@drawable/bg_glass_clay_card"
+                android:padding="16dp"
+                android:layout_margin="16dp">
 
-            <ListView
-                android:id="@+id/listViewApps"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@color/aurora_divider"
-                android:dividerHeight="0.5dp"
-                android:clipToPadding="false" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Installed Apps"
+                    android:textStyle="bold"
+                    android:textColor="@color/aurora_text_primary"
+                    style="@style/Widget.ArtrawFiles.Text.Title" />
+
+                <ListView
+                    android:id="@+id/listViewApps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@color/aurora_divider"
+                    android:dividerHeight="0.5dp"
+                    android:clipToPadding="false"
+                    android:padding="4dp" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- WiFi Transfer Container -->
@@ -308,34 +342,79 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WiFi File Transfer"
-                android:textStyle="bold"
-                android:textColor="@color/aurora_text_primary"
-                style="@style/Widget.ArtrawFiles.Text.Title"
-                android:padding="16dp" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start a wireless server to transfer files between your phone and PC over WiFi.\n\nMake sure both devices are on the same WiFi network.\n\nTap 'Open WiFi Transfer' to launch the server."
-                android:textColor="@color/aurora_text_secondary"
-                style="@style/Widget.ArtrawFiles.Text.Body"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
+                android:orientation="vertical"
+                android:background="@drawable/bg_glass_clay_card"
+                android:padding="24dp"
+                android:layout_margin="16dp">
 
-            <Button
-                android:id="@+id/btnOpenWifiTransfer"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/bg_aurora_button_primary"
-                android:text="Open WiFi Transfer"
-                android:textColor="@color/aurora_on_primary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WiFi Transfer"
+                    android:textStyle="bold"
+                    android:textColor="@color/aurora_text_primary"
+                    style="@style/Widget.ArtrawFiles.Text.Title"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Connect PC to same WiFi. Start server and browse files wirelessly."
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="13sp"
+                    android:lineHeight="18sp"
+                    android:layout_marginBottom="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tvWifiIp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IP: --"
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="24dp" />
+
+                    <TextView
+                        android:id="@+id/tvWifiPort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Port: --"
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvWifiStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Server stopped"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp" />
+
+                <Button
+                    android:id="@+id/btnOpenWifiTransfer"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_glass_clay_button_primary"
+                    android:text="Start Server"
+                    android:textColor="@color/aurora_on_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <ProgressBar

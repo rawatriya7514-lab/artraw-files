@@ -25,7 +25,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@mipmap/ic_launcher_foreground"
+                android:src="@drawable/ic_launcher"
                 android:contentDescription="@string/app_name" />
 
             <LinearLayout
@@ -47,7 +47,7 @@
                         android:text="@string/app_name"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Headline" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -70,8 +70,7 @@
                     android:layout_marginTop="4dp"
                     android:text="@string/app_tagline"
                     android:textColor="@color/aurora_text_secondary"
-                    android:textSize="13sp"
-                    android:lineHeight="18sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <View
@@ -473,7 +472,7 @@
                     android:text="Categories"
                     android:textStyle="bold"
                     android:textColor="@color/aurora_text_primary"
-                    style="@style/Widget.ArtrawFiles.Text.Title" />
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -528,7 +527,7 @@
                         android:text="@string/cat_images"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -564,7 +563,7 @@
                         android:text="@string/cat_videos"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -600,7 +599,7 @@
                         android:text="@string/cat_audio"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -636,7 +635,7 @@
                         android:text="@string/cat_documents"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -679,7 +678,7 @@
                         android:text="@string/cat_downloads"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -715,7 +714,7 @@
                         android:text="@string/cat_archives"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -751,7 +750,7 @@
                         android:text="@string/cat_apks"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -787,7 +786,7 @@
                         android:text="@string/cat_other"
                         android:textStyle="bold"
                         android:textColor="@color/aurora_text_primary"
-                        style="@style/Widget.ArtrawFiles.Text.Caption" />
+                        android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -804,7 +803,7 @@
                     android:text="@string/action_recent"
                     android:textStyle="bold"
                     android:textColor="@color/aurora_text_primary"
-                    style="@style/Widget.ArtrawFiles.Text.Title" />
+                    android:textSize="18sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -881,7 +880,7 @@
                 android:text="@string/nav_home"
                 android:textColor="@color/aurora_text_primary"
                 android:textSize="11sp"
-                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
         <LinearLayout
@@ -896,7 +895,7 @@
             <ImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:src="@drawable/ic_storage"
+                android:src="@drawable/ic_folder"
                 android:tint="@color/aurora_text_secondary"
                 android:contentDescription="@string/content_browse" />
 
@@ -907,7 +906,7 @@
                 android:text="@string/nav_browse"
                 android:textColor="@color/aurora_text_secondary"
                 android:textSize="11sp"
-                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
         <LinearLayout
@@ -933,7 +932,7 @@
                 android:text="@string/nav_analysis"
                 android:textColor="@color/aurora_text_secondary"
                 android:textSize="11sp"
-                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
         <LinearLayout
@@ -959,7 +958,7 @@
                 android:text="@string/nav_settings"
                 android:textColor="@color/aurora_text_secondary"
                 android:textSize="11sp"
-                style="@style/Widget.ArtrawFiles.BottomNavItem.Label" />
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
     </LinearLayout>
 

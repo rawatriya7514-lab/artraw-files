@@ -43,7 +43,7 @@ class ArchiveViewerActivity : Activity() {
         val root = findViewById<View>(R.id.rootArchiveViewer)
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerArchive)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerArchive)),
             bottomScrollViews = listOf(root)
         )
 

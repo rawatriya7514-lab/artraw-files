@@ -149,10 +149,10 @@ class FileListAdapter(
         }
         holder.meta.text = metaBuilder.toString()
 
-        // Icon assignment and async thumbnail decoding
+        val isApk = item.isApk || item.category == FileCategory.APKS || item.extension.equals("apk", ignoreCase = true)
         val iconRes = when {
             item.isDirectory -> R.drawable.ic_folder
-            item.isApk -> R.drawable.ic_apk
+            isApk -> R.drawable.ic_apk
             item.category == FileCategory.IMAGES -> R.drawable.ic_image
             item.category == FileCategory.VIDEOS -> R.drawable.ic_video
             item.category == FileCategory.AUDIO -> R.drawable.ic_audio

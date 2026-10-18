@@ -4,81 +4,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/aurora_background_deep">
+    android:background="@drawable/bg_heaven_gradient">
 
     <!-- Top App Bar -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/headerArchive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:background="@color/aurora_background_surface"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:orientation="vertical"
+        android:background="@color/aurora_background_surface">
 
-        <ImageView
-            android:id="@+id/btnBackArchive"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="@string/content_back" />
+        <View
+            android:id="@+id/statusBarSpacerArchive"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@id/btnBackArchive"
-            android:layout_toStartOf="@id/layoutArchiveActions"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
-            <TextView
-                android:id="@+id/tvArchiveName"
+            <ImageView
+                android:id="@+id/btnBackArchive"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="12dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/content_back" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="archive.zip"
-                android:textColor="@color/aurora_text_primary"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:singleLine="true"
-                android:ellipsize="middle" />
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/btnBackArchive"
+                android:layout_toStartOf="@id/layoutArchiveActions"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvArchiveSummary"
+                <TextView
+                    android:id="@+id/tvArchiveName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="archive.zip"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:ellipsize="middle" />
+
+                <TextView
+                    android:id="@+id/tvArchiveSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="0 files • 0 B"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutArchiveActions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 files • 0 B"
-                android:textColor="@color/aurora_text_secondary"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/layoutArchiveActions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnExtractAll"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_aurora_button_primary"
-                android:text="Extract All"
-                android:textColor="@color/aurora_text_primary"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp" />
-        </LinearLayout>
-    </RelativeLayout>
+                <Button
+                    android:id="@+id/btnExtractAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_glass_clay_button_primary"
+                    android:text="Extract All"
+                    android:textColor="@color/aurora_on_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
     <!-- File List Inside Archive -->
     <ListView
@@ -86,18 +95,35 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="@color/aurora_outline"
-        android:dividerHeight="1dp"
+        android:divider="@color/aurora_divider"
+        android:dividerHeight="0.5dp"
+        android:clipToPadding="false"
         android:padding="8dp" />
 
     <!-- Empty State -->
-    <TextView
-        android:id="@+id/tvArchiveEmpty"
+    <LinearLayout
+        android:id="@+id/layoutArchiveEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:text="Reading archive..."
-        android:textColor="@color/aurora_text_secondary"
-        android:textSize="14sp"
-        android:visibility="gone" />
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_archive"
+            android:alpha="0.2"
+            android:tint="@color/aurora_text_primary" />
+
+        <TextView
+            android:id="@+id/tvArchiveEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Reading archive…"
+            android:textColor="@color/aurora_text_secondary"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>

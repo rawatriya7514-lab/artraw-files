@@ -7,11 +7,15 @@ import java.io.File
 
 class AdMobIntegrationTest {
 
-    // Placeholder / Test AD_UNIT_IDs (default configuration)
+    // Placeholder / Test AD_UNIT_IDs and Production IDs
     private val expectedAppId = "ca-app-pub-3940256099942544~3347511713"
+    private val prodAppId = "ca-app-pub-7925407604309207~4393395283"
     private val expectedAdUnitId = "ca-app-pub-3940256099942544/6300978111"
+    private val prodAdUnitId = "ca-app-pub-7925407604309207/7795338269"
     private val expectedInterstitialId = "ca-app-pub-3940256099942544/1033173712"
+    private val prodInterstitialId = "ca-app-pub-7925407604309207/4693787341"
     private val expectedRewardedId = "ca-app-pub-3940256099942544/5224354917"
+    private val prodRewardedId = "ca-app-pub-7925407604309207/4693787341"
     private val expectedAppOpenId = "ca-app-pub-3940256099942544/3419835294"
 
     @Test
@@ -19,10 +23,10 @@ class AdMobIntegrationTest {
         val admobXml = File("res/values/admob.xml")
         assertTrue("res/values/admob.xml must exist", admobXml.exists())
         val content = admobXml.readText()
-        assertTrue("AdMob App ID must match configured value", content.contains(expectedAppId))
-        assertTrue("AdMob Banner Ad Unit ID must match configured value", content.contains(expectedAdUnitId))
-        assertTrue("AdMob Interstitial Ad Unit ID must match configured value", content.contains(expectedInterstitialId))
-        assertTrue("AdMob Rewarded Ad Unit ID must match configured value", content.contains(expectedRewardedId))
+        assertTrue("AdMob App ID must match configured value", content.contains(prodAppId) || content.contains(expectedAppId))
+        assertTrue("AdMob Banner Ad Unit ID must match configured value", content.contains(prodAdUnitId) || content.contains(expectedAdUnitId))
+        assertTrue("AdMob Interstitial Ad Unit ID must match configured value", content.contains(prodInterstitialId) || content.contains(expectedInterstitialId))
+        assertTrue("AdMob Rewarded Ad Unit ID must match configured value", content.contains(prodRewardedId) || content.contains(expectedRewardedId))
         assertTrue("AdMob App Open Ad Unit ID must match configured value", content.contains(expectedAppOpenId))
     }
 
@@ -42,7 +46,7 @@ class AdMobIntegrationTest {
         )
         assertTrue(
             "Manifest APPLICATION_ID must match expected value",
-            content.contains("android:value=\"$expectedAppId\"")
+            content.contains("android:value=\"$prodAppId\"") || content.contains("android:value=\"$expectedAppId\"")
         )
         assertTrue(
             "Manifest must declare AdActivity",

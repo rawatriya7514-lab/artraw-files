@@ -60,7 +60,7 @@ class AudioPlayerActivity : Activity() {
         val root = findViewById<android.view.View>(R.id.rootAudioPlayer)
         com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topHeaders = listOf(findViewById(R.id.headerAudio)),
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerAudio)),
             bottomScrollViews = listOf(root)
         )
 

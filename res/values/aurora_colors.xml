@@ -96,12 +96,3 @@
     <color name="aurora_outline_light">#DADADA</color>
     <color name="aurora_divider_light">#E8E8E0</color>
 </resources>
-    <!-- Light Theme Variant -->
-    <color name="aurora_bg_light">#F5F5F0</color>
-    <color name="aurora_surface_light">#FFFFFF</color>
-    <color name="aurora_text_light_primary">#050507</color>
-    <color name="aurora_text_light_secondary">#3A3A3A</color>
-    <color name="aurora_text_light_tertiary">#6A6A6A</color>
-    <color name="aurora_outline_light">#DADADA</color>
-    <color name="aurora_divider_light">#E8E8E0</color>
-</resources>

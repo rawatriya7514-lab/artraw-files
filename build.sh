@@ -31,7 +31,7 @@ echo "========================================================"
 echo "  ArtFiles — Production APK Build Pipeline"
 echo "========================================================"
 echo "  Package ID:    com.artraw.files"
-echo "  Version:       1.2.0 (versionCode: 3)"
+echo "  Version:       1.0.0 (versionCode: 1)"
 echo "  Target SDK:    API 35 (Android 15)"
 echo "  Min SDK:       21"
 echo "  Keystore:      $RELEASE_KEYSTORE"
@@ -49,8 +49,8 @@ aapt2 link -I "$ANDROID_JAR" \
     --manifest AndroidManifest.xml \
     --min-sdk-version 21 \
     --target-sdk-version 35 \
-    --version-code 3 \
-    --version-name "1.2.0" \
+    --version-code 1 \
+    --version-name "1.0.0" \
     --java build/gen \
     -o build/base.apk \
     build/base_res.zip
@@ -130,7 +130,7 @@ cp build/artifacts/Artfiles.apk "$DOWNLOAD_DIR/Artfiles.apk"
 # Also copy source ZIP
 python3 -c "
 import os, zipfile
-target = '$DOWNLOAD_DIR/Artfiles-v1.2.1-SourceCode.zip'
+target = '$DOWNLOAD_DIR/Artfiles-v1.0.0-SourceCode.zip'
 if os.path.exists(target):
     os.remove(target)
 with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
@@ -162,9 +162,9 @@ echo "  Signature Verification:"
 apksigner verify -v "$DOWNLOAD_DIR/Artfiles.apk" 2>&1 | grep -E "Verifies|v1 scheme|v2 scheme|v3 scheme"
 
 echo ""
-echo "  Source ZIP:    $DOWNLOAD_DIR/Artfiles-v1.2.1-SourceCode.zip"
+echo "  Source ZIP:    $DOWNLOAD_DIR/Artfiles-v1.0.0-SourceCode.zip"
 echo "  Source SHA-256:"
-sha256sum "$DOWNLOAD_DIR/Artfiles-v1.2.1-SourceCode.zip" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/Artfiles-v1.0.0-SourceCode.zip" | cut -d' ' -f1
 
 echo ""
 echo "========================================================"
