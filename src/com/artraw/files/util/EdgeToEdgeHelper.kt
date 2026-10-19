@@ -15,16 +15,16 @@ object EdgeToEdgeHelper {
         val res = context.resources
         val resId = res.getIdentifier("status_bar_height", "dimen", "android")
         val dimenHeight = if (resId > 0) res.getDimensionPixelSize(resId) else 0
-        val minDimen = (36 * res.displayMetrics.density).toInt()
-        return kotlin.math.max(dimenHeight, minDimen)
+        val minDimen = (24 * res.displayMetrics.density).toInt()
+        return if (dimenHeight > 0) dimenHeight else minDimen
     }
 
     fun getNavigationBarHeight(context: Context): Int {
         val res = context.resources
         val resId = res.getIdentifier("navigation_bar_height", "dimen", "android")
         val dimenHeight = if (resId > 0) res.getDimensionPixelSize(resId) else 0
-        val minDimen = (24 * res.displayMetrics.density).toInt()
-        return kotlin.math.max(dimenHeight, minDimen)
+        val minDimen = (16 * res.displayMetrics.density).toInt()
+        return if (dimenHeight > 0) dimenHeight else minDimen
     }
 
     fun applyEdgeToEdge(
@@ -103,8 +103,8 @@ object EdgeToEdgeHelper {
             val extraTopGap = 0
 
             fun applyInsets(statusBarInset: Int, navBarInset: Int) {
-                val effectiveStatusBar = kotlin.math.max(statusBarInset, baseStatusBarHeight) + extraTopGap
-                val effectiveNavBar = kotlin.math.max(navBarInset, baseNavBarHeight)
+                val effectiveStatusBar = if (statusBarInset > 0) statusBarInset else baseStatusBarHeight
+                val effectiveNavBar = if (navBarInset > 0) navBarInset else baseNavBarHeight
 
                 // Adjust status bar spacers
                 for (spacer in safeTopSpacers) {

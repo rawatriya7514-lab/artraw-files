@@ -88,7 +88,7 @@ class ImageViewerActivity : Activity() {
     private lateinit var tvTitle: TextView
     private lateinit var tvInfo: TextView
     private lateinit var tvIndex: TextView
-    private lateinit var headerBar: RelativeLayout
+    private lateinit var headerBar: LinearLayout
     private lateinit var bottomBar: LinearLayout
 
     private var currentFile: File? = null
@@ -98,6 +98,8 @@ class ImageViewerActivity : Activity() {
     private val executor = Executors.newSingleThreadExecutor()
     private lateinit var gestureDetector: GestureDetector
     private lateinit var scaleDetector: ScaleGestureDetector
+
+    private val REQ_DELETE_MEDIA = 2001
 
     private var currentScale = 1.0f
     private val minScale = 1.0f
@@ -110,6 +112,14 @@ class ImageViewerActivity : Activity() {
         setContentView(R.layout.activity_image_viewer)
 
         initDiskCache(this)
+
+        try {
+            com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+                activity = this,
+                topSpacers = listOfNotNull(findViewById(R.id.statusBarSpacerImage)),
+                bottomStickyViews = listOfNotNull(findViewById(R.id.navBarSpacerImage))
+            )
+        } catch (_: Throwable) {}
 
         val path = intent.getStringExtra(EXTRA_FILE_PATH)
         if (path == null) {
@@ -142,57 +152,190 @@ class ImageViewerActivity : Activity() {
         bottomBar = findViewById(R.id.bottomImageBar)
     }
 
+    private fun createFileItem(f: File): com.artraw.files.model.FileItem {
+        return com.artraw.files.model.FileItem(
+            file = f,
+            name = f.name,
+            size = f.length(),
+            lastModified = f.lastModified(),
+            isDirectory = false,
+            extension = MimeTypes.getExtension(f.name),
+            mimeType = MimeTypes.getMimeType(f),
+            category = com.artraw.files.model.FileCategory.IMAGES
+        )
+    }
+
+    private fun getMediaStoreUri(file: File): android.net.Uri? {
+        val projection = arrayOf(android.provider.MediaStore.MediaColumns._ID)
+        val selection = "${android.provider.MediaStore.MediaColumns.DATA} = ?"
+        val selectionArgs = arrayOf(file.absolutePath)
+        val uri = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        try {
+            contentResolver.query(uri, projection, selection, selectionArgs, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(android.provider.MediaStore.MediaColumns._ID))
+                    return android.content.ContentUris.withAppendedId(uri, id)
+                }
+            }
+        } catch (_: Throwable) {}
+        return null
+    }
+
+    private fun executeDeleteImage(f: File) {
+        val path = f.absolutePath
+        fullResCache.remove(path)
+
+        try {
+            val cacheDir = getDisplayDiskCacheDir(this)
+            val cacheFile = File(cacheDir, "${getCacheKey(f)}.webp")
+            if (cacheFile.exists()) cacheFile.delete()
+        } catch (_: Throwable) {}
+
+        com.artraw.files.repository.CategoryDataRepository.removeItem(path)
+
+        var deleted = false
+        try {
+            deleted = f.delete()
+        } catch (_: Throwable) {}
+
+        if (!deleted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val uri = getMediaStoreUri(f)
+            if (uri != null) {
+                try {
+                    val pendingIntent = android.provider.MediaStore.createDeleteRequest(
+                        contentResolver,
+                        listOf(uri)
+                    )
+                    startIntentSenderForResult(
+                        pendingIntent.intentSender,
+                        REQ_DELETE_MEDIA,
+                        null, 0, 0, 0
+                    )
+                    return
+                } catch (_: Throwable) {}
+            }
+        }
+
+        if (deleted) {
+            android.media.MediaScannerConnection.scanFile(this, arrayOf(path), null, null)
+            Toast.makeText(this, "Deleted ${f.name}", Toast.LENGTH_SHORT).show()
+            onImageDeleted()
+        } else {
+            Toast.makeText(this, "Unable to delete image", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun onImageDeleted() {
+        if (currentIndex in imageList.indices) {
+            imageList.removeAt(currentIndex)
+        }
+        if (imageList.isEmpty()) {
+            finish()
+        } else {
+            if (currentIndex >= imageList.size) currentIndex = imageList.size - 1
+            loadImage(imageList[currentIndex])
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_DELETE_MEDIA && resultCode == RESULT_OK) {
+            currentFile?.let { f ->
+                fullResCache.remove(f.absolutePath)
+                com.artraw.files.repository.CategoryDataRepository.removeItem(f.absolutePath)
+                Toast.makeText(this, "Deleted ${f.name}", Toast.LENGTH_SHORT).show()
+                onImageDeleted()
+            }
+        }
+    }
+
     private fun setupListeners() {
-        findViewById<ImageView>(R.id.btnBackImage).setOnClickListener {
+        findViewById<View>(R.id.btnBackImage).setOnClickListener {
             finish()
         }
 
-        findViewById<ImageView>(R.id.btnShareImage).setOnClickListener {
+        // Action: SHARE
+        findViewById<View>(R.id.btnShareImage).setOnClickListener {
             currentFile?.let { f ->
-                val item = com.artraw.files.model.FileItem(
-                    file = f,
-                    name = f.name,
-                    size = f.length(),
-                    lastModified = f.lastModified(),
-                    isDirectory = false,
-                    extension = MimeTypes.getExtension(f.name),
-                    mimeType = MimeTypes.getMimeType(f),
-                    category = com.artraw.files.model.FileCategory.IMAGES
-                )
+                val item = createFileItem(f)
                 FileViewerHelper.shareFiles(this, listOf(item))
             }
         }
 
-        findViewById<ImageView>(R.id.btnEditImage).setOnClickListener {
+        // Action: EDIT (External editor via ACTION_EDIT with URI grant, fallback to built-in editor)
+        findViewById<View>(R.id.btnEditImage).setOnClickListener {
             currentFile?.let { f ->
-                val intent = Intent(this, ImageEditorActivity::class.java)
-                intent.putExtra("image_path", f.absolutePath)
-                startActivity(intent)
+                val uri = com.artraw.files.preview.ArtrawFileProvider.getUriForFile(f)
+                val editIntent = Intent(Intent.ACTION_EDIT).apply {
+                    setDataAndType(uri, "image/*")
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                }
+                try {
+                    startActivity(editIntent)
+                } catch (_: Exception) {
+                    val fallback = Intent(this, ImageEditorActivity::class.java).apply {
+                        putExtra("image_path", f.absolutePath)
+                    }
+                    startActivity(fallback)
+                }
             }
         }
 
-        findViewById<ImageView>(R.id.btnDeleteImage).setOnClickListener {
+        // Action: DELETE
+        findViewById<View>(R.id.btnDeleteImage).setOnClickListener {
             currentFile?.let { f ->
                 android.app.AlertDialog.Builder(this)
-                    .setTitle("Delete Image")
+                    .setTitle(R.string.dialog_delete_title)
                     .setMessage("Permanently delete ${f.name}?")
-                    .setPositiveButton("Delete") { _, _ ->
-                        fullResCache.remove(f.absolutePath)
-                        if (f.delete()) {
-                            Toast.makeText(this, "Deleted ${f.name}", Toast.LENGTH_SHORT).show()
-                            if (currentIndex in imageList.indices) {
-                                imageList.removeAt(currentIndex)
-                            }
-                            if (imageList.isEmpty()) {
-                                finish()
+                    .setPositiveButton(R.string.action_delete) { _, _ ->
+                        executeDeleteImage(f)
+                    }
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .show()
+            }
+        }
+
+        // Action: RENAME
+        findViewById<View>(R.id.btnRenameImage).setOnClickListener {
+            currentFile?.let { f ->
+                val input = android.widget.EditText(this).apply {
+                    setText(f.name)
+                    setSingleLine(true)
+                    setPadding(40, 30, 40, 30)
+                }
+                android.app.AlertDialog.Builder(this)
+                    .setTitle("Rename Image")
+                    .setView(input)
+                    .setPositiveButton("Rename") { _, _ ->
+                        val newName = input.text.toString().trim()
+                        if (newName.isNotEmpty() && newName != f.name) {
+                            val newFile = File(f.parentFile, newName)
+                            if (f.renameTo(newFile)) {
+                                fullResCache.remove(f.absolutePath)
+                                com.artraw.files.repository.CategoryDataRepository.renameItem(f.absolutePath, newFile)
+                                android.media.MediaScannerConnection.scanFile(this, arrayOf(f.absolutePath, newFile.absolutePath), null, null)
+
+                                currentFile = newFile
+                                if (currentIndex in imageList.indices) {
+                                    imageList[currentIndex] = newFile
+                                }
+                                tvTitle.text = newFile.name
+                                Toast.makeText(this, "Renamed to $newName", Toast.LENGTH_SHORT).show()
                             } else {
-                                if (currentIndex >= imageList.size) currentIndex = imageList.size - 1
-                                loadImage(imageList[currentIndex])
+                                Toast.makeText(this, "Rename failed", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
                     .setNegativeButton(R.string.btn_cancel, null)
                     .show()
+            }
+        }
+
+        // Action: DETAILS / INFO
+        findViewById<View>(R.id.btnInfoImage).setOnClickListener {
+            currentFile?.let { f ->
+                val item = createFileItem(f)
+                FileViewerHelper.showFileDetails(this, item)
             }
         }
 
@@ -585,9 +728,27 @@ class ImageViewerActivity : Activity() {
 
     private fun toggleBars() {
         barsVisible = !barsVisible
-        val vis = if (barsVisible) View.VISIBLE else View.GONE
-        headerBar.visibility = vis
-        bottomBar.visibility = vis
+        val targetAlpha = if (barsVisible) 1.0f else 0.0f
+        val duration = 180L
+
+        if (barsVisible) {
+            headerBar.visibility = View.VISIBLE
+            bottomBar.visibility = View.VISIBLE
+        }
+        headerBar.animate()
+            .alpha(targetAlpha)
+            .setDuration(duration)
+            .withEndAction {
+                if (!barsVisible) headerBar.visibility = View.GONE
+            }
+            .start()
+        bottomBar.animate()
+            .alpha(targetAlpha)
+            .setDuration(duration)
+            .withEndAction {
+                if (!barsVisible) bottomBar.visibility = View.GONE
+            }
+            .start()
     }
 
     override fun onDestroy() {

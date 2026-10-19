@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.ArtrawFiles">
         <item name="android:colorPrimary">@color/aurora_primary</item>
-        <item name="android:colorPrimaryDark">@color/aurora_crimson_dark</item>
+        <item name="android:colorPrimaryDark">@color/aurora_background_deep</item>
         <item name="android:colorAccent">@color/aurora_secondary</item>
         <item name="android:windowBackground">@drawable/bg_heaven_gradient</item>
         <item name="android:colorBackground">@color/aurora_background_deep</item>

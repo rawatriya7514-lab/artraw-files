@@ -92,6 +92,21 @@ class CategoryActivity : Activity() {
         try {
             adViewCategory?.resume()
         } catch (_: Throwable) {}
+
+        // Immediate check: If files were deleted/renamed in Photo Viewer, update immediately in 0ms!
+        val catId = intent.getStringExtra("category_id") ?: FileCategory.DOCUMENTS.id
+        val cached = com.artraw.files.repository.CategoryDataRepository.getCached(catId)
+        if (cached != null && cached != allItems) {
+            val gridScroll = gridViewCatFiles.onSaveInstanceState()
+            val listScroll = listViewCatFiles.onSaveInstanceState()
+            allItems = cached
+            listAdapter.updateData(cached)
+            gridAdapter.updateData(cached)
+            tvCatItemCount.text = "${cached.size} files"
+            layoutCatEmpty.visibility = if (cached.isEmpty()) View.VISIBLE else View.GONE
+            if (gridScroll != null) gridViewCatFiles.onRestoreInstanceState(gridScroll)
+            if (listScroll != null) listViewCatFiles.onRestoreInstanceState(listScroll)
+        }
     }
 
     override fun onPause() {
@@ -349,10 +364,21 @@ class CategoryActivity : Activity() {
             .setPositiveButton(R.string.action_delete) { _, _ ->
                 executor.execute {
                     operationManager.deleteFiles(items)
+                    val deletedPaths = items.map { it.file.absolutePath }
+                    com.artraw.files.repository.CategoryDataRepository.removeItems(deletedPaths)
                     runOnUiThread {
                         activeAdapter().clearSelection()
                         val catId = intent.getStringExtra("category_id") ?: FileCategory.DOCUMENTS.id
-                        loadCategoryData(catId)
+                        val updated = com.artraw.files.repository.CategoryDataRepository.getCached(catId) ?: emptyList()
+                        val gridScroll = gridViewCatFiles.onSaveInstanceState()
+                        val listScroll = listViewCatFiles.onSaveInstanceState()
+                        allItems = updated
+                        listAdapter.updateData(updated)
+                        gridAdapter.updateData(updated)
+                        tvCatItemCount.text = "${updated.size} files"
+                        layoutCatEmpty.visibility = if (updated.isEmpty()) View.VISIBLE else View.GONE
+                        if (gridScroll != null) gridViewCatFiles.onRestoreInstanceState(gridScroll)
+                        if (listScroll != null) listViewCatFiles.onRestoreInstanceState(listScroll)
                         Toast.makeText(this, "${items.size} items deleted", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -384,9 +410,25 @@ class CategoryActivity : Activity() {
         loadCategoryData(catId)
     }
 
-    private fun loadCategoryData(catId: String) {
-        progressCatLoading.visibility = View.VISIBLE
-        layoutCatEmpty.visibility = View.GONE
+    private fun loadCategoryData(catId: String, forceRefresh: Boolean = false) {
+        val cached = com.artraw.files.repository.CategoryDataRepository.getCached(catId)
+        if (cached != null && !forceRefresh) {
+            // Instant render with 0ms loading spinner!
+            progressCatLoading.visibility = View.GONE
+            allItems = cached
+            listAdapter.updateData(cached)
+            gridAdapter.updateData(cached)
+            tvCatItemCount.text = "${cached.size} files"
+            layoutCatEmpty.visibility = if (cached.isEmpty()) View.VISIBLE else View.GONE
+
+            // If cache was loaded recently (within TTL), skip disk traversal
+            if (com.artraw.files.repository.CategoryDataRepository.isCacheFresh(catId)) {
+                return
+            }
+        } else {
+            progressCatLoading.visibility = View.VISIBLE
+            layoutCatEmpty.visibility = View.GONE
+        }
 
         executor.execute {
             val items: List<FileItem> = try {
@@ -403,16 +445,38 @@ class CategoryActivity : Activity() {
             runOnUiThread {
                 if (isFinishing || isDestroyed) return@runOnUiThread
                 progressCatLoading.visibility = View.GONE
-                allItems = items
-                listAdapter.updateData(items)
-                gridAdapter.updateData(items)
-                tvCatItemCount.text = "${items.size} files"
-                if (items.isEmpty()) {
-                    layoutCatEmpty.visibility = View.VISIBLE
-                } else {
-                    layoutCatEmpty.visibility = View.GONE
+                com.artraw.files.repository.CategoryDataRepository.putCache(catId, items)
+
+                // Only update adapters if data actually changed to preserve scroll position
+                if (items != allItems) {
+                    val gridScroll = gridViewCatFiles.onSaveInstanceState()
+                    val listScroll = listViewCatFiles.onSaveInstanceState()
+                    allItems = items
+                    listAdapter.updateData(items)
+                    gridAdapter.updateData(items)
+                    tvCatItemCount.text = "${items.size} files"
+                    if (gridScroll != null) gridViewCatFiles.onRestoreInstanceState(gridScroll)
+                    if (listScroll != null) listViewCatFiles.onRestoreInstanceState(listScroll)
                 }
+
+                layoutCatEmpty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val gridState = gridViewCatFiles.onSaveInstanceState()
+        if (gridState != null) outState.putParcelable("grid_scroll_state", gridState)
+        val listState = listViewCatFiles.onSaveInstanceState()
+        if (listState != null) outState.putParcelable("list_scroll_state", listState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val gridState = savedInstanceState.getParcelable<android.os.Parcelable>("grid_scroll_state")
+        if (gridState != null) gridViewCatFiles.onRestoreInstanceState(gridState)
+        val listState = savedInstanceState.getParcelable<android.os.Parcelable>("list_scroll_state")
+        if (listState != null) listViewCatFiles.onRestoreInstanceState(listState)
     }
 }
