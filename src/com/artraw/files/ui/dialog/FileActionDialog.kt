@@ -158,6 +158,76 @@ object FileActionDialog {
             }
         }
 
+        // Action: EDIT (for Images)
+        val btnEdit = dialogView.findViewById<View>(R.id.btnDialogActionEdit)
+        val dividerEdit = dialogView.findViewById<View>(R.id.dividerDialogEdit)
+        if (item.category == FileCategory.IMAGES) {
+            btnEdit.visibility = View.VISIBLE
+            dividerEdit?.visibility = View.VISIBLE
+            btnEdit.setOnClickListener {
+                dialog.dismiss()
+                val intent = Intent(activity, com.artraw.files.ui.ImageEditorActivity::class.java).apply {
+                    putExtra("image_path", item.file.absolutePath)
+                }
+                activity.startActivity(intent)
+            }
+        } else {
+            btnEdit.visibility = View.GONE
+            dividerEdit?.visibility = View.GONE
+        }
+
+        // Action: RENAME
+        val btnRename = dialogView.findViewById<View>(R.id.btnDialogActionRename)
+        btnRename.setOnClickListener {
+            dialog.dismiss()
+            val input = android.widget.EditText(activity).apply {
+                setText(item.file.name)
+                setSingleLine(true)
+                setPadding(40, 30, 40, 30)
+            }
+            AlertDialog.Builder(activity)
+                .setTitle("Rename File")
+                .setView(input)
+                .setPositiveButton("Rename") { _, _ ->
+                    val newName = input.text.toString().trim()
+                    if (newName.isNotEmpty() && newName != item.file.name) {
+                        val newFile = File(item.file.parentFile, newName)
+                        if (item.file.renameTo(newFile)) {
+                            Toast.makeText(activity, "Renamed to $newName", Toast.LENGTH_SHORT).show()
+                            if (activity is BrowserActivity) {
+                                activity.refreshCurrentDirectory()
+                            }
+                        } else {
+                            Toast.makeText(activity, "Rename failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show()
+        }
+
+        // Action: DELETE
+        val btnDelete = dialogView.findViewById<View>(R.id.btnDialogActionDelete)
+        btnDelete.setOnClickListener {
+            dialog.dismiss()
+            AlertDialog.Builder(activity)
+                .setTitle(R.string.dialog_delete_title)
+                .setMessage("Permanently delete ${item.file.name}?")
+                .setPositiveButton(R.string.action_delete) { _, _ ->
+                    val ok = item.file.delete()
+                    if (ok) {
+                        Toast.makeText(activity, "Deleted ${item.file.name}", Toast.LENGTH_SHORT).show()
+                        if (activity is BrowserActivity) {
+                            activity.refreshCurrentDirectory()
+                        }
+                    } else {
+                        Toast.makeText(activity, "Cannot delete file", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton(R.string.btn_cancel, null)
+                .show()
+        }
+
         btnClose.setOnClickListener {
             dialog.dismiss()
         }

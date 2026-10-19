@@ -17,6 +17,7 @@ import android.provider.MediaStore
 import android.util.LruCache
 import android.util.Size
 import android.widget.ImageView
+import com.artraw.files.ArtfilesApp
 import com.artraw.files.R
 import com.artraw.files.model.FileCategory
 import com.artraw.files.model.FileItem
@@ -77,11 +78,25 @@ object ThumbnailLoader {
     @Volatile
     private var diskCacheDir: File? = null
 
-    fun getDiskCacheDir(context: Context): File {
+    fun init(context: Context) {
+        getDiskCacheDir(context)
+    }
+
+    fun getDiskCacheDir(context: Context? = null): File {
         val dir = diskCacheDir ?: synchronized(this) {
-            diskCacheDir ?: File(context.applicationContext.cacheDir, "thumbnails").also {
-                if (!it.exists()) it.mkdirs()
-                diskCacheDir = it
+            diskCacheDir ?: run {
+                val ctx = context?.applicationContext ?: try { ArtfilesApp.instance } catch (_: Throwable) { null }
+                if (ctx != null) {
+                    File(ctx.cacheDir, "thumbnails").also {
+                        if (!it.exists()) it.mkdirs()
+                        diskCacheDir = it
+                    }
+                } else {
+                    File("/data/data/com.artraw.files/cache/thumbnails").also {
+                        if (!it.exists()) it.mkdirs()
+                        diskCacheDir = it
+                    }
+                }
             }
         }
         return dir
@@ -91,25 +106,24 @@ object ThumbnailLoader {
         val bmp = memoryCache.get(path)
         if (bmp != null && !bmp.isRecycled) return bmp
 
-        // Fallback: Check disk cache if diskCacheDir was initialized
-        diskCacheDir?.let { dir ->
-            try {
-                val file = File(path)
-                if (file.exists()) {
-                    val cacheFile = File(dir, "${getCacheKey(file)}.webp")
-                    if (cacheFile.exists() && cacheFile.length() > 0) {
-                        val options = BitmapFactory.Options().apply {
-                            inPreferredConfig = Bitmap.Config.RGB_565
-                        }
-                        val diskBmp = BitmapFactory.decodeFile(cacheFile.absolutePath, options)
-                        if (diskBmp != null) {
-                            memoryCache.put(path, diskBmp)
-                            return diskBmp
-                        }
+        // Check persistent disk cache (0-1ms fast recall)
+        try {
+            val dir = getDiskCacheDir()
+            val file = File(path)
+            if (file.exists()) {
+                val cacheFile = File(dir, "${getCacheKey(file)}.webp")
+                if (cacheFile.exists() && cacheFile.length() > 0) {
+                    val options = BitmapFactory.Options().apply {
+                        inPreferredConfig = Bitmap.Config.RGB_565
+                    }
+                    val diskBmp = BitmapFactory.decodeFile(cacheFile.absolutePath, options)
+                    if (diskBmp != null) {
+                        memoryCache.put(path, diskBmp)
+                        return diskBmp
                     }
                 }
-            } catch (_: Throwable) {}
-        }
+            }
+        } catch (_: Throwable) {}
         return null
     }
 
@@ -191,14 +205,21 @@ object ThumbnailLoader {
             return
         }
 
-        // 5. Placeholder while decoding
+        // 5. Check if persistent disk cache already has thumbnail
+        val cacheKey = getCacheKey(item.file)
+        val diskFile = File(getDiskCacheDir(ctx), "${cacheKey}.webp")
+        val isCachedOnDisk = diskFile.exists() && diskFile.length() > 0
+
         imageView.tag = path
-        imageView.imageTintList = null
-        imageView.colorFilter = null
-        imageView.clearColorFilter()
-        imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        imageView.setImageResource(defaultIconRes)
-        imageView.setColorFilter(getCategoryColor(item))
+        if (!isCachedOnDisk) {
+            // Only show placeholder icon if not already cached on disk
+            imageView.imageTintList = null
+            imageView.colorFilter = null
+            imageView.clearColorFilter()
+            imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            imageView.setImageResource(defaultIconRes)
+            imageView.setColorFilter(getCategoryColor(item))
+        }
 
         // 6. Background thread: Disk Cache -> Raw Decode -> Save Disk Cache -> Apply UI
         val reqSize = targetSize.coerceIn(120, 320)

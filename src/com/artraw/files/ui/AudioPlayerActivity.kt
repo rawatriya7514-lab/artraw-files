@@ -24,6 +24,7 @@ class AudioPlayerActivity : Activity() {
 
     companion object {
         const val EXTRA_FILE_PATH = "extra_file_path"
+        private val metadataCache = java.util.concurrent.ConcurrentHashMap<String, Pair<String, String>>()
     }
 
     private var mediaPlayer: MediaPlayer? = null
@@ -186,23 +187,30 @@ class AudioPlayerActivity : Activity() {
     private fun playTrack(file: File) {
         currentFile = file
 
-        var trackTitle = file.nameWithoutExtension
-        var trackArtist = file.parentFile?.name ?: "Storage"
-        try {
-            val retriever = MediaMetadataRetriever()
-            try {
-                retriever.setDataSource(file.absolutePath)
-                val metaTitle = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-                val metaArtist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
-                if (!metaTitle.isNullOrBlank()) trackTitle = metaTitle
-                if (!metaArtist.isNullOrBlank()) trackArtist = metaArtist
-            } finally {
-                try { retriever.release() } catch (_: Throwable) {}
-            }
-        } catch (_: Throwable) {}
+        val cachedMeta = metadataCache[file.absolutePath]
+        var trackTitle = cachedMeta?.first ?: file.nameWithoutExtension
+        var trackArtist = cachedMeta?.second ?: (file.parentFile?.name ?: "Storage")
 
         tvTrackTitle.text = trackTitle
         tvTrackArtist.text = trackArtist
+
+        if (cachedMeta == null) {
+            try {
+                val retriever = MediaMetadataRetriever()
+                try {
+                    retriever.setDataSource(file.absolutePath)
+                    val metaTitle = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+                    val metaArtist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+                    if (!metaTitle.isNullOrBlank()) trackTitle = metaTitle
+                    if (!metaArtist.isNullOrBlank()) trackArtist = metaArtist
+                    metadataCache[file.absolutePath] = Pair(trackTitle, trackArtist)
+                    tvTrackTitle.text = trackTitle
+                    tvTrackArtist.text = trackArtist
+                } finally {
+                    try { retriever.release() } catch (_: Throwable) {}
+                }
+            } catch (_: Throwable) {}
+        }
 
         val audioItem = com.artraw.files.model.FileItem(
             file = file,

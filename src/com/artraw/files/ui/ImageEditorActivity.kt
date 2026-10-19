@@ -70,19 +70,49 @@ class ImageEditorActivity : Activity() {
             return
         }
 
-        originalBitmap = BitmapFactory.decodeFile(imagePath)
-        if (originalBitmap == null) {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeFile(imagePath, bounds)
+        var sample = 1
+        val maxEditSize = 1600
+        while (bounds.outWidth / sample > maxEditSize || bounds.outHeight / sample > maxEditSize) {
+            sample *= 2
+        }
+
+        val opts = BitmapFactory.Options().apply {
+            inSampleSize = sample
+            inPreferredConfig = Bitmap.Config.ARGB_8888
+        }
+        var decoded = try {
+            BitmapFactory.decodeFile(imagePath, opts)
+        } catch (_: Throwable) {
+            null
+        }
+
+        if (decoded == null) {
             Toast.makeText(this, "Cannot decode image", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-        // Resize if too large for editing
-        val maxEditSize = 1600
-        if (originalBitmap.width > maxEditSize || originalBitmap.height > maxEditSize) {
-            originalBitmap = ImageProcessor.resizeBitmap(originalBitmap, maxEditSize, maxEditSize)
-        }
+        // Apply EXIF rotation if needed
+        try {
+            val exif = android.media.ExifInterface(imagePath)
+            val orientation = exif.getAttributeInt(android.media.ExifInterface.TAG_ORIENTATION, android.media.ExifInterface.ORIENTATION_NORMAL)
+            val rotation = when (orientation) {
+                android.media.ExifInterface.ORIENTATION_ROTATE_90 -> 90
+                android.media.ExifInterface.ORIENTATION_ROTATE_180 -> 180
+                android.media.ExifInterface.ORIENTATION_ROTATE_270 -> 270
+                else -> 0
+            }
+            if (rotation != 0) {
+                val matrix = android.graphics.Matrix().apply { postRotate(rotation.toFloat()) }
+                val rotated = Bitmap.createBitmap(decoded, 0, 0, decoded.width, decoded.height, matrix, true)
+                if (rotated != decoded) decoded.recycle()
+                decoded = rotated
+            }
+        } catch (_: Throwable) {}
 
+        originalBitmap = decoded
         editedBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true)
 
         initViews()

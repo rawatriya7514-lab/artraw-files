@@ -230,6 +230,16 @@ class CategoryActivity : Activity() {
             updateViewMode()
         }
 
+        findViewById<View>(R.id.btnCatSelectMode).setOnClickListener {
+            val adapter = activeAdapter()
+            if (adapter.count > 0) {
+                adapter.startSelectionMode()
+                updateSelectionUi(adapter.getSelectedItems().size)
+            } else {
+                Toast.makeText(this, "No files to select", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         val onItemClick = { position: Int ->
             val adapter = activeAdapter()
             if (position in 0 until adapter.count) {
@@ -304,15 +314,29 @@ class CategoryActivity : Activity() {
     }
 
     private fun updateSelectionUi(selectedCount: Int) {
-        if (selectedCount > 0) {
+        val adapter = activeAdapter()
+        if (adapter.isSelectionMode) {
             toolbarCatNormal.visibility = View.GONE
             toolbarCatSelection.visibility = View.VISIBLE
-            val totalBytes = activeAdapter().getSelectedItems().sumOf { it.size }
-            tvCatSelectionCount.text = "$selectedCount selected (${Formatters.formatFileSize(totalBytes)})"
+            if (selectedCount > 0) {
+                val totalBytes = adapter.getSelectedItems().sumOf { it.size }
+                tvCatSelectionCount.text = "$selectedCount selected (${Formatters.formatFileSize(totalBytes)})"
+            } else {
+                tvCatSelectionCount.text = "Select files"
+            }
         } else {
             toolbarCatSelection.visibility = View.GONE
             toolbarCatNormal.visibility = View.VISIBLE
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (activeAdapter().isSelectionMode) {
+            activeAdapter().clearSelection()
+            return
+        }
+        super.onBackPressed()
     }
 
     private fun confirmDelete(items: List<FileItem>) {

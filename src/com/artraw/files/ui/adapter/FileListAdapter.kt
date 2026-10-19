@@ -31,6 +31,12 @@ class FileListAdapter(
         notifyDataSetChanged()
     }
 
+    fun startSelectionMode() {
+        isSelectionMode = true
+        notifyDataSetChanged()
+        onSelectionChanged(selectedPaths.size)
+    }
+
     fun startSelection(initialItem: FileItem) {
         isSelectionMode = true
         selectedPaths.add(initialItem.path)
