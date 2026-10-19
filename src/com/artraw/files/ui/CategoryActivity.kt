@@ -63,15 +63,19 @@ class CategoryActivity : Activity() {
         repository = FileRepository(this)
         setContentView(R.layout.activity_category)
 
-        com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
-            activity = this,
-            topSpacers = listOf(findViewById(R.id.statusBarSpacerCategory)),
-            bottomScrollViews = listOf(findViewById(R.id.listViewCatFiles), findViewById(R.id.gridViewCatFiles)),
-            bottomStickyViews = listOf(findViewById(R.id.adViewContainerCategory))
-        )
+        try {
+            com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
+                activity = this,
+                topSpacers = listOfNotNull(findViewById(R.id.statusBarSpacerCategory)),
+                bottomScrollViews = listOfNotNull(findViewById(R.id.listViewCatFiles), findViewById(R.id.gridViewCatFiles)),
+                bottomStickyViews = listOfNotNull(findViewById(R.id.adViewContainerCategory))
+            )
+        } catch (_: Throwable) {}
 
         adViewContainerCategory = findViewById(R.id.adViewContainerCategory)
-        adViewCategory = AdMobManager.loadBanner(this, adViewContainerCategory)
+        try {
+            adViewCategory = AdMobManager.loadBanner(this, adViewContainerCategory)
+        } catch (_: Throwable) {}
 
         val catId = intent.getStringExtra("category_id") ?: FileCategory.DOCUMENTS.id
         // Default to Gallery Grid view for Images and Videos
@@ -135,9 +139,9 @@ class CategoryActivity : Activity() {
         val density = resources.displayMetrics.density
         val spacing = when (gridColumns) {
             1 -> (2 * density).toInt()
-            2 -> (8 * density).toInt()
-            3 -> (6 * density).toInt()
-            4 -> (4 * density).toInt()
+            2 -> (4 * density).toInt()
+            3 -> (3 * density).toInt()
+            4 -> (2 * density).toInt()
             else -> (2 * density).toInt()
         }
         gridViewCatFiles.horizontalSpacing = spacing
@@ -156,17 +160,23 @@ class CategoryActivity : Activity() {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (isGridMode && ev.pointerCount >= 2) {
-            scaleGestureDetector.onTouchEvent(ev)
-            if (scaleGestureDetector.isInProgress) {
-                val cancelEvent = MotionEvent.obtain(ev)
-                cancelEvent.action = MotionEvent.ACTION_CANCEL
-                gridViewCatFiles.dispatchTouchEvent(cancelEvent)
-                cancelEvent.recycle()
-                return true
-            }
+        if (isGridMode && ::scaleGestureDetector.isInitialized && ev.pointerCount >= 2) {
+            try {
+                scaleGestureDetector.onTouchEvent(ev)
+                if (scaleGestureDetector.isInProgress) {
+                    val cancelEvent = MotionEvent.obtain(ev)
+                    cancelEvent.action = MotionEvent.ACTION_CANCEL
+                    gridViewCatFiles.dispatchTouchEvent(cancelEvent)
+                    cancelEvent.recycle()
+                    return true
+                }
+            } catch (_: Throwable) {}
         }
-        return super.dispatchTouchEvent(ev)
+        return try {
+            super.dispatchTouchEvent(ev)
+        } catch (_: Throwable) {
+            false
+        }
     }
 
     private fun initViews() {
@@ -222,11 +232,13 @@ class CategoryActivity : Activity() {
 
         val onItemClick = { position: Int ->
             val adapter = activeAdapter()
-            if (adapter.isSelectionMode) {
-                adapter.toggleSelection(adapter.getItem(position))
-            } else {
+            if (position in 0 until adapter.count) {
                 val item = adapter.getItem(position)
-                FileViewerHelper.openFile(this, item)
+                if (adapter.isSelectionMode) {
+                    adapter.toggleSelection(item)
+                } else {
+                    FileViewerHelper.openFile(this, item)
+                }
             }
         }
 
@@ -235,11 +247,13 @@ class CategoryActivity : Activity() {
 
         val onItemLongClick = { position: Int ->
             val adapter = activeAdapter()
-            val item = adapter.getItem(position)
-            if (!adapter.isSelectionMode) {
-                adapter.startSelection(item)
-            } else {
-                adapter.toggleSelection(item)
+            if (position in 0 until adapter.count) {
+                val item = adapter.getItem(position)
+                if (!adapter.isSelectionMode) {
+                    adapter.startSelection(item)
+                } else {
+                    adapter.toggleSelection(item)
+                }
             }
             true
         }
@@ -351,14 +365,19 @@ class CategoryActivity : Activity() {
         layoutCatEmpty.visibility = View.GONE
 
         executor.execute {
-            val items: List<FileItem> = if (catId == "recent") {
-                repository.getRecentFiles(50)
-            } else {
-                val cat = FileCategory.fromId(catId)
-                repository.getCategoryFiles(cat, maxDepth = 4, maxResults = 300)
+            val items: List<FileItem> = try {
+                if (catId == "recent") {
+                    repository.getRecentFiles(50)
+                } else {
+                    val cat = FileCategory.fromId(catId)
+                    repository.getCategoryFiles(cat, maxDepth = 6, maxResults = 1000)
+                }
+            } catch (t: Throwable) {
+                emptyList()
             }
 
             runOnUiThread {
+                if (isFinishing || isDestroyed) return@runOnUiThread
                 progressCatLoading.visibility = View.GONE
                 allItems = items
                 listAdapter.updateData(items)

@@ -223,17 +223,23 @@ class BrowserActivity : Activity() {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (isGridMode && ev.pointerCount >= 2) {
-            scaleGestureDetector.onTouchEvent(ev)
-            if (scaleGestureDetector.isInProgress) {
-                val cancelEvent = MotionEvent.obtain(ev)
-                cancelEvent.action = MotionEvent.ACTION_CANCEL
-                gridViewFiles.dispatchTouchEvent(cancelEvent)
-                cancelEvent.recycle()
-                return true
-            }
+        if (isGridMode && ::scaleGestureDetector.isInitialized && ev.pointerCount >= 2) {
+            try {
+                scaleGestureDetector.onTouchEvent(ev)
+                if (scaleGestureDetector.isInProgress) {
+                    val cancelEvent = MotionEvent.obtain(ev)
+                    cancelEvent.action = MotionEvent.ACTION_CANCEL
+                    gridViewFiles.dispatchTouchEvent(cancelEvent)
+                    cancelEvent.recycle()
+                    return true
+                }
+            } catch (_: Throwable) {}
         }
-        return super.dispatchTouchEvent(ev)
+        return try {
+            super.dispatchTouchEvent(ev)
+        } catch (_: Throwable) {
+            false
+        }
     }
 
     override fun onResume() {

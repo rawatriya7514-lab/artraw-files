@@ -78,7 +78,7 @@ class MainActivity : Activity() {
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topHeaders = listOf(findViewById(R.id.headerMain)),
-            bottomScrollViews = listOf(findViewById(R.id.scrollMainContent)),
+            bottomScrollViews = emptyList(),
             bottomStickyViews = listOf(adViewContainer)
         )
         setupListeners()
@@ -248,17 +248,27 @@ class MainActivity : Activity() {
     }
 
     private fun openCategory(categoryId: String) {
-        val intent = Intent(this, CategoryActivity::class.java).apply {
-            putExtra("category_id", categoryId)
+        try {
+            val intent = Intent(this, CategoryActivity::class.java).apply {
+                putExtra("category_id", categoryId)
+            }
+            startActivity(intent)
+        } catch (e: Throwable) {
+            Log.e("MainActivity", "openCategory error", e)
+            Toast.makeText(this, "Error opening category: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-        startActivity(intent)
     }
 
     private fun openBrowser(path: String) {
-        val intent = Intent(this, BrowserActivity::class.java).apply {
-            putExtra("initial_path", path)
+        try {
+            val intent = Intent(this, BrowserActivity::class.java).apply {
+                putExtra("initial_path", path)
+            }
+            startActivity(intent)
+        } catch (e: Throwable) {
+            Log.e("MainActivity", "openBrowser error", e)
+            Toast.makeText(this, "Error opening browser: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-        startActivity(intent)
     }
 
     private fun checkPermissionsAndLoad() {

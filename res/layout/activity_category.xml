@@ -21,17 +21,17 @@
         <RelativeLayout
             android:id="@+id/toolbarCatNormal"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:layout_height="48dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
 
             <ImageView
                 android:id="@+id/btnCatBack"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="12dp"
+                android:padding="9dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_back" />
@@ -42,7 +42,7 @@
                 android:layout_toEndOf="@id/btnCatBack"
                 android:layout_toStartOf="@+id/layoutCatActions"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="8dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -52,7 +52,7 @@
                     android:text="Category"
                     android:textStyle="bold"
                     android:textColor="@color/aurora_text_primary"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvCatItemCount"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="0 files"
                     android:textColor="@color/aurora_text_secondary"
-                    android:textSize="13sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,9 +73,9 @@
 
                 <ImageView
                     android:id="@+id/btnCatViewToggle"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_grid"
                     android:contentDescription="@string/content_toggle_view" />
@@ -86,19 +86,19 @@
         <RelativeLayout
             android:id="@+id/toolbarCatSelection"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="48dp"
             android:background="@color/aurora_background_elevated"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/btnCatCloseSelection"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_close_selection" />
@@ -110,11 +110,11 @@
                 android:layout_toEndOf="@id/btnCatCloseSelection"
                 android:layout_toStartOf="@+id/layoutCatSelectionActions"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="8dp"
                 android:singleLine="true"
                 android:text="0 selected"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -127,45 +127,45 @@
 
                 <ImageView
                     android:id="@+id/btnCatActionSelectAll"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
                     android:contentDescription="@string/content_select_all" />
 
                 <ImageView
                     android:id="@+id/btnCatActionCopy"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
                     android:contentDescription="@string/content_copy" />
 
                 <ImageView
                     android:id="@+id/btnCatActionCut"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
                     android:contentDescription="@string/content_move" />
 
                 <ImageView
                     android:id="@+id/btnCatActionShare"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
                     android:contentDescription="@string/content_share" />
 
                 <ImageView
                     android:id="@+id/btnCatActionDelete"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_delete"
                     android:contentDescription="@string/content_delete" />
@@ -180,7 +180,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/aurora_background_elevated"
-        android:padding="14dp"
+        android:padding="10dp"
         android:visibility="gone">
 
         <TextView
@@ -188,15 +188,15 @@
             android:layout_height="wrap_content"
             android:text="@string/archive_notice_zip"
             android:textColor="@color/aurora_success"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:text="@string/archive_notice_unsupported"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <FrameLayout
@@ -217,9 +217,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="3"
-            android:padding="10dp"
-            android:horizontalSpacing="8dp"
-            android:verticalSpacing="8dp"
+            android:padding="4dp"
+            android:horizontalSpacing="4dp"
+            android:verticalSpacing="4dp"
             android:clipToPadding="false"
             android:visibility="gone" />
 

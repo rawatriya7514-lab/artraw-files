@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Environment
 import android.os.StatFs
+import android.provider.MediaStore
 import com.artraw.files.model.AppStorageInfo
 import com.artraw.files.model.FileCategory
 import com.artraw.files.model.FileItem
@@ -25,9 +26,16 @@ class FileRepository(private val context: Context) {
         val primary = getPrimaryStorageRoot()
 
         try {
-            val stat = StatFs(primary.absolutePath)
-            val totalBytes = stat.totalBytes
-            val freeBytes = stat.availableBytes
+            var stat = StatFs(primary.absolutePath)
+            var totalBytes = stat.totalBytes
+            var freeBytes = stat.availableBytes
+            if (totalBytes <= 0L) {
+                try {
+                    stat = StatFs(Environment.getDataDirectory().absolutePath)
+                    totalBytes = stat.totalBytes
+                    freeBytes = stat.availableBytes
+                } catch (_: Throwable) {}
+            }
             list.add(
                 StorageStats(
                     rootPath = primary.absolutePath,
@@ -150,71 +158,261 @@ class FileRepository(private val context: Context) {
         return items
     }
 
-    fun getCategoryFiles(
-        category: FileCategory,
-        maxDepth: Int = 4,
-        maxResults: Int = 500
-    ): List<FileItem> {
-        val root = getPrimaryStorageRoot()
-        val results = mutableListOf<FileItem>()
+    private fun queryMediaStore(category: FileCategory, maxResults: Int): List<FileItem> {
+        val uri = when (category) {
+            FileCategory.IMAGES -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            FileCategory.VIDEOS -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            FileCategory.AUDIO -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            else -> null
+        } ?: return emptyList()
 
-        fun scanRecursive(dir: File, currentDepth: Int) {
-            if (currentDepth > maxDepth || results.size >= maxResults) return
-            if (PathSecurity.isAndroidRestrictedStorage(dir)) return
+        val items = mutableListOf<FileItem>()
+        val projection = arrayOf(
+            MediaStore.MediaColumns.DATA,
+            MediaStore.MediaColumns.DISPLAY_NAME,
+            MediaStore.MediaColumns.SIZE,
+            MediaStore.MediaColumns.DATE_MODIFIED,
+            MediaStore.MediaColumns.MIME_TYPE
+        )
+        val sortOrder = "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
 
-            val files = dir.listFiles() ?: return
-            for (f in files) {
-                if (f.name.startsWith(".")) continue
-                if (f.isDirectory) {
-                    scanRecursive(f, currentDepth + 1)
-                } else {
-                    val cat = MimeTypes.getCategory(f)
-                    if (category == FileCategory.DOWNLOADS) {
-                        if (f.absolutePath.contains("/Download/")) {
-                            results.add(mapToFileItem(f))
-                        }
-                    } else if (cat == category) {
-                        results.add(mapToFileItem(f))
+        try {
+            val cursor = context.contentResolver.query(uri, projection, null, null, sortOrder)
+            cursor?.use { c ->
+                val dataIdx = c.getColumnIndex(MediaStore.MediaColumns.DATA)
+                val nameIdx = c.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                val sizeIdx = c.getColumnIndex(MediaStore.MediaColumns.SIZE)
+                val modIdx = c.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
+                val mimeIdx = c.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
+
+                while (c.moveToNext() && items.size < maxResults) {
+                    val path = if (dataIdx != -1) c.getString(dataIdx) else null
+                    if (!path.isNullOrEmpty()) {
+                        val file = File(path)
+                        val name = if (nameIdx != -1) c.getString(nameIdx) ?: file.name else file.name
+                        val size = if (sizeIdx != -1) {
+                            val s = c.getLong(sizeIdx)
+                            if (s > 0) s else file.length()
+                        } else file.length()
+                        val mod = if (modIdx != -1) {
+                            val m = c.getLong(modIdx)
+                            if (m > 0) m * 1000L else file.lastModified()
+                        } else file.lastModified()
+                        val mime = if (mimeIdx != -1) c.getString(mimeIdx) ?: MimeTypes.getMimeType(file) else MimeTypes.getMimeType(file)
+                        val ext = MimeTypes.getExtension(name)
+
+                        items.add(
+                            FileItem(
+                                file = file,
+                                name = name,
+                                path = file.absolutePath,
+                                isDirectory = false,
+                                size = size,
+                                lastModified = mod,
+                                category = category,
+                                mimeType = mime,
+                                extension = ext
+                            )
+                        )
                     }
                 }
-                if (results.size >= maxResults) break
+            }
+        } catch (_: Throwable) {
+        }
+        return items
+    }
+
+    private fun queryRecentMediaStore(limit: Int): List<FileItem> {
+        val items = mutableListOf<FileItem>()
+        try {
+            val uri = MediaStore.Files.getContentUri("external")
+            val projection = arrayOf(
+                MediaStore.MediaColumns.DATA,
+                MediaStore.MediaColumns.DISPLAY_NAME,
+                MediaStore.MediaColumns.SIZE,
+                MediaStore.MediaColumns.DATE_MODIFIED,
+                MediaStore.MediaColumns.MIME_TYPE
+            )
+            val sortOrder = "${MediaStore.MediaColumns.DATE_MODIFIED} DESC"
+            val cursor = context.contentResolver.query(uri, projection, null, null, sortOrder)
+            cursor?.use { c ->
+                val dataIdx = c.getColumnIndex(MediaStore.MediaColumns.DATA)
+                val nameIdx = c.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                val sizeIdx = c.getColumnIndex(MediaStore.MediaColumns.SIZE)
+                val modIdx = c.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
+                val mimeIdx = c.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
+
+                while (c.moveToNext() && items.size < limit) {
+                    val path = if (dataIdx != -1) c.getString(dataIdx) else null
+                    if (!path.isNullOrEmpty()) {
+                        val file = File(path)
+                        if (!file.isDirectory) {
+                            val name = if (nameIdx != -1) c.getString(nameIdx) ?: file.name else file.name
+                            val size = if (sizeIdx != -1) {
+                                val s = c.getLong(sizeIdx)
+                                if (s > 0) s else file.length()
+                            } else file.length()
+                            val mod = if (modIdx != -1) {
+                                val m = c.getLong(modIdx)
+                                if (m > 0) m * 1000L else file.lastModified()
+                            } else file.lastModified()
+                            val mime = if (mimeIdx != -1) c.getString(mimeIdx) ?: MimeTypes.getMimeType(file) else MimeTypes.getMimeType(file)
+                            val ext = MimeTypes.getExtension(name)
+
+                            items.add(
+                                FileItem(
+                                    file = file,
+                                    name = name,
+                                    path = file.absolutePath,
+                                    isDirectory = false,
+                                    size = size,
+                                    lastModified = mod,
+                                    category = MimeTypes.getCategory(file),
+                                    mimeType = mime,
+                                    extension = ext
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        } catch (_: Throwable) {
+        }
+        return items
+    }
+
+    fun getCategoryFiles(
+        category: FileCategory,
+        maxDepth: Int = 6,
+        maxResults: Int = 500
+    ): List<FileItem> {
+        val resultMap = LinkedHashMap<String, FileItem>()
+
+        // 1. Instant MediaStore query for Media categories (Images, Videos, Audio)
+        if (category == FileCategory.IMAGES || category == FileCategory.VIDEOS || category == FileCategory.AUDIO) {
+            val mediaItems = queryMediaStore(category, maxResults)
+            for (item in mediaItems) {
+                resultMap[item.path] = item
             }
         }
 
-        scanRecursive(root, 1)
+        // 2. Direct folder inspection for targeted standard directories
+        val root = getPrimaryStorageRoot()
+        val targetedDirs = when (category) {
+            FileCategory.IMAGES -> listOf(
+                File(root, "DCIM/Camera"),
+                File(root, "DCIM"),
+                File(root, "Pictures"),
+                File(root, "Pictures/Screenshots"),
+                File(root, "Download")
+            )
+            FileCategory.VIDEOS -> listOf(
+                File(root, "Movies"),
+                File(root, "DCIM/Camera"),
+                File(root, "DCIM"),
+                File(root, "Download")
+            )
+            FileCategory.AUDIO -> listOf(
+                File(root, "Music"),
+                File(root, "Download"),
+                File(root, "Podcasts"),
+                File(root, "Ringtones")
+            )
+            FileCategory.DOWNLOADS -> listOf(
+                File(root, "Download"),
+                File(root, "Downloads")
+            )
+            else -> emptyList()
+        }
+
+        for (targetDir in targetedDirs) {
+            if (targetDir.exists() && targetDir.isDirectory) {
+                val directFiles = targetDir.listFiles() ?: continue
+                for (f in directFiles) {
+                    if (f.name.startsWith(".")) continue
+                    if (!f.isDirectory) {
+                        val cat = MimeTypes.getCategory(f)
+                        if (category == FileCategory.DOWNLOADS || cat == category) {
+                            if (!resultMap.containsKey(f.absolutePath)) {
+                                resultMap[f.absolutePath] = mapToFileItem(f)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3. Fallback recursive scan if more items are needed
+        if (resultMap.size < maxResults) {
+            fun scanRecursive(dir: File, currentDepth: Int) {
+                if (currentDepth > maxDepth || resultMap.size >= maxResults) return
+                if (PathSecurity.isAndroidRestrictedStorage(dir)) return
+
+                val files = dir.listFiles() ?: return
+                for (f in files) {
+                    if (f.name.startsWith(".")) continue
+                    if (f.isDirectory) {
+                        scanRecursive(f, currentDepth + 1)
+                    } else {
+                        val cat = MimeTypes.getCategory(f)
+                        if (category == FileCategory.DOWNLOADS) {
+                            if (f.absolutePath.contains("/Download/")) {
+                                if (!resultMap.containsKey(f.absolutePath)) {
+                                    resultMap[f.absolutePath] = mapToFileItem(f)
+                                }
+                            }
+                        } else if (cat == category) {
+                            if (!resultMap.containsKey(f.absolutePath)) {
+                                resultMap[f.absolutePath] = mapToFileItem(f)
+                            }
+                        }
+                    }
+                    if (resultMap.size >= maxResults) break
+                }
+            }
+
+            scanRecursive(root, 1)
+        }
+
+        val results = resultMap.values.toMutableList()
         results.sortByDescending { it.lastModified }
         return results
     }
 
     fun getRecentFiles(limit: Int = 30): List<FileItem> {
-        val root = getPrimaryStorageRoot()
-        val allFiles = mutableListOf<FileItem>()
+        val resultMap = LinkedHashMap<String, FileItem>()
 
-        fun scan(dir: File, depth: Int) {
-            if (depth > 3 || allFiles.size > 200) return
-            if (PathSecurity.isAndroidRestrictedStorage(dir)) return
-            val files = dir.listFiles() ?: return
-            for (f in files) {
-                if (f.name.startsWith(".")) continue
-                if (f.isDirectory) {
-                    scan(f, depth + 1)
-                } else {
-                    allFiles.add(mapToFileItem(f))
+        // 1. Query MediaStore for recently added media/files
+        val mediaRecent = queryRecentMediaStore(limit)
+        for (item in mediaRecent) {
+            resultMap[item.path] = item
+        }
+
+        // 2. Direct inspection of frequent creation directories
+        val root = getPrimaryStorageRoot()
+        val quickDirs = listOf(
+            File(root, "Download"),
+            File(root, "DCIM/Camera"),
+            File(root, "DCIM"),
+            File(root, "Pictures"),
+            File(root, "Documents")
+        )
+        for (d in quickDirs) {
+            if (d.exists() && d.isDirectory) {
+                val files = d.listFiles() ?: continue
+                for (f in files) {
+                    if (!f.isDirectory && !f.name.startsWith(".")) {
+                        if (!resultMap.containsKey(f.absolutePath)) {
+                            resultMap[f.absolutePath] = mapToFileItem(f)
+                        }
+                    }
                 }
             }
         }
 
-        scan(root, 1)
-        allFiles.sortByDescending { it.lastModified }
-        return allFiles.take(limit)
-    }
-
-    fun getLargeFiles(thresholdBytes: Long = 50L * 1024 * 1024, limit: Int = 50): List<FileItem> {
-        val root = getPrimaryStorageRoot()
-        val largeList = mutableListOf<FileItem>()
-
+        // 3. Shallow storage scan
         fun scan(dir: File, depth: Int) {
-            if (depth > 5) return
+            if (depth > 4 || resultMap.size > 200) return
             if (PathSecurity.isAndroidRestrictedStorage(dir)) return
             val files = dir.listFiles() ?: return
             for (f in files) {
@@ -222,14 +420,115 @@ class FileRepository(private val context: Context) {
                 if (f.isDirectory) {
                     scan(f, depth + 1)
                 } else {
-                    if (f.length() >= thresholdBytes) {
-                        largeList.add(mapToFileItem(f))
+                    if (!resultMap.containsKey(f.absolutePath)) {
+                        resultMap[f.absolutePath] = mapToFileItem(f)
                     }
                 }
             }
         }
 
         scan(root, 1)
+        val allFiles = resultMap.values.toMutableList()
+        allFiles.sortByDescending { it.lastModified }
+        return allFiles.take(limit)
+    }
+
+    fun getLargeFiles(thresholdBytes: Long = 50L * 1024 * 1024, limit: Int = 50): List<FileItem> {
+        val largeMap = LinkedHashMap<String, FileItem>()
+
+        // 1. Instant MediaStore query for large files
+        try {
+            val uri = MediaStore.Files.getContentUri("external")
+            val projection = arrayOf(
+                MediaStore.MediaColumns.DATA,
+                MediaStore.MediaColumns.DISPLAY_NAME,
+                MediaStore.MediaColumns.SIZE,
+                MediaStore.MediaColumns.DATE_MODIFIED,
+                MediaStore.MediaColumns.MIME_TYPE
+            )
+            val selection = "${MediaStore.MediaColumns.SIZE} >= ?"
+            val selectionArgs = arrayOf(thresholdBytes.toString())
+            val sortOrder = "${MediaStore.MediaColumns.SIZE} DESC"
+            val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+            cursor?.use { c ->
+                val dataIdx = c.getColumnIndex(MediaStore.MediaColumns.DATA)
+                val nameIdx = c.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+                val sizeIdx = c.getColumnIndex(MediaStore.MediaColumns.SIZE)
+                val modIdx = c.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED)
+                val mimeIdx = c.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)
+
+                while (c.moveToNext() && largeMap.size < limit) {
+                    val path = if (dataIdx != -1) c.getString(dataIdx) else null
+                    if (!path.isNullOrEmpty()) {
+                        val file = File(path)
+                        val name = if (nameIdx != -1) c.getString(nameIdx) ?: file.name else file.name
+                        val size = if (sizeIdx != -1) c.getLong(sizeIdx) else file.length()
+                        val mod = if (modIdx != -1) c.getLong(modIdx) * 1000L else file.lastModified()
+                        val mime = if (mimeIdx != -1) c.getString(mimeIdx) ?: MimeTypes.getMimeType(file) else MimeTypes.getMimeType(file)
+                        val ext = MimeTypes.getExtension(name)
+
+                        largeMap[file.absolutePath] = FileItem(
+                            file = file,
+                            name = name,
+                            path = file.absolutePath,
+                            isDirectory = false,
+                            size = size,
+                            lastModified = mod,
+                            category = MimeTypes.getCategory(file),
+                            mimeType = mime,
+                            extension = ext
+                        )
+                    }
+                }
+            }
+        } catch (_: Throwable) {}
+
+        // 2. Direct folder scans for high-probability large files
+        val root = getPrimaryStorageRoot()
+        val targetedDirs = listOf(
+            File(root, "Download"),
+            File(root, "Movies"),
+            File(root, "DCIM"),
+            File(root, "DCIM/Camera"),
+            File(root, "Pictures")
+        )
+        for (dir in targetedDirs) {
+            if (dir.exists() && dir.isDirectory) {
+                dir.listFiles()?.forEach { f ->
+                    if (!f.isDirectory && !f.name.startsWith(".") && f.length() >= thresholdBytes) {
+                        if (!largeMap.containsKey(f.absolutePath)) {
+                            largeMap[f.absolutePath] = mapToFileItem(f)
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3. Fallback filesystem recursive scan if needed
+        if (largeMap.size < limit) {
+            fun scan(dir: File, depth: Int) {
+                if (depth > 6 || largeMap.size >= limit) return
+                if (PathSecurity.isAndroidRestrictedStorage(dir)) return
+                val files = dir.listFiles() ?: return
+                for (f in files) {
+                    if (f.name.startsWith(".")) continue
+                    if (f.isDirectory) {
+                        scan(f, depth + 1)
+                    } else {
+                        if (f.length() >= thresholdBytes) {
+                            if (!largeMap.containsKey(f.absolutePath)) {
+                                largeMap[f.absolutePath] = mapToFileItem(f)
+                            }
+                        }
+                    }
+                    if (largeMap.size >= limit) break
+                }
+            }
+
+            scan(root, 1)
+        }
+
+        val largeList = largeMap.values.toMutableList()
         largeList.sortByDescending { it.size }
         return largeList.take(limit)
     }

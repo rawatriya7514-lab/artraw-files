@@ -35,8 +35,14 @@ data class SortOption(
 
         val result = when (field) {
             SortField.NAME -> a.name.compareTo(b.name, ignoreCase = true)
-            SortField.DATE -> a.lastModified.compareTo(b.lastModified)
-            SortField.SIZE -> a.size.compareTo(b.size)
+            SortField.DATE -> {
+                val dateCmp = a.lastModified.compareTo(b.lastModified)
+                if (dateCmp != 0) dateCmp else a.name.compareTo(b.name, ignoreCase = true)
+            }
+            SortField.SIZE -> {
+                val sizeCmp = a.size.compareTo(b.size)
+                if (sizeCmp != 0) sizeCmp else a.name.compareTo(b.name, ignoreCase = true)
+            }
             SortField.TYPE -> {
                 val catCompare = a.category.compareTo(b.category)
                 if (catCompare != 0) catCompare else a.extension.compareTo(b.extension, ignoreCase = true)

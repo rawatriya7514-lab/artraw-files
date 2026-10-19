@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Deep Space Base Canvas -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/aurora_background_deep" />
-        </shape>
-    </item>
-
-    <!-- Subtle Top Radial Glow for Ambient Depth -->
-    <item>
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="radial"
-                android:gradientRadius="120%"
-                android:centerX="50%"
-                android:centerY="0%"
-                android:startColor="#1A1F30"
-                android:centerColor="#0F121C"
-                android:endColor="#00050507" />
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#0F1014" />
+</shape>

@@ -8,14 +8,19 @@ object Formatters {
 
     fun formatFileSize(bytes: Long): String {
         if (bytes <= 0) return "0 B"
-        val units = arrayOf("B", "KB", "MB", "GB", "TB")
-        val digitGroups = (Math.log10(bytes.toDouble()) / Math.log10(1024.0)).toInt()
-        val index = digitGroups.coerceIn(0, units.size - 1)
-        val value = bytes / Math.pow(1024.0, index.toDouble())
-        return if (index == 0) {
-            String.format(Locale.US, "%d %s", bytes, units[index])
+        val units = arrayOf("B", "KB", "MB", "GB", "TB", "PB")
+        var value = bytes.toDouble()
+        var unitIndex = 0
+        while (value >= 1024.0 && unitIndex < units.size - 1) {
+            value /= 1024.0
+            unitIndex++
+        }
+        return if (unitIndex == 0) {
+            "${bytes} B"
+        } else if (value >= 100.0) {
+            String.format(Locale.US, "%.1f %s", value, units[unitIndex])
         } else {
-            String.format(Locale.US, "%.1f %s", value, units[index])
+            String.format(Locale.US, "%.2f %s", value, units[unitIndex])
         }
     }
 

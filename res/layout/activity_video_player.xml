@@ -12,6 +12,24 @@
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
+    <!-- Instant Video Cover Preview -->
+    <ImageView
+        android:id="@+id/imgVideoCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/content_file"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressVideoLoading"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/aurora_primary"
+        android:visibility="gone" />
+
     <!-- Overlay Controls Container -->
     <RelativeLayout
         android:id="@+id/layoutVideoControls"

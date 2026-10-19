@@ -74,87 +74,102 @@ object EdgeToEdgeHelper {
             window.decorView.systemUiVisibility = flags
         }
 
-        // Ensure scroll views don't clip to padding so scrolling looks edge-to-edge
-        for (view in bottomScrollViews) {
-            if (view is ViewGroup) {
-                view.clipToPadding = false
-            }
-        }
+        val safeTopSpacers = topSpacers.filterNotNull()
+        val safeTopHeaders = topHeaders.filterNotNull()
+        val safeBottomScrollViews = bottomScrollViews.filterNotNull()
+        val safeBottomStickyViews = bottomStickyViews.filterNotNull()
 
-        // Save original initial paddings to avoid compounding on repeated insets calls
-        val topInitialPaddings = topHeaders.map {
-            Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
-        }
-        val bottomScrollPaddings = bottomScrollViews.map {
-            Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
-        }
-        val bottomStickyPaddings = bottomStickyViews.map {
-            Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
-        }
-
-        val baseStatusBarHeight = getStatusBarHeight(activity)
-        val baseNavBarHeight = getNavigationBarHeight(activity)
-        val extraTopGap = 0
-
-        fun applyInsets(statusBarInset: Int, navBarInset: Int) {
-            val effectiveStatusBar = kotlin.math.max(statusBarInset, baseStatusBarHeight) + extraTopGap
-            val effectiveNavBar = kotlin.math.max(navBarInset, baseNavBarHeight)
-
-            // Adjust status bar spacers
-            for (spacer in topSpacers) {
-                val params = spacer.layoutParams
-                if (params != null && params.height != effectiveStatusBar) {
-                    params.height = effectiveStatusBar
-                    spacer.layoutParams = params
+        try {
+            // Ensure scroll views don't clip to padding so scrolling looks edge-to-edge
+            for (view in safeBottomScrollViews) {
+                if (view is ViewGroup) {
+                    view.clipToPadding = false
                 }
             }
 
-            // Adjust headers padding directly
-            for ((index, header) in topHeaders.withIndex()) {
-                val (left, top, right) = topInitialPaddings[index].first
-                val bottom = topInitialPaddings[index].second
-                val targetTop = kotlin.math.max(top, effectiveStatusBar)
-                header.setPadding(left, targetTop, right, bottom)
+            // Save original initial paddings to avoid compounding on repeated insets calls
+            val topInitialPaddings = safeTopHeaders.map {
+                Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
+            }
+            val bottomScrollPaddings = safeBottomScrollViews.map {
+                Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
+            }
+            val bottomStickyPaddings = safeBottomStickyViews.map {
+                Triple(it.paddingLeft, it.paddingTop, it.paddingRight) to it.paddingBottom
             }
 
-            // Apply navigation bar bottom padding to scroll views
-            for ((index, scroll) in bottomScrollViews.withIndex()) {
-                val (left, top, right) = bottomScrollPaddings[index].first
-                val bottom = bottomScrollPaddings[index].second
-                scroll.setPadding(left, top, right, bottom + effectiveNavBar)
+            val baseStatusBarHeight = getStatusBarHeight(activity)
+            val baseNavBarHeight = getNavigationBarHeight(activity)
+            val extraTopGap = 0
+
+            fun applyInsets(statusBarInset: Int, navBarInset: Int) {
+                val effectiveStatusBar = kotlin.math.max(statusBarInset, baseStatusBarHeight) + extraTopGap
+                val effectiveNavBar = kotlin.math.max(navBarInset, baseNavBarHeight)
+
+                // Adjust status bar spacers
+                for (spacer in safeTopSpacers) {
+                    val params = spacer.layoutParams
+                    if (params != null && params.height != effectiveStatusBar) {
+                        params.height = effectiveStatusBar
+                        spacer.layoutParams = params
+                    }
+                }
+
+                // Adjust headers padding directly
+                for ((index, header) in safeTopHeaders.withIndex()) {
+                    if (index < topInitialPaddings.size) {
+                        val (left, top, right) = topInitialPaddings[index].first
+                        val bottom = topInitialPaddings[index].second
+                        val targetTop = kotlin.math.max(top, effectiveStatusBar)
+                        header.setPadding(left, targetTop, right, bottom)
+                    }
+                }
+
+                // Apply navigation bar bottom padding to scroll views
+                for ((index, scroll) in safeBottomScrollViews.withIndex()) {
+                    if (index < bottomScrollPaddings.size) {
+                        val (left, top, right) = bottomScrollPaddings[index].first
+                        val bottom = bottomScrollPaddings[index].second
+                        scroll.setPadding(left, top, right, bottom + effectiveNavBar)
+                    }
+                }
+
+                // Apply navigation bar bottom padding to sticky bottom bars
+                for ((index, sticky) in safeBottomStickyViews.withIndex()) {
+                    if (index < bottomStickyPaddings.size) {
+                        val (left, top, right) = bottomStickyPaddings[index].first
+                        val bottom = bottomStickyPaddings[index].second
+                        sticky.setPadding(left, top, right, bottom + effectiveNavBar)
+                    }
+                }
             }
 
-            // Apply navigation bar bottom padding to sticky bottom bars
-            for ((index, sticky) in bottomStickyViews.withIndex()) {
-                val (left, top, right) = bottomStickyPaddings[index].first
-                val bottom = bottomStickyPaddings[index].second
-                sticky.setPadding(left, top, right, bottom + effectiveNavBar)
-            }
-        }
+            // Apply immediately so first frame is never clipped
+            applyInsets(baseStatusBarHeight, baseNavBarHeight)
 
-        // Apply immediately so first frame is never clipped
-        applyInsets(baseStatusBarHeight, baseNavBarHeight)
+            // 4. Listen for WindowInsets when system reports exact insets
+            window.decorView.setOnApplyWindowInsetsListener { _, insets ->
+                try {
+                    val statusBarInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        insets.getInsets(WindowInsets.Type.statusBars()).top
+                    } else {
+                        @Suppress("DEPRECATION")
+                        insets.systemWindowInsetTop
+                    }
 
-        // 4. Listen for WindowInsets when system reports exact insets
-        window.decorView.setOnApplyWindowInsetsListener { _, insets ->
-            val statusBarInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                insets.getInsets(WindowInsets.Type.statusBars()).top
-            } else {
-                @Suppress("DEPRECATION")
-                insets.systemWindowInsetTop
-            }
+                    val navBarInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        insets.getInsets(WindowInsets.Type.navigationBars()).bottom
+                    } else {
+                        @Suppress("DEPRECATION")
+                        insets.systemWindowInsetBottom
+                    }
 
-            val navBarInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                insets.getInsets(WindowInsets.Type.navigationBars()).bottom
-            } else {
-                @Suppress("DEPRECATION")
-                insets.systemWindowInsetBottom
+                    applyInsets(statusBarInset, navBarInset)
+                } catch (_: Throwable) {}
+                insets
             }
 
-            applyInsets(statusBarInset, navBarInset)
-            insets
-        }
-
-        window.decorView.requestApplyInsets()
+            window.decorView.requestApplyInsets()
+        } catch (_: Throwable) {}
     }
 }

@@ -1,66 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutGridRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/ripple_aurora"
-    android:padding="8dp"
+    android:padding="3dp"
     android:clipToPadding="false">
 
-    <android.widget.LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
 
-        <android.widget.FrameLayout
+        <FrameLayout
             android:id="@+id/frameGridThumbnail"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="8dp">
+            android:layout_height="96dp"
+            android:layout_marginBottom="3dp">
 
-            <android.widget.ImageView
+            <ImageView
                 android:id="@+id/imgGridIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_file" />
 
-            <android.widget.ImageView
+            <ImageView
                 android:id="@+id/imgGridSelectBadge"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="top|end"
-                android:layout_margin="6dp"
+                android:layout_margin="4dp"
                 android:src="@drawable/ic_check_circle_outline"
                 android:tint="@color/aurora_primary"
                 android:background="@drawable/bg_aurora_category_badge"
                 android:visibility="gone" />
 
-            <android.widget.ImageView
+            <ImageView
                 android:id="@+id/imgGridEncryptionBadge"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="bottom|start"
-                android:layout_margin="6dp"
+                android:layout_margin="4dp"
                 android:src="@drawable/ic_file"
                 android:tint="@color/aurora_warning"
                 android:visibility="gone" />
-        </android.widget.FrameLayout>
+        </FrameLayout>
 
-        <android.widget.TextView
+        <TextView
             android:id="@+id/tvGridFileName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="1dp"
             android:gravity="center"
-            android:maxLines="2"
-            android:ellipsize="end"
+            android:maxLines="1"
+            android:ellipsize="middle"
             android:textStyle="bold"
             android:textColor="@color/aurora_text_primary"
+            android:textSize="11sp"
             style="@style/Widget.ArtrawFiles.Text.Caption" />
 
-        <android.widget.TextView
+        <TextView
             android:id="@+id/tvGridFileMeta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,12 +69,8 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/aurora_text_secondary"
+            android:textSize="10sp"
             style="@style/Widget.ArtrawFiles.Text.Caption" />
-    </android.widget.LinearLayout>
+    </LinearLayout>
 
-    <android.widget.View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/ripple_aurora" />
-
-</android.widget.FrameLayout>
+</FrameLayout>

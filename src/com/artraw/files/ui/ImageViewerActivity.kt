@@ -41,6 +41,9 @@ class ImageViewerActivity : Activity() {
     private var currentIndex = 0
     private var barsVisible = true
     private val executor = Executors.newSingleThreadExecutor()
+    private val fullResCache = object : android.util.LruCache<String, Bitmap>(8) {
+        override fun sizeOf(key: String, bitmap: Bitmap): Int = 1
+    }
     private lateinit var gestureDetector: GestureDetector
     private lateinit var scaleDetector: ScaleGestureDetector
 
@@ -122,7 +125,9 @@ class ImageViewerActivity : Activity() {
                     .setPositiveButton("Delete") { _, _ ->
                         if (f.delete()) {
                             Toast.makeText(this, "Deleted ${f.name}", Toast.LENGTH_SHORT).show()
-                            imageList.removeAt(currentIndex)
+                            if (currentIndex in imageList.indices) {
+                                imageList.removeAt(currentIndex)
+                            }
                             if (imageList.isEmpty()) {
                                 finish()
                             } else {
@@ -262,28 +267,39 @@ class ImageViewerActivity : Activity() {
     }
 
     private fun buildImageList(file: File) {
-        val parent = file.parentFile ?: return
-        val list = parent.listFiles { f ->
-            !f.isDirectory && MimeTypes.getCategory(f) == com.artraw.files.model.FileCategory.IMAGES
-        }?.sortedBy { it.name.lowercase(Locale.ROOT) } ?: emptyList()
+        val parent = file.parentFile
+        val list = if (parent != null && parent.exists() && parent.isDirectory) {
+            parent.listFiles { f ->
+                !f.isDirectory && MimeTypes.getCategory(f) == com.artraw.files.model.FileCategory.IMAGES
+            }?.sortedBy { it.name.lowercase(Locale.ROOT) } ?: emptyList()
+        } else {
+            emptyList()
+        }
 
         imageList.clear()
         imageList.addAll(list)
-        currentIndex = imageList.indexOfFirst { it.absolutePath == file.absolutePath }
-        if (currentIndex == -1 && imageList.isNotEmpty()) currentIndex = 0
+        if (imageList.none { it.absolutePath == file.absolutePath }) {
+            imageList.add(file)
+        }
+        currentIndex = imageList.indexOfFirst { it.absolutePath == file.absolutePath }.coerceAtLeast(0)
     }
 
-    private fun loadImage(file: File) {
-        currentFile = file
-        tvTitle.text = file.name
-        val pos = currentIndex + 1
-        tvIndex.text = "$pos of ${imageList.size}"
-
-        executor.execute {
+    private fun decodeHighResBitmap(file: File): Bitmap? {
+        try {
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeFile(file.absolutePath, bounds)
-            val w = bounds.outWidth
-            val h = bounds.outHeight
+            var w = bounds.outWidth
+            var h = bounds.outHeight
+
+            if (w <= 0 || h <= 0) {
+                try {
+                    java.io.FileInputStream(file).use { fis ->
+                        BitmapFactory.decodeStream(fis, null, bounds)
+                        w = bounds.outWidth
+                        h = bounds.outHeight
+                    }
+                } catch (_: Throwable) {}
+            }
 
             var sample = 1
             while (w / sample > 2048 || h / sample > 2048) {
@@ -291,19 +307,101 @@ class ImageViewerActivity : Activity() {
             }
 
             val opts = BitmapFactory.Options().apply { inSampleSize = sample }
-            val bmp = BitmapFactory.decodeFile(file.absolutePath, opts)
+            var bmp: Bitmap? = try {
+                BitmapFactory.decodeFile(file.absolutePath, opts)
+            } catch (e: Throwable) {
+                null
+            }
+            if (bmp == null) {
+                try {
+                    java.io.FileInputStream(file).use { fis ->
+                        bmp = BitmapFactory.decodeStream(fis, null, opts)
+                    }
+                } catch (_: Throwable) {}
+            }
+            return bmp
+        } catch (_: Throwable) {
+            return null
+        }
+    }
 
-            val sizeStr = Formatters.formatFileSize(file.length())
-            val infoStr = if (w > 0 && h > 0) "${w}x${h} • $sizeStr" else sizeStr
-
-            runOnUiThread {
-                resetZoom(animate = false)
-                if (bmp != null) {
-                    imgFull.setImageBitmap(bmp)
-                } else {
-                    imgFull.setImageResource(R.drawable.ic_image)
+    private fun preloadNeighbors(idx: Int) {
+        if (imageList.size <= 1) return
+        executor.execute {
+            val nextIdx = (idx + 1) % imageList.size
+            val prevIdx = if (idx - 1 < 0) imageList.size - 1 else idx - 1
+            listOf(nextIdx, prevIdx).forEach { i ->
+                if (i in imageList.indices && i != idx) {
+                    val f = imageList[i]
+                    if (fullResCache.get(f.absolutePath) == null) {
+                        decodeHighResBitmap(f)?.let { bmp ->
+                            fullResCache.put(f.absolutePath, bmp)
+                        }
+                    }
                 }
-                tvInfo.text = infoStr
+            }
+        }
+    }
+
+    private fun loadImage(file: File) {
+        currentFile = file
+        tvTitle.text = file.name
+        val total = imageList.size.coerceAtLeast(1)
+        val pos = (currentIndex + 1).coerceIn(1, total)
+        tvIndex.text = "$pos of $total"
+
+        // Step 1: Check full-res memory cache (instant display, 0ms)
+        val cachedFull = fullResCache.get(file.absolutePath)
+        if (cachedFull != null && !cachedFull.isRecycled) {
+            resetZoom(animate = false)
+            imgFull.setImageBitmap(cachedFull)
+            tvInfo.text = "${cachedFull.width}x${cachedFull.height} • ${Formatters.formatFileSize(file.length())}"
+            preloadNeighbors(currentIndex)
+            return
+        }
+
+        // Step 2: Instant 0ms preview from ThumbnailLoader memory cache
+        val cachedThumb = com.artraw.files.util.ThumbnailLoader.getCachedBitmap(file.absolutePath)
+        if (cachedThumb != null && !cachedThumb.isRecycled) {
+            resetZoom(animate = false)
+            imgFull.setImageBitmap(cachedThumb)
+            tvInfo.text = Formatters.formatFileSize(file.length())
+        }
+
+        // Step 3: Decode full resolution bitmap asynchronously in background
+        executor.execute {
+            try {
+                val bmp = decodeHighResBitmap(file)
+                if (bmp != null) {
+                    fullResCache.put(file.absolutePath, bmp)
+                }
+
+                val sizeStr = Formatters.formatFileSize(file.length())
+                val infoStr = if (bmp != null) "${bmp.width}x${bmp.height} • $sizeStr" else sizeStr
+
+                runOnUiThread {
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+                    // Only update if current file hasn't changed while decoding
+                    if (currentFile?.absolutePath == file.absolutePath) {
+                        resetZoom(animate = false)
+                        if (bmp != null) {
+                            imgFull.setImageBitmap(bmp)
+                        } else if (cachedThumb == null) {
+                            imgFull.setImageResource(R.drawable.ic_image)
+                        }
+                        tvInfo.text = infoStr
+                    }
+                }
+
+                preloadNeighbors(currentIndex)
+            } catch (_: Throwable) {
+                runOnUiThread {
+                    if (isFinishing || isDestroyed) return@runOnUiThread
+                    if (currentFile?.absolutePath == file.absolutePath && cachedThumb == null) {
+                        imgFull.setImageResource(R.drawable.ic_image)
+                        tvInfo.text = Formatters.formatFileSize(file.length())
+                    }
+                }
             }
         }
     }

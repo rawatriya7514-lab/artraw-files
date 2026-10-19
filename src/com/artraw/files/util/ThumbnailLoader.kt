@@ -46,6 +46,17 @@ object ThumbnailLoader {
         }
     }
 
+    fun getCachedBitmap(path: String): Bitmap? {
+        val bmp = memoryCache.get(path)
+        return if (bmp != null && !bmp.isRecycled) bmp else null
+    }
+
+    fun putCachedBitmap(path: String, bitmap: Bitmap) {
+        if (!bitmap.isRecycled) {
+            memoryCache.put(path, bitmap)
+        }
+    }
+
     /**
      * Load thumbnail for a file item into the given ImageView.
      */
@@ -78,7 +89,7 @@ object ThumbnailLoader {
         }
 
         // 3. Memory cache hit -> apply immediately
-        val cached = memoryCache.get(path)
+        val cached = getCachedBitmap(path)
         if (cached != null) {
             imageView.tag = path
             applyBitmap(imageView, cached, item)
@@ -147,6 +158,7 @@ object ThumbnailLoader {
     }
 
     private fun applyBitmap(imageView: ImageView, bitmap: Bitmap, item: FileItem) {
+        if (bitmap.isRecycled) return
         // Crucial: Clear all tint lists and filters so bitmap is rendered in full native color
         imageView.imageTintList = null
         imageView.colorFilter = null
@@ -204,7 +216,8 @@ object ThumbnailLoader {
 
             options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
             options.inJustDecodeBounds = false
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888
+            // RGB_565 uses 50% less RAM and decodes 2x faster than ARGB_8888 for thumbnails
+            options.inPreferredConfig = Bitmap.Config.RGB_565
 
             val decoded = BitmapFactory.decodeFile(file.absolutePath, options)
             if (decoded != null) return decoded
@@ -219,23 +232,45 @@ object ThumbnailLoader {
     }
 
     /**
-     * Decode video thumbnail using MediaMetadataRetriever and ThumbnailUtils.
+     * Decode video thumbnail using native hardware acceleration and scaled keyframes.
      */
     private fun decodeVideoThumbnail(file: File, reqWidth: Int, reqHeight: Int): Bitmap? {
         if (!file.exists()) return null
 
-        // Attempt 1: MediaMetadataRetriever (representative keyframe)
+        // Fast Path 1: Android 10+ (API 29+) native hardware accelerated ThumbnailUtils
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                val size = android.util.Size(reqWidth, reqHeight)
+                val thumb = ThumbnailUtils.createVideoThumbnail(file, size, null)
+                if (thumb != null) return thumb
+            } catch (_: Throwable) {}
+        }
+
+        // Fast Path 2: MediaMetadataRetriever scaled frame directly (Android 8.1+ / API 27+)
         try {
             val retriever = MediaMetadataRetriever()
-            retriever.setDataSource(file.absolutePath)
-            var frame: Bitmap? = retriever.getFrameAtTime()
-            if (frame == null) {
-                frame = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+            var frame: Bitmap? = null
+            try {
+                retriever.setDataSource(file.absolutePath)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    frame = retriever.getScaledFrameAtTime(
+                        1000000L,
+                        MediaMetadataRetriever.OPTION_CLOSEST_SYNC,
+                        reqWidth,
+                        reqHeight
+                    )
+                }
+                if (frame == null) {
+                    frame = retriever.getFrameAtTime(0, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                }
+                if (frame == null) {
+                    frame = retriever.getFrameAtTime(1000000L, MediaMetadataRetriever.OPTION_CLOSEST)
+                }
+            } finally {
+                try {
+                    retriever.release()
+                } catch (_: Throwable) {}
             }
-            if (frame == null) {
-                frame = retriever.getFrameAtTime(500000, MediaMetadataRetriever.OPTION_CLOSEST)
-            }
-            retriever.release()
 
             if (frame != null) {
                 if (frame.width > reqWidth || frame.height > reqHeight) {
@@ -249,7 +284,7 @@ object ThumbnailLoader {
         } catch (_: Throwable) {
         }
 
-        // Attempt 2: ThumbnailUtils fallback
+        // Attempt 3: Legacy ThumbnailUtils fallback
         try {
             @Suppress("DEPRECATION")
             val thumb = ThumbnailUtils.createVideoThumbnail(file.absolutePath, MediaStore.Images.Thumbnails.MINI_KIND)

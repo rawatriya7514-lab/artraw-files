@@ -100,7 +100,7 @@ import zipfile, shutil, os
 # Start from the linked base APK (has resources.arsc, manifest, etc.)
 shutil.copy('build/base.apk', 'build/artifacts/Artfiles.apk')
 
-# Add classes.dex
+# Add classes.dex (stored uncompressed for ART direct mmap and ~7.1 MB target size)
 with zipfile.ZipFile('build/artifacts/Artfiles.apk', 'a') as apk:
     apk.write('build/dex_d8/classes.dex', 'classes.dex')
 "

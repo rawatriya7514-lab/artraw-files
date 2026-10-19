@@ -105,19 +105,19 @@ class FileListAdapter(
             val paddingTotal = (16 * dm.density).toInt()
             val colWidth = ((dm.widthPixels - paddingTotal) / cols).coerceAtLeast(60)
             val itemHeight = when (cols) {
-                1 -> (colWidth * 0.72f).toInt()
-                2 -> (colWidth * 1.05f).toInt()
-                3 -> (colWidth * 1.15f).toInt()
-                4 -> (colWidth * 1.18f).toInt()
-                else -> (colWidth * 1.25f).toInt()
+                1 -> (colWidth * 0.58f).toInt()
+                2 -> (colWidth * 0.90f).toInt()
+                3 -> (colWidth * 0.96f).toInt()
+                4 -> (colWidth * 1.00f).toInt()
+                else -> (colWidth * 1.05f).toInt()
             }
-            view.layoutParams = android.view.ViewGroup.LayoutParams(
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT, itemHeight
+            view.layoutParams = android.widget.AbsListView.LayoutParams(
+                android.widget.AbsListView.LayoutParams.MATCH_PARENT, itemHeight
             )
 
             val thumbFrame = view.findViewById<View>(R.id.frameGridThumbnail)
             thumbFrame?.layoutParams?.let { lp ->
-                val ratio = if (cols == 1) 0.76f else 0.66f
+                val ratio = if (cols == 1) 0.72f else 0.68f
                 lp.height = (itemHeight * ratio).toInt()
                 thumbFrame.layoutParams = lp
             }

@@ -4,30 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="14dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
     android:background="@drawable/ripple_aurora">
 
     <android.widget.FrameLayout
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical">
 
         <android.widget.ImageView
             android:id="@+id/imgFileIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_file" />
 
         <android.widget.ImageView
             android:id="@+id/imgListSelectBadge"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="bottom|end"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:src="@drawable/ic_check_circle_outline"
             android:tint="@color/aurora_primary"
             android:background="@drawable/bg_aurora_category_badge"
@@ -35,10 +35,10 @@
 
         <android.widget.ImageView
             android:id="@+id/imgListEncryptionBadge"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_gravity="bottom|start"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:src="@drawable/ic_file"
             android:tint="@color/aurora_warning"
             android:visibility="gone" />
@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="6dp"
         android:orientation="vertical">
 
         <android.widget.TextView
@@ -61,6 +61,7 @@
             android:ellipsize="end"
             android:textStyle="bold"
             android:textColor="@color/aurora_text_primary"
+            android:textSize="14sp"
             style="@style/Widget.ArtrawFiles.Text.Body" />
 
         <android.widget.TextView
@@ -71,13 +72,14 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textColor="@color/aurora_text_secondary"
+            android:textSize="12sp"
             style="@style/Widget.ArtrawFiles.Text.Caption" />
     </android.widget.LinearLayout>
 
     <android.widget.CheckBox
         android:id="@+id/cbSelect"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_gravity="center_vertical"
         android:buttonTint="@color/aurora_primary"
         android:focusable="false"

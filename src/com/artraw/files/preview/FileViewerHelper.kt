@@ -25,46 +25,66 @@ object FileViewerHelper {
 
         // 1. Built-in Music & Audio Player
         if (category == com.artraw.files.model.FileCategory.AUDIO) {
-            val intent = Intent(activity, com.artraw.files.ui.AudioPlayerActivity::class.java).apply {
-                putExtra(com.artraw.files.ui.AudioPlayerActivity.EXTRA_FILE_PATH, file.absolutePath)
+            try {
+                val intent = Intent(activity, com.artraw.files.ui.AudioPlayerActivity::class.java).apply {
+                    putExtra(com.artraw.files.ui.AudioPlayerActivity.EXTRA_FILE_PATH, file.absolutePath)
+                }
+                activity.startActivity(intent)
+            } catch (e: Throwable) {
+                Toast.makeText(activity, "Error opening audio: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            activity.startActivity(intent)
             return
         }
 
         // 2. Built-in Video Player
         if (category == com.artraw.files.model.FileCategory.VIDEOS) {
-            val intent = Intent(activity, com.artraw.files.ui.VideoPlayerActivity::class.java).apply {
-                putExtra(com.artraw.files.ui.VideoPlayerActivity.EXTRA_FILE_PATH, file.absolutePath)
+            try {
+                val intent = Intent(activity, com.artraw.files.ui.VideoPlayerActivity::class.java).apply {
+                    putExtra(com.artraw.files.ui.VideoPlayerActivity.EXTRA_FILE_PATH, file.absolutePath)
+                }
+                activity.startActivity(intent)
+            } catch (e: Throwable) {
+                Toast.makeText(activity, "Error opening video: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            activity.startActivity(intent)
             return
         }
 
         // 3. Built-in Photo & Image Gallery Viewer
         if (category == com.artraw.files.model.FileCategory.IMAGES) {
-            val intent = Intent(activity, com.artraw.files.ui.ImageViewerActivity::class.java).apply {
-                putExtra(com.artraw.files.ui.ImageViewerActivity.EXTRA_FILE_PATH, file.absolutePath)
+            try {
+                val intent = Intent(activity, com.artraw.files.ui.ImageViewerActivity::class.java).apply {
+                    putExtra(com.artraw.files.ui.ImageViewerActivity.EXTRA_FILE_PATH, file.absolutePath)
+                }
+                activity.startActivity(intent)
+            } catch (e: Throwable) {
+                Toast.makeText(activity, "Error opening image: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            activity.startActivity(intent)
             return
         }
 
         // 4. Built-in ZArchiver-grade Archive Viewer & Extractor
         if (ext == "zip" || ext == "tar" || ext == "gz" || ext == "tgz" || ext == "jar") {
-            val intent = Intent(activity, com.artraw.files.ui.ArchiveViewerActivity::class.java).apply {
-                putExtra(com.artraw.files.ui.ArchiveViewerActivity.EXTRA_FILE_PATH, file.absolutePath)
+            try {
+                val intent = Intent(activity, com.artraw.files.ui.ArchiveViewerActivity::class.java).apply {
+                    putExtra(com.artraw.files.ui.ArchiveViewerActivity.EXTRA_FILE_PATH, file.absolutePath)
+                }
+                activity.startActivity(intent)
+            } catch (e: Throwable) {
+                Toast.makeText(activity, "Error opening archive: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            activity.startActivity(intent)
             return
         }
 
         // 5. Built-in Text & Code Viewer
         if (MimeTypes.isPreviewableText(file) && file.length() < 5L * 1024 * 1024) {
-            val intent = Intent(activity, TextPreviewActivity::class.java).apply {
-                putExtra(TextPreviewActivity.EXTRA_FILE_PATH, file.absolutePath)
+            try {
+                val intent = Intent(activity, TextPreviewActivity::class.java).apply {
+                    putExtra(TextPreviewActivity.EXTRA_FILE_PATH, file.absolutePath)
+                }
+                activity.startActivity(intent)
+            } catch (e: Throwable) {
+                Toast.makeText(activity, "Error opening text file: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            activity.startActivity(intent)
             return
         }
 
