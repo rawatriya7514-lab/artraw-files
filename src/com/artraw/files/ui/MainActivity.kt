@@ -351,7 +351,7 @@ class MainActivity : Activity() {
                                 icon.colorFilter = null
                                 icon.clearColorFilter()
                                 icon.setImageResource(iconRes)
-                                if (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || isApk) {
+                                if (item.category == FileCategory.IMAGES || item.category == FileCategory.VIDEOS || item.category == FileCategory.AUDIO || isApk) {
                                     com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 120, defaultIconRes = iconRes)
                                 }
 

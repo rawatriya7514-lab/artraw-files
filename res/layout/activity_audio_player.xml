@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_heaven_gradient">
+    android:background="@color/aurora_background_deep">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -71,18 +71,19 @@
         android:gravity="center"
         android:padding="24dp">
 
-        <!-- Album Art -->
+        <!-- Album Art Card -->
         <FrameLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@drawable/bg_glass_clay_card_elevated"
-            android:layout_marginBottom="24dp">
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:background="@drawable/bg_card_material"
+            android:clipToOutline="true"
+            android:layout_marginBottom="28dp">
 
             <ImageView
                 android:id="@+id/imgAlbumArt"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_audio" />
         </FrameLayout>
 
@@ -149,7 +150,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -177,12 +178,12 @@
                 android:id="@+id/btnPlayPauseAudio"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:background="@drawable/bg_glass_clay_button_primary">
+                android:background="@drawable/bg_circle_play_primary">
 
                 <ImageView
                     android:id="@+id/imgPlayPause"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_play"
                     android:contentDescription="@string/content_play_pause" />
@@ -209,4 +210,4 @@
                 android:contentDescription="@string/content_forward_10" />
         </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>

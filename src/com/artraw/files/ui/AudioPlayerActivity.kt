@@ -2,6 +2,7 @@ package com.artraw.files.ui
 
 import android.app.Activity
 import android.media.AudioAttributes
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.widget.Toast
 import com.artraw.files.R
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.util.MimeTypes
+import com.artraw.files.util.ThumbnailLoader
 import java.io.File
 import java.util.Locale
 
@@ -35,6 +37,7 @@ class AudioPlayerActivity : Activity() {
     private lateinit var seekBar: SeekBar
     private lateinit var imgPlayPause: ImageView
     private lateinit var btnPlayPause: FrameLayout
+    private lateinit var imgAlbumArt: ImageView
 
     private var currentFile: File? = null
     private var playlist = mutableListOf<File>()
@@ -94,6 +97,7 @@ class AudioPlayerActivity : Activity() {
         seekBar = findViewById(R.id.seekBarAudio)
         imgPlayPause = findViewById(R.id.imgPlayPause)
         btnPlayPause = findViewById(R.id.btnPlayPauseAudio)
+        imgAlbumArt = findViewById(R.id.imgAlbumArt)
     }
 
     private fun setupListeners() {
@@ -181,8 +185,41 @@ class AudioPlayerActivity : Activity() {
 
     private fun playTrack(file: File) {
         currentFile = file
-        tvTrackTitle.text = file.nameWithoutExtension
-        tvTrackArtist.text = file.parentFile?.name ?: "Storage"
+
+        var trackTitle = file.nameWithoutExtension
+        var trackArtist = file.parentFile?.name ?: "Storage"
+        try {
+            val retriever = MediaMetadataRetriever()
+            try {
+                retriever.setDataSource(file.absolutePath)
+                val metaTitle = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+                val metaArtist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+                if (!metaTitle.isNullOrBlank()) trackTitle = metaTitle
+                if (!metaArtist.isNullOrBlank()) trackArtist = metaArtist
+            } finally {
+                try { retriever.release() } catch (_: Throwable) {}
+            }
+        } catch (_: Throwable) {}
+
+        tvTrackTitle.text = trackTitle
+        tvTrackArtist.text = trackArtist
+
+        val audioItem = com.artraw.files.model.FileItem(
+            file = file,
+            name = file.name,
+            size = file.length(),
+            lastModified = file.lastModified(),
+            isDirectory = false,
+            extension = MimeTypes.getExtension(file.name),
+            mimeType = MimeTypes.getMimeType(file),
+            category = com.artraw.files.model.FileCategory.AUDIO
+        )
+        ThumbnailLoader.loadThumbnail(
+            imageView = imgAlbumArt,
+            item = audioItem,
+            targetSize = 320,
+            defaultIconRes = R.drawable.ic_audio
+        )
 
         try {
             mediaPlayer?.release()

@@ -164,17 +164,20 @@ class FavoritesActivity : Activity() {
             }
 
             val item = items[position]
-            val catColor = when (item.category) {
-                FileCategory.IMAGES -> R.color.aurora_primary
-                FileCategory.VIDEOS -> R.color.aurora_secondary
-                FileCategory.AUDIO -> R.color.aurora_primary
-                FileCategory.ARCHIVES -> R.color.aurora_secondary
-                FileCategory.APKS -> R.color.aurora_success
-                else -> R.color.aurora_text_secondary
-            }
+            val isMedia = item.category == FileCategory.IMAGES ||
+                          item.category == FileCategory.VIDEOS ||
+                          item.category == FileCategory.AUDIO ||
+                          item.isApk || item.category == FileCategory.APKS
 
-            holder.icon.setImageResource(MimeTypes.getIconRes(item))
-            holder.icon.setColorFilter(resources.getColor(catColor, null))
+            holder.icon.imageTintList = null
+            holder.icon.colorFilter = null
+            holder.icon.clearColorFilter()
+            if (isMedia) {
+                ThumbnailLoader.loadThumbnail(holder.icon, item, targetSize = 120, defaultIconRes = MimeTypes.getIconRes(item))
+            } else {
+                holder.icon.setImageResource(MimeTypes.getIconRes(item))
+                holder.icon.setColorFilter(ThumbnailLoader.getCategoryColor(item))
+            }
             holder.nameTv.text = item.name
             holder.metaTv.text = Formatters.formatFileSize(item.size) + " • " + Formatters.formatDate(item.lastModified)
 

@@ -17,6 +17,8 @@
             android:id="@+id/frameGridThumbnail"
             android:layout_width="match_parent"
             android:layout_height="96dp"
+            android:background="@drawable/bg_card_material"
+            android:clipToOutline="true"
             android:layout_marginBottom="3dp">
 
             <ImageView
