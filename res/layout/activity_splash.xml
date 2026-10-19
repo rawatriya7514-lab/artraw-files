@@ -3,9 +3,16 @@
     android:id="@+id/layoutSplashRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_heaven_splash">
+    android:background="#07080C">
 
-    <!-- Centered Artfiles Brand Identity -->
+    <!-- Fullscreen Video Animation View (Plays 4K Splash Animation) -->
+    <VideoView
+        android:id="@+id/videoSplashAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <!-- Centered Artfiles Brand Identity (Initial display & fallback) -->
     <LinearLayout
         android:id="@+id/layoutSplashBrand"
         android:layout_width="wrap_content"

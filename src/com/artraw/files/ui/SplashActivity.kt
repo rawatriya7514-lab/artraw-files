@@ -2,6 +2,7 @@ package com.artraw.files.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,26 +11,32 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.VideoView
 import com.artraw.files.R
 import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.SettingsManager
+import java.io.File
 
 /**
  * Modern, high-performance SplashActivity for Artfiles.
  *
- * Implements a 1.5-second (1500ms) choreographed launch sequence:
- * - Fluid entrance animation with decelerate interpolators.
- * - Zero background clutter and ultra-smooth edge-to-edge rendering.
- * - Seamless handoff to MainActivity or OnboardingActivity.
+ * Plays 4K upscaled launch animation:
+ * - Direct playback of requested video animation.
+ * - Tap-to-skip functionality for instantaneous access.
+ * - Graceful fallback to choreographed vector logo reveal.
+ * - Smooth fade transition into MainActivity / OnboardingActivity.
  */
 class SplashActivity : Activity() {
 
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isNavigating = false
+    private var safetyTimeoutRunnable: Runnable? = null
     private var navigationRunnable: Runnable? = null
     private var exitFadeRunnable: Runnable? = null
 
     private var rootLayout: View? = null
+    private var videoSplash: VideoView? = null
+    private var layoutBrand: LinearLayout? = null
     private var logoCard: FrameLayout? = null
     private var appName: TextView? = null
     private var appTagline: TextView? = null
@@ -37,7 +44,9 @@ class SplashActivity : Activity() {
     private var footerLayout: LinearLayout? = null
 
     companion object {
-        private const val SPLASH_DURATION_MS = 1500L
+        private const val VIDEO_PATH = "/storage/emulated/0/Download/Video_2026-10-19_17_55_39_4K_upscaled.mp4"
+        private const val MAX_VIDEO_SAFETY_TIMEOUT_MS = 2800L
+        private const val FALLBACK_SPLASH_DURATION_MS = 1500L
         private const val EXIT_FADE_OFFSET_MS = 1250L
     }
 
@@ -56,8 +65,7 @@ class SplashActivity : Activity() {
             EdgeToEdgeHelper.applyEdgeToEdge(this)
 
             initViews()
-            startProfessionalAnimation()
-            scheduleNavigation()
+            playLaunchAnimation()
         } catch (e: Throwable) {
             android.util.Log.e("ARTRAW_CRASH", "SplashActivity error: ${e.message}", e)
             navigateToNextScreen()
@@ -66,13 +74,15 @@ class SplashActivity : Activity() {
 
     private fun initViews() {
         rootLayout = findViewById(R.id.layoutSplashRoot)
+        videoSplash = findViewById(R.id.videoSplashAnimation)
+        layoutBrand = findViewById(R.id.layoutSplashBrand)
         logoCard = findViewById(R.id.flSplashLogoCard)
         appName = findViewById(R.id.tvSplashAppName)
         appTagline = findViewById(R.id.tvSplashTagline)
         appSubtitle = findViewById(R.id.tvSplashSubtitle)
         footerLayout = findViewById(R.id.layoutSplashFooter)
 
-        // Prepare initial animation states (hidden/offset)
+        // Initial brand state
         logoCard?.apply {
             alpha = 0f
             scaleX = 0.72f
@@ -89,19 +99,82 @@ class SplashActivity : Activity() {
         appSubtitle?.alpha = 0f
         footerLayout?.alpha = 0f
 
-        // Allow instant skip on tap if user desires
-        rootLayout?.setOnClickListener {
+        // Instant skip on user tap
+        val skip = {
             if (!isNavigating) {
                 navigateToNextScreen()
             }
         }
+        rootLayout?.setOnClickListener { skip() }
+        videoSplash?.setOnTouchListener { _, _ ->
+            skip()
+            true
+        }
+    }
+
+    private fun playLaunchAnimation() {
+        var videoUri: Uri? = null
+
+        // 1. Check user-specified external video path
+        val externalFile = File(VIDEO_PATH)
+        if (externalFile.exists() && externalFile.length() > 0) {
+            videoUri = Uri.fromFile(externalFile)
+        } else {
+            // 2. Embedded APK raw resource fallback
+            try {
+                videoUri = Uri.parse("android.resource://$packageName/${R.raw.splash_animation}")
+            } catch (_: Throwable) {}
+        }
+
+        if (videoUri != null && videoSplash != null) {
+            try {
+                videoSplash?.setVideoURI(videoUri)
+                videoSplash?.setOnPreparedListener { mp ->
+                    if (isNavigating || isFinishing) return@setOnPreparedListener
+                    // Video is ready: hide fallback brand layout and play
+                    layoutBrand?.animate()?.alpha(0f)?.setDuration(120L)?.withEndAction {
+                        layoutBrand?.visibility = View.GONE
+                    }?.start()
+                    footerLayout?.visibility = View.GONE
+                    mp.start()
+                }
+
+                videoSplash?.setOnCompletionListener {
+                    navigateToNextScreen()
+                }
+
+                videoSplash?.setOnErrorListener { _, _, _ ->
+                    fallbackToStandardAnimation()
+                    true
+                }
+
+                // Safety timeout to ensure navigation proceeds even if decoder stalls
+                safetyTimeoutRunnable = Runnable {
+                    if (!isNavigating) {
+                        navigateToNextScreen()
+                    }
+                }
+                mainHandler.postDelayed(safetyTimeoutRunnable!!, MAX_VIDEO_SAFETY_TIMEOUT_MS)
+                return
+            } catch (t: Throwable) {
+                android.util.Log.w("SplashActivity", "Video launch animation failed, falling back", t)
+            }
+        }
+
+        fallbackToStandardAnimation()
+    }
+
+    private fun fallbackToStandardAnimation() {
+        videoSplash?.visibility = View.GONE
+        layoutBrand?.visibility = View.VISIBLE
+        startProfessionalAnimation()
+        scheduleNavigation()
     }
 
     private fun startProfessionalAnimation() {
         val decelerateFast = DecelerateInterpolator(1.8f)
         val decelerateSmooth = DecelerateInterpolator(1.5f)
 
-        // 1. Logo Entrance (0ms -> 650ms)
         logoCard?.animate()
             ?.alpha(1f)
             ?.scaleX(1f)
@@ -110,7 +183,6 @@ class SplashActivity : Activity() {
             ?.setInterpolator(decelerateFast)
             ?.start()
 
-        // 2. App Title Reveal (160ms -> 710ms)
         appName?.animate()
             ?.alpha(1f)
             ?.translationY(0f)
@@ -119,7 +191,6 @@ class SplashActivity : Activity() {
             ?.setInterpolator(decelerateSmooth)
             ?.start()
 
-        // 3. Tagline Reveal (300ms -> 800ms)
         appTagline?.animate()
             ?.alpha(1f)
             ?.translationY(0f)
@@ -128,14 +199,12 @@ class SplashActivity : Activity() {
             ?.setInterpolator(decelerateSmooth)
             ?.start()
 
-        // 4. Subtitle / Badge Reveal (420ms -> 870ms)
         appSubtitle?.animate()
             ?.alpha(0.85f)
             ?.setStartDelay(420L)
             ?.setDuration(450L)
             ?.start()
 
-        // 5. Minimal Footer Reveal (550ms -> 950ms)
         footerLayout?.animate()
             ?.alpha(0.65f)
             ?.setStartDelay(550L)
@@ -144,20 +213,18 @@ class SplashActivity : Activity() {
     }
 
     private fun scheduleNavigation() {
-        // Soft exit fade before transition
         exitFadeRunnable = Runnable {
             rootLayout?.animate()
                 ?.alpha(0.92f)
-                ?.setDuration(SPLASH_DURATION_MS - EXIT_FADE_OFFSET_MS)
+                ?.setDuration(FALLBACK_SPLASH_DURATION_MS - EXIT_FADE_OFFSET_MS)
                 ?.start()
         }
         mainHandler.postDelayed(exitFadeRunnable!!, EXIT_FADE_OFFSET_MS)
 
-        // Exact 1.5s hand-off
         navigationRunnable = Runnable {
             navigateToNextScreen()
         }
-        mainHandler.postDelayed(navigationRunnable!!, SPLASH_DURATION_MS)
+        mainHandler.postDelayed(navigationRunnable!!, FALLBACK_SPLASH_DURATION_MS)
     }
 
     private fun navigateToNextScreen() {
@@ -165,6 +232,14 @@ class SplashActivity : Activity() {
         isNavigating = true
 
         try {
+            safetyTimeoutRunnable?.let { mainHandler.removeCallbacks(it) }
+            navigationRunnable?.let { mainHandler.removeCallbacks(it) }
+            exitFadeRunnable?.let { mainHandler.removeCallbacks(it) }
+
+            try {
+                videoSplash?.stopPlayback()
+            } catch (_: Throwable) {}
+
             val settingsManager = SettingsManager(this)
             val nextIntent = if (!settingsManager.isOnboardingCompleted) {
                 Intent(this, OnboardingActivity::class.java)
@@ -183,8 +258,20 @@ class SplashActivity : Activity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        try {
+            if (videoSplash?.isPlaying == true) {
+                videoSplash?.pause()
+            }
+        } catch (_: Throwable) {}
+    }
+
     override fun onDestroy() {
         mainHandler.removeCallbacksAndMessages(null)
+        try {
+            videoSplash?.stopPlayback()
+        } catch (_: Throwable) {}
         logoCard?.animate()?.cancel()
         appName?.animate()?.cancel()
         appTagline?.animate()?.cancel()
