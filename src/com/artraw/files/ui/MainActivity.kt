@@ -462,4 +462,10 @@ class MainActivity : Activity() {
         super.onActivityResult(requestCode, resultCode, data)
         checkPermissionsAndLoad()
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        // Standard Android behavior: keep the app running in the background instead of destroying MainActivity
+        moveTaskToBack(true)
+    }
 }

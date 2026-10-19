@@ -48,10 +48,27 @@ class SplashActivity : Activity() {
         private const val MAX_VIDEO_SAFETY_TIMEOUT_MS = 2800L
         private const val FALLBACK_SPLASH_DURATION_MS = 1500L
         private const val EXIT_FADE_OFFSET_MS = 1250L
+
+        // Process-level session state: ensures the video animation only plays on cold start (1st time launch)
+        var hasPlayedSplashThisSession = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 1. If not task root, the app is already open in background! Resume immediately without showing splash.
+        if (!isTaskRoot) {
+            finish()
+            return
+        }
+
+        // 2. If already played animation during this session, skip animation immediately
+        if (hasPlayedSplashThisSession) {
+            navigateToNextScreen(instant = true)
+            return
+        }
+        hasPlayedSplashThisSession = true
+
         try {
             val settingsManager = SettingsManager(this)
             val themeRes = if (settingsManager.themeMode == "light") {
@@ -227,7 +244,7 @@ class SplashActivity : Activity() {
         mainHandler.postDelayed(navigationRunnable!!, FALLBACK_SPLASH_DURATION_MS)
     }
 
-    private fun navigateToNextScreen() {
+    private fun navigateToNextScreen(instant: Boolean = false) {
         if (isNavigating || isFinishing) return
         isNavigating = true
 
@@ -246,11 +263,15 @@ class SplashActivity : Activity() {
             } else {
                 Intent(this, MainActivity::class.java)
             }.apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             }
 
             startActivity(nextIntent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            if (!instant) {
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            } else {
+                overridePendingTransition(0, 0)
+            }
             finish()
         } catch (e: Throwable) {
             android.util.Log.e("ARTRAW_CRASH", "SplashActivity navigate error: ${e.message}", e)
