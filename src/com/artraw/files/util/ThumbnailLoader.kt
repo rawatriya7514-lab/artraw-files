@@ -307,14 +307,14 @@ object ThumbnailLoader {
 
     fun getCategoryColor(item: FileItem): Int {
         return when (item.category) {
-            FileCategory.IMAGES -> android.graphics.Color.parseColor("#42A5F5")   // Soft Blue
-            FileCategory.VIDEOS -> android.graphics.Color.parseColor("#AB47BC")   // Soft Purple
-            FileCategory.AUDIO -> android.graphics.Color.parseColor("#26A69A")    // Soft Teal
-            FileCategory.DOCUMENTS -> android.graphics.Color.parseColor("#FFA726")// Soft Amber
-            FileCategory.DOWNLOADS -> android.graphics.Color.parseColor("#29B6F6")// Soft Cyan
-            FileCategory.ARCHIVES -> android.graphics.Color.parseColor("#7E57C2") // Soft Deep Purple
-            FileCategory.APKS -> android.graphics.Color.parseColor("#66BB6A")     // Soft Green
-            FileCategory.OTHER -> android.graphics.Color.parseColor("#78909C")    // Soft Slate
+            FileCategory.IMAGES -> android.graphics.Color.parseColor("#06B6D4")   // Cyber Cyan
+            FileCategory.VIDEOS -> android.graphics.Color.parseColor("#F43F5E")   // Hot Magenta / Laser Pink
+            FileCategory.AUDIO -> android.graphics.Color.parseColor("#22C55E")    // Cyber Green
+            FileCategory.DOCUMENTS -> android.graphics.Color.parseColor("#F59E0B")// Golden Amber
+            FileCategory.DOWNLOADS -> android.graphics.Color.parseColor("#06B6D4")// Electric Cyan
+            FileCategory.ARCHIVES -> android.graphics.Color.parseColor("#A855F7") // Neon Violet
+            FileCategory.APKS -> android.graphics.Color.parseColor("#22C55E")     // Cyber Lime
+            FileCategory.OTHER -> android.graphics.Color.parseColor("#94A3B8")    // Holographic Slate
         }
     }
 

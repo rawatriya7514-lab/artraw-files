@@ -16,23 +16,30 @@
         <LinearLayout
             android:id="@+id/headerContentMain"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="54dp"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_launcher"
-                android:contentDescription="@string/app_name" />
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_clay_header_badge"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_launcher"
+                    android:contentDescription="@string/app_name" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="12dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -46,10 +53,26 @@
                         android:layout_height="wrap_content"
                         android:text="@string/app_name"
                         android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium"
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:textColor="@color/aurora_text_primary"
                         android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/bg_pill_badge"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:paddingTop="1dp"
+                        android:paddingBottom="1dp"
+                        android:text="NEO"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/cyber_cyan"
+                        android:textSize="9sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
@@ -70,13 +93,13 @@
 
             <ImageView
                 android:id="@+id/btnSettings"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:padding="8dp"
-                android:background="@drawable/ripple_aurora"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:background="@drawable/bg_clay_circle_button"
                 android:contentDescription="@string/content_settings"
                 android:src="@drawable/ic_settings"
-                android:tint="@color/aurora_text_secondary" />
+                android:tint="@color/aurora_text_primary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -189,7 +212,8 @@
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
                         android:text="0%"
-                        android:textColor="@color/aurora_primary"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/cyber_cyan"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -198,7 +222,7 @@
                     android:id="@+id/progressStorage"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="7dp"
+                    android:layout_height="10dp"
                     android:layout_marginTop="10dp"
                     android:progressDrawable="@drawable/bg_progress_storage"
                     android:max="100"
@@ -217,6 +241,7 @@
                         android:layout_weight="1"
                         android:text="Calculating storage…"
                         android:textColor="@color/aurora_text_primary"
+                        android:fontFamily="monospace"
                         android:textSize="12sp" />
 
                     <TextView
@@ -225,6 +250,7 @@
                         android:layout_height="wrap_content"
                         android:text="--"
                         android:textColor="@color/aurora_text_secondary"
+                        android:fontFamily="monospace"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -284,7 +310,8 @@
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
                             android:text="Live Stats"
-                            android:textColor="@color/aurora_success"
+                            android:textColor="@color/cyber_green"
+                            android:fontFamily="monospace"
                             android:textSize="11sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -319,7 +346,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="-- Cores"
-                            android:textColor="@color/aurora_text_primary"
+                            android:textColor="@color/cyber_text_digital"
+                            android:fontFamily="monospace"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -347,7 +375,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="--"
-                            android:textColor="@color/aurora_text_primary"
+                            android:textColor="@color/cyber_text_digital"
+                            android:fontFamily="monospace"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -900,34 +929,39 @@
         </LinearLayout>
     </ScrollView>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/aurora_divider" />
-
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation Bar: Floating Dark Clay Dock -->
     <LinearLayout
         android:id="@+id/bottomNavigationMain"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:background="@color/aurora_background_surface"
+        android:layout_height="60dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_clay_dock"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:orientation="horizontal"
         android:gravity="center">
 
+        <!-- Active Tab: Home (Tactile Glowing Neon Clay Button) -->
         <LinearLayout
             android:id="@+id/btnNavHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/ripple_aurora">
+            android:background="@drawable/bg_clay_dock_active">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_home"
-                android:tint="@color/aurora_primary"
+                android:tint="#FFFFFF"
                 android:contentDescription="@string/content_home" />
 
             <TextView
@@ -936,23 +970,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_home"
-                android:textColor="@color/aurora_text_primary"
+                android:textColor="#FFFFFF"
                 android:textSize="10sp"
+                android:textStyle="bold"
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
+        <!-- Inactive Tab: Browse (Tactile Recessed Clay Socket) -->
         <LinearLayout
             android:id="@+id/btnNavBrowse"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/ripple_aurora">
+            android:background="@drawable/bg_clay_dock_socket">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_folder"
                 android:tint="@color/aurora_text_secondary"
                 android:contentDescription="@string/content_browse" />
@@ -968,18 +1005,20 @@
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
+        <!-- Inactive Tab: Analysis (Tactile Recessed Clay Socket) -->
         <LinearLayout
             android:id="@+id/btnNavAnalysis"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/ripple_aurora">
+            android:background="@drawable/bg_clay_dock_socket">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_storage"
                 android:tint="@color/aurora_text_secondary"
                 android:contentDescription="@string/content_analysis" />
@@ -995,18 +1034,20 @@
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
+        <!-- Inactive Tab: Settings (Tactile Recessed Clay Socket) -->
         <LinearLayout
             android:id="@+id/btnNavSettings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="2dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/ripple_aurora">
+            android:background="@drawable/bg_clay_dock_socket">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_settings"
                 android:tint="@color/aurora_text_secondary"
                 android:contentDescription="@string/content_settings" />
@@ -1029,7 +1070,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:minHeight="50dp"
-        android:background="@color/aurora_background_surface"
+        android:background="@color/aurora_background_obsidian"
         android:gravity="center"
         android:visibility="visible">
 
@@ -1037,9 +1078,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Sponsored"
+            android:text="SPONSORED"
             android:textColor="@color/aurora_text_tertiary"
             android:textSize="10sp"
-            android:letterSpacing="0.08" />
+            android:fontFamily="monospace"
+            android:letterSpacing="0.12" />
     </FrameLayout>
 </LinearLayout>

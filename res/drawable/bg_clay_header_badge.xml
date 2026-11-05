@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Deep Drop Shadow -->
+    <item android:top="2dp" android:left="0dp" android:right="0dp" android:bottom="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/aurora_shadow_soft" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <!-- Cyber Glow Bevel -->
+    <item android:top="0dp" android:left="0dp" android:right="0dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#212438" />
+            <corners android:radius="12dp" />
+            <stroke android:width="1dp" android:color="#4D06B6D4" />
+        </shape>
+    </item>
+    <!-- Matte Clay Body -->
+    <item android:top="1dp" android:left="1dp" android:right="1dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:startColor="#1F2233"
+                android:endColor="#13151B"
+                android:angle="270" />
+            <corners android:radius="11dp" />
+        </shape>
+    </item>
+</layer-list>

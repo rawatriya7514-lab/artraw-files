@@ -1,97 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- Modern SaaS File Manager Design System (ui-ux-pro-max)                  -->
-    <!-- Canvas: #090D16 | Surface: #111827 | Elevated: #1A2234                   -->
-    <!-- Primary: Vibrant Indigo #4F46E5 | Secondary: Electric Purple #8B5CF6    -->
-    <!-- Accent: Cyan/Blue #38BDF8 | Text: High-Contrast Slate #F8FAFC           -->
+    <!-- CLAYMORPISM meets CYBERPUNK NEO-FUTURISM Design System                 -->
+    <!-- Canvas: Deep Matte Obsidian #0B0C10                                    -->
+    <!-- Clay Surfaces: #13151B | Elevated: #181926 | Raised: #212336           -->
+    <!-- Neon Violet: #A855F7 | Electric Cyan: #06B6D4 | Laser Pink: #F43F5E   -->
+    <!-- Cyber Green: #22C55E | Golden Amber: #F59E0B                          -->
     <!-- ====================================================================== -->
 
-    <!-- Deep Backgrounds (Matte Deep Canvas Dominant) -->
-    <color name="aurora_background_deep">#090D16</color>
-    <color name="aurora_background_surface">#111827</color>
-    <color name="aurora_background_elevated">#1A2234</color>
-    <color name="aurora_background_raised">#1F293D</color>
-    <color name="aurora_background_glass">#131927</color>
+    <!-- Deep Matte Obsidian Canvas & Clay Surfaces -->
+    <color name="aurora_background_deep">#0B0C10</color>
+    <color name="aurora_background_obsidian">#0B0C10</color>
+    <color name="aurora_background_surface">#13151B</color>
+    <color name="aurora_background_elevated">#181926</color>
+    <color name="aurora_background_raised">#212336</color>
+    <color name="aurora_background_glass">#141622</color>
 
-    <!-- Primary & Secondary Accents (Indigo & Purple SaaS) -->
-    <color name="aurora_crimson_dark">#4338CA</color>
-    <color name="aurora_primary">#4F46E5</color>
-    <color name="aurora_primary_container">#1E1B4B</color>
+    <!-- Primary Neon Accents (Cyberpunk Neo-Futurism) -->
+    <color name="aurora_crimson_dark">#7E22CE</color>
+    <color name="aurora_primary">#A855F7</color>
+    <color name="aurora_primary_container">#3B0764</color>
     <color name="aurora_on_primary">#FFFFFF</color>
-    <color name="aurora_primary_glow">#818CF8</color>
-    <color name="aurora_secondary">#8B5CF6</color>
-    <color name="aurora_secondary_container">#2E1065</color>
-    <color name="aurora_on_secondary">#FFFFFF</color>
-    <color name="aurora_secondary_glow">#A78BFA</color>
+    <color name="aurora_primary_glow">#C084FC</color>
 
-    <!-- Electric Blue (accent) -->
-    <color name="aurora_accent_blue">#3B82F6</color>
-    <color name="aurora_accent_blue_container">#1E3A8A</color>
-    <color name="aurora_accent_blue_glow">#60A5FA</color>
-    <color name="aurora_on_blue">#FFFFFF</color>
+    <color name="aurora_secondary">#06B6D4</color>
+    <color name="aurora_secondary_container">#164E63</color>
+    <color name="aurora_on_secondary">#0B0C10</color>
+    <color name="aurora_secondary_glow">#22D3EE</color>
+
+    <!-- Cyberpunk Palette Accents -->
+    <color name="aurora_accent_blue">#06B6D4</color>
+    <color name="aurora_accent_blue_container">#164E63</color>
+    <color name="aurora_accent_blue_glow">#22D3EE</color>
+    <color name="aurora_on_blue">#0B0C10</color>
+    <color name="cyber_pink">#F43F5E</color>
+    <color name="cyber_pink_glow">#FB7185</color>
+    <color name="cyber_green">#22C55E</color>
+    <color name="cyber_green_glow">#4ADE80</color>
+    <color name="cyber_cyan">#06B6D4</color>
+    <color name="cyber_violet">#A855F7</color>
+    <color name="cyber_amber">#F59E0B</color>
 
     <!-- Gradients -->
-    <color name="aurora_gradient_start">#090D16</color>
-    <color name="aurora_gradient_mid">#111827</color>
-    <color name="aurora_gradient_end">#1E1B4B</color>
-    <color name="aurora_nebula_purple">#2E1065</color>
+    <color name="aurora_gradient_start">#0B0C10</color>
+    <color name="aurora_gradient_mid">#13151B</color>
+    <color name="aurora_gradient_end">#1E1338</color>
+    <color name="aurora_nebula_purple">#3B0764</color>
     <color name="aurora_heaven_gold">#F59E0B</color>
     <color name="aurora_heaven_silver">#94A3B8</color>
 
-    <!-- Text Colors (True Hierarchy) -->
+    <!-- Futuristic Typography Hierarchy -->
     <color name="aurora_text_primary">#F8FAFC</color>
     <color name="aurora_text_secondary">#94A3B8</color>
     <color name="aurora_text_tertiary">#64748B</color>
-    <color name="aurora_text_inverse">#0F172A</color>
-    <color name="aurora_text_on_blue">#FFFFFF</color>
-    <color name="aurora_text_glow">#FFFFFF88</color>
+    <color name="aurora_text_inverse">#0B0C10</color>
+    <color name="aurora_text_on_blue">#0B0C10</color>
+    <color name="aurora_text_glow">#FFFFFFCC</color>
+    <color name="cyber_text_digital">#22D3EE</color>
 
     <!-- Surface Colors -->
-    <color name="aurora_surface">#111827</color>
-    <color name="aurora_surface_variant">#1A2234</color>
-    <color name="aurora_surface_elevated">#1F293D</color>
-    <color name="aurora_surface_glass">#131927</color>
+    <color name="aurora_surface">#13151B</color>
+    <color name="aurora_surface_variant">#181926</color>
+    <color name="aurora_surface_elevated">#212336</color>
+    <color name="aurora_surface_glass">#151722</color>
 
-    <!-- Borders — Subtle, low-contrast matte -->
-    <color name="aurora_outline">#1F2937</color>
-    <color name="aurora_outline_variant">#2E3A4E</color>
-    <color name="aurora_divider">#1E293B</color>
-    <color name="aurora_glass_border">#27354A</color>
+    <!-- Tactile Clay Borders & Bevel Outlines -->
+    <color name="aurora_outline">#2A2D3D</color>
+    <color name="aurora_outline_variant">#363A4E</color>
+    <color name="aurora_divider">#1C1E2A</color>
+    <color name="aurora_glass_border">#33A855F7</color>
 
-    <!-- Status -->
-    <color name="aurora_success">#10B981</color>
-    <color name="aurora_success_glow">#34D399</color>
+    <!-- Status & Alerts (Cyber Neon) -->
+    <color name="aurora_success">#22C55E</color>
+    <color name="aurora_success_glow">#4ADE80</color>
     <color name="aurora_warning">#F59E0B</color>
     <color name="aurora_warning_glow">#FBBF24</color>
-    <color name="aurora_error">#EF4444</color>
-    <color name="aurora_error_glow">#F87171</color>
-    <color name="aurora_info">#38BDF8</color>
+    <color name="aurora_error">#F43F5E</color>
+    <color name="aurora_error_glow">#FB7185</color>
+    <color name="aurora_info">#06B6D4</color>
 
-    <!-- Clay Shadows & Depth -->
-    <color name="aurora_shadow_soft">#4D000000</color>
-    <color name="aurora_shadow_medium">#66000000</color>
-    <color name="aurora_shadow_hard">#80000000</color>
-    <color name="aurora_shadow_glow">#4F46E522</color>
+    <!-- Tactile Clay Shadows & Neon Glow Tokens -->
+    <color name="aurora_shadow_soft">#80000000</color>
+    <color name="aurora_shadow_medium">#99000000</color>
+    <color name="aurora_shadow_hard">#B3000000</color>
+    <color name="aurora_shadow_glow">#33A855F7</color>
+    <color name="clay_top_rim_glow">#26A855F7</color>
+    <color name="clay_inset_shadow">#80000000</color>
 
     <!-- Overlay & Scrim -->
-    <color name="aurora_overlay_scrim">#000000B0</color>
-    <color name="aurora_overlay_light">#00000060</color>
+    <color name="aurora_overlay_scrim">#CC0B0C10</color>
+    <color name="aurora_overlay_light">#40000000</color>
 
-    <!-- Pop-Art Accent Dots / Shapes -->
-    <color name="aurora_dot_red">#EF4444</color>
+    <!-- Pop-Art / Cyber Accent Badges -->
+    <color name="aurora_dot_red">#F43F5E</color>
     <color name="aurora_dot_orange">#F59E0B</color>
-    <color name="aurora_dot_blue">#38BDF8</color>
+    <color name="aurora_dot_blue">#06B6D4</color>
     <color name="aurora_dot_ivory">#F8FAFC</color>
-    <color name="aurora_dot_purple">#8B5CF6</color>
+    <color name="aurora_dot_purple">#A855F7</color>
     <color name="aurora_dot_gold">#FBBF24</color>
 
-    <!-- Light Theme Variant -->
-    <color name="aurora_bg_light">#F8FAFC</color>
+    <!-- Light Theme Variant (Matte Clay Light) -->
+    <color name="aurora_bg_light">#F1F3F9</color>
     <color name="aurora_surface_light">#FFFFFF</color>
-    <color name="aurora_text_light_primary">#0F172A</color>
+    <color name="aurora_text_light_primary">#0B0C10</color>
     <color name="aurora_text_light_secondary">#475569</color>
     <color name="aurora_text_light_tertiary">#94A3B8</color>
-    <color name="aurora_outline_light">#E2E8F0</color>
+    <color name="aurora_outline_light">#CBD5E1</color>
     <color name="aurora_divider_light">#E2E8F0</color>
 </resources>
