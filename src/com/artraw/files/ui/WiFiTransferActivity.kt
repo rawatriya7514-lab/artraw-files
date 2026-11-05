@@ -141,12 +141,29 @@ class WiFiTransferActivity : Activity() {
                 }
             }
 
-            // Build response
-            val response = buildResponse(path)
+            val rootDir = android.os.Environment.getExternalStorageDirectory()
+            val cleanPath = java.net.URLDecoder.decode(path.substringBefore("?"), "UTF-8")
+            val target = File(rootDir, cleanPath.removePrefix("/"))
 
-            val responseBytes = response.toByteArray()
+            // Direct binary download streaming
+            if (path.contains("download=1") && target.exists() && target.isFile) {
+                val header = "HTTP/1.1 200 OK\r\n" +
+                    "Content-Type: application/octet-stream\r\n" +
+                    "Content-Disposition: attachment; filename=\"${target.name}\"\r\n" +
+                    "Content-Length: ${target.length()}\r\n" +
+                    "Connection: close\r\n\r\n"
+                output.write(header.toByteArray())
+                target.inputStream().use { it.copyTo(output) }
+                output.flush()
+                return
+            }
+
+            // Build response
+            val response = buildResponse(cleanPath)
+
+            val responseBytes = response.toByteArray(Charsets.UTF_8)
             val header = "HTTP/1.1 200 OK\r\n" +
-                "Content-Type: text/html\r\n" +
+                "Content-Type: text/html; charset=utf-8\r\n" +
                 "Content-Length: ${responseBytes.size}\r\n" +
                 "Connection: close\r\n\r\n"
 
@@ -166,85 +183,113 @@ class WiFiTransferActivity : Activity() {
 
         val sb = StringBuilder()
         sb.append("<!DOCTYPE html>")
-        sb.append("<html><head>")
-        sb.append("<title>ArtFiles WiFi Transfer</title>")
+        sb.append("<html lang='en'><head>")
+        sb.append("<meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>")
+        sb.append("<title>Artfiles — WiFi Storage Hub</title>")
         sb.append("<style>")
-        sb.append("body{font-family:sans-serif;background:#121833;color:#F0F4F8;padding:20px;}")
-        sb.append("h1{color:#4ECDC4;}")
-        sb.append("table{width:100%;border-collapse:collapse;margin-top:20px;}")
-        sb.append("th,td{padding:12px;border-bottom:1px solid #2A3354;text-align:left;}")
-        sb.append("tr:hover{background:#1A2240;}")
-        sb.append("a{color:#00B4D8;text-decoration:none;}")
-        sb.append("a:hover{text-decoration:underline;}")
-        sb.append(".btn{display:inline-block;padding:8px 16px;background:#4ECDC4;color:#0A0E27;border-radius:6px;text-decoration:none;margin:4px 0;}")
-        sb.append(".btn-danger{background:#D50000;color:#fff;}")
-        sb.append(".up{color:#8338EC;}")
-        sb.append(".dir{color:#4ECDC4;}")
-        sb.append(".file{color:#F0F4F8;}")
-        sb.append(".size{color:#9AA5B1;font-size:0.9em;}")
-        sb.append("</style>")
-        sb.append("</head><body>")
+        sb.append("*{box-sizing:border-box;margin:0;padding:0;}")
+        sb.append("body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;background:#090D16;color:#E2E8F0;min-height:100vh;padding:24px;line-height:1.5;}")
+        sb.append(".container{max-width:1100px;margin:0 auto;}")
+        sb.append(".header{display:flex;align-items:center;justify-content:space-between;background:rgba(17,24,39,0.8);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(16px);border-radius:16px;padding:20px 24px;margin-bottom:24px;box-shadow:0 10px 30px -5px rgba(0,0,0,0.4);}")
+        sb.append(".brand{display:flex;align-items:center;gap:12px;}")
+        sb.append(".brand-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#4F46E5,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(79,70,229,0.4);}")
+        sb.append(".brand-title{font-size:20px;font-weight:700;color:#F8FAFC;letter-spacing:-0.02em;}")
+        sb.append(".brand-desc{font-size:12px;color:#94A3B8;}")
+        sb.append(".ip-badge{background:rgba(79,70,229,0.15);border:1px solid rgba(79,70,229,0.3);color:#A5B4FC;padding:6px 14px;border-radius:9999px;font-size:13px;font-weight:600;font-family:monospace;}")
+        sb.append(".toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;}")
+        sb.append(".breadcrumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:#94A3B8;overflow-x:auto;padding:8px 0;}")
+        sb.append(".breadcrumbs a{color:#A5B4FC;text-decoration:none;font-weight:500;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);}")
+        sb.append(".breadcrumbs a:hover{background:rgba(79,70,229,0.2);color:#fff;}")
+        sb.append(".nav-btns{display:flex;gap:8px;}")
+        sb.append(".btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:all 0.15s ease;cursor:pointer;border:none;}")
+        sb.append(".btn-primary{background:#4F46E5;color:#fff;box-shadow:0 4px 14px rgba(79,70,229,0.3);}")
+        sb.append(".btn-primary:hover{background:#4338CA;transform:translateY(-1px);}")
+        sb.append(".btn-subtle{background:rgba(255,255,255,0.05);color:#E2E8F0;border:1px solid rgba(255,255,255,0.1);}")
+        sb.append(".btn-subtle:hover{background:rgba(255,255,255,0.1);}")
+        sb.append(".btn-download{background:rgba(16,185,129,0.15);color:#34D399;border:1px solid rgba(16,185,129,0.3);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;}")
+        sb.append(".btn-download:hover{background:#10B981;color:#fff;}")
+        sb.append(".card{background:rgba(17,24,39,0.7);border:1px solid rgba(255,255,255,0.07);border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.3);}")
+        sb.append("table{width:100%;border-collapse:collapse;font-size:14px;}")
+        sb.append("th{padding:14px 18px;text-align:left;color:#94A3B8;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(15,23,42,0.4);}")
+        sb.append("td{padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}")
+        sb.append("tr:hover td{background:rgba(255,255,255,0.02);}")
+        sb.append(".file-link{display:flex;align-items:center;gap:12px;color:#F1F5F9;text-decoration:none;font-weight:500;}")
+        sb.append(".file-link:hover{color:#818CF8;}")
+        sb.append(".type-badge{padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;display:inline-block;}")
+        sb.append(".badge-folder{background:rgba(59,130,246,0.15);color:#60A5FA;}")
+        sb.append(".badge-file{background:rgba(148,163,184,0.12);color:#94A3B8;}")
+        sb.append(".size-col{color:#94A3B8;font-family:monospace;font-size:13px;}")
+        sb.append(".empty-state{text-align:center;padding:60px 20px;color:#64748B;}")
+        sb.append("</style></head><body><div class='container'>")
 
-        sb.append("<h1>📁 ArtFiles WiFi Transfer</h1>")
-        sb.append("<p>IP: <b>${getLocalIpAddress()}:$PORT</b></p>")
+        // Header
+        sb.append("<div class='header'>")
+        sb.append("<div class='brand'><div class='brand-icon'>⚡</div><div><div class='brand-title'>Artfiles WiFi Hub</div><div class='brand-desc'>Local High-Speed Android & PC File Transfer</div></div></div>")
+        sb.append("<div class='ip-badge'>http://${getLocalIpAddress()}:$PORT</div>")
+        sb.append("</div>")
 
         // Navigation
         val currentPath = target.absolutePath
         val rootPath = rootDir.absolutePath
-        sb.append("<p>Current: <code>$currentPath</code></p>")
+        val relCurrent = if (currentPath != rootPath) currentPath.removePrefix(rootPath).removePrefix("/") else ""
 
-        // Go up button
+        sb.append("<div class='toolbar'>")
+        sb.append("<div class='breadcrumbs'>")
+        sb.append("<a href='/'>🏠 Internal Storage</a>")
+        if (relCurrent.isNotEmpty()) {
+            val parts = relCurrent.split("/")
+            var accumulated = ""
+            for (p in parts) {
+                accumulated += (if (accumulated.isEmpty()) "" else "/") + p
+                sb.append("<span>/</span><a href='/$accumulated'>$p</a>")
+            }
+        }
+        sb.append("</div>")
+
+        sb.append("<div class='nav-btns'>")
         if (currentPath != rootPath) {
             val parent = target.parentFile
-            val parentPath = if (parent != null) parent.absolutePath.removePrefix(rootPath + "/") else ""
-            sb.append("<a href='/$parentPath' class='btn'>⬆ Parent Folder</a> ")
+            val parentPath = if (parent != null && parent.absolutePath != rootPath) parent.absolutePath.removePrefix(rootPath + "/") else ""
+            sb.append("<a href='/$parentPath' class='btn btn-subtle'>⬆ Up One Level</a>")
+        }
+        sb.append("<a href='/' class='btn btn-subtle'>Home</a>")
+        sb.append("</div>")
+        sb.append("</div>")
+
+        sb.append("<div class='card'><table>")
+        sb.append("<thead><tr><th>Name</th><th>Type</th><th>Size</th><th>Action</th></tr></thead><tbody>")
+
+        val dirs = target.listFiles()?.filter { it.isDirectory }?.sortedBy { it.name.lowercase() } ?: emptyList()
+        val files = target.listFiles()?.filter { !it.isDirectory }?.sortedBy { it.name.lowercase() } ?: emptyList()
+
+        if (dirs.isEmpty() && files.isEmpty()) {
+            sb.append("<tr><td colspan='4' class='empty-state'>Folder is empty</td></tr>")
         }
 
-        sb.append("<a href='/' class='btn btn-danger'>🏠 Home</a>")
-
-        sb.append("<table>")
-        sb.append("<tr><th>Name</th><th>Type</th><th>Size</th><th>Action</th></tr>")
-
-        // List directories first
-        val dirs = target.listFiles()?.filter { it.isDirectory }?.sortedBy { it.name } ?: emptyList()
-        val files = target.listFiles()?.filter { !it.isDirectory }?.sortedBy { it.name } ?: emptyList()
-
         for (dir in dirs) {
-            val relPath = dir.absolutePath.removePrefix(rootPath + "/")
+            val relPath = dir.absolutePath.removePrefix(rootPath + "/").removePrefix("/")
             sb.append("<tr>")
-            sb.append("<td><span class='dir'>📁</span> <a href='/$relPath'>${dir.name}</a></td>")
-            sb.append("<td>Folder</td>")
-            sb.append("<td class='size'>-</td>")
-            sb.append("<td><a href='/$relPath' class='btn'>Open</a></td>")
+            sb.append("<td><a class='file-link' href='/$relPath'><span>📁</span> ${dir.name}</a></td>")
+            sb.append("<td><span class='type-badge badge-folder'>Folder</span></td>")
+            sb.append("<td class='size-col'>—</td>")
+            sb.append("<td><a href='/$relPath' class='btn btn-subtle' style='padding:4px 10px;font-size:12px;'>Open</a></td>")
             sb.append("</tr>")
         }
 
         for (file in files) {
-            val relPath = file.absolutePath.removePrefix(rootPath + "/")
+            val relPath = file.absolutePath.removePrefix(rootPath + "/").removePrefix("/")
             val size = formatSize(file.length())
             sb.append("<tr>")
-            sb.append("<td><span class='file'>📄</span> ${file.name}</td>")
-            sb.append("<td>File</td>")
-            sb.append("<td class='size'>$size</td>")
-            sb.append("<td><a href='/$relPath?download=1' class='btn btn-danger'>Download</a></td>")
+            sb.append("<td><span class='file-link'><span>📄</span> ${file.name}</span></td>")
+            sb.append("<td><span class='type-badge badge-file'>File</span></td>")
+            sb.append("<td class='size-col'>$size</td>")
+            sb.append("<td><a href='/$relPath?download=1' class='btn btn-download' download>⬇ Download</a></td>")
             sb.append("</tr>")
         }
 
-        sb.append("</table>")
-
-        if (path.contains("download=1")) {
-            // Handle file download
-            return buildFileDownloadResponse(target)
-        }
-
-        sb.append("</body></html>")
+        sb.append("</tbody></table></div>")
+        sb.append("</div></body></html>")
         return sb.toString()
-    }
-
-    private fun buildFileDownloadResponse(file: File): String {
-        // This is a simplified response - for full download support we'd stream the file
-        // For now, return HTML indicating download link
-        return "<html><body><h1>File Download</h1><p>${file.name}</p><p>Size: ${formatSize(file.length())}</p><p>Right-click and 'Save link as' to download.</p></body></html>"
     }
 
     private fun formatSize(bytes: Long): String {
