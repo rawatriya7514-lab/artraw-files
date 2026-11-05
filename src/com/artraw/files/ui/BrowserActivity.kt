@@ -523,7 +523,7 @@ class BrowserActivity : Activity() {
         for ((index, segment) in segments.withIndex()) {
             val tv = TextView(this)
             tv.text = if (segment.absolutePath == "/storage/emulated/0") "Internal" else segment.name
-            tv.setTextColor(if (index == segments.size - 1) Color.parseColor("#E53935") else Color.parseColor("#9AA0A6"))
+            tv.setTextColor(if (index == segments.size - 1) Color.parseColor("#818CF8") else Color.parseColor("#94A3B8"))
             tv.textSize = 13f
             tv.setPadding(8, 4, 8, 4)
             tv.setOnClickListener {
@@ -534,7 +534,7 @@ class BrowserActivity : Activity() {
             if (index < segments.size - 1) {
                 val sep = TextView(this)
                 sep.text = "›"
-                sep.setTextColor(Color.parseColor("#5F6368"))
+                sep.setTextColor(Color.parseColor("#64748B"))
                 sep.setPadding(2, 4, 2, 4)
                 layoutBreadcrumbs.addView(sep)
             }
@@ -964,7 +964,7 @@ class BrowserActivity : Activity() {
         val btnPaste = Button(this).apply {
             text = "Paste from Clipboard"
             setBackgroundResource(R.drawable.bg_button_outlined)
-            setTextColor(Color.parseColor("#E53935"))
+            setTextColor(Color.parseColor("#4F46E5"))
             setOnClickListener {
                 val clipMgr = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = clipMgr.primaryClip

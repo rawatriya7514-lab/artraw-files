@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- ARTRAW Brand Colors (Primary - Crimson) -->
+    <!-- ARTRAW Brand Colors (Modern SaaS Primary - Indigo) -->
     <!-- ====================================================================== -->
-    <color name="artraw_crimson">#E53935</color>
-    <color name="artraw_crimson_dark">#B71C1C</color>
-    <color name="artraw_crimson_accent">#FF5252</color>
+    <color name="artraw_crimson">#4F46E5</color>
+    <color name="artraw_crimson_dark">#4338CA</color>
+    <color name="artraw_crimson_accent">#6366F1</color>
 
     <!-- ====================================================================== -->
-    <!-- Material Design 3 Dynamic Color Roles (Material You) -->
+    <!-- Material Design 3 Dynamic Color Roles (Modern SaaS Palette) -->
     <!-- ====================================================================== -->
     <!-- Primary -->
-    <color name="md_theme_primary">#E53935</color>
+    <color name="md_theme_primary">#4F46E5</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>
-    <color name="md_theme_primaryContainer">#FDEDEC</color>
-    <color name="md_theme_onPrimaryContainer">#B71C1C</color>
+    <color name="md_theme_primaryContainer">#1E1B4B</color>
+    <color name="md_theme_onPrimaryContainer">#C7D2FE</color>
 
     <!-- Secondary -->
-    <color name="md_theme_secondary">#6D5C6A</color>
+    <color name="md_theme_secondary">#8B5CF6</color>
     <color name="md_theme_onSecondary">#FFFFFF</color>
-    <color name="md_theme_secondaryContainer">#F0EDEE</color>
-    <color name="md_theme_onSecondaryContainer">#554852</color>
+    <color name="md_theme_secondaryContainer">#2E1065</color>
+    <color name="md_theme_onSecondaryContainer">#DDD6FE</color>
 
     <!-- Tertiary -->
-    <color name="md_theme_tertiary">#4D6A6A</color>
-    <color name="md_theme_onTertiary">#FFFFFF</color>
-    <color name="md_theme_tertiaryContainer">#E7F2F2</color>
-    <color name="md_theme_onTertiaryContainer">#3A5252</color>
+    <color name="md_theme_tertiary">#38BDF8</color>
+    <color name="md_theme_onTertiary">#0F172A</color>
+    <color name="md_theme_tertiaryContainer">#082F49</color>
+    <color name="md_theme_onTertiaryContainer">#BAE6FD</color>
 
     <!-- Error -->
-    <color name="md_theme_error">#B3261E</color>
+    <color name="md_theme_error">#EF4444</color>
     <color name="md_theme_onError">#FFFFFF</color>
-    <color name="md_theme_errorContainer">#F9DEDC</color>
-    <color name="md_theme_onErrorContainer">#8A1C18</color>
+    <color name="md_theme_errorContainer">#450A0A</color>
+    <color name="md_theme_onErrorContainer">#FECACA</color>
 
     <!-- Surface -->
-    <color name="md_theme_surface">#1A1B1E</color>
-    <color name="md_theme_onSurface">#E7E5EA</color>
-    <color name="md_theme_surfaceVariant">#2E2F36</color>
-    <color name="md_theme_onSurfaceVariant">#CAC4D0</color>
-    <color name="md_theme_inverseSurface">#E7E5EA</color>
-    <color name="md_theme_inverseOnSurface">#202124</color>
-    <color name="md_theme_inversePrimary">#FF8A80</color>
+    <color name="md_theme_surface">#111827</color>
+    <color name="md_theme_onSurface">#F8FAFC</color>
+    <color name="md_theme_surfaceVariant">#1A2234</color>
+    <color name="md_theme_onSurfaceVariant">#94A3B8</color>
+    <color name="md_theme_inverseSurface">#F8FAFC</color>
+    <color name="md_theme_inverseOnSurface">#0F172A</color>
+    <color name="md_theme_inversePrimary">#818CF8</color>
 
     <!-- Background -->
-    <color name="md_theme_background">#121316</color>
-    <color name="md_theme_onBackground">#E7E5EA</color>
+    <color name="md_theme_background">#090D16</color>
+    <color name="md_theme_onBackground">#F8FAFC</color>
 
     <!-- Outline -->
-    <color name="md_theme_outline">#585560</color>
-    <color name="md_theme_outlineVariant">#3A3740</color>
+    <color name="md_theme_outline">#1F2937</color>
+    <color name="md_theme_outlineVariant">#2E3A4E</color>
 
     <!-- Scrim -->
     <color name="md_theme_scrim">#000000</color>
 
     <!-- ====================================================================== -->
-    <!-- Legacy Theme Colors (Dark - Default) -->
+    <!-- Modern Dark Canvas Colors (Default) -->
     <!-- ====================================================================== -->
-    <color name="bg_dark">#121316</color>
-    <color name="surface_dark">#1A1B1E</color>
-    <color name="surface_elevated_dark">#2E2F36</color>
-    <color name="border_dark">#3A3740</color>
-    <color name="text_primary_dark">#E7E5EA</color>
-    <color name="text_secondary_dark">#CAC4D0</color>
-    <color name="text_tertiary_dark">#8E8B94</color>
+    <color name="bg_dark">#090D16</color>
+    <color name="surface_dark">#111827</color>
+    <color name="surface_elevated_dark">#1A2234</color>
+    <color name="border_dark">#1F2937</color>
+    <color name="text_primary_dark">#F8FAFC</color>
+    <color name="text_secondary_dark">#94A3B8</color>
+    <color name="text_tertiary_dark">#64748B</color>
 
     <!-- ====================================================================== -->
     <!-- Light Theme Colors -->
@@ -89,17 +89,17 @@
     <color name="cat_other">#78909C</color>
 
     <!-- Status Colors -->
-    <color name="selection_overlay">#33E53935</color>
-    <color name="status_success">#00C853</color>
-    <color name="status_warning">#FFAB00</color>
-    <color name="status_error">#D50000</color>
-    <color name="ic_launcher_background">#282828</color>
+    <color name="selection_overlay">#334F46E5</color>
+    <color name="status_success">#10B981</color>
+    <color name="status_warning">#F59E0B</color>
+    <color name="status_error">#EF4444</color>
+    <color name="ic_launcher_background">#090D16</color>
 
     <!-- Divider -->
-    <color name="divider_dark">#2E2F36</color>
-    <color name="divider_light">#E0E0E0</color>
+    <color name="divider_dark">#1F2937</color>
+    <color name="divider_light">#E2E8F0</color>
 
     <!-- Placeholder / Skeleton -->
-    <color name="placeholder_dark">#2E2F36</color>
-    <color name="placeholder_light">#E0E0E0</color>
+    <color name="placeholder_dark">#1A2234</color>
+    <color name="placeholder_light">#F1F5F9</color>
 </resources>

@@ -179,38 +179,40 @@ class AnalyzerActivity : Activity() {
     }
 
     private fun selectTab(isDuplicates: Boolean, isApps: Boolean = false, isWifi: Boolean = false) {
+        val activeColor = Color.parseColor("#818CF8")
+        val inactiveColor = Color.parseColor("#94A3B8")
         if (isWifi) {
-            tabWifi.setTextColor(Color.parseColor("#4ECDC4"))
-            tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
-            tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
-            tabApps.setTextColor(Color.parseColor("#9AA5B1"))
+            tabWifi.setTextColor(activeColor)
+            tabLargeFiles.setTextColor(inactiveColor)
+            tabDuplicates.setTextColor(inactiveColor)
+            tabApps.setTextColor(inactiveColor)
             layoutWifiView.visibility = View.VISIBLE
             layoutLargeFilesView.visibility = View.GONE
             layoutDuplicatesView.visibility = View.GONE
             layoutAppsView.visibility = View.GONE
         } else if (isApps) {
-            tabApps.setTextColor(Color.parseColor("#4ECDC4"))
-            tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
-            tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
-            tabWifi.setTextColor(Color.parseColor("#9AA5B1"))
+            tabApps.setTextColor(activeColor)
+            tabLargeFiles.setTextColor(inactiveColor)
+            tabDuplicates.setTextColor(inactiveColor)
+            tabWifi.setTextColor(inactiveColor)
             layoutAppsView.visibility = View.VISIBLE
             layoutLargeFilesView.visibility = View.GONE
             layoutDuplicatesView.visibility = View.GONE
             layoutWifiView.visibility = View.GONE
         } else if (isDuplicates) {
-            tabDuplicates.setTextColor(Color.parseColor("#8338EC"))
-            tabLargeFiles.setTextColor(Color.parseColor("#9AA5B1"))
-            tabApps.setTextColor(Color.parseColor("#9AA5B1"))
-            tabWifi.setTextColor(Color.parseColor("#9AA5B1"))
+            tabDuplicates.setTextColor(activeColor)
+            tabLargeFiles.setTextColor(inactiveColor)
+            tabApps.setTextColor(inactiveColor)
+            tabWifi.setTextColor(inactiveColor)
             layoutDuplicatesView.visibility = View.VISIBLE
             layoutLargeFilesView.visibility = View.GONE
             layoutAppsView.visibility = View.GONE
             layoutWifiView.visibility = View.GONE
         } else {
-            tabLargeFiles.setTextColor(Color.parseColor("#4ECDC4"))
-            tabDuplicates.setTextColor(Color.parseColor("#9AA5B1"))
-            tabApps.setTextColor(Color.parseColor("#9AA5B1"))
-            tabWifi.setTextColor(Color.parseColor("#9AA5B1"))
+            tabLargeFiles.setTextColor(activeColor)
+            tabDuplicates.setTextColor(inactiveColor)
+            tabApps.setTextColor(inactiveColor)
+            tabWifi.setTextColor(inactiveColor)
             layoutLargeFilesView.visibility = View.VISIBLE
             layoutDuplicatesView.visibility = View.GONE
             layoutAppsView.visibility = View.GONE
@@ -410,7 +412,7 @@ class AnalyzerActivity : Activity() {
 
             val header = TextView(this@AnalyzerActivity).apply {
                 text = "$fileName ($copyCount copies • $sizeStr each)"
-                setTextColor(Color.parseColor("#E53935"))
+                setTextColor(Color.parseColor("#818CF8"))
                 textSize = 14f
                 setPadding(0, 0, 0, 8)
             }

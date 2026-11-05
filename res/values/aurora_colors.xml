@@ -1,98 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- HEAVENLY CLAY + POP ART Design System                                  -->
-    <!-- Deep Space #050507 | Glass Surface #0E0E12 | Elevated #16161C        -->
-    <!-- Primary: Heavenly Crimson #E53935 | Secondary: Cosmic Orange #FF8C42   -->
-    <!-- Accent: Aurora Blue #00D4FF | Text: Warm Ivory #FFFFF0                -->
-    <!-- Gradient: Deep Space → Nebula Purple → Heavenly Gold                   -->
+    <!-- Modern SaaS File Manager Design System (ui-ux-pro-max)                  -->
+    <!-- Canvas: #090D16 | Surface: #111827 | Elevated: #1A2234                   -->
+    <!-- Primary: Vibrant Indigo #4F46E5 | Secondary: Electric Purple #8B5CF6    -->
+    <!-- Accent: Cyan/Blue #38BDF8 | Text: High-Contrast Slate #F8FAFC           -->
     <!-- ====================================================================== -->
 
     <!-- Deep Backgrounds (Matte Deep Canvas Dominant) -->
-    <color name="aurora_background_deep">#0F1014</color>
-    <color name="aurora_background_surface">#121318</color>
-    <color name="aurora_background_elevated">#161820</color>
-    <color name="aurora_background_raised">#1B1E28</color>
-    <color name="aurora_background_glass">#161820</color>
+    <color name="aurora_background_deep">#090D16</color>
+    <color name="aurora_background_surface">#111827</color>
+    <color name="aurora_background_elevated">#1A2234</color>
+    <color name="aurora_background_raised">#1F293D</color>
+    <color name="aurora_background_glass">#131927</color>
 
-    <!-- Primary & Secondary Accents -->
-    <color name="aurora_crimson_dark">#B71C1C</color>
-    <color name="aurora_primary">#E53935</color>
-    <color name="aurora_primary_container">#2E1414</color>
+    <!-- Primary & Secondary Accents (Indigo & Purple SaaS) -->
+    <color name="aurora_crimson_dark">#4338CA</color>
+    <color name="aurora_primary">#4F46E5</color>
+    <color name="aurora_primary_container">#1E1B4B</color>
     <color name="aurora_on_primary">#FFFFFF</color>
-    <color name="aurora_primary_glow">#FF6B6B</color>
-    <color name="aurora_secondary">#FF8C42</color>
-    <color name="aurora_secondary_container">#2E2014</color>
-    <color name="aurora_on_secondary">#050507</color>
-    <color name="aurora_secondary_glow">#FFA96B</color>
+    <color name="aurora_primary_glow">#818CF8</color>
+    <color name="aurora_secondary">#8B5CF6</color>
+    <color name="aurora_secondary_container">#2E1065</color>
+    <color name="aurora_on_secondary">#FFFFFF</color>
+    <color name="aurora_secondary_glow">#A78BFA</color>
 
     <!-- Electric Blue (accent) -->
-    <color name="aurora_accent_blue">#42A5F5</color>
-    <color name="aurora_accent_blue_container">#132438</color>
-    <color name="aurora_accent_blue_glow">#82B1FF</color>
+    <color name="aurora_accent_blue">#3B82F6</color>
+    <color name="aurora_accent_blue_container">#1E3A8A</color>
+    <color name="aurora_accent_blue_glow">#60A5FA</color>
     <color name="aurora_on_blue">#FFFFFF</color>
 
     <!-- Gradients -->
-    <color name="aurora_gradient_start">#0F1014</color>
-    <color name="aurora_gradient_mid">#14161F</color>
-    <color name="aurora_gradient_end">#191C27</color>
-    <color name="aurora_nebula_purple">#2A183C</color>
-    <color name="aurora_heaven_gold">#FFB74D</color>
-    <color name="aurora_heaven_silver">#B0B3C2</color>
+    <color name="aurora_gradient_start">#090D16</color>
+    <color name="aurora_gradient_mid">#111827</color>
+    <color name="aurora_gradient_end">#1E1B4B</color>
+    <color name="aurora_nebula_purple">#2E1065</color>
+    <color name="aurora_heaven_gold">#F59E0B</color>
+    <color name="aurora_heaven_silver">#94A3B8</color>
 
-    <!-- Text Colors (True Material 3 Hierarchy) -->
-    <color name="aurora_text_primary">#F4F4F7</color>
-    <color name="aurora_text_secondary">#9DA0B4</color>
-    <color name="aurora_text_tertiary">#6E7184</color>
-    <color name="aurora_text_inverse">#0E0F14</color>
+    <!-- Text Colors (True Hierarchy) -->
+    <color name="aurora_text_primary">#F8FAFC</color>
+    <color name="aurora_text_secondary">#94A3B8</color>
+    <color name="aurora_text_tertiary">#64748B</color>
+    <color name="aurora_text_inverse">#0F172A</color>
     <color name="aurora_text_on_blue">#FFFFFF</color>
     <color name="aurora_text_glow">#FFFFFF88</color>
 
     <!-- Surface Colors -->
-    <color name="aurora_surface">#161820</color>
-    <color name="aurora_surface_variant">#1A1D27</color>
-    <color name="aurora_surface_elevated">#1E2230</color>
-    <color name="aurora_surface_glass">#161820</color>
+    <color name="aurora_surface">#111827</color>
+    <color name="aurora_surface_variant">#1A2234</color>
+    <color name="aurora_surface_elevated">#1F293D</color>
+    <color name="aurora_surface_glass">#131927</color>
 
     <!-- Borders — Subtle, low-contrast matte -->
-    <color name="aurora_outline">#232635</color>
-    <color name="aurora_outline_variant">#2B2F40</color>
-    <color name="aurora_divider">#1C1E2A</color>
-    <color name="aurora_glass_border">#232635</color>
+    <color name="aurora_outline">#1F2937</color>
+    <color name="aurora_outline_variant">#2E3A4E</color>
+    <color name="aurora_divider">#1E293B</color>
+    <color name="aurora_glass_border">#27354A</color>
 
     <!-- Status -->
-    <color name="aurora_success">#00C853</color>
-    <color name="aurora_success_glow">#33FF77</color>
-    <color name="aurora_warning">#FFAB00</color>
-    <color name="aurora_warning_glow">#FFC94D</color>
-    <color name="aurora_error">#D50000</color>
-    <color name="aurora_error_glow">#FF4444</color>
-    <color name="aurora_info">#00D4FF</color>
+    <color name="aurora_success">#10B981</color>
+    <color name="aurora_success_glow">#34D399</color>
+    <color name="aurora_warning">#F59E0B</color>
+    <color name="aurora_warning_glow">#FBBF24</color>
+    <color name="aurora_error">#EF4444</color>
+    <color name="aurora_error_glow">#F87171</color>
+    <color name="aurora_info">#38BDF8</color>
 
     <!-- Clay Shadows & Depth -->
     <color name="aurora_shadow_soft">#4D000000</color>
     <color name="aurora_shadow_medium">#66000000</color>
     <color name="aurora_shadow_hard">#80000000</color>
-    <color name="aurora_shadow_glow">#FF000022</color>
+    <color name="aurora_shadow_glow">#4F46E522</color>
 
     <!-- Overlay & Scrim -->
     <color name="aurora_overlay_scrim">#000000B0</color>
     <color name="aurora_overlay_light">#00000060</color>
 
     <!-- Pop-Art Accent Dots / Shapes -->
-    <color name="aurora_dot_red">#E53935</color>
-    <color name="aurora_dot_orange">#FF8C42</color>
-    <color name="aurora_dot_blue">#00D4FF</color>
-    <color name="aurora_dot_ivory">#FFFFF0</color>
-    <color name="aurora_dot_purple">#8A2BE2</color>
-    <color name="aurora_dot_gold">#FFD700</color>
+    <color name="aurora_dot_red">#EF4444</color>
+    <color name="aurora_dot_orange">#F59E0B</color>
+    <color name="aurora_dot_blue">#38BDF8</color>
+    <color name="aurora_dot_ivory">#F8FAFC</color>
+    <color name="aurora_dot_purple">#8B5CF6</color>
+    <color name="aurora_dot_gold">#FBBF24</color>
 
     <!-- Light Theme Variant -->
-    <color name="aurora_bg_light">#F5F5F0</color>
+    <color name="aurora_bg_light">#F8FAFC</color>
     <color name="aurora_surface_light">#FFFFFF</color>
-    <color name="aurora_text_light_primary">#050507</color>
-    <color name="aurora_text_light_secondary">#3A3A3A</color>
-    <color name="aurora_text_light_tertiary">#6A6A6A</color>
-    <color name="aurora_outline_light">#DADADA</color>
-    <color name="aurora_divider_light">#E8E8E0</color>
+    <color name="aurora_text_light_primary">#0F172A</color>
+    <color name="aurora_text_light_secondary">#475569</color>
+    <color name="aurora_text_light_tertiary">#94A3B8</color>
+    <color name="aurora_outline_light">#E2E8F0</color>
+    <color name="aurora_divider_light">#E2E8F0</color>
 </resources>

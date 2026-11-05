@@ -162,10 +162,10 @@
                         android:id="@+id/iconStorage"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:background="@drawable/bg_cat_badge_downloads"
-                        android:padding="7dp"
+                        android:background="@drawable/bg_pill_badge"
+                        android:padding="6dp"
                         android:src="@drawable/ic_storage"
-                        android:tint="#29B6F6"
+                        android:tint="@color/aurora_primary"
                         android:contentDescription="@string/content_storage" />
 
                     <TextView
@@ -183,13 +183,13 @@
                         android:id="@+id/tvStoragePercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_cat_badge_downloads"
+                        android:background="@drawable/bg_pill_badge"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
                         android:text="0%"
-                        android:textColor="#29B6F6"
+                        android:textColor="@color/aurora_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -251,7 +251,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_monitor"
-                        android:tint="#7986CB"
+                        android:tint="@color/aurora_secondary"
                         android:contentDescription="@string/content_device_monitor" />
 
                     <TextView
@@ -284,7 +284,7 @@
                             android:paddingTop="2dp"
                             android:paddingBottom="2dp"
                             android:text="Live Stats"
-                            android:textColor="#66BB6A"
+                            android:textColor="@color/aurora_success"
                             android:textSize="11sp"
                             android:textStyle="bold" />
                     </LinearLayout>
