@@ -31,8 +31,8 @@ object UpdateChecker {
     /**
      * Current app version (must match build.gradle.kts / AndroidManifest.xml).
      */
-    const val CURRENT_VERSION = "1.0.0"
-    const val CURRENT_VERSION_CODE = 1
+    const val CURRENT_VERSION = "1.1.0"
+    const val CURRENT_VERSION_CODE = 2
 
     /**
      * Check for updates on app startup.
