@@ -88,12 +88,10 @@
     </style>
 
     <style name="Theme.ArtrawFiles.Splash" parent="Theme.ArtrawFiles">
-        <item name="android:windowBackground">@drawable/bg_heaven_splash</item>
+        <item name="android:windowBackground">@color/aurora_background_deep</item>
         <item name="android:windowSplashScreenBackground">@color/aurora_background_deep</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground_vector</item>
-        <item name="android:windowSplashScreenAnimationDuration">2000</item>
+        <item name="android:windowSplashScreenAnimationDuration">500</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/aurora_background_deep</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_launcher_foreground_vector</item>
     </style>
 
     <style name="Widget.ArtrawFiles.Card">

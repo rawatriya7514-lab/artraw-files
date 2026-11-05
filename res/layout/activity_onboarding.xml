@@ -71,7 +71,9 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/bg_aurora_button_primary"
         android:text="@string/perm_btn_grant"
-        android:textColor="@color/aurora_text_primary"
+        android:textColor="@color/aurora_on_primary"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:includeFontPadding="false" />
 </LinearLayout>

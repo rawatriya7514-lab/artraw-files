@@ -125,6 +125,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
                 android:singleLine="true"
+                android:ellipsize="end"
                 android:text="0 selected"
                 android:textColor="@color/aurora_text_primary"
                 android:textSize="14sp"
@@ -140,45 +141,45 @@
 
                 <ImageView
                     android:id="@+id/btnCatActionSelectAll"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
                     android:contentDescription="@string/content_select_all" />
 
                 <ImageView
                     android:id="@+id/btnCatActionCopy"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
                     android:contentDescription="@string/content_copy" />
 
                 <ImageView
                     android:id="@+id/btnCatActionCut"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
                     android:contentDescription="@string/content_move" />
 
                 <ImageView
                     android:id="@+id/btnCatActionShare"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
                     android:contentDescription="@string/content_share" />
 
                 <ImageView
                     android:id="@+id/btnCatActionDelete"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_delete"
                     android:contentDescription="@string/content_delete" />

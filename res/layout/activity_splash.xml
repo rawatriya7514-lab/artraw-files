@@ -3,16 +3,9 @@
     android:id="@+id/layoutSplashRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#07080C">
+    android:background="@color/aurora_background_deep">
 
-    <!-- Fullscreen Video Animation View (Plays 4K Splash Animation) -->
-    <VideoView
-        android:id="@+id/videoSplashAnimation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" />
-
-    <!-- Centered Artfiles Brand Identity (Initial display & fallback) -->
+    <!-- Centered Minimalist Typography Brand Display -->
     <LinearLayout
         android:id="@+id/layoutSplashBrand"
         android:layout_width="wrap_content"
@@ -20,84 +13,55 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:gravity="center"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp">
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp">
 
-        <!-- App Icon with Sleek Matte Container -->
-        <FrameLayout
-            android:id="@+id/flSplashLogoCard"
-            android:layout_width="92dp"
-            android:layout_height="92dp"
-            android:background="@drawable/bg_splash_logo_container"
-            android:padding="14dp"
-            android:elevation="8dp">
-
-            <ImageView
-                android:id="@+id/ivSplashLogo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/app_name" />
-        </FrameLayout>
-
-        <!-- Brand Name -->
+        <!-- Modern Clean Wordmark (No oversized logo) -->
         <TextView
             android:id="@+id/tvSplashAppName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/app_name"
             android:textColor="@color/aurora_text_primary"
-            android:textSize="26sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.05" />
+            android:letterSpacing="0.06"
+            android:includeFontPadding="false" />
 
-        <!-- Tagline -->
+        <!-- Minimalist Tagline -->
         <TextView
             android:id="@+id/tvSplashTagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/app_tagline"
+            android:layout_marginTop="8dp"
+            android:text="Fast • Private • Storage"
             android:textColor="@color/aurora_text_secondary"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:fontFamily="sans-serif"
-            android:letterSpacing="0.04" />
-
-        <!-- Subtitle / Value Proposition -->
-        <TextView
-            android:id="@+id/tvSplashSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/app_subtitle"
-            android:textColor="@color/aurora_text_tertiary"
-            android:textSize="12sp"
-            android:fontFamily="sans-serif"
-            android:letterSpacing="0.08" />
+            android:letterSpacing="0.05"
+            android:includeFontPadding="false" />
     </LinearLayout>
 
-    <!-- Bottom Minimalist Branding Footer -->
+    <!-- Bottom Minimalist Privacy & Security Badge -->
     <LinearLayout
         android:id="@+id/layoutSplashFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="42dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
         android:gravity="center">
 
         <TextView
+            android:id="@+id/tvSplashSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SMART • PRIVATE • LIGHTNING FAST"
-            android:textColor="#5E6378"
+            android:text="100% ON-DEVICE PROCESSING"
+            android:textColor="@color/aurora_text_tertiary"
             android:textSize="10sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.16" />
     </LinearLayout>
-
 </FrameLayout>

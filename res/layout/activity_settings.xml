@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@drawable/bg_heaven_gradient">
 
-    <!-- Top Bar -->
+    <!-- Material Design 3 Top App Bar -->
     <LinearLayout
         android:id="@+id/headerSettings"
         android:layout_width="match_parent"
@@ -22,17 +22,18 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp">
+            android:paddingEnd="16dp">
 
             <ImageView
                 android:id="@+id/btnSettingsBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_arrow_back"
+                android:tint="@color/aurora_text_primary"
                 android:contentDescription="@string/content_back" />
 
             <TextView
@@ -44,7 +45,8 @@
                 android:text="@string/nav_settings"
                 android:textStyle="bold"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="18sp" />
+                android:fontFamily="sans-serif-medium"
+                android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -52,242 +54,893 @@
         android:id="@+id/scrollSettingsContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="40dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- Preferences Card -->
+            <!-- ======================================================== -->
+            <!-- SECTION 1: APPEARANCE & DISPLAY                          -->
+            <!-- ======================================================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="APPEARANCE &amp; DISPLAY"
+                android:textColor="@color/aurora_primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_aurora_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:padding="8dp"
+                android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Preferences"
-                    android:textColor="@color/aurora_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
-                <RelativeLayout
-                    android:id="@+id/rowLanguage"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/pref_language"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvCurrentLanguage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:text="English"
-                        android:textColor="@color/aurora_primary"
-                        android:textSize="14sp" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
-
-                <RelativeLayout
+                <!-- Theme Row -->
+                <LinearLayout
                     android:id="@+id/rowTheme"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:clickable="true"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_filter"
+                        android:tint="@color/aurora_secondary"
+                        android:contentDescription="Theme" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/pref_theme"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_theme"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Choose Dark or Light color mode"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvCurrentTheme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_pill_badge"
                         android:text="Dark"
-                        android:textColor="@color/aurora_primary"
-                        android:textSize="14sp" />
-                </RelativeLayout>
+                        android:textColor="@color/aurora_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/aurora_outline"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
 
-                <RelativeLayout
-                    android:id="@+id/rowShowHidden"
+                <!-- Language Row -->
+                <LinearLayout
+                    android:id="@+id/rowLanguage"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_document"
+                        android:tint="@color/aurora_accent_blue"
+                        android:contentDescription="Language" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_language"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Application display language"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvCurrentLanguage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/pref_show_hidden"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
+                        android:background="@drawable/bg_pill_badge"
+                        android:text="English"
+                        android:textColor="@color/aurora_accent_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ======================================================== -->
+            <!-- SECTION 2: FILE MANAGEMENT & STORAGE                     -->
+            <!-- ======================================================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FILE MANAGEMENT &amp; STORAGE"
+                android:textColor="@color/aurora_primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_aurora_card"
+                android:padding="8dp"
+                android:layout_marginBottom="20dp">
+
+                <!-- Show Hidden Files -->
+                <LinearLayout
+                    android:id="@+id/rowShowHidden"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_folder"
+                        android:tint="@color/aurora_heaven_gold"
+                        android:contentDescription="Hidden files" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_show_hidden"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Display system files starting with a dot (.)"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
 
                     <CheckBox
                         android:id="@+id/cbShowHidden"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true" />
-                </RelativeLayout>
+                        android:buttonTint="@color/aurora_primary" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/aurora_outline"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
 
-                <RelativeLayout
+                <!-- Show File Extensions -->
+                <LinearLayout
                     android:id="@+id/rowShowExtensions"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_file"
+                        android:tint="@color/aurora_accent_blue"
+                        android:contentDescription="File extensions" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/pref_show_extensions"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_show_extensions"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Always display extensions (.png, .mp4, .pdf)"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
 
                     <CheckBox
                         android:id="@+id/cbShowExtensions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true" />
-                </RelativeLayout>
+                        android:buttonTint="@color/aurora_primary" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Storage Permission Status & Button -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_storage"
+                            android:tint="@color/aurora_success"
+                            android:contentDescription="Permission" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="14dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Storage Access Status"
+                                android:textColor="@color/aurora_text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-medium"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
+
+                            <TextView
+                                android:id="@+id/tvPermissionStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="All Files Access: Granted ✓"
+                                android:textColor="@color/status_success"
+                                android:textSize="12sp"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
+                        </LinearLayout>
+
+                        <!-- Proper button placement with padding & minHeight -->
+                        <Button
+                            android:id="@+id/btnManagePermission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:minWidth="96dp"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:background="@drawable/bg_aurora_button_outlined"
+                            android:text="Manage"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:includeFontPadding="false" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="36dp"
+                        android:text="@string/perm_restricted_notice"
+                        android:textColor="@color/aurora_text_tertiary"
+                        android:textSize="11sp"
+                        android:lineHeight="15sp" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Storage Permissions Card -->
+            <!-- ======================================================== -->
+            <!-- SECTION 3: STORAGE & SECURITY TOOLS                      -->
+            <!-- ======================================================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STORAGE &amp; SECURITY TOOLS"
+                android:textColor="@color/aurora_primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_aurora_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:padding="8dp"
+                android:layout_marginBottom="20dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Storage Permission Status"
-                    android:textColor="@color/aurora_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvPermissionStatus"
+                <!-- Recycle Bin -->
+                <LinearLayout
+                    android:id="@+id/rowToolTrash"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="All Files Access: Granted"
-                    android:textColor="@color/aurora_text_primary"
-                    android:textSize="14sp" />
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
 
-                <Button
-                    android:id="@+id/btnManagePermission"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_aurora_button_outlined"
-                    android:text="Open System Permission Settings"
-                    android:textColor="@color/aurora_text_primary"
-                    android:textSize="12sp" />
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_delete"
+                        android:tint="@color/aurora_error"
+                        android:contentDescription="Trash" />
 
-                <TextView
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Recycle Bin"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="View, restore, or permanently remove deleted files"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Junk Cleaner -->
+                <LinearLayout
+                    android:id="@+id/rowToolJunk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/perm_restricted_notice"
-                    android:textColor="@color/aurora_text_tertiary"
-                    android:textSize="11sp" />
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_delete"
+                        android:tint="@color/aurora_secondary"
+                        android:contentDescription="Junk Cleaner" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Junk &amp; Cache Cleaner"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Clean app cache, residual logs, and temporary files"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Secure Vault -->
+                <LinearLayout
+                    android:id="@+id/rowToolVault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_lock"
+                        android:tint="@color/aurora_primary"
+                        android:contentDescription="Vault" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Secure Vault"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="AES-256 encrypted hidden storage for private files"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- File Checksum -->
+                <LinearLayout
+                    android:id="@+id/rowToolChecksum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_check_circle"
+                        android:tint="@color/aurora_accent_blue"
+                        android:contentDescription="Checksum" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="File Checksum Calculator"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Verify integrity with MD5, SHA-1, and SHA-256"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Support Developer Card -->
+            <!-- ======================================================== -->
+            <!-- SECTION 4: SUPPORT & AD PREFERENCES                      -->
+            <!-- ======================================================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUPPORT &amp; AD PREFERENCES"
+                android:textColor="@color/aurora_primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_aurora_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:padding="14dp"
+                android:layout_marginBottom="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Support Artfiles"
-                    android:textColor="@color/aurora_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Support our free, private file manager by watching a short rewarded video ad."
+                    android:text="Artfiles is 100% free and local. You can support continuous maintenance by watching an optional rewarded video ad."
                     android:textColor="@color/aurora_text_secondary"
-                    android:textSize="13sp" />
+                    android:textSize="12sp"
+                    android:lineHeight="17sp" />
 
+                <!-- Watch Video Ad Button with proper padding & M3 styling -->
                 <Button
                     android:id="@+id/btnWatchRewardedAd"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="44dp"
                     android:layout_marginTop="12dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:background="@drawable/bg_aurora_button_primary"
                     android:text="Watch Video Ad"
-                    android:textColor="@color/aurora_text_primary"
+                    android:textColor="@color/aurora_on_primary"
                     android:textSize="13sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:includeFontPadding="false" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="6dp" />
+
+                <!-- Google Ad Settings -->
+                <LinearLayout
+                    android:id="@+id/rowGoogleAdSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Google Ad Personalization"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Manage your advertising ID and personalization"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_open_in_new" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp" />
+
+                <!-- app-ads.txt -->
+                <LinearLayout
+                    android:id="@+id/rowAppAdsTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Authorized Digital Sellers (app-ads.txt)"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Publisher ID: pub-7925407604309207 (Direct Seller)"
+                            android:textColor="@color/aurora_success"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_open_in_new" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Privacy & About Card -->
+            <!-- ======================================================== -->
+            <!-- SECTION 5: ABOUT & PRIVACY                               -->
+            <!-- ======================================================== -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ABOUT &amp; PRIVACY"
+                android:textColor="@color/aurora_primary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_aurora_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:padding="14dp"
+                android:layout_marginBottom="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -295,7 +948,8 @@
                     android:text="@string/app_name"
                     android:textColor="@color/aurora_text_primary"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:id="@+id/tvAppVersion"
@@ -306,317 +960,89 @@
                     android:textColor="@color/aurora_text_secondary"
                     android:textSize="12sp" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="6dp" />
+
+                <!-- Privacy Policy -->
+                <LinearLayout
+                    android:id="@+id/rowPrivacyPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_info"
+                        android:tint="@color/aurora_primary"
+                        android:contentDescription="Privacy" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Privacy Policy &amp; Data Safety"
+                            android:textColor="@color/aurora_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="AdMob &amp; Google Play compliant data safety disclosures"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_open_in_new" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/pref_privacy_pledge"
                     android:textColor="@color/aurora_success"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Artfiles processes all files exclusively on your local device. Fast, secure and modern storage management."
-                    android:textColor="@color/aurora_text_secondary"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="10dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowPrivacyPolicy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Privacy Policy &amp; Ad Disclosure"
-                        android:textColor="@color/aurora_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="Read our AdMob &amp; Play Store compliant data safety disclosure."
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowGoogleAdSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Google Ad Settings &amp; Personalization"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="Manage your advertising ID and ad preferences on Google."
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowAppAdsTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Authorized Digital Sellers (app-ads.txt)"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="Publisher ID: pub-7925407604309207 (Direct Seller)"
-                        android:textColor="@color/aurora_success"
-                        android:textSize="12sp" />
-                </LinearLayout>
+                    android:text="Artfiles processes all storage, media, archives, and files exclusively on your local device. We never upload, transmit, or inspect your private files."
+                    android:textColor="@color/aurora_text_tertiary"
+                    android:textSize="11sp"
+                    android:lineHeight="16sp" />
             </LinearLayout>
 
-            <!-- Tools & Utilities Card -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/bg_aurora_card"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tools &amp; Utilities"
-                    android:textColor="@color/aurora_primary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowToolTrash"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_delete"
-                        android:tint="@color/aurora_error"
-                        android:contentDescription="Trash" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Recycle Bin"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Restore deleted files"
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowToolJunk"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_delete"
-                        android:tint="@color/aurora_secondary"
-                        android:contentDescription="Junk Cleaner" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Junk Cleaner"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Clean cache &amp; temp files"
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowToolChecksum"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more"
-                        android:tint="@color/aurora_secondary"
-                        android:contentDescription="Checksum" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="File Checksum"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="MD5, SHA-1, SHA-256"
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/aurora_outline"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp" />
-
-                <LinearLayout
-                    android:id="@+id/rowToolVault"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?android:attr/selectableItemBackground">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_settings"
-                        android:tint="@color/aurora_secondary"
-                        android:contentDescription="Vault" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Secure Vault"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Encrypt &amp; hide files"
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
-    </ScrollView></LinearLayout>
+    </ScrollView>
+</LinearLayout>
