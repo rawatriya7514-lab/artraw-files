@@ -73,6 +73,14 @@ class SettingsActivity : BaseActivity() {
         cbAnimations.isChecked = settingsManager.animationsEnabled
         tvGridColumns.text = settingsManager.gridColumns.toString()
 
+        findViewById<TextView>(R.id.tvAppVersion)?.let { tv ->
+            tv.text = "Version ${com.artraw.files.util.UpdateChecker.getCurrentVersion(this)} (Target Android 15)"
+            tv.setOnClickListener {
+                android.widget.Toast.makeText(this, "Checking for updates…", android.widget.Toast.LENGTH_SHORT).show()
+                com.artraw.files.util.UpdateChecker.checkForUpdates(this, force = true)
+            }
+        }
+
         updatePermissionStatus()
     }
 

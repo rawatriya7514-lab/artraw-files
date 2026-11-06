@@ -102,6 +102,8 @@ class MainActivity : BaseActivity() {
     private var isAdMobInitializing = false
     private val adRetryHandler = Handler(Looper.getMainLooper())
     private var adRetryRunnable: Runnable? = null
+    private var adRetryCount = 0
+    private val MAX_AD_RETRIES = 2
 
     private fun initAdMob() {
         if (!resources.getBoolean(R.bool.admob_enabled)) {
@@ -112,6 +114,7 @@ class MainActivity : BaseActivity() {
         if (isAdMobInitializing) return
         isAdMobInitializing = true
 
+        AdMobManager.init(this)
         try {
             MobileAds.initialize(this) { initStatus ->
                 Log.d("ARTRAW_ADMOB", "MobileAds initialized: $initStatus")
@@ -132,7 +135,7 @@ class MainActivity : BaseActivity() {
             try {
                 if (isFinishing || isDestroyed) return@runOnUiThread
                 val container = adViewContainer
-                container.visibility = View.VISIBLE
+                container.visibility = View.GONE
 
                 try {
                     adView?.destroy()
@@ -164,15 +167,19 @@ class MainActivity : BaseActivity() {
                     override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                         super.onAdFailedToLoad(loadAdError)
                         Log.w("ARTRAW_ADMOB", "Production ad failed to load (Unit: $adUnit, Code ${loadAdError.code}): ${loadAdError.message}")
+                        container.visibility = View.GONE
 
                         adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
-                        adRetryRunnable = Runnable {
-                            if (!isFinishing && !isDestroyed) {
-                                Log.d("ARTRAW_ADMOB", "Retrying production banner load...")
-                                loadBanner(adUnit)
+                        if (adRetryCount < MAX_AD_RETRIES) {
+                            adRetryCount++
+                            adRetryRunnable = Runnable {
+                                if (!isFinishing && !isDestroyed) {
+                                    Log.d("ARTRAW_ADMOB", "Retrying banner load (attempt $adRetryCount)...")
+                                    loadBanner(adUnit)
+                                }
                             }
+                            adRetryHandler.postDelayed(adRetryRunnable!!, 60000)
                         }
-                        adRetryHandler.postDelayed(adRetryRunnable!!, 30000)
                     }
                 }
 

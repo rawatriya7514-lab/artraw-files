@@ -45,6 +45,7 @@ object AdMobManager {
                     .setTagForChildDirectedTreatment(RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_FALSE)
                     .setTagForUnderAgeOfConsent(RequestConfiguration.TAG_FOR_UNDER_AGE_OF_CONSENT_FALSE)
                     .setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_G)
+                    .setTestDeviceIds(listOf(AdRequest.DEVICE_ID_EMULATOR))
                     .build()
                 MobileAds.setRequestConfiguration(reqConfig)
 
@@ -75,8 +76,8 @@ object AdMobManager {
 
         init(activity)
 
-        // Ensure container is measured and visible
-        container.visibility = View.VISIBLE
+        // Keep container hidden until ad is confirmed loaded
+        container.visibility = View.GONE
 
         val rawId = try {
             activity.getString(R.string.admob_banner_ad_unit_id)
@@ -85,13 +86,14 @@ object AdMobManager {
         }
         val targetAdUnitId = AppSecurity.resolveAdUnitId(rawId)
 
-        return setupBannerView(activity, container, targetAdUnitId)
+        return setupBannerView(activity, container, targetAdUnitId, retryCount = 0)
     }
 
     private fun setupBannerView(
         activity: Activity,
         container: FrameLayout,
-        adUnitId: String
+        adUnitId: String,
+        retryCount: Int = 0
     ): AdView {
         val adView = AdView(activity).apply {
             this.adUnitId = adUnitId
@@ -113,20 +115,27 @@ object AdMobManager {
                 super.onAdLoaded()
                 Log.i(TAG, "Banner loaded successfully! (Unit: $adUnitId)")
                 activity.runOnUiThread {
-                    container.visibility = View.VISIBLE
+                    if (!activity.isFinishing && !activity.isDestroyed) {
+                        container.visibility = View.VISIBLE
+                    }
                 }
             }
 
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 super.onAdFailedToLoad(loadAdError)
                 Log.w(TAG, "Banner failed to load ($adUnitId) [code ${loadAdError.code}]: ${loadAdError.message}")
-                // Retry loading the production unit after 30 seconds
-                mainHandler.postDelayed({
-                    if (!activity.isFinishing && !activity.isDestroyed) {
-                        Log.d(TAG, "Retrying banner load for unit: $adUnitId")
-                        setupBannerView(activity, container, adUnitId)
-                    }
-                }, 30000)
+                activity.runOnUiThread {
+                    container.visibility = View.GONE
+                }
+                // Backoff retry: maximum 2 retries after 60 seconds
+                if (retryCount < 2) {
+                    mainHandler.postDelayed({
+                        if (!activity.isFinishing && !activity.isDestroyed) {
+                            Log.d(TAG, "Retrying banner load (attempt ${retryCount + 1}) for unit: $adUnitId")
+                            setupBannerView(activity, container, adUnitId, retryCount + 1)
+                        }
+                    }, 60000L)
+                }
             }
         }
 
