@@ -640,7 +640,8 @@
         android:id="@+id/layoutGalleryContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layoutGalleryHeaderArea">
+        android:layout_below="@id/layoutGalleryHeaderArea"
+        android:layout_above="@id/adViewContainerGallery">
 
         <!-- Photo / Media GridView with Dynamic Density -->
         <GridView
@@ -857,5 +858,27 @@
             android:textSize="13sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- Bottom AdMob Banner Container -->
+    <FrameLayout
+        android:id="@+id/adViewContainerGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gallery_bg_canvas"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SPONSORED"
+            android:textColor="@color/gallery_text_subtitle"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.12" />
+    </FrameLayout>
 
 </RelativeLayout>

@@ -91,6 +91,7 @@ class SmartGalleryActivity : BaseActivity() {
     private var currentLayoutEngine: Int = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
     private var currentSortOrder: Int = 0 // 0: Date Newest, 1: Date Oldest, 2: Size Largest, 3: Size Smallest, 4: Name A-Z, 5: Aspect Ratio
 
+    private var adViewGallery: com.google.android.gms.ads.AdView? = null
     private val loaderExecutor = Executors.newSingleThreadExecutor()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,9 +104,11 @@ class SmartGalleryActivity : BaseActivity() {
         VaultManager.init(this)
         db = AiGalleryDatabase.getInstance(this)
 
+        val adContainer = findViewById<android.widget.FrameLayout>(R.id.adViewContainerGallery)
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
-            topSpacers = listOf(findViewById(R.id.statusBarSpacerGallery))
+            topSpacers = listOf(findViewById(R.id.statusBarSpacerGallery)),
+            bottomStickyViews = listOfNotNull(adContainer)
         )
 
         initViews()
@@ -151,6 +154,10 @@ class SmartGalleryActivity : BaseActivity() {
         tvStatVideos = findViewById(R.id.tvStatVideos)
         tvStatAudio = findViewById(R.id.tvStatAudio)
         tvStatDocs = findViewById(R.id.tvStatDocs)
+
+        findViewById<android.widget.FrameLayout>(R.id.adViewContainerGallery)?.let { container ->
+            adViewGallery = com.artraw.files.ad.AdMobManager.loadBanner(this, container)
+        }
 
         findViewById<View>(R.id.btnGalleryBack).setOnClickListener { finish() }
 
@@ -1193,5 +1200,20 @@ class SmartGalleryActivity : BaseActivity() {
         }
 
         dialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try { adViewGallery?.resume() } catch (_: Throwable) {}
+    }
+
+    override fun onPause() {
+        try { adViewGallery?.pause() } catch (_: Throwable) {}
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        try { adViewGallery?.destroy() } catch (_: Throwable) {}
+        super.onDestroy()
     }
 }

@@ -24,7 +24,7 @@ object AppSecurity {
     private const val RELEASE_CERT_SHA256 = "812da611ca120ab5729ee4405856ecfd1fbd01c4a3a58a1184d7b76dc5810de8"
 
     // Google Test Banner Unit ID
-    private const val TEST_BANNER_ID = "ca-app-pub-3940256099942544/6300978111"
+    const val TEST_BANNER_ID = "ca-app-pub-3940256099942544/6300978111"
 
     // Masked byte sequence for production Banner Unit ID (ca-app-pub-7925407604309207/7795338269)
     // XOR key: 0x5C

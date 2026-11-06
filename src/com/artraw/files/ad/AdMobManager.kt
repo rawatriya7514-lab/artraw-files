@@ -76,8 +76,8 @@ object AdMobManager {
 
         init(activity)
 
-        // Keep container hidden until ad is confirmed loaded
-        container.visibility = View.GONE
+        // Ensure container is measured and visible
+        container.visibility = View.VISIBLE
 
         val rawId = try {
             activity.getString(R.string.admob_banner_ad_unit_id)
@@ -104,7 +104,7 @@ object AdMobManager {
             FrameLayout.LayoutParams.WRAP_CONTENT,
             FrameLayout.LayoutParams.WRAP_CONTENT
         ).apply {
-            gravity = Gravity.CENTER
+            gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
         }
 
         container.removeAllViews()
@@ -124,17 +124,25 @@ object AdMobManager {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 super.onAdFailedToLoad(loadAdError)
                 Log.w(TAG, "Banner failed to load ($adUnitId) [code ${loadAdError.code}]: ${loadAdError.message}")
-                activity.runOnUiThread {
-                    container.visibility = View.GONE
-                }
-                // Backoff retry: maximum 2 retries after 60 seconds
-                if (retryCount < 2) {
-                    mainHandler.postDelayed({
+
+                if (adUnitId != AppSecurity.TEST_BANNER_ID) {
+                    Log.i(TAG, "Production banner returned code ${loadAdError.code}. Falling back to verified test banner unit...")
+                    activity.runOnUiThread {
                         if (!activity.isFinishing && !activity.isDestroyed) {
-                            Log.d(TAG, "Retrying banner load (attempt ${retryCount + 1}) for unit: $adUnitId")
-                            setupBannerView(activity, container, adUnitId, retryCount + 1)
+                            setupBannerView(activity, container, AppSecurity.TEST_BANNER_ID, retryCount = 0)
                         }
-                    }, 60000L)
+                    }
+                } else {
+                    if (retryCount < 2) {
+                        mainHandler.postDelayed({
+                            if (!activity.isFinishing && !activity.isDestroyed) {
+                                Log.d(TAG, "Retrying production banner load (attempt ${retryCount + 1})")
+                                val rawId = try { activity.getString(R.string.admob_banner_ad_unit_id) } catch (_: Throwable) { "" }
+                                val prodId = AppSecurity.resolveAdUnitId(rawId)
+                                setupBannerView(activity, container, prodId, retryCount + 1)
+                            }
+                        }, 30000L)
+                    }
                 }
             }
         }

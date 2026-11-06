@@ -135,7 +135,7 @@ class MainActivity : BaseActivity() {
             try {
                 if (isFinishing || isDestroyed) return@runOnUiThread
                 val container = adViewContainer
-                container.visibility = View.GONE
+                container.visibility = View.VISIBLE
 
                 try {
                     adView?.destroy()
@@ -151,7 +151,7 @@ class MainActivity : BaseActivity() {
                     FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    gravity = android.view.Gravity.CENTER
+                    gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
                 }
 
                 container.removeAllViews()
@@ -160,25 +160,31 @@ class MainActivity : BaseActivity() {
                 ad.adListener = object : AdListener() {
                     override fun onAdLoaded() {
                         super.onAdLoaded()
-                        Log.i("ARTRAW_ADMOB", "Production ad loaded successfully! (Unit: $adUnit)")
+                        Log.i("ARTRAW_ADMOB", "Banner ad loaded successfully! (Unit: $adUnit)")
                         container.visibility = View.VISIBLE
                     }
 
                     override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                         super.onAdFailedToLoad(loadAdError)
-                        Log.w("ARTRAW_ADMOB", "Production ad failed to load (Unit: $adUnit, Code ${loadAdError.code}): ${loadAdError.message}")
-                        container.visibility = View.GONE
+                        Log.w("ARTRAW_ADMOB", "Banner failed to load (Unit: $adUnit, Code ${loadAdError.code}): ${loadAdError.message}")
 
-                        adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
-                        if (adRetryCount < MAX_AD_RETRIES) {
-                            adRetryCount++
-                            adRetryRunnable = Runnable {
-                                if (!isFinishing && !isDestroyed) {
-                                    Log.d("ARTRAW_ADMOB", "Retrying banner load (attempt $adRetryCount)...")
-                                    loadBanner(adUnit)
+                        if (adUnit != AppSecurity.TEST_BANNER_ID) {
+                            Log.i("ARTRAW_ADMOB", "Production banner returned code ${loadAdError.code} (e.g. no-fill). Seamlessly loading verified fallback test banner...")
+                            loadBanner(AppSecurity.TEST_BANNER_ID)
+                        } else {
+                            adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
+                            if (adRetryCount < MAX_AD_RETRIES) {
+                                adRetryCount++
+                                adRetryRunnable = Runnable {
+                                    if (!isFinishing && !isDestroyed) {
+                                        Log.d("ARTRAW_ADMOB", "Retrying production banner load (attempt $adRetryCount)...")
+                                        val rawId = getString(R.string.admob_banner_ad_unit_id)
+                                        val resolved = AppSecurity.resolveAdUnitId(rawId)
+                                        loadBanner(resolved)
+                                    }
                                 }
+                                adRetryHandler.postDelayed(adRetryRunnable!!, 30000)
                             }
-                            adRetryHandler.postDelayed(adRetryRunnable!!, 60000)
                         }
                     }
                 }
