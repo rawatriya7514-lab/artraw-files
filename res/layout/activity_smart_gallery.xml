@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp" />
 
-        <!-- App Bar: Large Editorial Title & Controls -->
+        <!-- App Bar: Editorial Title & Action Icons -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -155,7 +155,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="10dp"
                     android:background="@android:color/transparent"
-                    android:hint="Search AI e.g. 'mountains', 'red car', 'dog'…"
+                    android:hint="Search AI… mountains, red car, pets, receipts"
                     android:textColorHint="@color/aurora_text_tertiary"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="13sp"
@@ -203,117 +203,80 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Holographic Live Stats Banner -->
+        <!-- Refined Editorial Stats Strip -->
         <LinearLayout
             android:id="@+id/bannerGalleryLiveStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
             android:layout_marginBottom="6dp"
-            android:background="@drawable/bg_cyber_stats_banner"
+            android:background="@drawable/bg_gallery_exif_badge"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Photos Stat -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvStatPhotos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:text="0 Photos"
+                android:textColor="@color/gallery_text_title"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📸 "
-                    android:textSize="12sp" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:background="@color/gallery_card_border" />
 
-                <TextView
-                    android:id="@+id/tvStatPhotos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Photos"
-                    android:textColor="@color/gallery_text_title"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Videos Stat -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvStatVideos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:text="0 Videos"
+                android:textColor="@color/cyber_cyan"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🎬 "
-                    android:textSize="12sp" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:background="@color/gallery_card_border" />
 
-                <TextView
-                    android:id="@+id/tvStatVideos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Videos"
-                    android:textColor="@color/cyber_cyan"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Audio Stat -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvStatAudio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:text="0 Audio"
+                android:textColor="@color/neon_pink"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🎵 "
-                    android:textSize="12sp" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:background="@color/gallery_card_border" />
 
-                <TextView
-                    android:id="@+id/tvStatAudio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Audio"
-                    android:textColor="@color/neon_pink"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Documents Stat -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvStatDocs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📄 "
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tvStatDocs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Docs"
-                    android:textColor="@color/cyber_green"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:text="0 Docs"
+                android:textColor="@color/cyber_green"
+                android:textSize="11sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Top "Memories / Featured Art" Horizontal Snapping Hero Carousel -->
@@ -334,7 +297,7 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <!-- Quick AI Suggestions Horizontal Scroll -->
+        <!-- Quick AI Suggestions Horizontal Scroll (Clean Text Pills) -->
         <HorizontalScrollView
             android:id="@+id/scrollGallerySuggestions"
             android:layout_width="match_parent"
@@ -359,7 +322,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="🏔️ Mountains"
+                    android:text="Mountains"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -373,7 +336,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="🚗 Red car"
+                    android:text="Red Car"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -387,7 +350,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="🐶 Dog / Pets"
+                    android:text="Pets &amp; Animals"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -401,7 +364,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="📄 Documents"
+                    android:text="Documents &amp; Receipts"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -415,7 +378,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="📱 Screenshots"
+                    android:text="Screenshots"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -429,7 +392,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="⭐ Best photos"
+                    android:text="Best Quality"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -443,7 +406,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="🌫️ Blurry"
+                    android:text="Blurry &amp; Out of Focus"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -457,7 +420,7 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="👯 Duplicates"
+                    android:text="Duplicates"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
 
@@ -470,13 +433,13 @@
                     android:paddingEnd="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="🪔 Diwali"
+                    android:text="Diwali &amp; Festivals"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="11sp" />
             </LinearLayout>
         </HorizontalScrollView>
 
-        <!-- Category Filter Pills -->
+        <!-- Category Filter Pills (Clean High-Contrast Tabs) -->
         <HorizontalScrollView
             android:id="@+id/scrollGalleryCategories"
             android:layout_width="match_parent"
@@ -503,7 +466,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="All"
+                    android:text="All Media"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -589,7 +552,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="🎨 RAW / Art"
+                    android:text="RAW &amp; Art"
                     android:textColor="@color/gallery_text_subtitle"
                     android:textSize="12sp" />
 
@@ -604,7 +567,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="🔒 Vault"
+                    android:text="Vault"
                     android:textColor="@color/gallery_text_subtitle"
                     android:textSize="12sp" />
 
@@ -618,7 +581,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="🎵 Audio &amp; MP3"
+                    android:text="Audio &amp; Music"
                     android:textColor="@color/gallery_text_subtitle"
                     android:textSize="12sp" />
 
@@ -632,7 +595,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="📄 Documents"
+                    android:text="Documents"
                     android:textColor="@color/gallery_text_subtitle"
                     android:textSize="12sp" />
 
@@ -660,7 +623,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="✨ AI Collections"
+                    android:text="Collections"
                     android:textColor="@color/gallery_text_subtitle"
                     android:textSize="12sp" />
 
@@ -673,7 +636,7 @@
                     android:paddingEnd="14dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:text="👯 Duplicates"
+                    android:text="Duplicates"
                     android:textColor="@color/gallery_text_subtitle"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -869,25 +832,25 @@
             android:contentDescription="Close Selection" />
     </LinearLayout>
 
-    <!-- 3D Cyber Floating AI Assistant FAB -->
+    <!-- Floating AI Assistant FAB -->
     <LinearLayout
         android:id="@+id/fabGalleryAssistant"
         android:layout_width="wrap_content"
-        android:layout_height="52dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/bg_cyber_floating_fab"
         android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
         android:orientation="horizontal"
         android:elevation="8dp">
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_sparkles"
             android:tint="#FFFFFF"
             android:contentDescription="Ask AI" />
@@ -898,7 +861,7 @@
             android:layout_marginStart="8dp"
             android:text="Ask AI"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
     </LinearLayout>
 

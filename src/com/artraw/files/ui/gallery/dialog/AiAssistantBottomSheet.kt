@@ -74,16 +74,20 @@ object AiAssistantBottomSheet {
                 )
 
                 thumbView.setOnClickListener {
-                    if (item.isVideo) {
-                        val intent = Intent(context, VideoPlayerActivity::class.java).apply {
-                            putExtra(VideoPlayerActivity.EXTRA_FILE_PATH, item.path)
+                    try {
+                        if (item.isVideo) {
+                            val intent = Intent(context, VideoPlayerActivity::class.java).apply {
+                                putExtra(VideoPlayerActivity.EXTRA_FILE_PATH, item.path)
+                            }
+                            context.startActivity(intent)
+                        } else {
+                            val intent = Intent(context, ImageViewerActivity::class.java).apply {
+                                putExtra(ImageViewerActivity.EXTRA_FILE_PATH, item.path)
+                            }
+                            context.startActivity(intent)
                         }
-                        context.startActivity(intent)
-                    } else {
-                        val intent = Intent(context, ImageViewerActivity::class.java).apply {
-                            putExtra(ImageViewerActivity.EXTRA_FILE_PATH, item.path)
-                        }
-                        context.startActivity(intent)
+                    } catch (e: Throwable) {
+                        android.widget.Toast.makeText(context, "Could not open media: ${e.message}", android.widget.Toast.LENGTH_SHORT).show()
                     }
                 }
                 layoutThumbs.addView(thumbView)

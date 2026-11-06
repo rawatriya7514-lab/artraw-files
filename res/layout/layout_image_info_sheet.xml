@@ -3,17 +3,20 @@
     android:id="@+id/cardInfoSheetRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_gallery_hero_card"
+    android:background="@drawable/bg_gallery_bottom_sheet"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="24dp"
     android:elevation="16dp">
 
     <!-- Top Drag Handle Pill -->
     <View
-        android:layout_width="40dp"
+        android:layout_width="36dp"
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="14dp"
         android:background="@drawable/bg_gallery_exif_badge" />
 
     <!-- Header: Title & Close -->
@@ -28,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/btnSheetClose"
             android:layout_centerVertical="true"
-            android:text="Photo Details &amp; EXIF"
+            android:text="Details &amp; Specifications"
             android:textColor="@color/gallery_text_title"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:singleLine="true"
             android:ellipsize="middle" />
@@ -60,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ABSOLUTE FILE PATH"
+            android:text="FILE PATH"
             android:textColor="@color/cyber_cyan"
             android:textSize="10sp"
             android:textStyle="bold"
@@ -91,7 +94,7 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/bg_cyber_chip_active"
-                android:text="📋 Copy Full Path"
+                android:text="Copy Full Path"
                 android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -103,13 +106,13 @@
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/bg_cyber_chip_inactive"
-                android:text="📁 Copy Folder"
+                android:text="Copy Folder"
                 android:textColor="@color/gallery_text_title"
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Technical Specifications 2x2 Grid -->
+    <!-- Technical Specifications 3-Column Grid -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -152,7 +155,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FILE SIZE"
+                android:text="SIZE"
                 android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:textStyle="bold" />
@@ -178,7 +181,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DATE MODIFIED"
+                android:text="DATE"
                 android:textColor="@color/aurora_text_secondary"
                 android:textSize="10sp"
                 android:textStyle="bold" />
@@ -200,8 +203,8 @@
         android:id="@+id/tvSheetExifHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CAMERA EXIF METADATA"
-        android:textColor="@color/neon_violet"
+        android:text="CAMERA EXIF"
+        android:textColor="@color/cyber_violet"
         android:textSize="10sp"
         android:textStyle="bold"
         android:letterSpacing="0.06"
@@ -229,7 +232,7 @@
                 android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="📷 Camera Device"
+                android:text="Camera Device"
                 android:textColor="@color/gallery_text_title"
                 android:textSize="11sp" />
 
@@ -243,7 +246,7 @@
                 android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="⭕ f/1.8"
+                android:text="f/1.8"
                 android:textColor="@color/gallery_text_title"
                 android:textSize="11sp" />
 
@@ -257,7 +260,7 @@
                 android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="⚡ 1/250s"
+                android:text="1/250s"
                 android:textColor="@color/gallery_text_title"
                 android:textSize="11sp" />
 
@@ -271,7 +274,7 @@
                 android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="🎚️ ISO 100"
+                android:text="ISO 100"
                 android:textColor="@color/gallery_text_title"
                 android:textSize="11sp" />
 
@@ -284,7 +287,7 @@
                 android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="📏 24mm"
+                android:text="24mm"
                 android:textColor="@color/gallery_text_title"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -294,7 +297,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EXTRACTED COLOR PALETTE (TAP TO COPY HEX)"
+        android:text="COLOR PALETTE"
         android:textColor="@color/cyber_amber"
         android:textSize="10sp"
         android:textStyle="bold"

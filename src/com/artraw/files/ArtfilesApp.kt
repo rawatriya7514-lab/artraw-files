@@ -2,7 +2,9 @@ package com.artraw.files
 
 import android.app.Application
 import com.artraw.files.ui.ImageViewerActivity
+import com.artraw.files.util.FavoritesManager
 import com.artraw.files.util.ThumbnailLoader
+import com.artraw.files.util.VaultManager
 
 /**
  * Global Application class for ARTRAW Files.
@@ -22,7 +24,9 @@ class ArtfilesApp : Application() {
         instance = this
 
         try {
-            // Eagerly initialize disk caches so they are available to all activities immediately
+            // Eagerly initialize singletons & caches
+            FavoritesManager.init(this)
+            VaultManager.init(this)
             ThumbnailLoader.init(this)
             ImageViewerActivity.initDiskCache(this)
         } catch (_: Throwable) {}

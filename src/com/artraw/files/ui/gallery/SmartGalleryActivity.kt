@@ -94,8 +94,9 @@ class SmartGalleryActivity : BaseActivity() {
 
         overridePendingTransition(R.anim.slide_in_up, R.anim.activity_hold)
 
-        db = AiGalleryDatabase.getInstance(this)
+        FavoritesManager.init(this)
         VaultManager.init(this)
+        db = AiGalleryDatabase.getInstance(this)
 
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
@@ -186,11 +187,11 @@ class SmartGalleryActivity : BaseActivity() {
 
     private fun showLayoutEngineDialog() {
         val options = arrayOf(
-            "📐 Staggered Masonry Grid (Aspect Ratios)",
-            "🍱 Bento Featured Grid (Hero Art Cards)",
-            "📱 Classic Compact Grid (3 Columns)",
-            "📱 Classic Compact Grid (4 Columns)",
-            "📱 Classic Compact Grid (2 Columns)"
+            "Staggered Masonry Grid (Aspect Ratios)",
+            "Bento Featured Grid (Hero Art Cards)",
+            "Classic Compact Grid (3 Columns)",
+            "Classic Compact Grid (4 Columns)",
+            "Classic Compact Grid (2 Columns)"
         )
 
         AlertDialog.Builder(this)
@@ -237,13 +238,13 @@ class SmartGalleryActivity : BaseActivity() {
 
     private fun showQuickSortDialog() {
         val sortOptions = arrayOf(
-            "📅 Date (Newest first)",
-            "📅 Date (Oldest first)",
-            "📦 Size (Largest first)",
-            "📦 Size (Smallest first)",
-            "🔤 Name (A - Z)",
-            "📐 Aspect Ratio (Portrait first)",
-            "📐 Aspect Ratio (Landscape first)"
+            "Date (Newest first)",
+            "Date (Oldest first)",
+            "Size (Largest first)",
+            "Size (Smallest first)",
+            "Name (A - Z)",
+            "Aspect Ratio (Portrait first)",
+            "Aspect Ratio (Landscape first)"
         )
 
         AlertDialog.Builder(this)
@@ -295,14 +296,14 @@ class SmartGalleryActivity : BaseActivity() {
      */
     private fun showItemContextMenu(item: AiMediaItem) {
         val options = arrayOf(
-            "📋 Copy Absolute File Path",
-            "📁 Copy Parent Folder Path",
-            "🏷️ Copy File Name",
-            "ℹ️ AI Intelligence & Details",
-            "🔒 Move to Vault",
-            if (item.isFavorite) "💔 Remove from Favorites" else "❤️ Add to Favorites",
-            "↗️ Share",
-            "🗑️ Delete"
+            "Copy Absolute File Path",
+            "Copy Parent Folder Path",
+            "Copy File Name",
+            "AI Intelligence & Details",
+            "Move to Vault",
+            if (item.isFavorite) "Remove from Favorites" else "Add to Favorites",
+            "Share",
+            "Delete"
         )
 
         AlertDialog.Builder(this)
@@ -327,12 +328,12 @@ class SmartGalleryActivity : BaseActivity() {
                     }
                     4 -> {
                         AlertDialog.Builder(this)
-                            .setTitle("Move to Vault 🔒")
+                            .setTitle("Move to Vault")
                             .setMessage("Encrypt and move \"${item.name}\" to your private Vault?")
                             .setPositiveButton("Move") { _, _ ->
                                 if (VaultManager.moveToVault(item.file)) {
                                     db.deleteItem(item.path)
-                                    Toast.makeText(this, "Moved to Vault 🔒", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, "Moved to Vault", Toast.LENGTH_SHORT).show()
                                     loadFastMediaImmediately()
                                 } else {
                                     Toast.makeText(this, "Could not move to vault", Toast.LENGTH_SHORT).show()
@@ -346,7 +347,7 @@ class SmartGalleryActivity : BaseActivity() {
                         item.isFavorite = newState
                         FavoritesManager.toggleFavorite(item.toFileItem())
                         adapter.notifyDataSetChanged()
-                        Toast.makeText(this, if (newState) "Added to Favorites ❤️" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, if (newState) "Added to Favorites" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
                     }
                     6 -> {
                         try {
@@ -390,36 +391,40 @@ class SmartGalleryActivity : BaseActivity() {
      * - Document -> TextPreviewActivity / FileViewerHelper
      */
     private fun openMediaItem(item: AiMediaItem) {
-        when {
-            item.isAudio -> {
-                val intent = Intent(this, AudioPlayerActivity::class.java).apply {
-                    putExtra(AudioPlayerActivity.EXTRA_FILE_PATH, item.path)
-                }
-                startActivity(intent)
-            }
-            item.isVideo -> {
-                val intent = Intent(this, VideoPlayerActivity::class.java).apply {
-                    putExtra(VideoPlayerActivity.EXTRA_FILE_PATH, item.path)
-                }
-                startActivity(intent)
-            }
-            item.isDocument -> {
-                val lower = item.name.lowercase(Locale.ROOT)
-                if (lower.endsWith(".txt") || lower.endsWith(".log") || lower.endsWith(".md") || lower.endsWith(".json")) {
-                    val intent = Intent(this, TextPreviewActivity::class.java).apply {
-                        putExtra(TextPreviewActivity.EXTRA_FILE_PATH, item.path)
+        try {
+            when {
+                item.isAudio -> {
+                    val intent = Intent(this, AudioPlayerActivity::class.java).apply {
+                        putExtra(AudioPlayerActivity.EXTRA_FILE_PATH, item.path)
                     }
                     startActivity(intent)
-                } else {
-                    FileViewerHelper.openFile(this, item.toFileItem())
+                }
+                item.isVideo -> {
+                    val intent = Intent(this, VideoPlayerActivity::class.java).apply {
+                        putExtra(VideoPlayerActivity.EXTRA_FILE_PATH, item.path)
+                    }
+                    startActivity(intent)
+                }
+                item.isDocument -> {
+                    val lower = item.name.lowercase(Locale.ROOT)
+                    if (lower.endsWith(".txt") || lower.endsWith(".log") || lower.endsWith(".md") || lower.endsWith(".json")) {
+                        val intent = Intent(this, TextPreviewActivity::class.java).apply {
+                            putExtra(TextPreviewActivity.EXTRA_FILE_PATH, item.path)
+                        }
+                        startActivity(intent)
+                    } else {
+                        FileViewerHelper.openFile(this, item.toFileItem())
+                    }
+                }
+                else -> {
+                    val intent = Intent(this, ImageViewerActivity::class.java).apply {
+                        putExtra(ImageViewerActivity.EXTRA_FILE_PATH, item.path)
+                    }
+                    startActivity(intent)
                 }
             }
-            else -> {
-                val intent = Intent(this, ImageViewerActivity::class.java).apply {
-                    putExtra(ImageViewerActivity.EXTRA_FILE_PATH, item.path)
-                }
-                startActivity(intent)
-            }
+        } catch (e: Throwable) {
+            Toast.makeText(this, "Could not open media: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -494,7 +499,7 @@ class SmartGalleryActivity : BaseActivity() {
         if (aestheticItems.isNotEmpty()) {
             memoryCards.add(
                 MemoryCardData(
-                    badge = "🌟 Aesthetics",
+                    badge = "AESTHETICS",
                     title = "Best Aesthetics",
                     subtitle = "${aestheticItems.size} top-scored items",
                     coverItem = aestheticItems.first(),
@@ -509,7 +514,7 @@ class SmartGalleryActivity : BaseActivity() {
         if (cameraItems.isNotEmpty()) {
             memoryCards.add(
                 MemoryCardData(
-                    badge = "📸 Fresh",
+                    badge = "CAMERA ROLL",
                     title = "Recent Camera",
                     subtitle = "${cameraItems.size} recent shots",
                     coverItem = cameraItems.first(),
@@ -528,7 +533,7 @@ class SmartGalleryActivity : BaseActivity() {
         if (rawArtItems.isNotEmpty()) {
             memoryCards.add(
                 MemoryCardData(
-                    badge = "🎨 Fine Art",
+                    badge = "FINE ART",
                     title = "RAW & Art Works",
                     subtitle = "${rawArtItems.size} high-definition pieces",
                     coverItem = rawArtItems.first(),
@@ -542,7 +547,7 @@ class SmartGalleryActivity : BaseActivity() {
         if (favItems.isNotEmpty()) {
             memoryCards.add(
                 MemoryCardData(
-                    badge = "❤️ Starred",
+                    badge = "FAVORITES",
                     title = "Curated Favorites",
                     subtitle = "${favItems.size} saved favorites",
                     coverItem = favItems.first(),
@@ -556,7 +561,7 @@ class SmartGalleryActivity : BaseActivity() {
         if (videoItems.isNotEmpty()) {
             memoryCards.add(
                 MemoryCardData(
-                    badge = "🎬 Cinema",
+                    badge = "CINEMATIC",
                     title = "Motion Videos",
                     subtitle = "${videoItems.size} video clips",
                     coverItem = videoItems.first(),
@@ -887,7 +892,7 @@ class SmartGalleryActivity : BaseActivity() {
             val selected = adapter.getSelectedItems()
             if (selected.isEmpty()) return@setOnClickListener
             AlertDialog.Builder(this)
-                .setTitle("Move to Vault 🔒")
+                .setTitle("Move to Vault")
                 .setMessage("Encrypt and move ${selected.size} items to your private Vault?")
                 .setPositiveButton("Move to Vault") { _, _ ->
                     var moved = 0
@@ -897,7 +902,7 @@ class SmartGalleryActivity : BaseActivity() {
                             moved++
                         }
                     }
-                    Toast.makeText(this, "Moved $moved items to Vault 🔒", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Moved $moved items to Vault", Toast.LENGTH_SHORT).show()
                     adapter.clearSelection()
                     loadFastMediaImmediately()
                 }
@@ -917,7 +922,7 @@ class SmartGalleryActivity : BaseActivity() {
                 if (newState) added++
             }
             adapter.notifyDataSetChanged()
-            Toast.makeText(this, "Updated $added favorites ❤️", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Updated $added favorites", Toast.LENGTH_SHORT).show()
         }
 
         // BATCH SHARE

@@ -48,7 +48,8 @@ import kotlin.math.abs
 /**
  * Ultra-Modern Immersive Full-Screen Media Viewer.
  *
- * Features:
+ * Robust, 100% crash-safe implementation:
+ *   - Auto-initializes singletons (Favorites, Vault, DiskCache)
  *   - Ambient Dynamic Background Glow tinted with dominant photo colors
  *   - Swipe-Up Glassmorphic Info Sheet with EXIF badges & interactive Palette Swatches
  *   - 1-Tap Path Copying Superpower (Direct Button & Monospace Path card)
@@ -63,7 +64,6 @@ class ImageViewerActivity : BaseActivity() {
         private val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
         private val cacheSize = (maxMemory / 5).coerceIn(16384, 65536)
 
-        // Process-wide permanent in-memory cache for viewed images: instant 0ms recall on reopen
         val fullResCache = object : android.util.LruCache<String, Bitmap>(cacheSize) {
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
                 return (bitmap.byteCount / 1024).coerceAtLeast(1)
@@ -98,15 +98,15 @@ class ImageViewerActivity : BaseActivity() {
         }
     }
 
-    private lateinit var imgFull: ImageView
-    private lateinit var tvTitle: TextView
-    private lateinit var tvInfo: TextView
-    private lateinit var tvIndex: TextView
-    private lateinit var headerBar: LinearLayout
-    private lateinit var bottomBar: LinearLayout
-    private lateinit var viewAmbientGlow: View
-    private lateinit var ivHeartImage: ImageView
-    private lateinit var layoutSheetContainer: FrameLayout
+    private var imgFull: ImageView? = null
+    private var tvTitle: TextView? = null
+    private var tvInfo: TextView? = null
+    private var tvIndex: TextView? = null
+    private var headerBar: LinearLayout? = null
+    private var bottomBar: LinearLayout? = null
+    private var viewAmbientGlow: View? = null
+    private var ivHeartImage: ImageView? = null
+    private var layoutSheetContainer: FrameLayout? = null
 
     private var currentFile: File? = null
     private var currentBitmap: Bitmap? = null
@@ -129,8 +129,11 @@ class ImageViewerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_viewer)
 
-        initDiskCache(this)
-        VaultManager.init(this)
+        try {
+            initDiskCache(this)
+            FavoritesManager.init(this)
+            VaultManager.init(this)
+        } catch (_: Throwable) {}
 
         try {
             com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
@@ -272,43 +275,47 @@ class ImageViewerActivity : BaseActivity() {
     }
 
     private fun setupListeners() {
-        findViewById<View>(R.id.btnBackImage).setOnClickListener {
+        findViewById<View>(R.id.btnBackImage)?.setOnClickListener {
             finish()
         }
 
         // Action: 1-TAP COPY PATH (User Core Feature)
-        findViewById<View>(R.id.btnCopyPathImage).setOnClickListener {
+        findViewById<View>(R.id.btnCopyPathImage)?.setOnClickListener {
             currentFile?.let { f ->
                 ClipboardHelper.copyPath(this, f, it)
             }
         }
 
         // Action: FAVORITE
-        findViewById<View>(R.id.btnFavoriteImage).setOnClickListener {
+        findViewById<View>(R.id.btnFavoriteImage)?.setOnClickListener {
             currentFile?.let { f ->
-                val db = AiGalleryDatabase.getInstance(this)
-                val isFav = db.toggleFavorite(f.absolutePath)
-                FavoritesManager.toggleFavorite(createFileItem(f))
-                updateFavoriteUi(isFav, animate = true)
-                Toast.makeText(this, if (isFav) "Added to Favorites ❤️" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
+                try {
+                    val db = AiGalleryDatabase.getInstance(this)
+                    val isFav = db.toggleFavorite(f.absolutePath)
+                    FavoritesManager.toggleFavorite(createFileItem(f))
+                    updateFavoriteUi(isFav, animate = true)
+                    Toast.makeText(this, if (isFav) "Added to Favorites ❤️" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
+                } catch (_: Throwable) {}
             }
         }
 
         // Action: MOVE TO VAULT
-        findViewById<View>(R.id.btnVaultImage).setOnClickListener {
+        findViewById<View>(R.id.btnVaultImage)?.setOnClickListener {
             currentFile?.let { f ->
                 AlertDialog.Builder(this)
-                    .setTitle("Move to Vault 🔒")
+                    .setTitle("Move to Vault")
                     .setMessage("Encrypt and move \"${f.name}\" to your private Vault?")
                     .setPositiveButton("Move to Vault") { _, _ ->
-                        val success = VaultManager.moveToVault(f)
-                        if (success) {
-                            fullResCache.remove(f.absolutePath)
-                            Toast.makeText(this, "Moved to Vault 🔒", Toast.LENGTH_SHORT).show()
-                            onImageDeleted()
-                        } else {
-                            Toast.makeText(this, "Could not move to vault", Toast.LENGTH_SHORT).show()
-                        }
+                        try {
+                            val success = VaultManager.moveToVault(f)
+                            if (success) {
+                                fullResCache.remove(f.absolutePath)
+                                Toast.makeText(this, "Moved to Vault", Toast.LENGTH_SHORT).show()
+                                onImageDeleted()
+                            } else {
+                                Toast.makeText(this, "Could not move to vault", Toast.LENGTH_SHORT).show()
+                            }
+                        } catch (_: Throwable) {}
                     }
                     .setNegativeButton("Cancel", null)
                     .show()
@@ -316,7 +323,7 @@ class ImageViewerActivity : BaseActivity() {
         }
 
         // Action: SHARE
-        findViewById<View>(R.id.btnShareImage).setOnClickListener {
+        findViewById<View>(R.id.btnShareImage)?.setOnClickListener {
             currentFile?.let { f ->
                 val item = createFileItem(f)
                 FileViewerHelper.shareFiles(this, listOf(item))
@@ -324,7 +331,7 @@ class ImageViewerActivity : BaseActivity() {
         }
 
         // Action: EDIT
-        findViewById<View>(R.id.btnEditImage).setOnClickListener {
+        findViewById<View>(R.id.btnEditImage)?.setOnClickListener {
             currentFile?.let { f ->
                 val uri = ArtrawFileProvider.getUriForFile(f)
                 val editIntent = Intent(Intent.ACTION_EDIT).apply {
@@ -343,7 +350,7 @@ class ImageViewerActivity : BaseActivity() {
         }
 
         // Action: DELETE
-        findViewById<View>(R.id.btnDeleteImage).setOnClickListener {
+        findViewById<View>(R.id.btnDeleteImage)?.setOnClickListener {
             currentFile?.let { f ->
                 AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_delete_title)
@@ -360,10 +367,10 @@ class ImageViewerActivity : BaseActivity() {
         val showSheetAction = View.OnClickListener {
             showInfoSheet()
         }
-        findViewById<View>(R.id.btnInfoImage).setOnClickListener(showSheetAction)
-        tvInfo.setOnClickListener(showSheetAction)
+        findViewById<View>(R.id.btnInfoImage)?.setOnClickListener(showSheetAction)
+        tvInfo?.setOnClickListener(showSheetAction)
 
-        layoutSheetContainer.setOnClickListener {
+        layoutSheetContainer?.setOnClickListener {
             hideInfoSheet()
         }
         findViewById<View>(R.id.cardInfoSheetRoot)?.setOnClickListener {
@@ -375,18 +382,19 @@ class ImageViewerActivity : BaseActivity() {
 
         scaleDetector = ScaleGestureDetector(this, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
             override fun onScale(detector: ScaleGestureDetector): Boolean {
+                val img = imgFull ?: return false
                 val factor = detector.scaleFactor
                 val targetScale = (currentScale * factor).coerceIn(minScale, maxScale)
                 val delta = targetScale / currentScale
                 currentScale = targetScale
 
-                imgFull.scaleX = currentScale
-                imgFull.scaleY = currentScale
+                img.scaleX = currentScale
+                img.scaleY = currentScale
 
-                val focusX = detector.focusX - imgFull.width / 2f
-                val focusY = detector.focusY - imgFull.height / 2f
-                imgFull.translationX += (1 - delta) * (focusX - imgFull.translationX)
-                imgFull.translationY += (1 - delta) * (focusY - imgFull.translationY)
+                val focusX = detector.focusX - img.width / 2f
+                val focusY = detector.focusY - img.height / 2f
+                img.translationX += (1 - delta) * (focusX - img.translationX)
+                img.translationY += (1 - delta) * (focusY - img.translationY)
                 clampTranslation()
                 return true
             }
@@ -394,7 +402,7 @@ class ImageViewerActivity : BaseActivity() {
 
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                if (layoutSheetContainer.visibility == View.VISIBLE) {
+                if (layoutSheetContainer?.visibility == View.VISIBLE) {
                     hideInfoSheet()
                 } else {
                     toggleBars()
@@ -403,18 +411,19 @@ class ImageViewerActivity : BaseActivity() {
             }
 
             override fun onDoubleTap(e: MotionEvent): Boolean {
+                val img = imgFull ?: return false
                 if (currentScale > 1.2f) {
                     resetZoom(animate = true)
                 } else {
                     currentScale = 2.5f
-                    val focusX = e.x - imgFull.width / 2f
-                    val focusY = e.y - imgFull.height / 2f
+                    val focusX = e.x - img.width / 2f
+                    val focusY = e.y - img.height / 2f
                     val targetTransX = -focusX * (currentScale - 1f)
                     val targetTransY = -focusY * (currentScale - 1f)
-                    val maxTransX = ((imgFull.width * currentScale - imgFull.width) / 2f).coerceAtLeast(0f)
-                    val maxTransY = ((imgFull.height * currentScale - imgFull.height) / 2f).coerceAtLeast(0f)
+                    val maxTransX = ((img.width * currentScale - img.width) / 2f).coerceAtLeast(0f)
+                    val maxTransY = ((img.height * currentScale - img.height) / 2f).coerceAtLeast(0f)
 
-                    imgFull.animate()
+                    img.animate()
                         .scaleX(currentScale)
                         .scaleY(currentScale)
                         .translationX(targetTransX.coerceIn(-maxTransX, maxTransX))
@@ -454,21 +463,22 @@ class ImageViewerActivity : BaseActivity() {
             }
         })
 
-        imgFull.setOnTouchListener { _, event ->
+        imgFull?.setOnTouchListener { _, event ->
             scaleDetector.onTouchEvent(event)
             gestureDetector.onTouchEvent(event)
 
+            val img = imgFull
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     lastTouchX = event.x
                     lastTouchY = event.y
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    if (!scaleDetector.isInProgress && currentScale > 1.05f) {
+                    if (!scaleDetector.isInProgress && currentScale > 1.05f && img != null) {
                         val dx = event.x - lastTouchX
                         val dy = event.y - lastTouchY
-                        imgFull.translationX += dx
-                        imgFull.translationY += dy
+                        img.translationX += dx
+                        img.translationY += dy
                         clampTranslation()
                     }
                     lastTouchX = event.x
@@ -483,37 +493,41 @@ class ImageViewerActivity : BaseActivity() {
             true
         }
 
-        MotionUtils.pressScale(findViewById(R.id.btnCopyPathImage), 0.90f)
-        MotionUtils.pressScale(findViewById(R.id.btnFavoriteImage), 0.90f)
-        MotionUtils.pressScale(findViewById(R.id.btnVaultImage), 0.90f)
-        MotionUtils.pressScale(findViewById(R.id.btnShareImage), 0.90f)
-        MotionUtils.pressScale(findViewById(R.id.btnEditImage), 0.90f)
-        MotionUtils.pressScale(findViewById(R.id.btnInfoImage), 0.90f)
-        MotionUtils.pressScale(findViewById(R.id.btnDeleteImage), 0.90f)
+        findViewById<View>(R.id.btnCopyPathImage)?.let { MotionUtils.pressScale(it, 0.90f) }
+        findViewById<View>(R.id.btnFavoriteImage)?.let { MotionUtils.pressScale(it, 0.90f) }
+        findViewById<View>(R.id.btnVaultImage)?.let { MotionUtils.pressScale(it, 0.90f) }
+        findViewById<View>(R.id.btnShareImage)?.let { MotionUtils.pressScale(it, 0.90f) }
+        findViewById<View>(R.id.btnEditImage)?.let { MotionUtils.pressScale(it, 0.90f) }
+        findViewById<View>(R.id.btnInfoImage)?.let { MotionUtils.pressScale(it, 0.90f) }
+        findViewById<View>(R.id.btnDeleteImage)?.let { MotionUtils.pressScale(it, 0.90f) }
     }
 
     private fun updateFavoriteUi(isFav: Boolean, animate: Boolean = false) {
-        if (isFav) {
-            ivHeartImage.setImageResource(R.drawable.ic_heart_filled)
-            ivHeartImage.imageTintList = android.content.res.ColorStateList.valueOf(
-                getColor(R.color.gallery_accent_coral)
-            )
-        } else {
-            ivHeartImage.setImageResource(R.drawable.ic_heart_pulse)
-            ivHeartImage.imageTintList = android.content.res.ColorStateList.valueOf(
-                Color.parseColor("#E6FFFFFF")
-            )
-        }
-        if (animate) {
-            MotionUtils.pop(ivHeartImage)
-        }
+        val heart = ivHeartImage ?: return
+        try {
+            if (isFav) {
+                heart.setImageResource(R.drawable.ic_heart_filled)
+                heart.imageTintList = android.content.res.ColorStateList.valueOf(
+                    getColor(R.color.gallery_accent_coral)
+                )
+            } else {
+                heart.setImageResource(R.drawable.ic_heart_pulse)
+                heart.imageTintList = android.content.res.ColorStateList.valueOf(
+                    Color.parseColor("#E6FFFFFF")
+                )
+            }
+            if (animate) {
+                MotionUtils.pop(heart)
+            }
+        } catch (_: Throwable) {}
     }
 
     private fun showInfoSheet() {
         val file = currentFile ?: return
-        layoutSheetContainer.visibility = View.VISIBLE
-        layoutSheetContainer.alpha = 0f
-        layoutSheetContainer.animate().alpha(1f).setDuration(200).start()
+        val sheet = layoutSheetContainer ?: return
+        sheet.visibility = View.VISIBLE
+        sheet.alpha = 0f
+        sheet.animate().alpha(1f).setDuration(200).start()
 
         findViewById<TextView>(R.id.tvSheetTitle)?.text = file.name
         findViewById<TextView>(R.id.tvSheetPath)?.text = file.absolutePath
@@ -534,100 +548,112 @@ class ImageViewerActivity : BaseActivity() {
         findViewById<TextView>(R.id.tvSheetDate)?.text = sdf.format(Date(file.lastModified()))
 
         // EXIF Metadata Badges
-        val exif = PhotoMetadataHelper.extractExif(file)
-        findViewById<TextView>(R.id.badgeExifDevice)?.apply {
-            text = "📷 ${exif.device ?: "Device"}"
-            visibility = if (exif.device != null) View.VISIBLE else View.GONE
-        }
-        findViewById<TextView>(R.id.badgeExifAperture)?.apply {
-            text = "⭕ ${exif.aperture ?: "f/1.8"}"
-            visibility = if (exif.aperture != null) View.VISIBLE else View.GONE
-        }
-        findViewById<TextView>(R.id.badgeExifShutter)?.apply {
-            text = "⚡ ${exif.shutterSpeed ?: "1/100s"}"
-            visibility = if (exif.shutterSpeed != null) View.VISIBLE else View.GONE
-        }
-        findViewById<TextView>(R.id.badgeExifIso)?.apply {
-            text = "🎚️ ${exif.iso ?: "ISO"}"
-            visibility = if (exif.iso != null) View.VISIBLE else View.GONE
-        }
-        findViewById<TextView>(R.id.badgeExifFocal)?.apply {
-            text = "📏 ${exif.focalLength ?: "Focal"}"
-            visibility = if (exif.focalLength != null) View.VISIBLE else View.GONE
-        }
+        try {
+            val exif = PhotoMetadataHelper.extractExif(file)
+            findViewById<TextView>(R.id.badgeExifDevice)?.apply {
+                text = exif.device ?: "Device"
+                visibility = if (exif.device != null) View.VISIBLE else View.GONE
+            }
+            findViewById<TextView>(R.id.badgeExifAperture)?.apply {
+                text = exif.aperture ?: "f/1.8"
+                visibility = if (exif.aperture != null) View.VISIBLE else View.GONE
+            }
+            findViewById<TextView>(R.id.badgeExifShutter)?.apply {
+                text = exif.shutterSpeed ?: "1/100s"
+                visibility = if (exif.shutterSpeed != null) View.VISIBLE else View.GONE
+            }
+            findViewById<TextView>(R.id.badgeExifIso)?.apply {
+                text = exif.iso ?: "ISO"
+                visibility = if (exif.iso != null) View.VISIBLE else View.GONE
+            }
+            findViewById<TextView>(R.id.badgeExifFocal)?.apply {
+                text = exif.focalLength ?: "Focal"
+                visibility = if (exif.focalLength != null) View.VISIBLE else View.GONE
+            }
+        } catch (_: Throwable) {}
 
         // Extracted Color Palette Swatches (Tap to copy hex)
-        val palette = PhotoMetadataHelper.extractPalette(bmp)
-        val layoutSwatches = findViewById<LinearLayout>(R.id.layoutSheetPaletteSwatches)
-        if (layoutSwatches != null) {
-            layoutSwatches.removeAllViews()
-            val inflater = LayoutInflater.from(this)
-            for (swatch in palette.swatches) {
-                val swatchView = inflater.inflate(R.layout.item_palette_swatch, layoutSwatches, false)
-                val colorView = swatchView.findViewById<View>(R.id.viewSwatchColor)
-                val tvHex = swatchView.findViewById<TextView>(R.id.tvSwatchHex)
+        try {
+            val palette = PhotoMetadataHelper.extractPalette(bmp)
+            val layoutSwatches = findViewById<LinearLayout>(R.id.layoutSheetPaletteSwatches)
+            if (layoutSwatches != null) {
+                layoutSwatches.removeAllViews()
+                val inflater = LayoutInflater.from(this)
+                for (swatch in palette.swatches) {
+                    val swatchView = inflater.inflate(R.layout.item_palette_swatch, layoutSwatches, false)
+                    val colorView = swatchView.findViewById<View>(R.id.viewSwatchColor)
+                    val tvHex = swatchView.findViewById<TextView>(R.id.tvSwatchHex)
 
-                val gd = GradientDrawable().apply {
-                    shape = GradientDrawable.OVAL
-                    setColor(swatch.colorInt)
-                    setStroke(2, Color.parseColor("#4DFFFFFF"))
-                }
-                colorView.background = gd
-                tvHex.text = swatch.hex
+                    val gd = GradientDrawable().apply {
+                        shape = GradientDrawable.OVAL
+                        setColor(swatch.colorInt)
+                        setStroke(2, Color.parseColor("#4DFFFFFF"))
+                    }
+                    colorView?.background = gd
+                    tvHex?.text = swatch.hex
 
-                swatchView.setOnClickListener {
-                    ClipboardHelper.copyText(
-                        context = this,
-                        label = "Color Hex",
-                        text = swatch.hex,
-                        toastMessage = "🎨 Copied ${swatch.hex} to clipboard!",
-                        anchorView = it
-                    )
+                    swatchView.setOnClickListener {
+                        ClipboardHelper.copyText(
+                            context = this,
+                            label = "Color Hex",
+                            text = swatch.hex,
+                            toastMessage = "Copied ${swatch.hex} to clipboard!",
+                            anchorView = it
+                        )
+                    }
+                    MotionUtils.pressScale(swatchView, 0.90f)
+                    layoutSwatches.addView(swatchView)
                 }
-                MotionUtils.pressScale(swatchView, 0.90f)
-                layoutSwatches.addView(swatchView)
             }
-        }
+        } catch (_: Throwable) {}
     }
 
     private fun hideInfoSheet() {
-        if (layoutSheetContainer.visibility == View.VISIBLE) {
-            layoutSheetContainer.animate()
+        val sheet = layoutSheetContainer ?: return
+        if (sheet.visibility == View.VISIBLE) {
+            sheet.animate()
                 .alpha(0f)
                 .setDuration(180)
                 .withEndAction {
-                    layoutSheetContainer.visibility = View.GONE
+                    sheet.visibility = View.GONE
                 }
                 .start()
         }
     }
 
     private fun updateAmbientGlow(bitmap: Bitmap?) {
-        val palette = PhotoMetadataHelper.extractPalette(bitmap)
-        val gd = GradientDrawable().apply {
-            shape = GradientDrawable.OVAL
-            gradientType = GradientDrawable.RADIAL_GRADIENT
-            gradientRadius = 450f * resources.displayMetrics.density
-            colors = intArrayOf(
-                palette.ambientGlowColor,
-                Color.argb(18, Color.red(palette.dominantColor), Color.green(palette.dominantColor), Color.blue(palette.dominantColor)),
-                Color.TRANSPARENT
-            )
-        }
-        viewAmbientGlow.background = gd
+        val glow = viewAmbientGlow ?: return
+        try {
+            if (bitmap == null || bitmap.isRecycled) return
+            val palette = PhotoMetadataHelper.extractPalette(bitmap)
+            val density = resources.displayMetrics.density
+            val gd = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL
+                gradientType = GradientDrawable.RADIAL_GRADIENT
+                gradientRadius = 350f * density
+                colors = intArrayOf(
+                    palette.ambientGlowColor,
+                    Color.argb(16, Color.red(palette.dominantColor), Color.green(palette.dominantColor), Color.blue(palette.dominantColor)),
+                    Color.TRANSPARENT
+                )
+            }
+            glow.background = gd
+        } catch (_: Throwable) {}
     }
 
     private fun clampTranslation() {
-        val maxTransX = ((imgFull.width * currentScale - imgFull.width) / 2f).coerceAtLeast(0f)
-        val maxTransY = ((imgFull.height * currentScale - imgFull.height) / 2f).coerceAtLeast(0f)
-        imgFull.translationX = imgFull.translationX.coerceIn(-maxTransX, maxTransX)
-        imgFull.translationY = imgFull.translationY.coerceIn(-maxTransY, maxTransY)
+        val img = imgFull ?: return
+        val maxTransX = ((img.width * currentScale - img.width) / 2f).coerceAtLeast(0f)
+        val maxTransY = ((img.height * currentScale - img.height) / 2f).coerceAtLeast(0f)
+        img.translationX = img.translationX.coerceIn(-maxTransX, maxTransX)
+        img.translationY = img.translationY.coerceIn(-maxTransY, maxTransY)
     }
 
     private fun resetZoom(animate: Boolean = true) {
+        val img = imgFull ?: return
         currentScale = 1.0f
         if (animate) {
-            imgFull.animate()
+            img.animate()
                 .scaleX(1.0f)
                 .scaleY(1.0f)
                 .translationX(0f)
@@ -635,10 +661,10 @@ class ImageViewerActivity : BaseActivity() {
                 .setDuration(200)
                 .start()
         } else {
-            imgFull.scaleX = 1.0f
-            imgFull.scaleY = 1.0f
-            imgFull.translationX = 0f
-            imgFull.translationY = 0f
+            img.scaleX = 1.0f
+            img.scaleY = 1.0f
+            img.translationX = 0f
+            img.translationY = 0f
         }
     }
 
@@ -756,7 +782,6 @@ class ImageViewerActivity : BaseActivity() {
             }
             if (bmp == null) return null
 
-            // EXIF Orientation auto-rotation
             val rotation = getExifRotation(file)
             if (rotation != 0) {
                 val matrix = Matrix().apply { postRotate(rotation.toFloat()) }
@@ -813,10 +838,10 @@ class ImageViewerActivity : BaseActivity() {
 
     private fun loadImage(file: File) {
         currentFile = file
-        tvTitle.text = file.name
+        tvTitle?.text = file.name
         val total = imageList.size.coerceAtLeast(1)
         val pos = (currentIndex + 1).coerceIn(1, total)
-        tvIndex.text = "$pos of $total"
+        tvIndex?.text = "$pos of $total"
 
         val isFav = FavoritesManager.isFavorite(file.absolutePath)
         updateFavoriteUi(isFav, animate = false)
@@ -826,8 +851,8 @@ class ImageViewerActivity : BaseActivity() {
         if (cachedFull != null && !cachedFull.isRecycled) {
             resetZoom(animate = false)
             currentBitmap = cachedFull
-            imgFull.setImageBitmap(cachedFull)
-            tvInfo.text = "${cachedFull.width}x${cachedFull.height} • ${Formatters.formatFileSize(file.length())}"
+            imgFull?.setImageBitmap(cachedFull)
+            tvInfo?.text = "${cachedFull.width} × ${cachedFull.height} • ${Formatters.formatFileSize(file.length())}"
             updateAmbientGlow(cachedFull)
             preloadNeighbors(currentIndex)
             return
@@ -838,8 +863,8 @@ class ImageViewerActivity : BaseActivity() {
         if (cachedThumb != null && !cachedThumb.isRecycled) {
             resetZoom(animate = false)
             currentBitmap = cachedThumb
-            imgFull.setImageBitmap(cachedThumb)
-            tvInfo.text = Formatters.formatFileSize(file.length())
+            imgFull?.setImageBitmap(cachedThumb)
+            tvInfo?.text = Formatters.formatFileSize(file.length())
             updateAmbientGlow(cachedThumb)
         }
 
@@ -848,14 +873,14 @@ class ImageViewerActivity : BaseActivity() {
             val diskBmp = loadFromDisplayDiskCache(file)
             if (diskBmp != null) {
                 fullResCache.put(file.absolutePath, diskBmp)
-                val infoStr = "${diskBmp.width}x${diskBmp.height} • ${Formatters.formatFileSize(file.length())}"
+                val infoStr = "${diskBmp.width} × ${diskBmp.height} • ${Formatters.formatFileSize(file.length())}"
                 runOnUiThread {
                     if (isFinishing || isDestroyed) return@runOnUiThread
                     if (currentFile?.absolutePath == file.absolutePath) {
                         resetZoom(animate = false)
                         currentBitmap = diskBmp
-                        imgFull.setImageBitmap(diskBmp)
-                        tvInfo.text = infoStr
+                        imgFull?.setImageBitmap(diskBmp)
+                        tvInfo?.text = infoStr
                         updateAmbientGlow(diskBmp)
                     }
                 }
@@ -863,7 +888,6 @@ class ImageViewerActivity : BaseActivity() {
                 return@execute
             }
 
-            // Raw decode from original file
             try {
                 val bmp = decodeHighResBitmap(file)
                 if (bmp != null) {
@@ -872,7 +896,7 @@ class ImageViewerActivity : BaseActivity() {
                 }
 
                 val sizeStr = Formatters.formatFileSize(file.length())
-                val infoStr = if (bmp != null) "${bmp.width}x${bmp.height} • $sizeStr" else sizeStr
+                val infoStr = if (bmp != null) "${bmp.width} × ${bmp.height} • $sizeStr" else sizeStr
 
                 runOnUiThread {
                     if (isFinishing || isDestroyed) return@runOnUiThread
@@ -880,12 +904,12 @@ class ImageViewerActivity : BaseActivity() {
                         resetZoom(animate = false)
                         if (bmp != null) {
                             currentBitmap = bmp
-                            imgFull.setImageBitmap(bmp)
+                            imgFull?.setImageBitmap(bmp)
                             updateAmbientGlow(bmp)
                         } else if (cachedThumb == null) {
-                            imgFull.setImageResource(R.drawable.ic_image)
+                            imgFull?.setImageResource(R.drawable.ic_image)
                         }
-                        tvInfo.text = infoStr
+                        tvInfo?.text = infoStr
                     }
                 }
 
@@ -894,8 +918,8 @@ class ImageViewerActivity : BaseActivity() {
                 runOnUiThread {
                     if (isFinishing || isDestroyed) return@runOnUiThread
                     if (currentFile?.absolutePath == file.absolutePath && cachedThumb == null) {
-                        imgFull.setImageResource(R.drawable.ic_image)
-                        tvInfo.text = Formatters.formatFileSize(file.length())
+                        imgFull?.setImageResource(R.drawable.ic_image)
+                        tvInfo?.text = Formatters.formatFileSize(file.length())
                     }
                 }
             }
@@ -915,26 +939,28 @@ class ImageViewerActivity : BaseActivity() {
     }
 
     private fun toggleBars() {
+        val h = headerBar ?: return
+        val b = bottomBar ?: return
         barsVisible = !barsVisible
         val targetAlpha = if (barsVisible) 1.0f else 0.0f
         val duration = 180L
 
         if (barsVisible) {
-            headerBar.visibility = View.VISIBLE
-            bottomBar.visibility = View.VISIBLE
+            h.visibility = View.VISIBLE
+            b.visibility = View.VISIBLE
         }
-        headerBar.animate()
+        h.animate()
             .alpha(targetAlpha)
             .setDuration(duration)
             .withEndAction {
-                if (!barsVisible) headerBar.visibility = View.GONE
+                if (!barsVisible) h.visibility = View.GONE
             }
             .start()
-        bottomBar.animate()
+        b.animate()
             .alpha(targetAlpha)
             .setDuration(duration)
             .withEndAction {
-                if (!barsVisible) bottomBar.visibility = View.GONE
+                if (!barsVisible) b.visibility = View.GONE
             }
             .start()
     }

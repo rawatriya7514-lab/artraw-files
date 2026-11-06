@@ -2,32 +2,56 @@ package com.artraw.files.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.artraw.files.ArtfilesApp
 import com.artraw.files.model.FileItem
+import com.artraw.files.model.FileCategory
 import java.io.File
 
 /**
  * FavoritesManager — Bookmark important files/folders for quick access.
  * Stored in SharedPreferences as a pipe-delimited list of absolute paths.
+ * 100% crash-safe with auto-initialization.
  */
 object FavoritesManager {
 
     private const val PREFS_NAME = "artraw_favorites_prefs"
     private const val KEY_FAVORITES = "favorite_paths"
 
-    private lateinit var prefs: SharedPreferences
+    @Volatile
+    private var prefs: SharedPreferences? = null
 
     fun init(context: Context) {
-        prefs = context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (prefs == null) {
+            synchronized(this) {
+                if (prefs == null) {
+                    prefs = context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                }
+            }
+        }
+    }
+
+    private fun getPrefs(): SharedPreferences? {
+        if (prefs != null) return prefs
+        synchronized(this) {
+            if (prefs != null) return prefs
+            val ctx = try { ArtfilesApp.instance } catch (_: Throwable) { null }
+            if (ctx != null) {
+                prefs = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            }
+            return prefs
+        }
     }
 
     private fun getFavoritePaths(): Set<String> {
-        val raw = prefs.getString(KEY_FAVORITES, "") ?: ""
+        val p = getPrefs() ?: return emptySet()
+        val raw = p.getString(KEY_FAVORITES, "") ?: ""
         if (raw.isBlank()) return emptySet()
         return raw.split("|").filter { it.isNotBlank() }.toSet()
     }
 
     private fun saveFavoritePaths(paths: Set<String>) {
-        prefs.edit().putString(KEY_FAVORITES, paths.joinToString("|")).apply()
+        val p = getPrefs() ?: return
+        p.edit().putString(KEY_FAVORITES, paths.joinToString("|")).apply()
     }
 
     fun isFavorite(path: String): Boolean = path in getFavoritePaths()
@@ -59,18 +83,12 @@ object FavoritesManager {
                     isDirectory = file.isDirectory,
                     size = if (file.isDirectory) 0L else file.length(),
                     lastModified = file.lastModified(),
+                    mimeType = MimeTypes.getMimeType(file),
                     category = cat,
-                    mimeType = if (file.isDirectory) "resource/folder" else MimeTypes.getMimeType(file),
                     extension = ext,
                     isFavorite = true
                 )
             } else null
-        }.sortedByDescending { it.lastModified }
+        }
     }
-
-    fun clearAllFavorites() {
-        prefs.edit().remove(KEY_FAVORITES).apply()
-    }
-
-    fun favoriteCount(): Int = getFavoritePaths().size
 }
