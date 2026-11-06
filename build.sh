@@ -135,9 +135,9 @@ if os.path.exists(target):
     os.remove(target)
 with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as zf:
     for root, dirs, files in os.walk('.'):
-        dirs[:] = [d for d in dirs if d not in ('build', '.git')]
+        dirs[:] = [d for d in dirs if d not in ('build', '.git', 'keystore')]
         for f in files:
-            if f.endswith('.idsig') or f.endswith('.class'):
+            if f.endswith('.idsig') or f.endswith('.class') or f.endswith('.keystore') or f.endswith('.jks'):
                 continue
             path = os.path.join(root, f)
             arcname = os.path.relpath(path, '.')
@@ -164,7 +164,7 @@ apksigner verify -v "$DOWNLOAD_DIR/Artfiles.apk" 2>&1 | grep -E "Verifies|v1 sch
 echo ""
 echo "  Source ZIP:    $DOWNLOAD_DIR/Artfiles-v1.2.0-SourceCode.zip"
 echo "  Source SHA-256:"
-sha256sum "$DOWNLOAD_DIR/Artfiles-v1.1.0-SourceCode.zip" | cut -d' ' -f1
+sha256sum "$DOWNLOAD_DIR/Artfiles-v1.2.0-SourceCode.zip" | cut -d' ' -f1
 
 echo ""
 echo "========================================================"

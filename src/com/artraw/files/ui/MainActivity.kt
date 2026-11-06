@@ -305,7 +305,10 @@ class MainActivity : BaseActivity() {
                     if (isFinishing || isDestroyed) return@runOnUiThread
                     try {
                         tvStorageTitle.text = primary.name
-                        ringStorage.setProgress(primary.usedPercent.toFloat(), animate = true)
+                        ringStorage.setProgress(
+                            primary.usedPercent.toFloat(),
+                            animate = MotionUtils.enabled(this@MainActivity)
+                        )
                         animatePercent(primary.usedPercent)
 
                         val usedStr = Formatters.formatFileSize(primary.usedBytes)
