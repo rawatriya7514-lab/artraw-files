@@ -17,7 +17,7 @@ class AiGalleryDatabase private constructor(context: Context) :
 
     companion object {
         private const val DATABASE_NAME = "artfiles_ai_gallery.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         private const val TABLE_MEDIA = "ai_media"
         private const val COL_PATH = "path"
@@ -117,7 +117,7 @@ class AiGalleryDatabase private constructor(context: Context) :
             put(COL_DATE_TAKEN, features.dateTaken)
             put(COL_WIDTH, features.width)
             put(COL_HEIGHT, features.height)
-            put(COL_MIME, if (features.isVideo) "video/mp4" else "image/jpeg")
+            put(COL_MIME, if (features.isVideo) "video/mp4" else if (features.isAudio) "audio/mpeg" else "image/jpeg")
             put(COL_IS_VIDEO, if (features.isVideo) 1 else 0)
             put(COL_DURATION, features.durationMs)
             put(COL_CATEGORY, category)
@@ -135,7 +135,7 @@ class AiGalleryDatabase private constructor(context: Context) :
         db.insertWithOnConflict(TABLE_MEDIA, null, cv, SQLiteDatabase.CONFLICT_REPLACE)
     }
 
-    fun getAllItems(limit: Int = 1000): List<AiMediaItem> {
+    fun getAllItems(limit: Int = 2000): List<AiMediaItem> {
         val db = readableDatabase
         val cursor = db.rawQuery(
             "SELECT * FROM $TABLE_MEDIA ORDER BY $COL_DATE_TAKEN DESC LIMIT ?",
@@ -144,17 +144,20 @@ class AiGalleryDatabase private constructor(context: Context) :
         return cursorToItems(cursor)
     }
 
-    fun getByCategory(category: GalleryCategory, limit: Int = 1000): List<AiMediaItem> {
+    fun getByCategory(category: GalleryCategory, limit: Int = 2000): List<AiMediaItem> {
         val db = readableDatabase
         val sql = when (category) {
             GalleryCategory.ALL -> "SELECT * FROM $TABLE_MEDIA ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
-            GalleryCategory.PHOTOS -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_IS_VIDEO = 0 ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
+            GalleryCategory.PHOTOS -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_IS_VIDEO = 0 AND $COL_CATEGORY = 'photos' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
             GalleryCategory.VIDEOS -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_IS_VIDEO = 1 ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
+            GalleryCategory.AUDIO -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_CATEGORY = 'audio' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
             GalleryCategory.SCREENSHOTS -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_CATEGORY = 'screenshots' OR $COL_TAGS LIKE '%screenshot%' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
             GalleryCategory.CAMERA -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_CATEGORY = 'camera' OR $COL_TAGS LIKE '%camera%' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
             GalleryCategory.DOWNLOADS -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_CATEGORY = 'downloads' OR $COL_TAGS LIKE '%download%' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
             GalleryCategory.DOCUMENTS -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_CATEGORY = 'documents' OR $COL_TAGS LIKE '%document%' OR $COL_OCR_TEXT != '' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
             GalleryCategory.FAVORITES -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_IS_FAVORITE = 1 ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
+            GalleryCategory.RAW_ART -> "SELECT * FROM $TABLE_MEDIA WHERE $COL_AESTHETIC_SCORE >= 80 OR $COL_PATH LIKE '%.raw' OR $COL_PATH LIKE '%.dng' OR $COL_PATH LIKE '%.svg' ORDER BY $COL_DATE_TAKEN DESC LIMIT $limit"
+            GalleryCategory.VAULT -> "SELECT * FROM $TABLE_MEDIA WHERE 1=0"
             GalleryCategory.DUPLICATES -> return getDuplicateItems()
             GalleryCategory.COLLECTIONS -> return getAllItems(limit)
         }
@@ -172,7 +175,7 @@ class AiGalleryDatabase private constructor(context: Context) :
         val args = mutableListOf<String>()
 
         if (parsed.isBlurryOnly) {
-            conditions.add("$COL_IS_BLURRY = 1 OR $COL_BLUR_SCORE < 80")
+            conditions.add("($COL_IS_BLURRY = 1 OR $COL_BLUR_SCORE < 75)")
         }
 
         if (parsed.colorFilter != null) {
@@ -183,7 +186,8 @@ class AiGalleryDatabase private constructor(context: Context) :
         if (parsed.targetCategory != null) {
             when (parsed.targetCategory) {
                 GalleryCategory.VIDEOS -> conditions.add("$COL_IS_VIDEO = 1")
-                GalleryCategory.PHOTOS -> conditions.add("$COL_IS_VIDEO = 0")
+                GalleryCategory.PHOTOS -> conditions.add("($COL_IS_VIDEO = 0 AND $COL_CATEGORY = 'photos')")
+                GalleryCategory.AUDIO -> conditions.add("$COL_CATEGORY = 'audio'")
                 GalleryCategory.SCREENSHOTS -> conditions.add("($COL_CATEGORY = 'screenshots' OR $COL_TAGS LIKE '%screenshot%')")
                 GalleryCategory.DOCUMENTS -> conditions.add("($COL_CATEGORY = 'documents' OR $COL_TAGS LIKE '%document%' OR $COL_OCR_TEXT != '')")
                 GalleryCategory.CAMERA -> conditions.add("($COL_CATEGORY = 'camera' OR $COL_TAGS LIKE '%camera%')")
@@ -239,7 +243,6 @@ class AiGalleryDatabase private constructor(context: Context) :
             }
         }
 
-        // Exact duplicates (same phash)
         val accountedPaths = mutableSetOf<String>()
         for ((_, group) in groupedByHash) {
             if (group.size > 1) {
@@ -248,7 +251,6 @@ class AiGalleryDatabase private constructor(context: Context) :
             }
         }
 
-        // Near duplicates (Hamming distance <= 3)
         for (i in all.indices) {
             val itemA = all[i]
             if (itemA.phash == 0L || accountedPaths.contains(itemA.path)) continue
@@ -350,6 +352,10 @@ class AiGalleryDatabase private constructor(context: Context) :
 
                 val tagsRaw = c.getString(tagsIdx) ?: ""
                 val tagsList = if (tagsRaw.isNotBlank()) tagsRaw.split(",") else emptyList()
+                val cat = c.getString(catIdx) ?: "photos"
+                val isVideo = c.getInt(isVidIdx) == 1
+                val isAudio = cat == "audio"
+                val isDoc = cat == "documents"
 
                 list.add(
                     AiMediaItem(
@@ -362,9 +368,11 @@ class AiGalleryDatabase private constructor(context: Context) :
                         width = c.getInt(widthIdx),
                         height = c.getInt(heightIdx),
                         mimeType = c.getString(mimeIdx),
-                        isVideo = c.getInt(isVidIdx) == 1,
+                        isVideo = isVideo,
+                        isAudio = isAudio,
+                        isDocument = isDoc,
                         durationMs = c.getLong(durIdx),
-                        category = c.getString(catIdx),
+                        category = cat,
                         phash = c.getLong(phashIdx),
                         dominantColor = c.getString(domColorIdx),
                         colorHex = c.getString(hexIdx),

@@ -44,8 +44,13 @@ object AiPhotoDetailsDialog {
         val layoutOcr = view.findViewById<LinearLayout>(R.id.layoutDetailsOcr)
         val tvOcrText = view.findViewById<TextView>(R.id.tvDetailsOcrText)
         val btnClose = view.findViewById<ImageView>(R.id.btnDetailsClose)
+        val btnCopyPath = view.findViewById<Button>(R.id.btnDetailsCopyPath)
         val btnSimilar = view.findViewById<Button>(R.id.btnDetailsSimilar)
         val btnFav = view.findViewById<Button>(R.id.btnDetailsFav)
+
+        btnCopyPath?.setOnClickListener {
+            com.artraw.files.util.ClipboardHelper.copyPath(context, item.file, it)
+        }
 
         tvFileName.text = item.name
         val dateFormatted = SimpleDateFormat("MMM d, yyyy • h:mm a", Locale.getDefault()).format(Date(item.dateTaken))

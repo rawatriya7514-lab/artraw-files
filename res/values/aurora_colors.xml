@@ -32,11 +32,22 @@
     <color name="aurora_accent_blue_container">#E2EBF6</color>
     <color name="aurora_accent_blue_glow">#6D9BD1</color>
     <color name="aurora_on_blue">#FFFFFF</color>
-    <color name="cyber_green">#3F8166</color>
-    <color name="cyber_green_glow">#5FA184</color>
-    <color name="cyber_cyan">#2F7186</color>
-    <color name="cyber_violet">#6B5A9E</color>
-    <color name="cyber_amber">#9A6B1F</color>
+    <color name="cyber_green">#10B981</color>
+    <color name="cyber_green_glow">#34D399</color>
+    <color name="cyber_cyan">#06B6D4</color>
+    <color name="cyber_violet">#A855F7</color>
+    <color name="cyber_amber">#F59E0B</color>
+
+    <!-- Cyberpunk Neo-Futurism & Chatak Vibrant Tokens -->
+    <color name="neon_violet">#A855F7</color>
+    <color name="neon_violet_glow">#C084FC</color>
+    <color name="neon_cyan">#00F2FE</color>
+    <color name="neon_cyan_glow">#4FACFE</color>
+    <color name="neon_pink">#FF007F</color>
+    <color name="neon_pink_glow">#FF53A5</color>
+    <color name="neon_green">#00FFA3</color>
+    <color name="neon_green_glow">#4EFA9D</color>
+    <color name="neon_amber">#FFB703</color>
 
     <!-- Contemporary gradient stops (light) -->
     <color name="aurora_gradient_start">#F8FAFD</color>
@@ -115,4 +126,17 @@
 
     <!-- Selection wash -->
     <color name="selection_overlay">#1FA94B47</color>
+
+    <!-- Gallery Dual-Theme Adaptive Tokens (Light: Editorial Art Gallery) -->
+    <color name="gallery_bg_canvas">#FAF8F5</color>
+    <color name="gallery_card_surface">#FFFFFF</color>
+    <color name="gallery_card_border">#E5E0D8</color>
+    <color name="gallery_text_title">#121316</color>
+    <color name="gallery_text_subtitle">#55627A</color>
+    <color name="gallery_glass_dock">#F2FFFFFF</color>
+    <color name="gallery_glass_dock_border">#26000000</color>
+    <color name="gallery_accent_cyan">#00F0FF</color>
+    <color name="gallery_accent_purple">#A855F7</color>
+    <color name="gallery_accent_coral">#FF4757</color>
+    <color name="gallery_accent_glow">#14A855F7</color>
 </resources>

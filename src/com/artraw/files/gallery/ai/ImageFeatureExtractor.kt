@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.media.ExifInterface
 import android.media.MediaMetadataRetriever
 import java.io.File
-import java.io.FileInputStream
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.max
@@ -16,6 +15,8 @@ data class ExtractedFeatures(
     val width: Int,
     val height: Int,
     val isVideo: Boolean,
+    val isAudio: Boolean = false,
+    val isDocument: Boolean = false,
     val durationMs: Long,
     val phash: Long,
     val dominantColor: String,
@@ -42,11 +43,85 @@ object ImageFeatureExtractor {
                 pathLower.endsWith(".webm") || pathLower.endsWith(".3gp") ||
                 pathLower.endsWith(".mov") || pathLower.endsWith(".avi")
 
-        if (isVideo) {
-            return extractVideoFeatures(file)
-        } else {
-            return extractImageFeatures(file)
+        val isAudio = pathLower.endsWith(".mp3") || pathLower.endsWith(".m4a") ||
+                pathLower.endsWith(".wav") || pathLower.endsWith(".flac") ||
+                pathLower.endsWith(".aac") || pathLower.endsWith(".ogg")
+
+        val isDoc = pathLower.endsWith(".pdf") || pathLower.endsWith(".doc") ||
+                pathLower.endsWith(".docx") || pathLower.endsWith(".txt") ||
+                pathLower.endsWith(".xls") || pathLower.endsWith(".xlsx") ||
+                pathLower.endsWith(".ppt") || pathLower.endsWith(".pptx")
+
+        return when {
+            isVideo -> extractVideoFeatures(file)
+            isAudio -> extractAudioFeatures(file)
+            isDoc -> extractDocumentFeatures(file)
+            else -> extractImageFeatures(file)
         }
+    }
+
+    private fun extractAudioFeatures(file: File): ExtractedFeatures {
+        var durationMs = 0L
+        val retriever = MediaMetadataRetriever()
+        try {
+            retriever.setDataSource(file.absolutePath)
+            val durStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+            durationMs = durStr?.toLongOrNull() ?: 0L
+        } catch (_: Throwable) {
+        } finally {
+            try { retriever.release() } catch (_: Throwable) {}
+        }
+
+        val tags = mutableListOf("audio", "music", "song", "mp3")
+        tags.addAll(guessTagsFromPath(file, "CYAN"))
+
+        return ExtractedFeatures(
+            width = 0,
+            height = 0,
+            isVideo = false,
+            isAudio = true,
+            isDocument = false,
+            durationMs = durationMs,
+            phash = 0L,
+            dominantColor = "CYAN",
+            colorHex = "#06B6D4",
+            blurScore = 100.0,
+            isBlurry = false,
+            aestheticScore = 70.0,
+            detectedTags = tags.distinct(),
+            ocrText = "",
+            description = "Audio recording (${file.name})",
+            dateTaken = file.lastModified()
+        )
+    }
+
+    private fun extractDocumentFeatures(file: File): ExtractedFeatures {
+        val tags = mutableListOf("document", "file", "text")
+        val lower = file.name.lowercase(Locale.ROOT)
+        if (lower.endsWith(".pdf")) tags.add("pdf")
+        if (lower.contains("receipt") || lower.contains("bill") || lower.contains("invoice")) {
+            tags.add("receipt")
+            tags.add("bill")
+        }
+
+        return ExtractedFeatures(
+            width = 0,
+            height = 0,
+            isVideo = false,
+            isAudio = false,
+            isDocument = true,
+            durationMs = 0L,
+            phash = 0L,
+            dominantColor = "WHITE",
+            colorHex = "#F8FAFC",
+            blurScore = 100.0,
+            isBlurry = false,
+            aestheticScore = 65.0,
+            detectedTags = tags.distinct(),
+            ocrText = file.nameWithoutExtension,
+            description = "Document: ${file.name}",
+            dateTaken = file.lastModified()
+        )
     }
 
     private fun extractImageFeatures(file: File): ExtractedFeatures {
@@ -68,13 +143,15 @@ object ImageFeatureExtractor {
             }
         } catch (_: Throwable) {}
 
-        val sampleBitmap = decodeSampledBitmap(file, 256, 256)
+        val sampleBitmap = decodeSampledBitmap(file, 128, 128)
         if (sampleBitmap == null) {
             val tags = guessTagsFromPath(file, "UNKNOWN")
             return ExtractedFeatures(
                 width = width,
                 height = height,
                 isVideo = false,
+                isAudio = false,
+                isDocument = false,
                 durationMs = 0L,
                 phash = 0L,
                 dominantColor = "UNKNOWN",
@@ -95,7 +172,7 @@ object ImageFeatureExtractor {
         val phash = calculatePHash(sampleBitmap)
         val colorResult = extractDominantColor(sampleBitmap)
         val blurScore = calculateBlurScore(sampleBitmap)
-        val isBlurry = blurScore < 80.0
+        val isBlurry = blurScore < 75.0
         val aestheticScore = calculateAestheticScore(sampleBitmap, blurScore, width, height)
         val ocrResult = detectDocumentAndOcr(file, sampleBitmap)
         val tags = detectTagsAndScene(file, sampleBitmap, colorResult.name, ocrResult, width, height)
@@ -109,6 +186,8 @@ object ImageFeatureExtractor {
             width = width,
             height = height,
             isVideo = false,
+            isAudio = false,
+            isDocument = tags.contains("document"),
             durationMs = 0L,
             phash = phash,
             dominantColor = colorResult.name,
@@ -148,7 +227,7 @@ object ImageFeatureExtractor {
         val dominant = if (frame != null) extractDominantColor(frame) else ColorResult("UNKNOWN", "#888888")
         val phash = if (frame != null) calculatePHash(frame) else 0L
         val blurScore = if (frame != null) calculateBlurScore(frame) else 100.0
-        val isBlurry = blurScore < 75.0
+        val isBlurry = blurScore < 70.0
         val aestheticScore = 60.0
         val tags = mutableListOf("video")
         tags.addAll(guessTagsFromPath(file, dominant.name))
@@ -161,6 +240,8 @@ object ImageFeatureExtractor {
             width = width,
             height = height,
             isVideo = true,
+            isAudio = false,
+            isDocument = false,
             durationMs = durationMs,
             phash = phash,
             dominantColor = dominant.name,
@@ -175,10 +256,6 @@ object ImageFeatureExtractor {
         )
     }
 
-    /**
-     * 64-bit Perceptual difference hash (dHash)
-     * Resizes to 9x8, computes gradient across columns.
-     */
     fun calculatePHash(bitmap: Bitmap): Long {
         val scaled = Bitmap.createScaledBitmap(bitmap, 9, 8, true)
         val gray = IntArray(72)
@@ -211,19 +288,12 @@ object ImageFeatureExtractor {
         return hash
     }
 
-    /**
-     * Hamming distance between two 64-bit hashes.
-     * 0 = exact duplicate, 1-4 = near duplicate / burst, 5-10 = visually similar.
-     */
     fun hammingDistance(h1: Long, h2: Long): Int {
         return java.lang.Long.bitCount(h1 xor h2)
     }
 
-    /**
-     * Extracts dominant color by sampling HSV color space.
-     */
     fun extractDominantColor(bitmap: Bitmap): ColorResult {
-        val scaled = Bitmap.createScaledBitmap(bitmap, 24, 24, false)
+        val scaled = Bitmap.createScaledBitmap(bitmap, 20, 20, false)
         val colorCounts = mutableMapOf<String, Int>()
         val hsv = FloatArray(3)
         var totalR = 0L
@@ -277,12 +347,9 @@ object ImageFeatureExtractor {
         return ColorResult(dominant, hex)
     }
 
-    /**
-     * Blur detection via discrete 3x3 Laplacian variance.
-     */
     fun calculateBlurScore(bitmap: Bitmap): Double {
-        val w = 96
-        val h = 96
+        val w = 64
+        val h = 64
         val scaled = Bitmap.createScaledBitmap(bitmap, w, h, false)
         val gray = IntArray(w * h)
         var idx = 0
@@ -296,7 +363,6 @@ object ImageFeatureExtractor {
             scaled.recycle()
         }
 
-        // Apply Laplacian kernel: [ [0,1,0], [1,-4,1], [0,1,0] ]
         var sum = 0.0
         var sumSq = 0.0
         var count = 0
@@ -322,17 +388,11 @@ object ImageFeatureExtractor {
         return max(0.0, variance)
     }
 
-    /**
-     * Computes holistic aesthetic quality score (0 - 100)
-     */
     fun calculateAestheticScore(bitmap: Bitmap, blurScore: Double, width: Int, height: Int): Double {
-        // Sharpness component: 0 - 40 pts
         val sharpnessScore = min(40.0, blurScore / 5.0)
-
-        // Dynamic range & contrast component: 0 - 35 pts
         var minLum = 255
         var maxLum = 0
-        val step = max(1, bitmap.width / 16)
+        val step = max(1, bitmap.width / 12)
         for (y in 0 until bitmap.height step step) {
             for (x in 0 until bitmap.width step step) {
                 val p = bitmap.getPixel(x, y)
@@ -343,30 +403,23 @@ object ImageFeatureExtractor {
         }
         val contrastRange = max(0, maxLum - minLum)
         val contrastScore = (contrastRange / 255.0) * 35.0
-
-        // Resolution & aspect score: 0 - 25 pts
         val totalPixels = width.toLong() * height.toLong()
         val resolutionScore = when {
-            totalPixels >= 12_000_000L -> 25.0
-            totalPixels >= 4_000_000L -> 20.0
-            totalPixels >= 2_000_000L -> 15.0
-            else -> 10.0
+            totalPixels >= 8_000_000L -> 25.0
+            totalPixels >= 2_000_000L -> 20.0
+            else -> 15.0
         }
 
         return min(100.0, max(10.0, sharpnessScore + contrastScore + resolutionScore))
     }
 
-    /**
-     * Document & OCR extraction: scans document lines, receipts, keywords and text patterns.
-     */
     fun detectDocumentAndOcr(file: File, bitmap: Bitmap): String {
         val extractedKeywords = mutableListOf<String>()
         val pathLower = file.absolutePath.lowercase(Locale.ROOT)
 
-        // Path / file heuristics
         val commonDocTerms = listOf(
             "receipt", "invoice", "bill", "ticket", "voucher", "doc", "pdf",
-            "scan", "statement", "order", "tax", "gst", "bank", "token", "aadhar", "pan", "pass"
+            "scan", "statement", "order", "tax", "gst", "bank", "token", "aadhar", "pan"
         )
         for (term in commonDocTerms) {
             if (pathLower.contains(term)) {
@@ -374,54 +427,28 @@ object ImageFeatureExtractor {
             }
         }
 
-        // Bitmap text line density analysis
-        val w = 64
-        val h = 64
+        val w = 32
+        val h = 32
         val scaled = Bitmap.createScaledBitmap(bitmap, w, h, false)
         var whitePixels = 0
-        var darkPixels = 0
-        var highFreqHorizEdges = 0
-
         for (y in 0 until h) {
-            var rowTransitions = 0
-            var prevDark = false
             for (x in 0 until w) {
                 val p = scaled.getPixel(x, y)
                 val lum = (Color.red(p) * 299 + Color.green(p) * 587 + Color.blue(p) * 114) / 1000
                 if (lum > 210) whitePixels++
-                if (lum < 60) {
-                    darkPixels++
-                    if (!prevDark) {
-                        rowTransitions++
-                        prevDark = true
-                    }
-                } else {
-                    prevDark = false
-                }
-            }
-            if (rowTransitions in 3..14) {
-                highFreqHorizEdges++
             }
         }
         if (scaled != bitmap && !scaled.isRecycled) {
             scaled.recycle()
         }
 
-        // If paper background (mostly white/light) and dense horizontal line transitions
-        if ((whitePixels > (w * h * 0.45) && highFreqHorizEdges > 12) || extractedKeywords.isNotEmpty()) {
+        if (whitePixels > (w * h * 0.5) || extractedKeywords.isNotEmpty()) {
             if (!extractedKeywords.contains("document")) extractedKeywords.add("document")
-            if (highFreqHorizEdges > 18 && !extractedKeywords.contains("receipt")) {
-                extractedKeywords.add("receipt")
-                extractedKeywords.add("bill")
-            }
         }
 
         return extractedKeywords.joinToString(" ")
     }
 
-    /**
-     * Identifies scenes, objects, festivals, and categories.
-     */
     fun detectTagsAndScene(
         file: File,
         bitmap: Bitmap,
@@ -433,121 +460,79 @@ object ImageFeatureExtractor {
         val tags = mutableListOf<String>()
         val pathLower = file.absolutePath.lowercase(Locale.ROOT)
 
-        // 1. Dominant color as a direct tag
-        tags.add(dominantColor.lowercase(Locale.ROOT))
-
-        // 2. Screenshots
-        val isScreenAspect = (height > 0 && width > 0) &&
-                (abs((height.toFloat() / width) - (20f / 9f)) < 0.35f ||
-                        abs((height.toFloat() / width) - (16f / 9f)) < 0.25f)
-        if (pathLower.contains("screenshot") || (pathLower.endsWith(".png") && isScreenAspect)) {
-            tags.add("screenshot")
-            tags.add("screen")
+        if (dominantColor != "UNKNOWN") {
+            tags.add(dominantColor.lowercase(Locale.ROOT))
         }
 
-        // 3. Camera photos
+        if (pathLower.contains("screenshot") || pathLower.endsWith(".png")) {
+            tags.add("screenshot")
+        }
+
         if (pathLower.contains("dcim") || pathLower.contains("camera") || pathLower.contains("img_")) {
             tags.add("camera")
         }
 
-        // 4. Downloads
         if (pathLower.contains("download")) {
             tags.add("download")
         }
 
-        // 5. Nature & Mountains:
-        // Top section has sky (blue/cyan/white) + middle/bottom has green/earth/rock
-        if (bitmap.height >= 16 && bitmap.width >= 16) {
+        if (bitmap.height >= 8 && bitmap.width >= 8) {
             val topP = bitmap.getPixel(bitmap.width / 2, bitmap.height / 8)
-            val midP = bitmap.getPixel(bitmap.width / 2, bitmap.height / 2)
             val botP = bitmap.getPixel(bitmap.width / 2, (bitmap.height * 7) / 8)
 
             val hsvTop = FloatArray(3)
-            val hsvMid = FloatArray(3)
             val hsvBot = FloatArray(3)
             Color.colorToHSV(topP, hsvTop)
-            Color.colorToHSV(midP, hsvMid)
             Color.colorToHSV(botP, hsvBot)
 
             val topIsSky = (hsvTop[0] in 160f..260f && hsvTop[1] > 0.15f) || (hsvTop[2] > 0.85f && hsvTop[1] < 0.15f)
             val bottomIsEarth = (hsvBot[0] in 60f..160f) || (hsvBot[0] in 15f..50f && hsvBot[2] < 0.7f)
 
-            if ((topIsSky && bottomIsEarth) || pathLower.contains("mountain") || pathLower.contains("nature") || pathLower.contains("hill") || pathLower.contains("trek")) {
+            if ((topIsSky && bottomIsEarth) || pathLower.contains("mountain") || pathLower.contains("nature") || pathLower.contains("hill")) {
                 tags.add("mountain")
                 tags.add("nature")
                 tags.add("landscape")
-                tags.add("outdoor")
             }
         }
 
-        // 6. Pets & Dogs / Cats / Animals
         if (pathLower.contains("dog") || pathLower.contains("puppy") || pathLower.contains("cat") ||
-            pathLower.contains("kitten") || pathLower.contains("pet") || pathLower.contains("animal")) {
+            pathLower.contains("pet") || pathLower.contains("animal")) {
             tags.add("dog")
             tags.add("pet")
             tags.add("animal")
         }
 
-        // 7. Cars & Vehicles
-        if (pathLower.contains("car") || pathLower.contains("auto") || pathLower.contains("vehicle") ||
-            pathLower.contains("bike") || pathLower.contains("motorcycle") || pathLower.contains("drive")) {
+        if (pathLower.contains("car") || pathLower.contains("vehicle") || pathLower.contains("bike")) {
             tags.add("car")
             tags.add("vehicle")
         }
 
-        // 8. People & Selfies:
-        // Check for skin-tone colors in the center (Hue in 10..38, Saturation 0.2..0.68, Value > 0.35)
-        var skinPixels = 0
-        val sampleSize = 16
-        val hsv = FloatArray(3)
-        val stepX = max(1, bitmap.width / sampleSize)
-        val stepY = max(1, bitmap.height / sampleSize)
-        var tested = 0
-
-        for (y in (bitmap.height / 4) until (bitmap.height * 3 / 4) step stepY) {
-            for (x in (bitmap.width / 4) until (bitmap.width * 3 / 4) step stepX) {
-                Color.colorToHSV(bitmap.getPixel(x, y), hsv)
-                if (hsv[0] in 8f..40f && hsv[1] in 0.18f..0.68f && hsv[2] > 0.35f) {
-                    skinPixels++
-                }
-                tested++
-            }
-        }
-        val skinRatio = if (tested > 0) skinPixels.toFloat() / tested else 0f
-        if (skinRatio > 0.22f || pathLower.contains("selfie") || pathLower.contains("portrait") || pathLower.contains("face")) {
+        if (pathLower.contains("selfie") || pathLower.contains("portrait") || pathLower.contains("person")) {
             tags.add("people")
             tags.add("portrait")
             tags.add("selfie")
         }
 
-        // 9. Documents & Receipts
-        if (ocrText.isNotEmpty() || pathLower.contains("doc") || pathLower.contains("bill") || pathLower.contains("receipt")) {
+        if (ocrText.isNotEmpty() || pathLower.contains("doc") || pathLower.contains("receipt") || pathLower.contains("bill")) {
             tags.add("document")
             if (ocrText.contains("receipt") || pathLower.contains("receipt") || pathLower.contains("bill")) {
                 tags.add("receipt")
             }
         }
 
-        // 10. Memes
-        if (pathLower.contains("meme") || pathLower.contains("sticker") || pathLower.contains("whatsapp") && (width == height)) {
+        if (pathLower.contains("meme") || (pathLower.contains("whatsapp") && width == height)) {
             tags.add("meme")
         }
 
-        // 11. Festivals & Diwali & Night
-        val cal = java.util.Calendar.getInstance()
-        cal.timeInMillis = file.lastModified()
-        val month = cal.get(java.util.Calendar.MONTH) // 9 = Oct, 10 = Nov
-        if (pathLower.contains("diwali") || pathLower.contains("deepavali") || pathLower.contains("festival") || pathLower.contains("fireworks") ||
-            ((month == java.util.Calendar.OCTOBER || month == java.util.Calendar.NOVEMBER) && (dominantColor == "BLACK" || dominantColor == "ORANGE" || dominantColor == "YELLOW"))) {
+        if (pathLower.contains("diwali") || pathLower.contains("festival") || pathLower.contains("fireworks")) {
             tags.add("diwali")
             tags.add("festival")
-            tags.add("celebration")
         }
 
         return tags.distinct()
     }
 
-    private fun guessTagsFromPath(file: File, dominantColor: String): List<String> {
+    fun guessTagsFromPath(file: File, dominantColor: String): List<String> {
         val tags = mutableListOf<String>()
         val p = file.absolutePath.lowercase(Locale.ROOT)
         if (dominantColor != "UNKNOWN") tags.add(dominantColor.lowercase(Locale.ROOT))
@@ -557,7 +542,7 @@ object ImageFeatureExtractor {
         if (p.contains("mountain") || p.contains("nature")) tags.add("mountain")
         if (p.contains("dog") || p.contains("pet")) tags.add("dog")
         if (p.contains("car")) tags.add("car")
-        if (p.contains("receipt") || p.contains("bill") || p.contains("doc")) tags.add("document")
+        if (p.contains("receipt") || p.contains("bill") || p.contains("doc") || p.endsWith(".pdf")) tags.add("document")
         if (p.contains("diwali")) tags.add("diwali")
         return tags.distinct()
     }
@@ -583,7 +568,7 @@ object ImageFeatureExtractor {
         }
 
         if (dominantColor != "UNKNOWN") {
-            sb.append(" with vibrant ").append(dominantColor.lowercase(Locale.ROOT)).append(" tones")
+            sb.append(" with ").append(dominantColor.lowercase(Locale.ROOT)).append(" color tones")
         }
         if (isBlurry) {
             sb.append(" • Low sharpness detected")

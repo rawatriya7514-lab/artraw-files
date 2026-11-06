@@ -32,11 +32,22 @@
     <color name="aurora_accent_blue_container">#1D2C3E</color>
     <color name="aurora_accent_blue_glow">#A3C4EE</color>
     <color name="aurora_on_blue">#0B1220</color>
-    <color name="cyber_green">#86C7A5</color>
-    <color name="cyber_green_glow">#A5D9BE</color>
-    <color name="cyber_cyan">#7FB6CC</color>
-    <color name="cyber_violet">#B6A3E0</color>
-    <color name="cyber_amber">#D9B36C</color>
+    <color name="cyber_green">#00FFA3</color>
+    <color name="cyber_green_glow">#4EFA9D</color>
+    <color name="cyber_cyan">#00F2FE</color>
+    <color name="cyber_violet">#C084FC</color>
+    <color name="cyber_amber">#FFB703</color>
+
+    <!-- Cyberpunk Neo-Futurism & Chatak Vibrant Tokens -->
+    <color name="neon_violet">#C084FC</color>
+    <color name="neon_violet_glow">#E9D5FF</color>
+    <color name="neon_cyan">#00F2FE</color>
+    <color name="neon_cyan_glow">#4FACFE</color>
+    <color name="neon_pink">#FF007F</color>
+    <color name="neon_pink_glow">#FF53A5</color>
+    <color name="neon_green">#00FFA3</color>
+    <color name="neon_green_glow">#6EE7B7</color>
+    <color name="neon_amber">#FFB703</color>
 
     <!-- Contemporary gradient stops (dark) -->
     <color name="aurora_gradient_start">#0F1319</color>
@@ -115,4 +126,17 @@
 
     <!-- Selection wash -->
     <color name="selection_overlay">#33D98A82</color>
+
+    <!-- Gallery Dual-Theme Adaptive Tokens (Dark: Street-Tech Obsidian AMOLED) -->
+    <color name="gallery_bg_canvas">#0B0C10</color>
+    <color name="gallery_card_surface">#11161F</color>
+    <color name="gallery_card_border">#1AFFFFFF</color>
+    <color name="gallery_text_title">#F0F3F8</color>
+    <color name="gallery_text_subtitle">#9AA8BC</color>
+    <color name="gallery_glass_dock">#DD0B0C10</color>
+    <color name="gallery_glass_dock_border">#33FFFFFF</color>
+    <color name="gallery_accent_cyan">#00F0FF</color>
+    <color name="gallery_accent_purple">#C084FC</color>
+    <color name="gallery_accent_coral">#FF4757</color>
+    <color name="gallery_accent_glow">#3300F0FF</color>
 </resources>

@@ -260,26 +260,39 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnDetailsCopyPath"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_cyber_chip_active"
+            android:text="📋 Copy Path"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/btnDetailsSimilar"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:background="@drawable/bg_glass_clay_button_outlined"
             android:text="Find Similar"
             android:textColor="@color/aurora_primary"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnDetailsFav"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="4dp"
             android:background="@drawable/bg_glass_clay_button_primary"
             android:text="Favorite"
             android:textColor="@color/aurora_on_primary"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

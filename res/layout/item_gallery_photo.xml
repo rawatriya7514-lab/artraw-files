@@ -2,12 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardPhotoRoot"
     android:layout_width="match_parent"
-    android:layout_height="124dp"
+    android:layout_height="136dp"
     android:layout_margin="3dp"
-    android:background="@drawable/bg_gallery_card"
+    android:background="@drawable/bg_gallery_grid_item"
     android:clipToOutline="true"
     android:foreground="?android:attr/selectableItemBackground">
 
+    <!-- Thumbnail Image -->
     <ImageView
         android:id="@+id/ivGalleryThumbnail"
         android:layout_width="match_parent"
@@ -15,18 +16,56 @@
         android:scaleType="centerCrop"
         android:contentDescription="@string/content_photo" />
 
+    <!-- Subtle bottom gradient scrim for badge readability -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="bottom"
+        android:background="#4D000000" />
+
     <!-- Favorite Star Badge -->
     <ImageView
         android:id="@+id/ivGalleryFavBadge"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="top|start"
         android:layout_margin="6dp"
         android:padding="2dp"
         android:src="@drawable/ic_star_filled"
-        android:tint="@color/cyber_amber"
+        android:tint="@color/neon_amber"
         android:visibility="gone"
         android:contentDescription="Favorite" />
+
+    <!-- Bento Hero / RAW / AI Badge -->
+    <TextView
+        android:id="@+id/tvGalleryBentoBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_margin="6dp"
+        android:background="@drawable/bg_gallery_exif_badge"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:text="ART"
+        android:textColor="#FFFFFF"
+        android:textSize="9sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- Quick 1-Tap Path Copy Button (Top-Right or Bottom-Right) -->
+    <ImageView
+        android:id="@+id/btnQuickCopyPath"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="6dp"
+        android:background="@drawable/bg_quick_copy_btn"
+        android:padding="5dp"
+        android:src="@drawable/ic_copy"
+        android:tint="#FFFFFF"
+        android:contentDescription="Copy Path" />
 
     <!-- Video Indicator & Duration Badge -->
     <LinearLayout
@@ -58,7 +97,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- AI Tag / Category Pill Badge -->
+    <!-- Audio / Document / AI Tag Badge -->
     <TextView
         android:id="@+id/tvGalleryAiBadge"
         android:layout_width="wrap_content"
@@ -71,16 +110,16 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <!-- Selection Checkbox -->
+    <!-- Selection Checkbox (Overlays btnQuickCopyPath when selecting) -->
     <ImageView
         android:id="@+id/ivGallerySelectionCheck"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_gravity="top|end"
         android:layout_margin="6dp"
         android:background="@drawable/ripple_aurora"
         android:src="@drawable/ic_check_circle_outline"
-        android:tint="@color/aurora_primary"
+        android:tint="@color/neon_cyan"
         android:visibility="gone"
         android:contentDescription="Select" />
 

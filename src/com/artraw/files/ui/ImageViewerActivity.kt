@@ -1,45 +1,59 @@
 package com.artraw.files.ui
 
-import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.drawable.GradientDrawable
 import android.media.ExifInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.GestureDetector
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.artraw.files.ArtfilesApp
 import com.artraw.files.R
+import com.artraw.files.gallery.ai.PhotoMetadataHelper
+import com.artraw.files.gallery.db.AiGalleryDatabase
+import com.artraw.files.preview.ArtrawFileProvider
 import com.artraw.files.preview.FileViewerHelper
+import com.artraw.files.util.ClipboardHelper
+import com.artraw.files.util.FavoritesManager
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.MimeTypes
+import com.artraw.files.util.MotionUtils
 import com.artraw.files.util.ThumbnailLoader
+import com.artraw.files.util.VaultManager
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
 import kotlin.math.abs
 
 /**
- * High-performance full-screen image gallery viewer.
+ * Ultra-Modern Immersive Full-Screen Media Viewer.
  *
- * Performance Architecture:
- *   - Tier 1: Static process-wide fullResCache in companion object (0ms instantaneous display on re-open)
- *   - Tier 2: Instant preview from ThumbnailLoader memory/disk cache (0ms sharp preview)
- *   - Tier 3: Persistent display-resolution WebP disk cache at cacheDir/display_cache/ (<3ms fast recall)
- *   - Tier 4: Background sampled decode with EXIF auto-rotation and background neighbor preloading
+ * Features:
+ *   - Ambient Dynamic Background Glow tinted with dominant photo colors
+ *   - Swipe-Up Glassmorphic Info Sheet with EXIF badges & interactive Palette Swatches
+ *   - 1-Tap Path Copying Superpower (Direct Button & Monospace Path card)
+ *   - Floating Frosted-Glass Pill Bottom Dock (Edit, Heart Favorite, Copy Path, Vault, Share, Details, Delete)
+ *   - Fast 0ms Multi-Tier Caching & Neighbor Preloading
  */
 class ImageViewerActivity : BaseActivity() {
 
@@ -90,8 +104,12 @@ class ImageViewerActivity : BaseActivity() {
     private lateinit var tvIndex: TextView
     private lateinit var headerBar: LinearLayout
     private lateinit var bottomBar: LinearLayout
+    private lateinit var viewAmbientGlow: View
+    private lateinit var ivHeartImage: ImageView
+    private lateinit var layoutSheetContainer: FrameLayout
 
     private var currentFile: File? = null
+    private var currentBitmap: Bitmap? = null
     private val imageList = mutableListOf<File>()
     private var currentIndex = 0
     private var barsVisible = true
@@ -112,6 +130,7 @@ class ImageViewerActivity : BaseActivity() {
         setContentView(R.layout.activity_image_viewer)
 
         initDiskCache(this)
+        VaultManager.init(this)
 
         try {
             com.artraw.files.util.EdgeToEdgeHelper.applyEdgeToEdge(
@@ -150,6 +169,9 @@ class ImageViewerActivity : BaseActivity() {
         tvIndex = findViewById(R.id.tvImageIndex)
         headerBar = findViewById(R.id.headerImage)
         bottomBar = findViewById(R.id.bottomImageBar)
+        viewAmbientGlow = findViewById(R.id.viewAmbientGlow)
+        ivHeartImage = findViewById(R.id.ivHeartImage)
+        layoutSheetContainer = findViewById(R.id.layoutSheetContainer)
     }
 
     private fun createFileItem(f: File): com.artraw.files.model.FileItem {
@@ -254,6 +276,45 @@ class ImageViewerActivity : BaseActivity() {
             finish()
         }
 
+        // Action: 1-TAP COPY PATH (User Core Feature)
+        findViewById<View>(R.id.btnCopyPathImage).setOnClickListener {
+            currentFile?.let { f ->
+                ClipboardHelper.copyPath(this, f, it)
+            }
+        }
+
+        // Action: FAVORITE
+        findViewById<View>(R.id.btnFavoriteImage).setOnClickListener {
+            currentFile?.let { f ->
+                val db = AiGalleryDatabase.getInstance(this)
+                val isFav = db.toggleFavorite(f.absolutePath)
+                FavoritesManager.toggleFavorite(createFileItem(f))
+                updateFavoriteUi(isFav, animate = true)
+                Toast.makeText(this, if (isFav) "Added to Favorites ❤️" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Action: MOVE TO VAULT
+        findViewById<View>(R.id.btnVaultImage).setOnClickListener {
+            currentFile?.let { f ->
+                AlertDialog.Builder(this)
+                    .setTitle("Move to Vault 🔒")
+                    .setMessage("Encrypt and move \"${f.name}\" to your private Vault?")
+                    .setPositiveButton("Move to Vault") { _, _ ->
+                        val success = VaultManager.moveToVault(f)
+                        if (success) {
+                            fullResCache.remove(f.absolutePath)
+                            Toast.makeText(this, "Moved to Vault 🔒", Toast.LENGTH_SHORT).show()
+                            onImageDeleted()
+                        } else {
+                            Toast.makeText(this, "Could not move to vault", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+        }
+
         // Action: SHARE
         findViewById<View>(R.id.btnShareImage).setOnClickListener {
             currentFile?.let { f ->
@@ -262,10 +323,10 @@ class ImageViewerActivity : BaseActivity() {
             }
         }
 
-        // Action: EDIT (External editor via ACTION_EDIT with URI grant, fallback to built-in editor)
+        // Action: EDIT
         findViewById<View>(R.id.btnEditImage).setOnClickListener {
             currentFile?.let { f ->
-                val uri = com.artraw.files.preview.ArtrawFileProvider.getUriForFile(f)
+                val uri = ArtrawFileProvider.getUriForFile(f)
                 val editIntent = Intent(Intent.ACTION_EDIT).apply {
                     setDataAndType(uri, "image/*")
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
@@ -284,7 +345,7 @@ class ImageViewerActivity : BaseActivity() {
         // Action: DELETE
         findViewById<View>(R.id.btnDeleteImage).setOnClickListener {
             currentFile?.let { f ->
-                android.app.AlertDialog.Builder(this)
+                AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_delete_title)
                     .setMessage("Permanently delete ${f.name}?")
                     .setPositiveButton(R.string.action_delete) { _, _ ->
@@ -295,69 +356,21 @@ class ImageViewerActivity : BaseActivity() {
             }
         }
 
-        // Action: RENAME
-        findViewById<View>(R.id.btnRenameImage).setOnClickListener {
-            currentFile?.let { f ->
-                val input = android.widget.EditText(this).apply {
-                    setText(f.name)
-                    setSingleLine(true)
-                    setPadding(40, 30, 40, 30)
-                }
-                android.app.AlertDialog.Builder(this)
-                    .setTitle("Rename Image")
-                    .setView(input)
-                    .setPositiveButton("Rename") { _, _ ->
-                        val newName = input.text.toString().trim()
-                        if (newName.isNotEmpty() && newName != f.name) {
-                            val newFile = File(f.parentFile, newName)
-                            if (f.renameTo(newFile)) {
-                                fullResCache.remove(f.absolutePath)
-                                com.artraw.files.repository.CategoryDataRepository.renameItem(f.absolutePath, newFile)
-                                android.media.MediaScannerConnection.scanFile(this, arrayOf(f.absolutePath, newFile.absolutePath), null, null)
-
-                                currentFile = newFile
-                                if (currentIndex in imageList.indices) {
-                                    imageList[currentIndex] = newFile
-                                }
-                                tvTitle.text = newFile.name
-                                Toast.makeText(this, "Renamed to $newName", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(this, "Rename failed", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    }
-                    .setNegativeButton(R.string.btn_cancel, null)
-                    .show()
-            }
+        // Action: SWIPE-UP / INFO DETAILS
+        val showSheetAction = View.OnClickListener {
+            showInfoSheet()
         }
+        findViewById<View>(R.id.btnInfoImage).setOnClickListener(showSheetAction)
+        tvInfo.setOnClickListener(showSheetAction)
 
-        // Action: DETAILS / INFO (AI Intelligence & Exif Details)
-        findViewById<View>(R.id.btnInfoImage).setOnClickListener {
-            currentFile?.let { f ->
-                val db = com.artraw.files.gallery.db.AiGalleryDatabase.getInstance(this)
-                val aiItem = db.getAllItems().firstOrNull { it.path == f.absolutePath }
-                    ?: run {
-                        val features = com.artraw.files.gallery.ai.ImageFeatureExtractor.extractFeatures(f)
-                        com.artraw.files.gallery.model.AiMediaItem(
-                            file = f,
-                            name = f.name,
-                            path = f.absolutePath,
-                            size = f.length(),
-                            width = features.width,
-                            height = features.height,
-                            dominantColor = features.dominantColor,
-                            colorHex = features.colorHex,
-                            blurScore = features.blurScore,
-                            isBlurry = features.isBlurry,
-                            aestheticScore = features.aestheticScore,
-                            detectedTags = features.detectedTags,
-                            ocrText = features.ocrText,
-                            description = features.description,
-                            dateTaken = features.dateTaken
-                        )
-                    }
-                com.artraw.files.ui.gallery.dialog.AiPhotoDetailsDialog.show(this, aiItem)
-            }
+        layoutSheetContainer.setOnClickListener {
+            hideInfoSheet()
+        }
+        findViewById<View>(R.id.cardInfoSheetRoot)?.setOnClickListener {
+            // Do not close when tapping card itself
+        }
+        findViewById<View>(R.id.btnSheetClose)?.setOnClickListener {
+            hideInfoSheet()
         }
 
         scaleDetector = ScaleGestureDetector(this, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
@@ -381,7 +394,11 @@ class ImageViewerActivity : BaseActivity() {
 
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                toggleBars()
+                if (layoutSheetContainer.visibility == View.VISIBLE) {
+                    hideInfoSheet()
+                } else {
+                    toggleBars()
+                }
                 return true
             }
 
@@ -418,6 +435,13 @@ class ImageViewerActivity : BaseActivity() {
                 if (e1 == null) return false
                 val diffX = e2.x - e1.x
                 val diffY = e2.y - e1.y
+
+                // Swipe-Up gesture reveals Glassmorphic Info Sheet!
+                if (diffY < -120 && abs(diffY) > abs(diffX)) {
+                    showInfoSheet()
+                    return true
+                }
+
                 if (abs(diffX) > abs(diffY) && abs(diffX) > 100 && abs(velocityX) > 100) {
                     if (diffX > 0) {
                         showPreviousImage()
@@ -458,6 +482,139 @@ class ImageViewerActivity : BaseActivity() {
             }
             true
         }
+
+        MotionUtils.pressScale(findViewById(R.id.btnCopyPathImage), 0.90f)
+        MotionUtils.pressScale(findViewById(R.id.btnFavoriteImage), 0.90f)
+        MotionUtils.pressScale(findViewById(R.id.btnVaultImage), 0.90f)
+        MotionUtils.pressScale(findViewById(R.id.btnShareImage), 0.90f)
+        MotionUtils.pressScale(findViewById(R.id.btnEditImage), 0.90f)
+        MotionUtils.pressScale(findViewById(R.id.btnInfoImage), 0.90f)
+        MotionUtils.pressScale(findViewById(R.id.btnDeleteImage), 0.90f)
+    }
+
+    private fun updateFavoriteUi(isFav: Boolean, animate: Boolean = false) {
+        if (isFav) {
+            ivHeartImage.setImageResource(R.drawable.ic_heart_filled)
+            ivHeartImage.imageTintList = android.content.res.ColorStateList.valueOf(
+                getColor(R.color.gallery_accent_coral)
+            )
+        } else {
+            ivHeartImage.setImageResource(R.drawable.ic_heart_pulse)
+            ivHeartImage.imageTintList = android.content.res.ColorStateList.valueOf(
+                Color.parseColor("#E6FFFFFF")
+            )
+        }
+        if (animate) {
+            MotionUtils.pop(ivHeartImage)
+        }
+    }
+
+    private fun showInfoSheet() {
+        val file = currentFile ?: return
+        layoutSheetContainer.visibility = View.VISIBLE
+        layoutSheetContainer.alpha = 0f
+        layoutSheetContainer.animate().alpha(1f).setDuration(200).start()
+
+        findViewById<TextView>(R.id.tvSheetTitle)?.text = file.name
+        findViewById<TextView>(R.id.tvSheetPath)?.text = file.absolutePath
+
+        findViewById<Button>(R.id.btnSheetCopyPath)?.setOnClickListener {
+            ClipboardHelper.copyPath(this, file, it)
+        }
+        findViewById<Button>(R.id.btnSheetCopyFolder)?.setOnClickListener {
+            ClipboardHelper.copyDirectoryPath(this, file, it)
+        }
+
+        val bmp = currentBitmap
+        val resText = if (bmp != null) "${bmp.width} × ${bmp.height}" else "Detecting..."
+        findViewById<TextView>(R.id.tvSheetResolution)?.text = resText
+        findViewById<TextView>(R.id.tvSheetFileSize)?.text = Formatters.formatFileSize(file.length())
+
+        val sdf = SimpleDateFormat("MMM d, yyyy • HH:mm", Locale.getDefault())
+        findViewById<TextView>(R.id.tvSheetDate)?.text = sdf.format(Date(file.lastModified()))
+
+        // EXIF Metadata Badges
+        val exif = PhotoMetadataHelper.extractExif(file)
+        findViewById<TextView>(R.id.badgeExifDevice)?.apply {
+            text = "📷 ${exif.device ?: "Device"}"
+            visibility = if (exif.device != null) View.VISIBLE else View.GONE
+        }
+        findViewById<TextView>(R.id.badgeExifAperture)?.apply {
+            text = "⭕ ${exif.aperture ?: "f/1.8"}"
+            visibility = if (exif.aperture != null) View.VISIBLE else View.GONE
+        }
+        findViewById<TextView>(R.id.badgeExifShutter)?.apply {
+            text = "⚡ ${exif.shutterSpeed ?: "1/100s"}"
+            visibility = if (exif.shutterSpeed != null) View.VISIBLE else View.GONE
+        }
+        findViewById<TextView>(R.id.badgeExifIso)?.apply {
+            text = "🎚️ ${exif.iso ?: "ISO"}"
+            visibility = if (exif.iso != null) View.VISIBLE else View.GONE
+        }
+        findViewById<TextView>(R.id.badgeExifFocal)?.apply {
+            text = "📏 ${exif.focalLength ?: "Focal"}"
+            visibility = if (exif.focalLength != null) View.VISIBLE else View.GONE
+        }
+
+        // Extracted Color Palette Swatches (Tap to copy hex)
+        val palette = PhotoMetadataHelper.extractPalette(bmp)
+        val layoutSwatches = findViewById<LinearLayout>(R.id.layoutSheetPaletteSwatches)
+        if (layoutSwatches != null) {
+            layoutSwatches.removeAllViews()
+            val inflater = LayoutInflater.from(this)
+            for (swatch in palette.swatches) {
+                val swatchView = inflater.inflate(R.layout.item_palette_swatch, layoutSwatches, false)
+                val colorView = swatchView.findViewById<View>(R.id.viewSwatchColor)
+                val tvHex = swatchView.findViewById<TextView>(R.id.tvSwatchHex)
+
+                val gd = GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setColor(swatch.colorInt)
+                    setStroke(2, Color.parseColor("#4DFFFFFF"))
+                }
+                colorView.background = gd
+                tvHex.text = swatch.hex
+
+                swatchView.setOnClickListener {
+                    ClipboardHelper.copyText(
+                        context = this,
+                        label = "Color Hex",
+                        text = swatch.hex,
+                        toastMessage = "🎨 Copied ${swatch.hex} to clipboard!",
+                        anchorView = it
+                    )
+                }
+                MotionUtils.pressScale(swatchView, 0.90f)
+                layoutSwatches.addView(swatchView)
+            }
+        }
+    }
+
+    private fun hideInfoSheet() {
+        if (layoutSheetContainer.visibility == View.VISIBLE) {
+            layoutSheetContainer.animate()
+                .alpha(0f)
+                .setDuration(180)
+                .withEndAction {
+                    layoutSheetContainer.visibility = View.GONE
+                }
+                .start()
+        }
+    }
+
+    private fun updateAmbientGlow(bitmap: Bitmap?) {
+        val palette = PhotoMetadataHelper.extractPalette(bitmap)
+        val gd = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            gradientType = GradientDrawable.RADIAL_GRADIENT
+            gradientRadius = 450f * resources.displayMetrics.density
+            colors = intArrayOf(
+                palette.ambientGlowColor,
+                Color.argb(18, Color.red(palette.dominantColor), Color.green(palette.dominantColor), Color.blue(palette.dominantColor)),
+                Color.TRANSPARENT
+            )
+        }
+        viewAmbientGlow.background = gd
     }
 
     private fun clampTranslation() {
@@ -661,12 +818,17 @@ class ImageViewerActivity : BaseActivity() {
         val pos = (currentIndex + 1).coerceIn(1, total)
         tvIndex.text = "$pos of $total"
 
+        val isFav = FavoritesManager.isFavorite(file.absolutePath)
+        updateFavoriteUi(isFav, animate = false)
+
         // Tier 1: Check process-wide memory cache (instant 0ms display on re-open)
         val cachedFull = fullResCache.get(file.absolutePath)
         if (cachedFull != null && !cachedFull.isRecycled) {
             resetZoom(animate = false)
+            currentBitmap = cachedFull
             imgFull.setImageBitmap(cachedFull)
             tvInfo.text = "${cachedFull.width}x${cachedFull.height} • ${Formatters.formatFileSize(file.length())}"
+            updateAmbientGlow(cachedFull)
             preloadNeighbors(currentIndex)
             return
         }
@@ -675,13 +837,14 @@ class ImageViewerActivity : BaseActivity() {
         val cachedThumb = ThumbnailLoader.getCachedBitmap(file.absolutePath)
         if (cachedThumb != null && !cachedThumb.isRecycled) {
             resetZoom(animate = false)
+            currentBitmap = cachedThumb
             imgFull.setImageBitmap(cachedThumb)
             tvInfo.text = Formatters.formatFileSize(file.length())
+            updateAmbientGlow(cachedThumb)
         }
 
         // Tier 3: Asynchronous load: Check persistent disk cache -> decode raw -> save to disk & memory
         executor.execute {
-            // Check persistent display disk cache first (<3ms fast read)
             val diskBmp = loadFromDisplayDiskCache(file)
             if (diskBmp != null) {
                 fullResCache.put(file.absolutePath, diskBmp)
@@ -690,8 +853,10 @@ class ImageViewerActivity : BaseActivity() {
                     if (isFinishing || isDestroyed) return@runOnUiThread
                     if (currentFile?.absolutePath == file.absolutePath) {
                         resetZoom(animate = false)
+                        currentBitmap = diskBmp
                         imgFull.setImageBitmap(diskBmp)
                         tvInfo.text = infoStr
+                        updateAmbientGlow(diskBmp)
                     }
                 }
                 preloadNeighbors(currentIndex)
@@ -714,7 +879,9 @@ class ImageViewerActivity : BaseActivity() {
                     if (currentFile?.absolutePath == file.absolutePath) {
                         resetZoom(animate = false)
                         if (bmp != null) {
+                            currentBitmap = bmp
                             imgFull.setImageBitmap(bmp)
+                            updateAmbientGlow(bmp)
                         } else if (cachedThumb == null) {
                             imgFull.setImageResource(R.drawable.ic_image)
                         }

@@ -108,6 +108,10 @@ class AiSmartGalleryTest {
         assertEquals(GalleryCategory.VIDEOS, GalleryCategory.fromId("videos"))
         assertEquals(GalleryCategory.SCREENSHOTS, GalleryCategory.fromId("screenshots"))
         assertEquals(GalleryCategory.CAMERA, GalleryCategory.fromId("camera"))
+        assertEquals(GalleryCategory.RAW_ART, GalleryCategory.fromId("raw_art"))
+        assertEquals("RAW & Fine Art", GalleryCategory.RAW_ART.displayName)
+        assertEquals(GalleryCategory.VAULT, GalleryCategory.fromId("vault"))
+        assertEquals("Vault", GalleryCategory.VAULT.displayName)
         assertEquals(GalleryCategory.DUPLICATES, GalleryCategory.fromId("duplicates"))
     }
 }

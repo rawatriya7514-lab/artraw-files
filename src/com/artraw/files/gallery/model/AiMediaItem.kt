@@ -15,6 +15,8 @@ data class AiMediaItem(
     val height: Int = 0,
     val mimeType: String = "image/jpeg",
     val isVideo: Boolean = false,
+    val isAudio: Boolean = false,
+    val isDocument: Boolean = false,
     val durationMs: Long = 0L,
     val category: String = "photos",
     val phash: Long = 0L,
@@ -30,6 +32,12 @@ data class AiMediaItem(
     var isSelected: Boolean = false
 ) {
     fun toFileItem(): FileItem {
+        val cat = when {
+            isAudio -> FileCategory.AUDIO
+            isVideo -> FileCategory.VIDEOS
+            isDocument -> FileCategory.DOCUMENTS
+            else -> FileCategory.IMAGES
+        }
         return FileItem(
             file = file,
             name = name,
@@ -37,7 +45,7 @@ data class AiMediaItem(
             isDirectory = false,
             size = size,
             lastModified = dateModified,
-            category = if (isVideo) FileCategory.VIDEOS else FileCategory.IMAGES,
+            category = cat,
             mimeType = mimeType,
             isFavorite = isFavorite,
             isSelected = isSelected

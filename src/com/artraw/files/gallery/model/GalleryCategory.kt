@@ -4,11 +4,14 @@ enum class GalleryCategory(val id: String, val displayName: String) {
     ALL("all", "All Media"),
     PHOTOS("photos", "Photos"),
     VIDEOS("videos", "Videos"),
+    AUDIO("audio", "Audio & MP3"),
+    DOCUMENTS("documents", "Documents"),
     SCREENSHOTS("screenshots", "Screenshots"),
     CAMERA("camera", "Camera"),
     DOWNLOADS("downloads", "Downloads"),
-    DOCUMENTS("documents", "Documents"),
     FAVORITES("favorites", "Favorites"),
+    RAW_ART("raw_art", "RAW & Fine Art"),
+    VAULT("vault", "Vault"),
     COLLECTIONS("collections", "AI Collections"),
     DUPLICATES("duplicates", "Duplicates");
 

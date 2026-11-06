@@ -3,7 +3,15 @@
     android:id="@+id/rootImageViewer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/aurora_background_deep">
+    android:background="@color/gallery_bg_canvas">
+
+    <!-- Ambient Dynamic Background Glow (Extracts dominant color from photo) -->
+    <View
+        android:id="@+id/viewAmbientGlow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_ambient_glow"
+        android:alpha="0.7" />
 
     <!-- Main Fullscreen Image -->
     <ImageView
@@ -13,14 +21,14 @@
         android:scaleType="fitCenter"
         android:contentDescription="@string/content_photo" />
 
-    <!-- Top Overlay Bar (Compact 56dp Standard Toolbar + Dynamic Status Inset) -->
+    <!-- Top Overlay Bar (Compact 56dp Header + Status Inset) -->
     <LinearLayout
         android:id="@+id/headerImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:orientation="vertical"
-        android:background="#CC0F1014">
+        android:background="#D90B0C10">
 
         <View
             android:id="@+id/statusBarSpacerImage"
@@ -42,7 +50,7 @@
                 android:padding="12dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
-                android:tint="@color/aurora_text_primary"
+                android:tint="#FFFFFF"
                 android:contentDescription="@string/content_back" />
 
             <TextView
@@ -55,7 +63,7 @@
                 android:layout_toEndOf="@id/btnBackImage"
                 android:layout_toStartOf="@+id/tvImageIndex"
                 android:text="Photo Name"
-                android:textColor="@color/aurora_text_primary"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:singleLine="true"
@@ -68,81 +76,54 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="1 of 1"
-                android:textColor="@color/aurora_text_secondary"
+                android:textColor="#B3FFFFFF"
                 android:textSize="13sp" />
         </RelativeLayout>
 
-        <!-- Subtle 0.5dp divider below header -->
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/aurora_outline" />
+            android:background="#1AFFFFFF" />
     </LinearLayout>
 
-    <!-- Bottom Action Bar (Metadata + 5 Action Buttons: Share, Edit, Delete, Rename, Info) -->
+    <!-- Floating Glassmorphic Pill Action Dock -->
     <LinearLayout
         android:id="@+id/bottomImageBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:background="#DD0F1014">
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="16dp">
 
-        <!-- Subtle top divider -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/aurora_outline" />
-
-        <!-- Image Info row -->
+        <!-- Image Info Label (Resolution & Size) -->
         <TextView
             android:id="@+id/tvImageInfo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_gallery_exif_badge"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="1920x1080 • 2.4 MB"
-            android:textColor="@color/aurora_text_secondary"
-            android:textSize="12sp"
+            android:text="1920x1080 • 2.4 MB • Swipe up for details"
+            android:textColor="#E6FFFFFF"
+            android:textSize="11sp"
             android:singleLine="true" />
 
-        <!-- Action Buttons Row -->
+        <!-- Floating Glassmorphic Pill Dock -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_gallery_glass_dock"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <!-- Share Action -->
-            <LinearLayout
-                android:id="@+id/btnShareImage"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="@drawable/ripple_aurora"
-                android:clickable="true"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_share"
-                    android:tint="@color/aurora_text_primary"
-                    android:contentDescription="@string/content_share" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/action_share"
-                    android:textColor="@color/aurora_text_secondary"
-                    android:textSize="11sp" />
-            </LinearLayout>
+            android:elevation="12dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp">
 
             <!-- Edit Action -->
             <LinearLayout
@@ -150,26 +131,156 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:background="@drawable/ripple_aurora"
-                android:clickable="true"
-                android:focusable="true">
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_edit"
-                    android:tint="@color/aurora_text_primary"
-                    android:contentDescription="@string/content_edit" />
+                    android:tint="@color/neon_cyan"
+                    android:contentDescription="Edit" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Edit"
-                    android:textColor="@color/aurora_text_secondary"
-                    android:textSize="11sp" />
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Favorite Action -->
+            <LinearLayout
+                android:id="@+id/btnFavoriteImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
+
+                <ImageView
+                    android:id="@+id/ivHeartImage"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_heart_filled"
+                    android:tint="@color/gallery_accent_coral"
+                    android:contentDescription="Favorite" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Favorite"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- 1-TAP COPY PATH ACTION (USER CORE REQUIREMENT) -->
+            <LinearLayout
+                android:id="@+id/btnCopyPathImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_copy"
+                    android:tint="@color/neon_green"
+                    android:contentDescription="Copy Path" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Copy Path"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Vault Action -->
+            <LinearLayout
+                android:id="@+id/btnVaultImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_lock"
+                    android:tint="@color/neon_amber"
+                    android:contentDescription="Vault" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Vault"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Share Action -->
+            <LinearLayout
+                android:id="@+id/btnShareImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_share"
+                    android:tint="@color/cyber_cyan"
+                    android:contentDescription="Share" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Share"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Info / Details Action -->
+            <LinearLayout
+                android:id="@+id/btnInfoImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info"
+                    android:tint="@color/neon_violet"
+                    android:contentDescription="Info" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Details"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <!-- Delete Action -->
@@ -178,83 +289,33 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:background="@drawable/ripple_aurora"
-                android:clickable="true"
-                android:focusable="true">
+                android:orientation="vertical"
+                android:background="@drawable/ripple_aurora">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_delete"
                     android:tint="@color/aurora_error"
-                    android:contentDescription="@string/content_delete" />
+                    android:contentDescription="Delete" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="@string/action_delete"
+                    android:text="Delete"
                     android:textColor="@color/aurora_error"
-                    android:textSize="11sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
-            <!-- Rename Action -->
+            <!-- Rename Action (Hidden by default, available in long press/menu) -->
             <LinearLayout
                 android:id="@+id/btnRenameImage"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="@drawable/ripple_aurora"
-                android:clickable="true"
-                android:focusable="true">
+                android:layout_height="0dp"
+                android:visibility="gone" />
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_rename"
-                    android:tint="@color/aurora_text_primary"
-                    android:contentDescription="@string/content_edit" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Rename"
-                    android:textColor="@color/aurora_text_secondary"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <!-- Details Action -->
-            <LinearLayout
-                android:id="@+id/btnInfoImage"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="@drawable/ripple_aurora"
-                android:clickable="true"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/ic_info"
-                    android:tint="@color/aurora_text_primary"
-                    android:contentDescription="@string/content_copy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/action_details"
-                    android:textColor="@color/aurora_text_secondary"
-                    android:textSize="11sp" />
-            </LinearLayout>
         </LinearLayout>
 
         <!-- Dynamic Navigation Bar Spacer -->
@@ -263,4 +324,20 @@
             android:layout_width="match_parent"
             android:layout_height="0dp" />
     </LinearLayout>
+
+    <!-- Swipe-Up Glassmorphic Info Sheet Overlay -->
+    <FrameLayout
+        android:id="@+id/layoutSheetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/layout_image_info_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
+
 </FrameLayout>
