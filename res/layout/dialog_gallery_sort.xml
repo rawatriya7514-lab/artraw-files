@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_gallery_bottom_sheet"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="24dp">
+
+    <!-- Drag Handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_pill_badge"
+        android:alpha="0.4" />
+
+    <!-- Sheet Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sort Media By"
+                android:textColor="@color/gallery_text_title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Select order for albums and search"
+                android:textColor="@color/gallery_text_subtitle"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnSortClose"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="6dp"
+            android:background="@drawable/ripple_aurora"
+            android:src="@drawable/ic_close"
+            android:tint="@color/gallery_text_subtitle"
+            android:contentDescription="Close" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="360dp">
+
+        <LinearLayout
+            android:id="@+id/layoutSortItemsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Item 0: Date Newest -->
+            <LinearLayout
+                android:id="@+id/btnSortDateNewest"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date (Newest first)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck0"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Item 1: Date Oldest -->
+            <LinearLayout
+                android:id="@+id/btnSortDateOldest"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date (Oldest first)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Item 2: Size Largest -->
+            <LinearLayout
+                android:id="@+id/btnSortSizeLargest"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Size (Largest first)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Item 3: Size Smallest -->
+            <LinearLayout
+                android:id="@+id/btnSortSizeSmallest"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Size (Smallest first)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Item 4: Name A-Z -->
+            <LinearLayout
+                android:id="@+id/btnSortNameAZ"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Name (A to Z)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Item 5: Aspect Ratio Portrait -->
+            <LinearLayout
+                android:id="@+id/btnSortAspectPortrait"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Aspect Ratio (Portrait first)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck5"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Item 6: Aspect Ratio Landscape -->
+            <LinearLayout
+                android:id="@+id/btnSortAspectLandscape"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_clay_file_item"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Aspect Ratio (Landscape first)"
+                    android:textColor="@color/gallery_text_title"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/ivSortCheck6"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:tint="@color/cyber_cyan"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

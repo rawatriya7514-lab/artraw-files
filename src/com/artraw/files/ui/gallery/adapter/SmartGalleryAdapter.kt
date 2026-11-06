@@ -194,19 +194,16 @@ class SmartGalleryAdapter(
         // Favorite Badge
         holder.ivFavBadge.visibility = if (item.isFavorite) View.VISIBLE else View.GONE
 
-        // AI Tag / Format pill
+        // Format / Type pill (Only when relevant - keep photos clean!)
         if (item.isAudio) {
             holder.tvAiBadge.visibility = View.VISIBLE
             holder.tvAiBadge.text = "MP3"
         } else if (item.isDocument) {
             holder.tvAiBadge.visibility = View.VISIBLE
             holder.tvAiBadge.text = "DOC"
-        } else if (item.aestheticScore >= 80.0 && !item.isVideo && holder.tvBentoBadge.visibility != View.VISIBLE) {
-            holder.tvAiBadge.visibility = View.VISIBLE
-            holder.tvAiBadge.text = "★ ${item.aestheticScore.toInt()}"
         } else if (item.detectedTags.contains("screenshot")) {
             holder.tvAiBadge.visibility = View.VISIBLE
-            holder.tvAiBadge.text = "Shot"
+            holder.tvAiBadge.text = "SHOT"
         } else {
             holder.tvAiBadge.visibility = View.GONE
         }

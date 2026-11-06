@@ -2,12 +2,16 @@ package com.artraw.files.ui.gallery
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.GridView
@@ -72,6 +76,7 @@ class SmartGalleryActivity : BaseActivity() {
 
     private lateinit var scrollGalleryMemories: View
     private lateinit var layoutGalleryMemories: LinearLayout
+    private lateinit var scrollGallerySuggestions: View
     private lateinit var scrollCollections: View
     private lateinit var layoutCollectionsContainer: LinearLayout
 
@@ -136,6 +141,7 @@ class SmartGalleryActivity : BaseActivity() {
         btnReindex = findViewById(R.id.btnGalleryReindex)
         scrollGalleryMemories = findViewById(R.id.scrollGalleryMemories)
         layoutGalleryMemories = findViewById(R.id.layoutGalleryMemories)
+        scrollGallerySuggestions = findViewById(R.id.scrollGallerySuggestions)
         scrollCollections = findViewById(R.id.scrollGalleryCollections)
         layoutCollectionsContainer = findViewById(R.id.layoutCollectionsContainer)
         layoutSelectionDock = findViewById(R.id.layoutGallerySelectionDock)
@@ -179,6 +185,18 @@ class SmartGalleryActivity : BaseActivity() {
             triggerManualReindex()
         }
 
+        // Dynamic Header Scroll: Collapse memories carousel when user scrolls down into photos
+        gridGallery.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {}
+            override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                if (firstVisibleItem > 0 && scrollGalleryMemories.visibility == View.VISIBLE) {
+                    scrollGalleryMemories.visibility = View.GONE
+                } else if (firstVisibleItem == 0 && scrollGalleryMemories.visibility != View.VISIBLE && layoutGalleryMemories.childCount > 0) {
+                    scrollGalleryMemories.visibility = View.VISIBLE
+                }
+            }
+        })
+
         MotionUtils.pressScale(findViewById(R.id.btnGalleryColumns), 0.92f)
         MotionUtils.pressScale(findViewById(R.id.btnGallerySort), 0.92f)
         MotionUtils.pressScale(findViewById(R.id.btnGallerySelectAll), 0.92f)
@@ -186,75 +204,113 @@ class SmartGalleryActivity : BaseActivity() {
     }
 
     private fun showLayoutEngineDialog() {
-        val options = arrayOf(
-            "Staggered Masonry Grid (Aspect Ratios)",
-            "Bento Featured Grid (Hero Art Cards)",
-            "Classic Compact Grid (3 Columns)",
-            "Classic Compact Grid (4 Columns)",
-            "Classic Compact Grid (2 Columns)"
-        )
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_gallery_layout_engine, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
 
-        AlertDialog.Builder(this)
-            .setTitle("Gallery Layout Engine")
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> {
-                        currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_MASONRY
-                        gridGallery.numColumns = 2
-                        adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_MASONRY)
-                        Toast.makeText(this, "Staggered Masonry Grid active", Toast.LENGTH_SHORT).show()
-                    }
-                    1 -> {
-                        currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_BENTO
-                        gridGallery.numColumns = 2
-                        adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_BENTO)
-                        Toast.makeText(this, "Bento Featured Grid active", Toast.LENGTH_SHORT).show()
-                    }
-                    2 -> {
-                        currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
-                        gridColumns = 3
-                        gridGallery.numColumns = 3
-                        adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_COMPACT)
-                        Toast.makeText(this, "Compact 3-Columns Grid", Toast.LENGTH_SHORT).show()
-                    }
-                    3 -> {
-                        currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
-                        gridColumns = 4
-                        gridGallery.numColumns = 4
-                        adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_COMPACT)
-                        Toast.makeText(this, "Compact 4-Columns Grid", Toast.LENGTH_SHORT).show()
-                    }
-                    4 -> {
-                        currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
-                        gridColumns = 2
-                        gridGallery.numColumns = 2
-                        adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_COMPACT)
-                        Toast.makeText(this, "Large 2-Columns Grid", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            .show()
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setGravity(Gravity.BOTTOM)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            attributes?.windowAnimations = R.style.Animation_ArtrawFiles
+        }
+
+        view.findViewById<View>(R.id.btnLayoutEngineClose)?.setOnClickListener { dialog.dismiss() }
+
+        view.findViewById<View>(R.id.btnLayoutMasonry)?.setOnClickListener {
+            dialog.dismiss()
+            currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_MASONRY
+            gridGallery.numColumns = 2
+            adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_MASONRY)
+            Toast.makeText(this, "Staggered Masonry Grid active", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnLayoutBento)?.setOnClickListener {
+            dialog.dismiss()
+            currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_BENTO
+            gridGallery.numColumns = 2
+            adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_BENTO)
+            Toast.makeText(this, "Bento Featured Grid active", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnLayoutCompact3)?.setOnClickListener {
+            dialog.dismiss()
+            currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
+            gridColumns = 3
+            gridGallery.numColumns = 3
+            adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_COMPACT)
+            Toast.makeText(this, "Compact 3-Columns Grid", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnLayoutCompact4)?.setOnClickListener {
+            dialog.dismiss()
+            currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
+            gridColumns = 4
+            gridGallery.numColumns = 4
+            adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_COMPACT)
+            Toast.makeText(this, "Dense 4-Columns Grid", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnLayoutCompact2)?.setOnClickListener {
+            dialog.dismiss()
+            currentLayoutEngine = SmartGalleryAdapter.LAYOUT_MODE_COMPACT
+            gridColumns = 2
+            gridGallery.numColumns = 2
+            adapter.setLayoutMode(SmartGalleryAdapter.LAYOUT_MODE_COMPACT)
+            Toast.makeText(this, "Large 2-Columns Grid", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.show()
     }
 
     private fun showQuickSortDialog() {
-        val sortOptions = arrayOf(
-            "Date (Newest first)",
-            "Date (Oldest first)",
-            "Size (Largest first)",
-            "Size (Smallest first)",
-            "Name (A - Z)",
-            "Aspect Ratio (Portrait first)",
-            "Aspect Ratio (Landscape first)"
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_gallery_sort, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setGravity(Gravity.BOTTOM)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            attributes?.windowAnimations = R.style.Animation_ArtrawFiles
+        }
+
+        view.findViewById<View>(R.id.btnSortClose)?.setOnClickListener { dialog.dismiss() }
+
+        val checkViews = listOf(
+            view.findViewById<ImageView>(R.id.ivSortCheck0),
+            view.findViewById<ImageView>(R.id.ivSortCheck1),
+            view.findViewById<ImageView>(R.id.ivSortCheck2),
+            view.findViewById<ImageView>(R.id.ivSortCheck3),
+            view.findViewById<ImageView>(R.id.ivSortCheck4),
+            view.findViewById<ImageView>(R.id.ivSortCheck5),
+            view.findViewById<ImageView>(R.id.ivSortCheck6)
+        )
+        checkViews.forEachIndexed { index, iv ->
+            iv?.visibility = if (index == currentSortOrder) View.VISIBLE else View.GONE
+        }
+
+        val sortButtons = listOf(
+            view.findViewById<View>(R.id.btnSortDateNewest) to 0,
+            view.findViewById<View>(R.id.btnSortDateOldest) to 1,
+            view.findViewById<View>(R.id.btnSortSizeLargest) to 2,
+            view.findViewById<View>(R.id.btnSortSizeSmallest) to 3,
+            view.findViewById<View>(R.id.btnSortNameAZ) to 4,
+            view.findViewById<View>(R.id.btnSortAspectPortrait) to 5,
+            view.findViewById<View>(R.id.btnSortAspectLandscape) to 6
         )
 
-        AlertDialog.Builder(this)
-            .setTitle("Sort Media By")
-            .setSingleChoiceItems(sortOptions, currentSortOrder) { dialog, which ->
-                currentSortOrder = which
+        sortButtons.forEach { (btn, sortIdx) ->
+            btn?.setOnClickListener {
+                currentSortOrder = sortIdx
                 dialog.dismiss()
                 applyCurrentSort()
             }
-            .show()
+        }
+
+        dialog.show()
     }
 
     private fun applyCurrentSort() {
@@ -292,95 +348,149 @@ class SmartGalleryActivity : BaseActivity() {
     }
 
     /**
-     * Context Menu with 1-Tap Copy Path Superpowers
+     * Context Menu Bottom Sheet with 1-Tap Copy Path Superpowers
      */
     private fun showItemContextMenu(item: AiMediaItem) {
-        val options = arrayOf(
-            "Copy Absolute File Path",
-            "Copy Parent Folder Path",
-            "Copy File Name",
-            "AI Intelligence & Details",
-            "Move to Vault",
-            if (item.isFavorite) "Remove from Favorites" else "Add to Favorites",
-            "Share",
-            "Delete"
-        )
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_gallery_item_context, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
 
-        AlertDialog.Builder(this)
-            .setTitle(item.name)
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> ClipboardHelper.copyPath(this, item.file)
-                    1 -> ClipboardHelper.copyDirectoryPath(this, item.file)
-                    2 -> ClipboardHelper.copyFileName(this, item.file)
-                    3 -> {
-                        AiPhotoDetailsDialog.show(
-                            context = this,
-                            item = item,
-                            onFindSimilar = { target ->
-                                val similar = db.getSimilarItems(target, 40)
-                                applyFilteredMedia(similar, "Similar to: ${target.name}")
-                            },
-                            onFavoriteToggled = {
-                                adapter.notifyDataSetChanged()
-                            }
-                        )
-                    }
-                    4 -> {
-                        AlertDialog.Builder(this)
-                            .setTitle("Move to Vault")
-                            .setMessage("Encrypt and move \"${item.name}\" to your private Vault?")
-                            .setPositiveButton("Move") { _, _ ->
-                                if (VaultManager.moveToVault(item.file)) {
-                                    db.deleteItem(item.path)
-                                    Toast.makeText(this, "Moved to Vault", Toast.LENGTH_SHORT).show()
-                                    loadFastMediaImmediately()
-                                } else {
-                                    Toast.makeText(this, "Could not move to vault", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                            .setNegativeButton("Cancel", null)
-                            .show()
-                    }
-                    5 -> {
-                        val newState = db.toggleFavorite(item.path)
-                        item.isFavorite = newState
-                        FavoritesManager.toggleFavorite(item.toFileItem())
-                        adapter.notifyDataSetChanged()
-                        Toast.makeText(this, if (newState) "Added to Favorites" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
-                    }
-                    6 -> {
-                        try {
-                            val uri = ArtrawFileProvider.getUriForFile(item.file)
-                            val intent = Intent(Intent.ACTION_SEND).apply {
-                                type = "*/*"
-                                putExtra(Intent.EXTRA_STREAM, uri)
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            }
-                            startActivity(Intent.createChooser(intent, "Share Media"))
-                        } catch (e: Throwable) {
-                            Toast.makeText(this, "Share failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    7 -> {
-                        AlertDialog.Builder(this)
-                            .setTitle("Delete Media")
-                            .setMessage("Permanently delete ${item.name}?")
-                            .setPositiveButton("Delete") { _, _ ->
-                                if (item.file.delete()) {
-                                    db.deleteItem(item.path)
-                                    Toast.makeText(this, "Deleted ${item.name}", Toast.LENGTH_SHORT).show()
-                                    loadFastMediaImmediately()
-                                } else {
-                                    Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                            .setNegativeButton("Cancel", null)
-                            .show()
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setGravity(Gravity.BOTTOM)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            attributes?.windowAnimations = R.style.Animation_ArtrawFiles
+        }
+
+        val ivThumb = view.findViewById<ImageView>(R.id.ivContextThumbnail)
+        val tvName = view.findViewById<TextView>(R.id.tvContextFileName)
+        val tvMeta = view.findViewById<TextView>(R.id.tvContextFileMeta)
+        val btnClose = view.findViewById<View>(R.id.btnContextClose)
+
+        btnClose?.setOnClickListener { dialog.dismiss() }
+
+        tvName?.text = item.name
+        val dimenText = if (item.width > 0 && item.height > 0) "${item.width} × ${item.height} • " else ""
+        tvMeta?.text = "$dimenText${Formatters.formatFileSize(item.size)}"
+
+        ivThumb?.let { iv ->
+            ThumbnailLoader.loadThumbnail(
+                imageView = iv,
+                item = item.toFileItem(),
+                targetSize = 140,
+                defaultIconRes = if (item.isVideo) R.drawable.ic_video else R.drawable.ic_image
+            )
+        }
+
+        // 1-Tap Copy Absolute Path
+        view.findViewById<View>(R.id.btnContextCopyPath)?.setOnClickListener {
+            dialog.dismiss()
+            ClipboardHelper.copyPath(this, item.file)
+        }
+
+        // Copy Folder
+        view.findViewById<View>(R.id.btnContextCopyFolder)?.setOnClickListener {
+            dialog.dismiss()
+            ClipboardHelper.copyDirectoryPath(this, item.file)
+        }
+
+        // Copy Name
+        view.findViewById<View>(R.id.btnContextCopyName)?.setOnClickListener {
+            dialog.dismiss()
+            ClipboardHelper.copyFileName(this, item.file)
+        }
+
+        // AI Details
+        view.findViewById<View>(R.id.btnContextAiDetails)?.setOnClickListener {
+            dialog.dismiss()
+            AiPhotoDetailsDialog.show(
+                context = this,
+                item = item,
+                onFindSimilar = { target ->
+                    val similar = db.getSimilarItems(target, 40)
+                    applyFilteredMedia(similar, "Similar to: ${target.name}")
+                },
+                onFavoriteToggled = {
+                    adapter.notifyDataSetChanged()
+                }
+            )
+        }
+
+        // Favorite Toggle
+        val tvFavText = view.findViewById<TextView>(R.id.tvContextFavText)
+        val ivFavIcon = view.findViewById<ImageView>(R.id.ivContextFavIcon)
+        if (item.isFavorite) {
+            tvFavText?.text = "Remove from Favorites"
+            ivFavIcon?.setImageResource(R.drawable.ic_heart_filled)
+        } else {
+            tvFavText?.text = "Add to Favorites"
+            ivFavIcon?.setImageResource(R.drawable.ic_star_border)
+        }
+        view.findViewById<View>(R.id.btnContextFavorite)?.setOnClickListener {
+            dialog.dismiss()
+            val newState = db.toggleFavorite(item.path)
+            item.isFavorite = newState
+            FavoritesManager.toggleFavorite(item.toFileItem())
+            adapter.notifyDataSetChanged()
+            Toast.makeText(this, if (newState) "Added to Favorites" else "Removed from Favorites", Toast.LENGTH_SHORT).show()
+        }
+
+        // Move to Vault
+        view.findViewById<View>(R.id.btnContextVault)?.setOnClickListener {
+            dialog.dismiss()
+            AlertDialog.Builder(this)
+                .setTitle("Move to Vault")
+                .setMessage("Encrypt and move \"${item.name}\" to your private Vault?")
+                .setPositiveButton("Move") { _, _ ->
+                    if (VaultManager.moveToVault(item.file)) {
+                        db.deleteItem(item.path)
+                        Toast.makeText(this, "Moved to Vault", Toast.LENGTH_SHORT).show()
+                        loadFastMediaImmediately()
+                    } else {
+                        Toast.makeText(this, "Could not move to vault", Toast.LENGTH_SHORT).show()
                     }
                 }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        // Share
+        view.findViewById<View>(R.id.btnContextShare)?.setOnClickListener {
+            dialog.dismiss()
+            try {
+                val uri = ArtrawFileProvider.getUriForFile(item.file)
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "*/*"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                startActivity(Intent.createChooser(intent, "Share Media"))
+            } catch (e: Throwable) {
+                Toast.makeText(this, "Share failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-            .show()
+        }
+
+        // Delete
+        view.findViewById<View>(R.id.btnContextDelete)?.setOnClickListener {
+            dialog.dismiss()
+            AlertDialog.Builder(this)
+                .setTitle("Delete Media")
+                .setMessage("Permanently delete ${item.name}?")
+                .setPositiveButton("Delete") { _, _ ->
+                    if (item.file.delete()) {
+                        db.deleteItem(item.path)
+                        Toast.makeText(this, "Deleted ${item.name}", Toast.LENGTH_SHORT).show()
+                        loadFastMediaImmediately()
+                    } else {
+                        Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        dialog.show()
     }
 
     /**
@@ -611,7 +721,16 @@ class SmartGalleryActivity : BaseActivity() {
         btnClearSearch.setOnClickListener {
             etSearch.setText("")
             btnClearSearch.visibility = View.GONE
+            scrollGallerySuggestions.visibility = View.GONE
             loadCategory(currentCategory)
+        }
+
+        etSearch.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus || etSearch.text.isNotEmpty()) {
+                scrollGallerySuggestions.visibility = View.VISIBLE
+            } else {
+                scrollGallerySuggestions.visibility = View.GONE
+            }
         }
 
         etSearch.addTextChangedListener(object : TextWatcher {
@@ -619,6 +738,7 @@ class SmartGalleryActivity : BaseActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val q = s?.toString()?.trim() ?: ""
                 btnClearSearch.visibility = if (q.isNotEmpty()) View.VISIBLE else View.GONE
+                scrollGallerySuggestions.visibility = if (q.isNotEmpty() || etSearch.hasFocus()) View.VISIBLE else View.GONE
                 if (q.isNotEmpty()) {
                     performAiSearch(q)
                 } else {
@@ -859,10 +979,13 @@ class SmartGalleryActivity : BaseActivity() {
 
         val photoCount = items.count { !it.isVideo && !it.isAudio && !it.isDocument }
         val videoCount = items.count { it.isVideo }
-        val audioCount = items.count { it.isAudio }
-        val docCount = items.count { it.isDocument }
-
-        tvGalleryCount.text = "$photoCount Photos • $videoCount Videos • $audioCount Audio • $docCount Docs"
+        tvGalleryCount.text = if (items.isEmpty()) {
+            "0 items"
+        } else if (items.size == 1) {
+            "1 item"
+        } else {
+            "${items.size} items • $photoCount photos, $videoCount videos"
+        }
 
         if (items.isEmpty()) {
             layoutEmpty.visibility = View.VISIBLE
@@ -976,12 +1099,17 @@ class SmartGalleryActivity : BaseActivity() {
     }
 
     private fun updateSelectionDock() {
+        val btnSelectAll = findViewById<ImageView>(R.id.btnGallerySelectAll)
         if (adapter.isSelectionMode) {
             val count = adapter.getSelectedItems().size
             layoutSelectionDock.visibility = View.VISIBLE
             tvSelectionCount.text = "$count selected"
+            btnSelectAll?.setImageResource(R.drawable.ic_check_circle)
+            btnSelectAll?.imageTintList = ColorStateList.valueOf(getColor(R.color.cyber_violet))
         } else {
             layoutSelectionDock.visibility = View.GONE
+            btnSelectAll?.setImageResource(R.drawable.ic_check_circle_outline)
+            btnSelectAll?.imageTintList = ColorStateList.valueOf(getColor(R.color.gallery_text_title))
         }
     }
 
@@ -995,9 +1123,10 @@ class SmartGalleryActivity : BaseActivity() {
                 }
             )
         }
-        findViewById<View>(R.id.fabGalleryAssistant).setOnClickListener(openAssistantAction)
-        findViewById<View>(R.id.btnGalleryHeaderAssistant).setOnClickListener(openAssistantAction)
-        MotionUtils.pressScale(findViewById(R.id.fabGalleryAssistant), 0.94f)
+        findViewById<View>(R.id.fabGalleryAssistant)?.setOnClickListener(openAssistantAction)
+        findViewById<View>(R.id.btnGalleryHeaderAssistant)?.setOnClickListener(openAssistantAction)
+        findViewById<View>(R.id.fabGalleryAssistant)?.let { MotionUtils.pressScale(it, 0.94f) }
+        findViewById<View>(R.id.btnGalleryHeaderAssistant)?.let { MotionUtils.pressScale(it, 0.94f) }
     }
 
     private fun triggerManualReindex() {
@@ -1024,26 +1153,45 @@ class SmartGalleryActivity : BaseActivity() {
     }
 
     private fun showMoreMenu() {
-        val options = arrayOf(
-            "Change Layout Engine (Bento / Masonry / Grid)",
-            "Sort Media (Date, Size, Name, Aspect Ratio)",
-            "Full AI Re-scan & Index",
-            "Open AI Assistant",
-            "Open Secure Vault",
-            "Gallery Settings"
-        )
-        AlertDialog.Builder(this)
-            .setTitle("Gallery Options")
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> showLayoutEngineDialog()
-                    1 -> showQuickSortDialog()
-                    2 -> triggerManualReindex()
-                    3 -> findViewById<View>(R.id.fabGalleryAssistant).performClick()
-                    4 -> startActivity(Intent(this, VaultActivity::class.java))
-                    5 -> startActivity(Intent(this, SettingsActivity::class.java))
-                }
-            }
-            .show()
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_gallery_options, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setGravity(Gravity.BOTTOM)
+            setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            attributes?.windowAnimations = R.style.Animation_ArtrawFiles
+        }
+
+        view.findViewById<View>(R.id.btnSheetClose)?.setOnClickListener { dialog.dismiss() }
+
+        view.findViewById<View>(R.id.btnOptLayoutEngine)?.setOnClickListener {
+            dialog.dismiss()
+            showLayoutEngineDialog()
+        }
+        view.findViewById<View>(R.id.btnOptSortMedia)?.setOnClickListener {
+            dialog.dismiss()
+            showQuickSortDialog()
+        }
+        view.findViewById<View>(R.id.btnOptAiRescan)?.setOnClickListener {
+            dialog.dismiss()
+            triggerManualReindex()
+        }
+        view.findViewById<View>(R.id.btnOptAiAssistant)?.setOnClickListener {
+            dialog.dismiss()
+            findViewById<View>(R.id.btnGalleryHeaderAssistant)?.performClick()
+        }
+        view.findViewById<View>(R.id.btnOptVault)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, VaultActivity::class.java))
+        }
+        view.findViewById<View>(R.id.btnOptSettings)?.setOnClickListener {
+            dialog.dismiss()
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
+        dialog.show()
     }
 }

@@ -21,17 +21,20 @@
         <!-- App Bar: Editorial Title & Action Icons -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="54dp"
             android:paddingStart="8dp"
-            android:paddingEnd="12dp">
+            android:paddingEnd="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp">
 
             <ImageView
                 android:id="@+id/btnGalleryBack"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="12dp"
+                android:padding="11dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:tint="@color/gallery_text_title"
@@ -43,7 +46,8 @@
                 android:layout_toEndOf="@id/btnGalleryBack"
                 android:layout_toStartOf="@+id/layoutGalleryTopActions"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -53,17 +57,21 @@
                     android:text="ArtFiles Gallery"
                     android:textStyle="bold"
                     android:textColor="@color/gallery_text_title"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:id="@+id/tvGalleryCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
                     android:text="Fast Media Engine • 0ms"
-                    android:textColor="@color/cyber_cyan"
+                    android:textColor="@color/gallery_text_subtitle"
                     android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:singleLine="true"
+                    android:ellipsize="end" />
             </LinearLayout>
 
             <LinearLayout
@@ -77,44 +85,44 @@
                 <!-- Dynamic Grid / Bento / Masonry Engine Toggle -->
                 <ImageView
                     android:id="@+id/btnGalleryColumns"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="1dp"
                     android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_grid"
-                    android:tint="@color/cyber_violet"
+                    android:tint="@color/gallery_text_title"
                     android:contentDescription="Toggle Layout Engine" />
 
                 <!-- Quick Sort Button (Date, Size, Name, Aspect Ratio) -->
                 <ImageView
                     android:id="@+id/btnGallerySort"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="1dp"
                     android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_sort"
-                    android:tint="@color/neon_amber"
+                    android:tint="@color/gallery_text_title"
                     android:contentDescription="Quick Sort" />
 
                 <!-- Multi-Select Mode -->
                 <ImageView
                     android:id="@+id/btnGallerySelectAll"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="1dp"
                     android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_check_circle_outline"
-                    android:tint="@color/neon_pink"
+                    android:tint="@color/gallery_text_title"
                     android:contentDescription="Select Mode" />
 
                 <!-- More Options -->
                 <ImageView
                     android:id="@+id/btnGalleryMore"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:padding="9dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_more"
@@ -134,16 +142,16 @@
             <LinearLayout
                 android:id="@+id/layoutGallerySearchBar"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="44dp"
                 android:background="@drawable/bg_cyber_search"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="14dp"
-                android:paddingEnd="8dp">
+                android:paddingStart="12dp"
+                android:paddingEnd="6dp">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_sparkles"
                     android:tint="@color/cyber_violet"
                     android:contentDescription="AI Search" />
@@ -153,9 +161,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="8dp"
                     android:background="@android:color/transparent"
-                    android:hint="Search AI… mountains, red car, pets, receipts"
+                    android:hint="Search photos, videos, tags…"
                     android:textColorHint="@color/aurora_text_tertiary"
                     android:textColor="@color/gallery_text_title"
                     android:textSize="13sp"
@@ -164,50 +172,33 @@
 
                 <ImageView
                     android:id="@+id/btnGallerySearchClear"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:padding="7dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="6dp"
                     android:src="@drawable/ic_close"
                     android:tint="@color/aurora_text_tertiary"
                     android:visibility="gone"
                     android:contentDescription="Clear Search" />
 
-                <LinearLayout
+                <ImageView
                     android:id="@+id/btnGalleryHeaderAssistant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="34dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:padding="6dp"
                     android:background="@drawable/bg_cyber_chip_active"
-                    android:gravity="center_vertical"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_auto_awesome"
-                        android:tint="#FFFFFF"
-                        android:contentDescription="Ask AI" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Ask AI"
-                        android:textColor="#FFFFFF"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                    android:src="@drawable/ic_auto_awesome"
+                    android:tint="#FFFFFF"
+                    android:contentDescription="Ask AI" />
 
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Refined Editorial Stats Strip -->
+        <!-- Refined Editorial Stats Strip (Hidden by default to save 32dp vertical space) -->
         <LinearLayout
             android:id="@+id/bannerGalleryLiveStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:layout_marginBottom="6dp"
@@ -297,7 +288,7 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <!-- Quick AI Suggestions Horizontal Scroll (Clean Text Pills) -->
+        <!-- Quick AI Suggestions Horizontal Scroll (Clean Text Pills - Expands on search focus) -->
         <HorizontalScrollView
             android:id="@+id/scrollGallerySuggestions"
             android:layout_width="match_parent"
@@ -305,7 +296,8 @@
             android:scrollbars="none"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:paddingBottom="6dp">
+            android:paddingBottom="6dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -832,7 +824,7 @@
             android:contentDescription="Close Selection" />
     </LinearLayout>
 
-    <!-- Floating AI Assistant FAB -->
+    <!-- Floating AI Assistant FAB (Hidden to keep photos unobstructed) -->
     <LinearLayout
         android:id="@+id/fabGalleryAssistant"
         android:layout_width="wrap_content"
@@ -846,7 +838,8 @@
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
         android:orientation="horizontal"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="20dp"
