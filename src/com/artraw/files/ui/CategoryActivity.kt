@@ -28,7 +28,7 @@ import com.artraw.files.util.Formatters
 import com.google.android.gms.ads.AdView
 import java.util.concurrent.Executors
 
-class CategoryActivity : Activity() {
+class CategoryActivity : BaseActivity() {
 
     private lateinit var repository: FileRepository
     private val operationManager = FileOperationManager()

@@ -8,7 +8,7 @@
     <!-- Navigation & Titles -->
     <string name="nav_home">Home</string>
     <string name="nav_browse">Browse</string>
-    <string name="nav_analysis">Analysis</string>
+    <string name="nav_analysis">Tools</string>
     <string name="nav_settings">Settings</string>
 
     <!-- Storage Overview -->
@@ -153,8 +153,11 @@
 
     <!-- Settings -->
     <string name="pref_theme">Theme</string>
+    <string name="pref_theme_system">System default</string>
     <string name="pref_theme_dark">Dark</string>
     <string name="pref_theme_light">Light</string>
+    <string name="pref_animations">Animations &amp; motion</string>
+    <string name="pref_grid_columns">Grid density</string>
     <string name="pref_language">Language</string>
     <string name="pref_show_hidden">Show Hidden Files</string>
     <string name="pref_show_extensions">Show File Extensions</string>

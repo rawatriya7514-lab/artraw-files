@@ -25,7 +25,7 @@ import java.io.File
  * shadows, highlights, clarity, vignette, filters (vivid, moody, warm, cool, BW, sepia),
  * text overlay, and save.
  */
-class ImageEditorActivity : Activity() {
+class ImageEditorActivity : BaseActivity() {
 
     private lateinit var imageView: ImageView
     private lateinit var originalBitmap: Bitmap

@@ -8,7 +8,7 @@ import com.artraw.files.R
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
 
-class OnboardingActivity : Activity() {
+class OnboardingActivity : BaseActivity() {
 
     private lateinit var settingsManager: SettingsManager
 

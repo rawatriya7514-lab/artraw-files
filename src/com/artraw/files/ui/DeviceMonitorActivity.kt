@@ -22,7 +22,7 @@ import com.artraw.files.ui.view.ThermalGraphView
 import com.artraw.files.ui.view.UsageGraphView
 import com.artraw.files.util.Formatters
 
-class DeviceMonitorActivity : Activity() {
+class DeviceMonitorActivity : BaseActivity() {
 
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isUpdating = false
@@ -266,8 +266,8 @@ class DeviceMonitorActivity : Activity() {
         tvCurrentThermalTemp.text = "${String.format("%.1f", thermal.currentTempCelsius)}°C"
 
         val tempColor = when {
-            thermal.currentTempCelsius >= 44.0f -> Color.parseColor("#FF3366")
-            thermal.currentTempCelsius >= 38.0f -> Color.parseColor("#FFCC00")
+            thermal.currentTempCelsius >= 44.0f -> getColor(R.color.aurora_error)
+            thermal.currentTempCelsius >= 38.0f -> getColor(R.color.aurora_warning)
             else -> getColor(R.color.status_success)
         }
         tvCurrentThermalTemp.setTextColor(tempColor)
@@ -296,7 +296,7 @@ class DeviceMonitorActivity : Activity() {
             for (evt in thermal.heatEvents.takeLast(5).reversed()) {
                 val row = TextView(this).apply {
                     text = "• ${evt.timeLabel}: ${String.format("%.1f", evt.peakTemp)}°C (${evt.severity})"
-                    setTextColor(if (evt.peakTemp >= 44.0f) Color.parseColor("#FF3366") else Color.parseColor("#FFCC00"))
+                    setTextColor(if (evt.peakTemp >= 44.0f) getColor(R.color.aurora_error) else getColor(R.color.aurora_warning))
                     textSize = 12f
                     setPadding(0, 4, 0, 4)
                 }

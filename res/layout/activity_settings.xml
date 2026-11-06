@@ -134,7 +134,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Choose Dark or Light color mode"
+                            android:text="Choose System default, Dark or Light"
                             android:textColor="@color/aurora_text_secondary"
                             android:textSize="12sp"
                             android:maxLines="1"
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_pill_badge"
-                        android:text="Dark"
+                        android:text="System"
                         android:textColor="@color/aurora_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -387,6 +387,147 @@
                     android:layout_marginStart="44dp"
                     android:layout_marginEnd="8dp" />
 
+                <!-- Animations -->
+                <LinearLayout
+                    android:id="@+id/rowAnimations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_heart_pulse"
+                        android:tint="@color/aurora_success"
+                        android:contentDescription="@string/pref_animations" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_animations"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Subtle transitions and press feedback"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/cbAnimations"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/aurora_primary" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Grid density -->
+                <LinearLayout
+                    android:id="@+id/rowGridColumns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_grid"
+                        android:tint="@color/aurora_secondary"
+                        android:contentDescription="@string/pref_grid_columns" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pref_grid_columns"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Default number of columns in gallery view"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvGridColumns"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_pill_badge"
+                        android:text="3"
+                        android:textColor="@color/aurora_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
+
                 <!-- Storage Permission Status & Button -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -490,6 +631,72 @@
                 android:background="@drawable/bg_aurora_card"
                 android:padding="8dp"
                 android:layout_marginBottom="20dp">
+
+                <!-- Toolbox Hub -->
+                <LinearLayout
+                    android:id="@+id/rowToolbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="54dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_grid"
+                        android:tint="@color/aurora_primary"
+                        android:contentDescription="Toolbox" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Toolbox"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Cleaners, shredder, analyzer and power tools"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/aurora_outline"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="8dp" />
 
                 <!-- Recycle Bin -->
                 <LinearLayout
@@ -956,7 +1163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Version 1.1.0 (Target Android 15)"
+                    android:text="Version 1.2.0 (Target Android 15)"
                     android:textColor="@color/aurora_text_secondary"
                     android:textSize="12sp" />
 

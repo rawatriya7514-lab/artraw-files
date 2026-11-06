@@ -1,48 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Tactile Matte Clay Card with Cyberpunk Dual Shadow & Neon Ambient Rim -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Bottom Drop Shadow -->
     <item
-        android:top="2dp"
         android:bottom="0dp"
         android:left="0dp"
-        android:right="0dp">
+        android:right="0dp"
+        android:top="2dp">
         <shape android:shape="rectangle">
-            <corners android:radius="16dp" />
             <solid android:color="@color/aurora_shadow_soft" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
-
-    <!-- Top Neon Ambient Bevel Rim -->
     <item
-        android:top="0dp"
         android:bottom="2dp"
         android:left="0dp"
-        android:right="0dp">
+        android:right="0dp"
+        android:top="0dp">
         <shape android:shape="rectangle">
+            <solid android:color="@color/aurora_background_surface" />
             <corners android:radius="16dp" />
-            <stroke
-                android:width="1dp"
-                android:color="#1FA855F7" />
-            <gradient
-                android:angle="270"
-                android:startColor="#26A855F7"
-                android:endColor="#0A06B6D4" />
-        </shape>
-    </item>
-
-    <!-- Matte Dark Clay Surface -->
-    <item
-        android:top="1dp"
-        android:bottom="2dp"
-        android:left="1dp"
-        android:right="1dp">
-        <shape android:shape="rectangle">
-            <corners android:radius="15dp" />
-            <gradient
-                android:angle="270"
-                android:startColor="#181A24"
-                android:endColor="@color/aurora_surface" />
             <stroke
                 android:width="1dp"
                 android:color="@color/aurora_outline" />

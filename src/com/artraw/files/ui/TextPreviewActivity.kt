@@ -12,7 +12,7 @@ import com.artraw.files.util.Formatters
 import java.io.File
 import java.io.FileInputStream
 
-class TextPreviewActivity : Activity() {
+class TextPreviewActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_FILE_PATH = "extra_file_path"

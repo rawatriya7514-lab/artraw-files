@@ -150,102 +150,135 @@
                     android:includeFontPadding="false" />
             </LinearLayout>
 
+            <!-- Storage Overview Card -->
             <LinearLayout
                 android:id="@+id/cardStorage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/bg_aurora_card_elevated"
+                android:background="@drawable/bg_glass_clay_card_elevated"
                 android:padding="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:focusable="true">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/layoutStorageHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true">
-
-                        <ImageView
-                            android:id="@+id/iconStorage"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:background="@drawable/bg_aurora_category_card"
-                            android:padding="6dp"
-                            android:src="@drawable/ic_storage"
-                            android:tint="@color/aurora_primary"
-                            android:contentDescription="@string/content_storage" />
-
-                        <TextView
-                            android:id="@+id/tvStorageTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/storage_internal"
-                            android:textColor="@color/aurora_text_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvStoragePercent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/bg_aurora_category_badge"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingTop="3dp"
-                            android:paddingBottom="3dp"
-                            android:text="0%"
-                            android:textColor="@color/aurora_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <ProgressBar
-                    android:id="@+id/progressStorage"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="6dp"
-                    android:layout_marginTop="14dp"
-                    android:progressDrawable="@drawable/divider_aurora"
-                    android:max="100"
-                    android:progress="0"
-                    android:indeterminateTint="@color/aurora_primary" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/tvStorageUsed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:text="Calculating storage…"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="13sp" />
+                    <FrameLayout
+                        android:layout_width="112dp"
+                        android:layout_height="112dp">
 
-                    <TextView
-                        android:id="@+id/tvStorageFree"
-                        android:layout_width="wrap_content"
+                        <com.artraw.files.ui.view.RingProgressView
+                            android:id="@+id/ringStorage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvStoragePercent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0%"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/aurora_text_primary"
+                                android:textSize="21sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="USED"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/aurora_text_tertiary"
+                                android:textSize="8sp"
+                                android:letterSpacing="0.16"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="--"
-                        android:textColor="@color/aurora_text_secondary"
-                        android:textSize="13sp" />
-                </RelativeLayout>
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/iconStorage"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_storage"
+                                android:tint="@color/aurora_primary"
+                                android:contentDescription="@string/content_storage" />
+
+                            <TextView
+                                android:id="@+id/tvStorageTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="7dp"
+                                android:text="@string/storage_internal"
+                                android:textColor="@color/aurora_text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-medium"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/aurora_text_tertiary"
+                                android:contentDescription="@string/content_storage" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvStorageUsed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Calculating storage…"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/tvStorageFree"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="--"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvStorageHint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Tap to manage storage"
+                            android:textColor="@color/aurora_text_tertiary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

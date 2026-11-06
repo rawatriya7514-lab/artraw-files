@@ -22,7 +22,7 @@ import com.artraw.files.util.MimeTypes
 import java.io.File
 import java.util.concurrent.Executors
 
-class JunkCleanerActivity : Activity() {
+class JunkCleanerActivity : BaseActivity() {
 
     private val executor = Executors.newSingleThreadExecutor()
 
@@ -175,13 +175,13 @@ class JunkCleanerActivity : Activity() {
                 val icon = ImageView(this@JunkCleanerActivity).apply {
                     layoutParams = LinearLayout.LayoutParams(32, 32)
                     setImageResource(R.drawable.ic_delete)
-                    setColorFilter(android.graphics.Color.parseColor("#FF5252"))
+                    setColorFilter(getColor(R.color.aurora_error))
                 }
                 header.addView(icon)
 
                 val nameTv = TextView(this@JunkCleanerActivity).apply {
                     textSize = 15f
-                    setTextColor(android.graphics.Color.parseColor("#F0F4F8"))
+                    setTextColor(getColor(R.color.aurora_text_primary))
                     setTypeface(null, android.graphics.Typeface.BOLD)
                     layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
                         marginStart = 10
@@ -191,14 +191,14 @@ class JunkCleanerActivity : Activity() {
 
                 val sizeTv = TextView(this@JunkCleanerActivity).apply {
                     textSize = 13f
-                    setTextColor(android.graphics.Color.parseColor("#4ECDC4"))
+                    setTextColor(getColor(R.color.aurora_success))
                     setTypeface(null, android.graphics.Typeface.BOLD)
                 }
                 header.addView(sizeTv)
 
                 val descTv = TextView(this@JunkCleanerActivity).apply {
                     textSize = 12f
-                    setTextColor(android.graphics.Color.parseColor("#9AA5B1"))
+                    setTextColor(getColor(R.color.aurora_text_secondary))
                     val lp = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT

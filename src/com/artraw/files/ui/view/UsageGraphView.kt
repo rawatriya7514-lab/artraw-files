@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import com.artraw.files.R
 import com.artraw.files.monitor.AppUsageInfo
 
 class UsageGraphView @JvmOverloads constructor(
@@ -18,16 +19,16 @@ class UsageGraphView @JvmOverloads constructor(
     private val apps = mutableListOf<AppUsageInfo>()
 
     private val colors = intArrayOf(
-        Color.parseColor("#FF3366"), // Artfiles Crimson
-        Color.parseColor("#33CCFF"), // Cyan / Blue
-        Color.parseColor("#FFCC00"), // Amber / Gold
-        Color.parseColor("#B366FF"), // Purple
-        Color.parseColor("#00E676"), // Emerald Green
-        Color.parseColor("#FF9933")  // Orange
+        resources.getColor(R.color.aurora_primary),
+        resources.getColor(R.color.aurora_secondary),
+        resources.getColor(R.color.aurora_warning),
+        resources.getColor(R.color.cyber_violet),
+        resources.getColor(R.color.aurora_success),
+        resources.getColor(R.color.cyber_amber)
     )
 
     private val barBgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#252525")
+        color = resources.getColor(R.color.aurora_surface_elevated)
         style = Paint.Style.FILL
     }
 
@@ -36,13 +37,13 @@ class UsageGraphView @JvmOverloads constructor(
     }
 
     private val titlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+        color = resources.getColor(R.color.aurora_text_primary)
         textSize = 12f * resources.displayMetrics.density
         isFakeBoldText = true
     }
 
     private val metaPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#8E8E93")
+        color = resources.getColor(R.color.aurora_text_secondary)
         textSize = 11f * resources.displayMetrics.density
     }
 

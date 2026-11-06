@@ -26,7 +26,7 @@ import java.util.Enumeration
  * Starts a simple HTTP server on the device so you can browse/download files
  * from any computer on the same WiFi network.
  */
-class WiFiTransferActivity : Activity() {
+class WiFiTransferActivity : BaseActivity() {
 
     private lateinit var tvIpAddress: TextView
     private lateinit var tvPort: TextView
@@ -88,7 +88,7 @@ class WiFiTransferActivity : Activity() {
                         if (isRunning) {
                             handler.post {
                                 tvStatus.text = "Server error: ${e.message}"
-                                tvStatus.setTextColor(android.graphics.Color.parseColor("#D50000"))
+                                tvStatus.setTextColor(getColor(R.color.aurora_error))
                             }
                         }
                     }
@@ -98,7 +98,7 @@ class WiFiTransferActivity : Activity() {
 
             btnStartStop.text = "Stop Server"
             tvStatus.text = "Server running on $PORT"
-            tvStatus.setTextColor(android.graphics.Color.parseColor("#00C853"))
+            tvStatus.setTextColor(getColor(R.color.aurora_success))
 
             Toast.makeText(this, "WiFi Transfer started. Open http://${getLocalIpAddress()}:$PORT on your PC", Toast.LENGTH_LONG).show()
         } catch (e: IOException) {
@@ -116,7 +116,7 @@ class WiFiTransferActivity : Activity() {
 
         btnStartStop.text = "Start Server"
         tvStatus.text = "Server stopped"
-        tvStatus.setTextColor(android.graphics.Color.parseColor("#9AA5B1"))
+        tvStatus.setTextColor(getColor(R.color.aurora_text_secondary))
     }
 
     private fun handleClient(client: Socket) {

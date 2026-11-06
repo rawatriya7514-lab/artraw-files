@@ -10,6 +10,7 @@ import android.graphics.Path
 import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
+import com.artraw.files.R
 import com.artraw.files.monitor.ThermalPoint
 
 class ThermalGraphView @JvmOverloads constructor(
@@ -32,24 +33,24 @@ class ThermalGraphView @JvmOverloads constructor(
     }
 
     private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#282828")
+        color = resources.getColor(R.color.aurora_divider)
         strokeWidth = 1f * resources.displayMetrics.density
         style = Paint.Style.STROKE
         pathEffect = DashPathEffect(floatArrayOf(10f, 10f), 0f)
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#8E8E93")
+        color = resources.getColor(R.color.aurora_text_tertiary)
         textSize = 10f * resources.displayMetrics.density
     }
 
     private val peakDotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#FF3366")
+        color = resources.getColor(R.color.aurora_error)
         style = Paint.Style.FILL
     }
 
     private val peakTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+        color = resources.getColor(R.color.aurora_on_primary)
         textSize = 11f * resources.displayMetrics.density
         isFakeBoldText = true
     }
@@ -121,7 +122,7 @@ class ThermalGraphView @JvmOverloads constructor(
         // Gradient shader for fill
         val shader = LinearGradient(
             0f, paddingTop, 0f, paddingTop + graphHeight,
-            Color.parseColor("#44FF3366"),
+            withAlpha(resources.getColor(R.color.aurora_error), 0x44),
             Color.TRANSPARENT,
             Shader.TileMode.CLAMP
         )
@@ -129,7 +130,7 @@ class ThermalGraphView @JvmOverloads constructor(
         canvas.drawPath(fillPath, fillPaint)
 
         // Draw line with high-contrast accent
-        linePaint.color = Color.parseColor("#FF3366")
+        linePaint.color = resources.getColor(R.color.aurora_error)
         canvas.drawPath(linePath, linePaint)
 
         // Highlight Peak temperature point
@@ -164,4 +165,7 @@ class ThermalGraphView @JvmOverloads constructor(
             canvas.drawText(endTime, width - paddingRight - endWidth, yBottom, textPaint)
         }
     }
+
+    private fun withAlpha(color: Int, alpha: Int): Int =
+        (color and 0x00FFFFFF) or (alpha shl 24)
 }

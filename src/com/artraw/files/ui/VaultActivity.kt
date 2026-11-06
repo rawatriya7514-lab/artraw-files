@@ -21,7 +21,7 @@ import com.artraw.files.util.Formatters
 import com.artraw.files.util.VaultManager
 import java.io.File
 
-class VaultActivity : Activity() {
+class VaultActivity : BaseActivity() {
 
     private lateinit var listViewVault: ListView
     private var vaultItems: List<VaultManager.VaultItem> = emptyList()
@@ -172,7 +172,7 @@ class VaultActivity : Activity() {
                     layoutParams = LinearLayout.LayoutParams(40, 40)
                     scaleType = ImageView.ScaleType.CENTER_INSIDE
                     setImageResource(R.drawable.ic_file)
-                    setColorFilter(android.graphics.Color.parseColor("#8A2BE2"))
+                    setColorFilter(getColor(R.color.aurora_secondary))
                 }
                 container.addView(icon)
 
@@ -186,7 +186,7 @@ class VaultActivity : Activity() {
 
                 val nameTv = TextView(this@VaultActivity).apply {
                     textSize = 15f
-                    setTextColor(android.graphics.Color.parseColor("#F0F4F8"))
+                    setTextColor(getColor(R.color.aurora_text_primary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }
@@ -194,7 +194,7 @@ class VaultActivity : Activity() {
 
                 val metaTv = TextView(this@VaultActivity).apply {
                     textSize = 12f
-                    setTextColor(android.graphics.Color.parseColor("#9AA5B1"))
+                    setTextColor(getColor(R.color.aurora_text_secondary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }

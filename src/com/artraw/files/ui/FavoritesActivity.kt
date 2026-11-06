@@ -25,7 +25,7 @@ import com.artraw.files.util.ThumbnailLoader
 import java.io.File
 import java.util.concurrent.Executors
 
-class FavoritesActivity : Activity() {
+class FavoritesActivity : BaseActivity() {
 
     private lateinit var repository: FileRepository
     private val executor = Executors.newSingleThreadExecutor()
@@ -142,7 +142,7 @@ class FavoritesActivity : Activity() {
 
                 val nameTv = TextView(this@FavoritesActivity).apply {
                     textSize = 15f
-                    setTextColor(Color.parseColor("#F0F4F8"))
+                    setTextColor(getColor(R.color.aurora_text_primary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }
@@ -150,7 +150,7 @@ class FavoritesActivity : Activity() {
 
                 val metaTv = TextView(this@FavoritesActivity).apply {
                     textSize = 12f
-                    setTextColor(Color.parseColor("#9AA5B1"))
+                    setTextColor(getColor(R.color.aurora_text_secondary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }
@@ -176,7 +176,7 @@ class FavoritesActivity : Activity() {
                 ThumbnailLoader.loadThumbnail(holder.icon, item, targetSize = 120, defaultIconRes = MimeTypes.getIconRes(item))
             } else {
                 holder.icon.setImageResource(MimeTypes.getIconRes(item))
-                holder.icon.setColorFilter(ThumbnailLoader.getCategoryColor(item))
+                holder.icon.setColorFilter(ThumbnailLoader.getCategoryColor(this@FavoritesActivity, item))
             }
             holder.nameTv.text = item.name
             holder.metaTv.text = Formatters.formatFileSize(item.size) + " • " + Formatters.formatDate(item.lastModified)

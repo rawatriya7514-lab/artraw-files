@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark platform theme so dialogs, menus and text selection follow the app. -->
+    <style name="Theme.ArtrawFiles" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:colorPrimary">@color/aurora_primary</item>
+        <item name="android:colorPrimaryDark">@color/aurora_background_deep</item>
+        <item name="android:colorAccent">@color/aurora_secondary</item>
+        <item name="android:windowBackground">@drawable/bg_heaven_gradient</item>
+        <item name="android:colorBackground">@color/aurora_background_deep</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowAnimationStyle">@style/Animation.ArtrawFiles</item>
+        <item name="android:windowSplashScreenBackground">@color/aurora_background_deep</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground_vector</item>
+        <item name="android:windowSplashScreenAnimationDuration">500</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/aurora_background_deep</item>
+    </style>
+
+    <style name="Theme.ArtrawFiles.Light" parent="Theme.ArtrawFiles" />
+
+    <style name="Theme.ArtrawFiles.Splash" parent="Theme.ArtrawFiles">
+        <item name="android:windowBackground">@color/aurora_background_deep</item>
+        <item name="android:windowSplashScreenBackground">@color/aurora_background_deep</item>
+        <item name="android:windowSplashScreenAnimationDuration">400</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/aurora_background_deep</item>
+    </style>
+</resources>

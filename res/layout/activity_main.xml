@@ -68,9 +68,9 @@
                         android:paddingEnd="6dp"
                         android:paddingTop="1dp"
                         android:paddingBottom="1dp"
-                        android:text="NEO"
+                        android:text="PRO"
                         android:fontFamily="monospace"
-                        android:textColor="@color/cyber_cyan"
+                        android:textColor="@color/aurora_secondary"
                         android:textSize="9sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -169,89 +169,127 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_glass_clay_card_elevated"
-                android:padding="14dp"
+                android:padding="16dp"
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:focusable="true">
 
                 <LinearLayout
-                    android:id="@+id/layoutStorageHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:id="@+id/iconStorage"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/bg_pill_badge"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_storage"
-                        android:tint="@color/aurora_primary"
-                        android:contentDescription="@string/content_storage" />
+                    <FrameLayout
+                        android:layout_width="112dp"
+                        android:layout_height="112dp">
 
-                    <TextView
-                        android:id="@+id/tvStorageTitle"
+                        <com.artraw.files.ui.view.RingProgressView
+                            android:id="@+id/ringStorage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvStoragePercent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0%"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/aurora_text_primary"
+                                android:textSize="21sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="USED"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/aurora_text_tertiary"
+                                android:textSize="8sp"
+                                android:letterSpacing="0.16"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/storage_internal"
-                        android:textColor="@color/aurora_text_primary"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvStoragePercent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_pill_badge"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:text="0%"
-                        android:fontFamily="monospace"
-                        android:textColor="@color/cyber_cyan"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
 
-                <ProgressBar
-                    android:id="@+id/progressStorage"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="10dp"
-                    android:progressDrawable="@drawable/bg_progress_storage"
-                    android:max="100"
-                    android:progress="0" />
+                            <ImageView
+                                android:id="@+id/iconStorage"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_storage"
+                                android:tint="@color/aurora_primary"
+                                android:contentDescription="@string/content_storage" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tvStorageTitle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="7dp"
+                                android:text="@string/storage_internal"
+                                android:textColor="@color/aurora_text_primary"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-medium"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
 
-                    <TextView
-                        android:id="@+id/tvStorageUsed"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Calculating storage…"
-                        android:textColor="@color/aurora_text_primary"
-                        android:fontFamily="monospace"
-                        android:textSize="12sp" />
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_chevron_right"
+                                android:tint="@color/aurora_text_tertiary"
+                                android:contentDescription="@string/content_storage" />
+                        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvStorageFree"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="--"
-                        android:textColor="@color/aurora_text_secondary"
-                        android:fontFamily="monospace"
-                        android:textSize="12sp" />
+                        <TextView
+                            android:id="@+id/tvStorageUsed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Calculating storage…"
+                            android:textColor="@color/aurora_text_primary"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-medium" />
+
+                        <TextView
+                            android:id="@+id/tvStorageFree"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="--"
+                            android:textColor="@color/aurora_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvStorageHint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Tap to manage storage"
+                            android:textColor="@color/aurora_text_tertiary"
+                            android:textSize="11sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -554,7 +592,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_image"
-                            android:tint="#42A5F5"
+                            android:tint="@color/cat_images"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -596,7 +634,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_video"
-                            android:tint="#AB47BC"
+                            android:tint="@color/cat_videos"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -638,7 +676,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_audio"
-                            android:tint="#26A69A"
+                            android:tint="@color/cat_apks"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -680,7 +718,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_document"
-                            android:tint="#FFA726"
+                            android:tint="@color/cat_documents"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -729,7 +767,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_download"
-                            android:tint="#29B6F6"
+                            android:tint="@color/cat_downloads"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -771,7 +809,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_archive"
-                            android:tint="#7E57C2"
+                            android:tint="@color/cat_archives"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -813,7 +851,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_apk"
-                            android:tint="#66BB6A"
+                            android:tint="@color/cat_audio"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -855,7 +893,7 @@
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_file"
-                            android:tint="#78909C"
+                            android:tint="@color/cat_other"
                             android:contentDescription="@string/content_file" />
                     </FrameLayout>
 
@@ -961,7 +999,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_home"
-                android:tint="#FFFFFF"
+                android:tint="@color/aurora_primary"
                 android:contentDescription="@string/content_home" />
 
             <TextView
@@ -970,7 +1008,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_home"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/aurora_primary"
                 android:textSize="10sp"
                 android:textStyle="bold"
                 android:fontFamily="sans-serif-medium" />

@@ -41,6 +41,7 @@ import com.artraw.files.repository.FileRepository
 import com.artraw.files.ui.adapter.FileListAdapter
 import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
+import com.artraw.files.util.MotionUtils
 import com.artraw.files.util.PathSecurity
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
@@ -48,7 +49,7 @@ import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-class BrowserActivity : Activity() {
+class BrowserActivity : BaseActivity() {
 
     private lateinit var repository: FileRepository
     private lateinit var settingsManager: SettingsManager
@@ -134,23 +135,28 @@ class BrowserActivity : Activity() {
         fun setActive(index: Int) {
             navItems.forEachIndexed { i, (btnId, tvId) ->
                 val isActive = i == index
-                findViewById<android.widget.LinearLayout>(btnId).let {
-                    for (childIndex in 0 until it.childCount) {
-                        val child = it.getChildAt(childIndex)
-                        if (child is android.widget.ImageView) {
-                            child.setImageTintList(
-                                android.content.res.ColorStateList.valueOf(
-                                    if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
-                                )
-                            )
-                        }
-                        if (child is android.widget.TextView) {
-                            child.setTextColor(
-                                if (isActive) resources.getColor(R.color.artraw_crimson, null) else resources.getColor(R.color.text_tertiary_dark, null)
+                val container = findViewById<android.widget.LinearLayout>(btnId)
+                container.setBackgroundResource(
+                    if (isActive) R.drawable.bg_clay_dock_active else R.drawable.bg_clay_dock_socket
+                )
+                val tint = resources.getColor(
+                    if (isActive) R.color.aurora_primary else R.color.aurora_text_secondary,
+                    null
+                )
+                for (childIndex in 0 until container.childCount) {
+                    when (val child = container.getChildAt(childIndex)) {
+                        is android.widget.ImageView -> child.imageTintList =
+                            android.content.res.ColorStateList.valueOf(tint)
+                        is android.widget.TextView -> {
+                            child.setTextColor(tint)
+                            child.setTypeface(
+                                child.typeface,
+                                if (isActive) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL
                             )
                         }
                     }
                 }
+                findViewById<android.widget.TextView>(tvId).setTextColor(tint)
             }
         }
 
@@ -158,14 +164,11 @@ class BrowserActivity : Activity() {
 
         findViewById<android.widget.LinearLayout>(R.id.btnNavHomeBrowser).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
-        }
-
-        findViewById<android.widget.LinearLayout>(R.id.btnNavBrowseBrowser).setOnClickListener {
-            // Already on browse screen
+            finish()
         }
 
         findViewById<android.widget.LinearLayout>(R.id.btnNavAnalysisBrowser).setOnClickListener {
-            startActivity(Intent(this, AnalyzerActivity::class.java))
+            startActivity(Intent(this, ToolboxActivity::class.java))
         }
 
         findViewById<android.widget.LinearLayout>(R.id.btnNavSettingsBrowser).setOnClickListener {
@@ -196,8 +199,9 @@ class BrowserActivity : Activity() {
         })
     }
 
-    private fun applyGridColumns(cols: Int) {
+    private fun applyGridColumns(cols: Int, announce: Boolean = true) {
         gridColumns = cols.coerceIn(1, 5)
+        settingsManager.gridColumns = gridColumns
         gridViewFiles.numColumns = gridColumns
         val density = resources.displayMetrics.density
         val spacing = when (gridColumns) {
@@ -219,7 +223,7 @@ class BrowserActivity : Activity() {
             4 -> "4 Columns (Compact Grid)"
             else -> "5 Columns (Mini Gallery)"
         }
-        Toast.makeText(this, label, Toast.LENGTH_SHORT).show()
+        if (announce) Toast.makeText(this, label, Toast.LENGTH_SHORT).show()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -247,6 +251,9 @@ class BrowserActivity : Activity() {
         try {
             adView?.resume()
         } catch (_: Throwable) {}
+        if (::gridAdapter.isInitialized && settingsManager.gridColumns != gridColumns) {
+            applyGridColumns(settingsManager.gridColumns, announce = false)
+        }
     }
 
     override fun onPause() {
@@ -292,6 +299,7 @@ class BrowserActivity : Activity() {
         listViewFiles.adapter = listAdapter
         gridViewFiles.adapter = gridAdapter
 
+        applyGridColumns(settingsManager.gridColumns, announce = false)
         updateViewMode()
     }
 
@@ -432,11 +440,11 @@ class BrowserActivity : Activity() {
         }
 
         findViewById<View>(R.id.btnNewFolder)?.setOnClickListener {
-            showNewFolderDialog()
+            showCreateDialog()
         }
 
         findViewById<View>(R.id.fabNewFolder)?.setOnClickListener {
-            showNewFolderDialog()
+            showCreateDialog()
         }
 
         findViewById<View>(R.id.btnActionSelectAll)?.setOnClickListener {
@@ -451,6 +459,14 @@ class BrowserActivity : Activity() {
             copyToClipboard("Path", currentDirectory.absolutePath)
             Toast.makeText(this, "Current path copied: ${currentDirectory.absolutePath}", Toast.LENGTH_SHORT).show()
         }
+
+        listOf(
+            R.id.btnSearch, R.id.btnSort, R.id.btnViewToggle, R.id.btnNewFolder,
+            R.id.btnRefresh, R.id.btnBack, R.id.btnCopyCurrentPath
+        ).forEach { id ->
+            findViewById<View>(id)?.let { MotionUtils.pressScale(it, 0.9f) }
+        }
+        findViewById<View>(R.id.fabNewFolder)?.let { MotionUtils.pressScale(it, 0.92f) }
     }
 
     private fun activeAdapter(): FileListAdapter = if (isGridMode) gridAdapter else listAdapter
@@ -523,7 +539,7 @@ class BrowserActivity : Activity() {
         for ((index, segment) in segments.withIndex()) {
             val tv = TextView(this)
             tv.text = if (segment.absolutePath == "/storage/emulated/0") "Internal" else segment.name
-            tv.setTextColor(if (index == segments.size - 1) Color.parseColor("#818CF8") else Color.parseColor("#94A3B8"))
+            tv.setTextColor(if (index == segments.size - 1) getColor(R.color.aurora_primary) else getColor(R.color.aurora_text_secondary))
             tv.textSize = 13f
             tv.setPadding(8, 4, 8, 4)
             tv.setOnClickListener {
@@ -534,7 +550,7 @@ class BrowserActivity : Activity() {
             if (index < segments.size - 1) {
                 val sep = TextView(this)
                 sep.text = "›"
-                sep.setTextColor(Color.parseColor("#64748B"))
+                sep.setTextColor(getColor(R.color.aurora_text_tertiary))
                 sep.setPadding(2, 4, 2, 4)
                 layoutBreadcrumbs.addView(sep)
             }
@@ -570,12 +586,104 @@ class BrowserActivity : Activity() {
         }
     }
 
+    private fun showCreateDialog() {
+        val options = arrayOf("New folder", "New file")
+        AlertDialog.Builder(this)
+            .setTitle("Create")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showNewFolderDialog()
+                    1 -> showNewFileDialog()
+                }
+            }
+            .show()
+    }
+
+    private fun showNewFileDialog() {
+        val input = EditText(this).apply {
+            hint = "File name (e.g. notes.txt)"
+            setSingleLine()
+            setTextColor(getColor(R.color.aurora_text_primary))
+            setHintTextColor(getColor(R.color.aurora_text_tertiary))
+            background = getDrawable(R.drawable.bg_search_bar)
+            setPadding(36, 24, 36, 24)
+        }
+        val container = FrameLayout(this).apply {
+            setPadding(48, 24, 48, 12)
+            addView(input)
+        }
+        AlertDialog.Builder(this)
+            .setTitle("New File")
+            .setView(container)
+            .setPositiveButton("Create") { _, _ ->
+                val name = input.text.toString().trim()
+                if (name.isBlank() || name.contains("/") || name.contains("\\")) {
+                    Toast.makeText(this, "Enter a valid file name", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                val newFile = File(currentDirectory, name)
+                if (newFile.exists()) {
+                    Toast.makeText(this, "File already exists", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                try {
+                    if (newFile.createNewFile()) {
+                        Toast.makeText(this, "Created $name", Toast.LENGTH_SHORT).show()
+                        loadDirectory(currentDirectory)
+                    } else {
+                        Toast.makeText(this, "Could not create file", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton(R.string.btn_cancel, null)
+            .show()
+    }
+
+    private fun confirmShred(files: List<FileItem>) {
+        if (files.isEmpty()) return
+        val total = files.sumOf { it.size }
+        AlertDialog.Builder(this)
+            .setTitle("Shred ${files.size} file(s)?")
+            .setMessage(
+                "This overwrites file contents with random data before deleting. " +
+                    "It cannot be undone.\n\nTotal: ${Formatters.formatFileSize(total)}"
+            )
+            .setPositiveButton("Shred") { _, _ ->
+                val progress = ProgressDialog(this).apply {
+                    setMessage("Shredding securely…")
+                    setCancelable(false)
+                    show()
+                }
+                Thread {
+                    var ok = 0
+                    var failed = 0
+                    for (item in files) {
+                        if (com.artraw.files.operations.SecureShredder.shred(item.file)) ok++ else failed++
+                    }
+                    runOnUiThread {
+                        try { progress.dismiss() } catch (_: Throwable) {}
+                        activeAdapter().clearSelection()
+                        loadDirectory(currentDirectory)
+                        Toast.makeText(
+                            this,
+                            "Shredded $ok file(s)${if (failed > 0) ", $failed failed" else ""}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }.start()
+            }
+            .setNegativeButton(R.string.btn_cancel, null)
+            .show()
+    }
+
     private fun showNewFolderDialog() {
         val input = EditText(this).apply {
             hint = "Folder name"
             setSingleLine()
-            setTextColor(Color.WHITE)
-            setHintTextColor(Color.parseColor("#9AA0A6"))
+            setTextColor(getColor(R.color.aurora_text_primary))
+            setHintTextColor(getColor(R.color.aurora_text_tertiary))
             background = getDrawable(R.drawable.bg_search_bar)
             setPadding(36, 24, 36, 24)
         }
@@ -585,7 +693,7 @@ class BrowserActivity : Activity() {
             addView(input)
         }
 
-        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+        AlertDialog.Builder(this)
             .setTitle("New Folder")
             .setView(container)
             .setPositiveButton("Create") { _, _ ->
@@ -750,6 +858,9 @@ class BrowserActivity : Activity() {
                     add("Encrypt Selected ($unencryptedCount)")
                 }
             }
+            if (items.any { !it.isDirectory }) {
+                add("Shred Permanently")
+            }
             add("Select All")
         }
 
@@ -790,6 +901,7 @@ class BrowserActivity : Activity() {
                         toggleFavorite(items[0])
                     }
                     "Select All" -> activeAdapter().selectAll()
+                    "Shred Permanently" -> confirmShred(items.filter { !it.isDirectory })
                 }
             }
             .show()
@@ -964,7 +1076,7 @@ class BrowserActivity : Activity() {
         val btnPaste = Button(this).apply {
             text = "Paste from Clipboard"
             setBackgroundResource(R.drawable.bg_button_outlined)
-            setTextColor(Color.parseColor("#4F46E5"))
+            setTextColor(getColor(R.color.aurora_primary))
             setOnClickListener {
                 val clipMgr = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = clipMgr.primaryClip

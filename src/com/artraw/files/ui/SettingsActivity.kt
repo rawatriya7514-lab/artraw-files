@@ -10,10 +10,11 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import com.artraw.files.R
+import com.artraw.files.util.MotionUtils
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
 
-class SettingsActivity : Activity() {
+class SettingsActivity : BaseActivity() {
 
     private lateinit var settingsManager: SettingsManager
 
@@ -21,6 +22,8 @@ class SettingsActivity : Activity() {
     private lateinit var tvCurrentTheme: TextView
     private lateinit var cbShowHidden: CheckBox
     private lateinit var cbShowExtensions: CheckBox
+    private lateinit var cbAnimations: CheckBox
+    private lateinit var tvGridColumns: TextView
     private lateinit var tvPermissionStatus: TextView
     private lateinit var btnManagePermission: Button
 
@@ -54,13 +57,21 @@ class SettingsActivity : Activity() {
         tvCurrentTheme = findViewById(R.id.tvCurrentTheme)
         cbShowHidden = findViewById(R.id.cbShowHidden)
         cbShowExtensions = findViewById(R.id.cbShowExtensions)
+        cbAnimations = findViewById(R.id.cbAnimations)
+        tvGridColumns = findViewById(R.id.tvGridColumns)
         tvPermissionStatus = findViewById(R.id.tvPermissionStatus)
         btnManagePermission = findViewById(R.id.btnManagePermission)
 
         tvCurrentLanguage.text = if (settingsManager.language == "hi") "हिन्दी (Hindi)" else "English"
-        tvCurrentTheme.text = if (settingsManager.themeMode == "dark") getString(R.string.pref_theme_dark) else getString(R.string.pref_theme_light)
+        tvCurrentTheme.text = when (settingsManager.themeMode) {
+            "dark" -> getString(R.string.pref_theme_dark)
+            "light" -> getString(R.string.pref_theme_light)
+            else -> getString(R.string.pref_theme_system)
+        }
         cbShowHidden.isChecked = settingsManager.showHiddenFiles
         cbShowExtensions.isChecked = settingsManager.showFileExtensions
+        cbAnimations.isChecked = settingsManager.animationsEnabled
+        tvGridColumns.text = settingsManager.gridColumns.toString()
 
         updatePermissionStatus()
     }
@@ -85,21 +96,48 @@ class SettingsActivity : Activity() {
             settingsManager.showFileExtensions = isChecked
         }
 
-        // Theme Dark/Light Toggle
+        cbAnimations.setOnCheckedChangeListener { _, isChecked ->
+            settingsManager.animationsEnabled = isChecked
+        }
+
+        // Theme: System default / Dark / Light
         findViewById<View>(R.id.rowTheme).setOnClickListener {
-            val themes = arrayOf(getString(R.string.pref_theme_dark), getString(R.string.pref_theme_light))
-            val current = if (settingsManager.themeMode == "dark") 0 else 1
+            val modes = arrayOf("system", "dark", "light")
+            val labels = arrayOf(
+                getString(R.string.pref_theme_system),
+                getString(R.string.pref_theme_dark),
+                getString(R.string.pref_theme_light)
+            )
+            val current = modes.indexOf(settingsManager.themeMode).coerceAtLeast(0)
             AlertDialog.Builder(this)
                 .setTitle(R.string.pref_theme)
-                .setSingleChoiceItems(themes, current) { _, which ->
-                    val newMode = if (which == 0) "dark" else "light"
-                    settingsManager.themeMode = newMode
-                    tvCurrentTheme.text = themes[which]
-                    // Recreate activity to apply theme immediately
+                .setSingleChoiceItems(labels, current) { dialog, which ->
+                    settingsManager.themeMode = modes[which]
+                    dialog.dismiss()
                     recreate()
                 }
-                .setPositiveButton("OK", null)
+                .setNegativeButton("Cancel", null)
                 .show()
+        }
+
+        // Grid density
+        findViewById<View>(R.id.rowGridColumns)?.setOnClickListener {
+            val options = arrayOf("2 columns", "3 columns", "4 columns", "5 columns")
+            val current = (settingsManager.gridColumns - 2).coerceIn(0, options.size - 1)
+            AlertDialog.Builder(this)
+                .setTitle(R.string.pref_grid_columns)
+                .setSingleChoiceItems(options, current) { dialog, which ->
+                    val cols = which + 2
+                    settingsManager.gridColumns = cols
+                    tvGridColumns.text = cols.toString()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        findViewById<View>(R.id.rowToolbox)?.setOnClickListener {
+            startActivity(Intent(this, ToolboxActivity::class.java))
         }
 
         btnManagePermission.setOnClickListener {
@@ -205,6 +243,14 @@ class SettingsActivity : Activity() {
 
         findViewById<View>(R.id.rowToolVault).setOnClickListener {
             startActivity(Intent(this, VaultActivity::class.java))
+        }
+
+        listOf(
+            R.id.rowTheme, R.id.rowLanguage, R.id.rowGridColumns, R.id.rowToolbox,
+            R.id.rowToolTrash, R.id.rowToolJunk, R.id.rowToolVault, R.id.rowToolChecksum,
+            R.id.rowPrivacyPolicy, R.id.rowGoogleAdSettings, R.id.rowAppAdsTxt
+        ).forEach { id ->
+            findViewById<View>(id)?.let { MotionUtils.pressScale(it, 0.99f) }
         }
     }
 

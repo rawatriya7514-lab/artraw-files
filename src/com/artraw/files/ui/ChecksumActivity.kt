@@ -18,7 +18,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.security.MessageDigest
 
-class ChecksumActivity : Activity() {
+class ChecksumActivity : BaseActivity() {
 
     private lateinit var tvFilePath: TextView
     private lateinit var tvMd5: TextView

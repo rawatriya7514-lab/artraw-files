@@ -1,105 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ====================================================================== -->
-    <!-- ARTRAW Brand Colors (Claymorphism & Cyberpunk Neon Violet) -->
+    <!-- ARTFILES — legacy aliases. All real values live in aurora_colors.xml   -->
+    <!-- (values/ = light, values-night/ = dark), so every screen is theme-aware -->
     <!-- ====================================================================== -->
-    <color name="artraw_crimson">#A855F7</color>
-    <color name="artraw_crimson_dark">#7E22CE</color>
-    <color name="artraw_crimson_accent">#C084FC</color>
 
-    <!-- ====================================================================== -->
-    <!-- Material Design 3 Dynamic Color Roles (Clay-Cyberpunk Palette) -->
-    <!-- ====================================================================== -->
-    <!-- Primary (Neon Violet) -->
-    <color name="md_theme_primary">#A855F7</color>
-    <color name="md_theme_onPrimary">#FFFFFF</color>
-    <color name="md_theme_primaryContainer">#3B0764</color>
-    <color name="md_theme_onPrimaryContainer">#E9D5FF</color>
+    <!-- Brand aliases -->
+    <color name="artraw_crimson">@color/aurora_primary</color>
+    <color name="artraw_crimson_dark">@color/aurora_crimson_dark</color>
+    <color name="artraw_crimson_accent">@color/aurora_primary_glow</color>
 
-    <!-- Secondary (Electric Cyan) -->
-    <color name="md_theme_secondary">#06B6D4</color>
-    <color name="md_theme_onSecondary">#0B0C10</color>
-    <color name="md_theme_secondaryContainer">#164E63</color>
-    <color name="md_theme_onSecondaryContainer">#CFFAFE</color>
-
-    <!-- Tertiary (Laser Pink) -->
-    <color name="md_theme_tertiary">#F43F5E</color>
-    <color name="md_theme_onTertiary">#FFFFFF</color>
-    <color name="md_theme_tertiaryContainer">#4C0519</color>
-    <color name="md_theme_onTertiaryContainer">#FECDD3</color>
-
-    <!-- Error -->
-    <color name="md_theme_error">#F43F5E</color>
-    <color name="md_theme_onError">#FFFFFF</color>
-    <color name="md_theme_errorContainer">#4C0519</color>
-    <color name="md_theme_onErrorContainer">#FECDD3</color>
-
-    <!-- Surface -->
-    <color name="md_theme_surface">#13151B</color>
-    <color name="md_theme_onSurface">#F8FAFC</color>
-    <color name="md_theme_surfaceVariant">#181926</color>
-    <color name="md_theme_onSurfaceVariant">#94A3B8</color>
-    <color name="md_theme_inverseSurface">#F8FAFC</color>
-    <color name="md_theme_inverseOnSurface">#0B0C10</color>
-    <color name="md_theme_inversePrimary">#C084FC</color>
-
-    <!-- Background -->
-    <color name="md_theme_background">#0B0C10</color>
-    <color name="md_theme_onBackground">#F8FAFC</color>
-
-    <!-- Outline -->
-    <color name="md_theme_outline">#2A2D3D</color>
-    <color name="md_theme_outlineVariant">#363A4E</color>
-
-    <!-- Scrim -->
+    <!-- Material roles -->
+    <color name="md_theme_primary">@color/aurora_primary</color>
+    <color name="md_theme_onPrimary">@color/aurora_on_primary</color>
+    <color name="md_theme_primaryContainer">@color/aurora_primary_container</color>
+    <color name="md_theme_onPrimaryContainer">@color/aurora_text_primary</color>
+    <color name="md_theme_secondary">@color/aurora_secondary</color>
+    <color name="md_theme_onSecondary">@color/aurora_on_secondary</color>
+    <color name="md_theme_secondaryContainer">@color/aurora_secondary_container</color>
+    <color name="md_theme_onSecondaryContainer">@color/aurora_text_primary</color>
+    <color name="md_theme_tertiary">@color/cyber_green</color>
+    <color name="md_theme_onTertiary">@color/aurora_on_primary</color>
+    <color name="md_theme_tertiaryContainer">@color/aurora_success</color>
+    <color name="md_theme_onTertiaryContainer">@color/aurora_text_primary</color>
+    <color name="md_theme_error">@color/aurora_error</color>
+    <color name="md_theme_onError">@color/aurora_on_primary</color>
+    <color name="md_theme_errorContainer">@color/aurora_error</color>
+    <color name="md_theme_onErrorContainer">@color/aurora_text_primary</color>
+    <color name="md_theme_surface">@color/aurora_surface</color>
+    <color name="md_theme_onSurface">@color/aurora_text_primary</color>
+    <color name="md_theme_surfaceVariant">@color/aurora_surface_variant</color>
+    <color name="md_theme_onSurfaceVariant">@color/aurora_text_secondary</color>
+    <color name="md_theme_inverseSurface">@color/aurora_text_primary</color>
+    <color name="md_theme_inverseOnSurface">@color/aurora_background_deep</color>
+    <color name="md_theme_inversePrimary">@color/aurora_primary_glow</color>
+    <color name="md_theme_background">@color/aurora_background_deep</color>
+    <color name="md_theme_onBackground">@color/aurora_text_primary</color>
+    <color name="md_theme_outline">@color/aurora_outline</color>
+    <color name="md_theme_outlineVariant">@color/aurora_outline_variant</color>
     <color name="md_theme_scrim">#000000</color>
 
-    <!-- ====================================================================== -->
-    <!-- Modern Dark Canvas Colors (Matte Obsidian Base) -->
-    <!-- ====================================================================== -->
-    <color name="bg_dark">#0B0C10</color>
-    <color name="surface_dark">#13151B</color>
-    <color name="surface_elevated_dark">#181926</color>
-    <color name="border_dark">#2A2D3D</color>
-    <color name="text_primary_dark">#F8FAFC</color>
-    <color name="text_secondary_dark">#94A3B8</color>
-    <color name="text_tertiary_dark">#64748B</color>
+    <!-- Legacy surface aliases (theme-aware) -->
+    <color name="bg_dark">@color/aurora_background_deep</color>
+    <color name="surface_dark">@color/aurora_surface</color>
+    <color name="surface_elevated_dark">@color/aurora_surface_elevated</color>
+    <color name="border_dark">@color/aurora_outline</color>
+    <color name="text_primary_dark">@color/aurora_text_primary</color>
+    <color name="text_secondary_dark">@color/aurora_text_secondary</color>
+    <color name="text_tertiary_dark">@color/aurora_text_tertiary</color>
 
-    <!-- ====================================================================== -->
-    <!-- Light Theme Colors -->
-    <!-- ====================================================================== -->
-    <color name="bg_light">#F8F9FA</color>
-    <color name="surface_light">#FFFFFF</color>
-    <color name="surface_elevated_light">#F1F3F4</color>
-    <color name="border_light">#E0E0E0</color>
-    <color name="text_primary_light">#202124</color>
-    <color name="text_secondary_light">#5F6368</color>
-    <color name="text_tertiary_light">#80868B</color>
+    <color name="bg_light">@color/aurora_bg_light</color>
+    <color name="surface_light">@color/aurora_surface_light</color>
+    <color name="surface_elevated_light">#E9EFF6</color>
+    <color name="border_light">#D9E1EB</color>
+    <color name="text_primary_light">@color/aurora_text_light_primary</color>
+    <color name="text_secondary_light">@color/aurora_text_light_secondary</color>
+    <color name="text_tertiary_light">@color/aurora_text_light_tertiary</color>
 
-    <!-- ====================================================================== -->
-    <!-- Category Badges (Material 3 inspired) -->
-    <!-- ====================================================================== -->
-    <color name="cat_images">#42A5F5</color>
-    <color name="cat_videos">#AB47BC</color>
-    <color name="cat_audio">#26A69A</color>
-    <color name="cat_documents">#FFA726</color>
-    <color name="cat_downloads">#29B6F6</color>
-    <color name="cat_archives">#7E57C2</color>
-    <color name="cat_apks">#66BB6A</color>
-    <color name="cat_other">#78909C</color>
+    <!-- Category accents are defined per theme in aurora_colors.xml -->
 
-    <!-- Status Colors -->
-    <color name="selection_overlay">#334F46E5</color>
-    <color name="status_success">#10B981</color>
-    <color name="status_warning">#F59E0B</color>
-    <color name="status_error">#EF4444</color>
-    <color name="ic_launcher_background">#090D16</color>
-
-    <!-- Divider -->
-    <color name="divider_dark">#1F2937</color>
-    <color name="divider_light">#E2E8F0</color>
-
-    <!-- Placeholder / Skeleton -->
-    <color name="placeholder_dark">#1A2234</color>
+    <!-- States -->
+    <color name="status_success">@color/aurora_success</color>
+    <color name="status_warning">@color/aurora_warning</color>
+    <color name="status_error">@color/aurora_error</color>
+    <color name="ic_launcher_background">#0F1319</color>
+    <color name="divider_dark">@color/aurora_divider</color>
+    <color name="divider_light">@color/aurora_divider_light</color>
+    <color name="placeholder_dark">@color/aurora_surface_elevated</color>
     <color name="placeholder_light">#F1F5F9</color>
 </resources>

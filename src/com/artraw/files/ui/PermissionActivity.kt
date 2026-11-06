@@ -19,7 +19,7 @@ import android.widget.Toast
 import com.artraw.files.R
 import com.artraw.files.util.EdgeToEdgeHelper
 
-class PermissionActivity : Activity() {
+class PermissionActivity : BaseActivity() {
 
     private lateinit var btnOpenSettings: Button
     private lateinit var permIcon: ImageView
@@ -120,7 +120,7 @@ class PermissionActivity : Activity() {
         permIcon.startAnimation(successAnim)
 
         permIcon.setImageResource(R.drawable.ic_check_circle)
-        permIcon.setColorFilter(android.graphics.Color.parseColor("#00C853"))
+        permIcon.setColorFilter(getColor(R.color.aurora_success))
 
         step1.visibility = View.GONE
         step2.visibility = View.GONE

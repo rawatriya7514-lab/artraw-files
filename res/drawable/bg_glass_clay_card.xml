@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 1. Deep Soft Drop Shadow (Tactile 3D Depth) -->
-    <item android:top="3dp" android:left="0dp" android:right="0dp" android:bottom="0dp">
+    <!-- Soft ambient shadow -->
+    <item
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="2dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/aurora_shadow_soft" />
             <corners android:radius="18dp" />
         </shape>
     </item>
-    <!-- 2. Top Subtle Neon Ambient Rim Light -->
-    <item android:top="0dp" android:left="0dp" android:right="0dp" android:bottom="3dp">
+    <!-- Clean, low-chroma surface with a hairline rim -->
+    <item
+        android:bottom="2dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
         <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:startColor="#26A855F7"
-                android:endColor="#0A06B6D4"
-                android:angle="270" />
+            <solid android:color="@color/aurora_background_surface" />
             <corners android:radius="18dp" />
-            <stroke android:width="1dp" android:color="#33A855F7" />
-        </shape>
-    </item>
-    <!-- 3. Matte Clay Body Surface -->
-    <item android:top="1dp" android:left="1dp" android:right="1dp" android:bottom="3dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:type="linear"
-                android:startColor="#1A1C28"
-                android:endColor="#13151B"
-                android:angle="270" />
-            <corners android:radius="17dp" />
-            <stroke android:width="1dp" android:color="@color/aurora_outline" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/aurora_outline" />
         </shape>
     </item>
 </layer-list>

@@ -12,6 +12,7 @@ import com.artraw.files.R
 import com.artraw.files.model.FileCategory
 import com.artraw.files.model.FileItem
 import com.artraw.files.util.Formatters
+import com.artraw.files.util.MotionUtils
 import com.artraw.files.util.ThumbnailLoader
 
 class FileListAdapter(
@@ -99,6 +100,8 @@ class FileListAdapter(
                 root = view
             )
             view.tag = holder
+            MotionUtils.pressScale(view, if (isGrid) 0.94f else 0.985f)
+            MotionUtils.stagger(view, position)
         } else {
             view = convertView
             holder = view.tag as ViewHolder
@@ -211,7 +214,9 @@ class FileListAdapter(
         if (isSelected) {
             holder.root.setBackgroundResource(R.drawable.bg_selection)
         } else {
-            // Background is already ripple_material from XML, no need to reset
+            holder.root.setBackgroundResource(
+                if (isGrid) R.drawable.ripple_aurora else R.drawable.bg_clay_file_item
+            )
         }
 
         // Cut Pending visual dimming

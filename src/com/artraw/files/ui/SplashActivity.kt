@@ -21,7 +21,7 @@ import com.artraw.files.util.SettingsManager
  * - Instantaneous tap-to-skip for immediate productivity.
  * - Gentle typography reveal with graceful smooth handoff to MainActivity / OnboardingActivity.
  */
-class SplashActivity : Activity() {
+class SplashActivity : BaseActivity() {
 
     private val mainHandler = Handler(Looper.getMainLooper())
     private var isNavigating = false
@@ -59,13 +59,6 @@ class SplashActivity : Activity() {
         hasPlayedSplashThisSession = true
 
         try {
-            val settingsManager = SettingsManager(this)
-            val themeRes = if (settingsManager.themeMode == "light") {
-                R.style.Theme_ArtrawFiles_Light
-            } else {
-                R.style.Theme_ArtrawFiles_Splash
-            }
-            setTheme(themeRes)
             setContentView(R.layout.activity_splash)
 
             EdgeToEdgeHelper.applyEdgeToEdge(this)

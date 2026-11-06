@@ -30,7 +30,7 @@ import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-class AnalyzerActivity : Activity() {
+class AnalyzerActivity : BaseActivity() {
 
     private lateinit var repository: FileRepository
     private val duplicateDetector = DuplicateDetector()
@@ -179,8 +179,8 @@ class AnalyzerActivity : Activity() {
     }
 
     private fun selectTab(isDuplicates: Boolean, isApps: Boolean = false, isWifi: Boolean = false) {
-        val activeColor = Color.parseColor("#818CF8")
-        val inactiveColor = Color.parseColor("#94A3B8")
+        val activeColor = getColor(R.color.aurora_primary)
+        val inactiveColor = getColor(R.color.aurora_text_secondary)
         if (isWifi) {
             tabWifi.setTextColor(activeColor)
             tabLargeFiles.setTextColor(inactiveColor)
@@ -412,7 +412,7 @@ class AnalyzerActivity : Activity() {
 
             val header = TextView(this@AnalyzerActivity).apply {
                 text = "$fileName ($copyCount copies • $sizeStr each)"
-                setTextColor(Color.parseColor("#818CF8"))
+                setTextColor(getColor(R.color.aurora_primary))
                 textSize = 14f
                 setPadding(0, 0, 0, 8)
             }
@@ -440,7 +440,7 @@ class AnalyzerActivity : Activity() {
 
                 val labelBadge = TextView(this@AnalyzerActivity).apply {
                     text = if (idx == 0) "ORIGINAL" else "COPY"
-                    setTextColor(if (idx == 0) Color.parseColor("#4CAF50") else Color.parseColor("#FF9800"))
+                    setTextColor(if (idx == 0) getColor(R.color.aurora_success) else getColor(R.color.aurora_warning))
                     textSize = 10f
                     setPadding(8, 2, 8, 2)
                     setBackgroundResource(R.drawable.bg_badge)
@@ -451,7 +451,7 @@ class AnalyzerActivity : Activity() {
                         marginStart = 12
                     }
                     text = item.file.parent ?: item.file.absolutePath
-                    setTextColor(Color.parseColor("#F0F2F5"))
+                    setTextColor(getColor(R.color.aurora_text_primary))
                     textSize = 12f
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.MIDDLE
@@ -513,7 +513,7 @@ class AnalyzerActivity : Activity() {
 
                 val nameTv = TextView(this@AnalyzerActivity).apply {
                     textSize = 15f
-                    setTextColor(Color.parseColor("#F0F4F8"))
+                    setTextColor(getColor(R.color.aurora_text_primary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }
@@ -521,7 +521,7 @@ class AnalyzerActivity : Activity() {
 
                 val metaTv = TextView(this@AnalyzerActivity).apply {
                     textSize = 12f
-                    setTextColor(Color.parseColor("#9AA5B1"))
+                    setTextColor(getColor(R.color.aurora_text_secondary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }
@@ -533,7 +533,7 @@ class AnalyzerActivity : Activity() {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     textSize = 14f
-                    setTextColor(Color.parseColor("#4ECDC4"))
+                    setTextColor(getColor(R.color.aurora_success))
                     setTypeface(null, android.graphics.Typeface.BOLD)
                 }
                 container.addView(sizeTv)

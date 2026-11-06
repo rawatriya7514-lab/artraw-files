@@ -20,7 +20,7 @@ import com.artraw.files.util.MimeTypes
 import java.io.File
 import java.util.concurrent.Executors
 
-class ArchiveViewerActivity : Activity() {
+class ArchiveViewerActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_FILE_PATH = "extra_file_path"

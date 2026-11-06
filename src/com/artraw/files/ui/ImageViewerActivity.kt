@@ -41,7 +41,7 @@ import kotlin.math.abs
  *   - Tier 3: Persistent display-resolution WebP disk cache at cacheDir/display_cache/ (<3ms fast recall)
  *   - Tier 4: Background sampled decode with EXIF auto-rotation and background neighbor preloading
  */
-class ImageViewerActivity : Activity() {
+class ImageViewerActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_FILE_PATH = "extra_file_path"

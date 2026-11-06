@@ -159,7 +159,7 @@ object ThumbnailLoader {
             imageView.clearColorFilter()
             imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
             imageView.setImageResource(R.drawable.ic_folder)
-            imageView.setColorFilter(android.graphics.Color.parseColor("#FF8C42"))
+            imageView.setColorFilter(ctx.getColor(R.color.cyber_amber))
             return
         }
 
@@ -171,7 +171,7 @@ object ThumbnailLoader {
             imageView.clearColorFilter()
             imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
             imageView.setImageResource(R.drawable.ic_lock)
-            imageView.setColorFilter(android.graphics.Color.parseColor("#8A2BE2"))
+            imageView.setColorFilter(ctx.getColor(R.color.aurora_secondary))
             return
         }
 
@@ -218,7 +218,7 @@ object ThumbnailLoader {
             imageView.clearColorFilter()
             imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
             imageView.setImageResource(defaultIconRes)
-            imageView.setColorFilter(getCategoryColor(item))
+            imageView.setColorFilter(getCategoryColor(imageView.context, item))
         }
 
         // 6. Background thread: Disk Cache -> Raw Decode -> Save Disk Cache -> Apply UI
@@ -278,7 +278,7 @@ object ThumbnailLoader {
         imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
         val iconRes = if (defaultIconRes != 0) defaultIconRes else getFallbackIconRes(item)
         imageView.setImageResource(iconRes)
-        imageView.setColorFilter(getCategoryColor(item))
+        imageView.setColorFilter(getCategoryColor(imageView.context, item))
     }
 
     private fun applyBitmap(imageView: ImageView, bitmap: Bitmap, item: FileItem) {
@@ -305,17 +305,21 @@ object ThumbnailLoader {
         }
     }
 
-    fun getCategoryColor(item: FileItem): Int {
-        return when (item.category) {
-            FileCategory.IMAGES -> android.graphics.Color.parseColor("#06B6D4")   // Cyber Cyan
-            FileCategory.VIDEOS -> android.graphics.Color.parseColor("#F43F5E")   // Hot Magenta / Laser Pink
-            FileCategory.AUDIO -> android.graphics.Color.parseColor("#22C55E")    // Cyber Green
-            FileCategory.DOCUMENTS -> android.graphics.Color.parseColor("#F59E0B")// Golden Amber
-            FileCategory.DOWNLOADS -> android.graphics.Color.parseColor("#06B6D4")// Electric Cyan
-            FileCategory.ARCHIVES -> android.graphics.Color.parseColor("#A855F7") // Neon Violet
-            FileCategory.APKS -> android.graphics.Color.parseColor("#22C55E")     // Cyber Lime
-            FileCategory.OTHER -> android.graphics.Color.parseColor("#94A3B8")    // Holographic Slate
+    fun getCategoryColor(item: FileItem): Int = getCategoryColor(null, item)
+
+    /** Theme-aware category accent; resolves against the current light/dark palette. */
+    fun getCategoryColor(context: Context?, item: FileItem): Int {
+        val res = when (item.category) {
+            FileCategory.IMAGES -> R.color.cat_images
+            FileCategory.VIDEOS -> R.color.cat_videos
+            FileCategory.AUDIO -> R.color.cat_audio
+            FileCategory.DOCUMENTS -> R.color.cat_documents
+            FileCategory.DOWNLOADS -> R.color.cat_downloads
+            FileCategory.ARCHIVES -> R.color.cat_archives
+            FileCategory.APKS -> R.color.cat_apks
+            FileCategory.OTHER -> R.color.cat_other
         }
+        return if (context != null) context.getColor(res) else ArtfilesApp.instance.getColor(res)
     }
 
     private fun getCacheKey(file: File): String {

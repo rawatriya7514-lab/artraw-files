@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Hollowed-out Recessed Clay Trough Track -->
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <corners android:radius="8dp" />
-            <solid android:color="#0A0B10" />
-            <stroke android:width="1dp" android:color="#1F2230" />
+            <solid android:color="@color/aurora_surface_elevated" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/aurora_outline" />
         </shape>
     </item>
-    <!-- Glowing Neon Cyan / Purple Plasma Fluid Fill -->
     <item android:id="@android:id/progress">
         <clip>
             <shape android:shape="rectangle">
                 <corners android:radius="8dp" />
                 <gradient
-                    android:startColor="#06B6D4"
-                    android:centerColor="#8B5CF6"
-                    android:endColor="#A855F7"
-                    android:angle="0" />
-                <stroke android:width="1dp" android:color="#8022D3EE" />
+                    android:angle="0"
+                    android:endColor="@color/aurora_success"
+                    android:centerColor="@color/aurora_secondary"
+                    android:startColor="@color/aurora_primary" />
+                <stroke
+                    android:width="1dp"
+                    android:color="@color/aurora_primary_glow" />
             </shape>
         </clip>
     </item>

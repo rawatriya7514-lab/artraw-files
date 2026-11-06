@@ -1,7 +1,7 @@
 # Artfiles — Modern, Fast & Private Android Storage & Gallery Manager
 
 **Package ID**: `com.artraw.files`  
-**Version**: `1.0.0` (Version Code `1`)  
+**Version**: `1.2.0` (Version Code `3`)  
 **Target SDK**: Android 15 (API Level 35) / Android 16 Compatible  
 **Architecture**: Native Kotlin + Android SDK + Material 3 Design  
 **License**: Proprietary & Confidential — All Rights Reserved (Closed Source)
@@ -51,7 +51,16 @@ Artfiles incorporates commercial-grade anti-tamper and reverse-engineering prote
 7. **Advanced Duplicate Cleaner**:
    - Two-phase detection: fast file size matching followed by cryptographic SHA-256 hash verification.
    - **Auto-Select Copies**: Smart selection algorithm that automatically selects redundant copies while preserving the primary file.
-8. **100% Guaranteed AdMob Revenue Integration**:
+8. **Artfiles Graphite Design System**:
+   - Eye-safe graphite dark and warm paper light themes, plus **System default**.
+   - Low-chroma soft crimson, dusty blue and sage green accents — no pink or neon glare.
+   - Animated storage ring, restrained entrance motion, press feedback and a global animations switch.
+9. **Toolbox & Maintenance Suite**:
+   - One calm hub for storage analysis, junk cleaning, device health, transfer and security.
+   - **Empty Folder Cleaner**: recursive bottom-up scan that never touches protected system trees.
+   - **Secure Shredder**: random-data overwrite, sync, rename and delete with an honest flash-storage notice.
+   - **New file** creation, persisted grid density and richer file details with SHA-256 for small files.
+10. **100% Guaranteed AdMob Revenue Integration**:
    - Official Google AdMob App ID (`ca-app-pub-7925407604309207~4393395283`), Banner Unit ID (`ca-app-pub-7925407604309207/7795338269`), and Rewarded Video / Interstitial Unit ID (`ca-app-pub-7925407604309207/4693787341`).
    - Zero test banners — strictly requests verified production ads with automated retry.
 
@@ -59,8 +68,9 @@ Artfiles incorporates commercial-grade anti-tamper and reverse-engineering prote
 
 ## 📥 Official Downloads
 
-- **Official Release APK (Artfiles.apk)**: [Artfiles.apk (6.4 MB)](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/Artfiles.apk)
-- **Full Project Source ZIP**: [Artfiles-v1.1.0-SourceCode.zip](https://github.com/rawatriya7514-lab/artraw-files/releases/download/v1.1.0/Artfiles-v1.1.0-SourceCode.zip)
+- **Official Release APK (Artfiles.apk)**: [Download the latest release](https://github.com/rawatriya7514-lab/artraw-files/releases/latest)
+- **Full Project Source ZIP**: [Download the latest source](https://github.com/rawatriya7514-lab/artraw-files/releases/latest)
+- Local build output: `/sdcard/Download/Artfiles.apk` after running `bash build.sh`.
 
 ---
 

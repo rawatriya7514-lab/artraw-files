@@ -1,48 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Pressed / Squished 3D Clay State -->
     <item android:state_pressed="true">
-        <layer-list>
-            <item android:top="2dp" android:left="1dp" android:right="1dp" android:bottom="0dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="#0D0E14" />
-                    <corners android:radius="16dp" />
-                    <stroke android:width="1.5dp" android:color="#80A855F7" />
-                </shape>
-            </item>
-        </layer-list>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/aurora_surface_variant" />
+            <corners android:radius="16dp" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/aurora_outline_variant" />
+        </shape>
     </item>
-
-    <!-- Normal Tactile 3D Clay Squircle Cube -->
     <item>
-        <layer-list>
-            <!-- Drop Shadow -->
-            <item android:top="3dp" android:left="0dp" android:right="0dp" android:bottom="0dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="@color/aurora_shadow_soft" />
-                    <corners android:radius="18dp" />
-                </shape>
-            </item>
-            <!-- Top Cyber Rim Bevel -->
-            <item android:top="0dp" android:left="0dp" android:right="0dp" android:bottom="3dp">
-                <shape android:shape="rectangle">
-                    <solid android:color="#212435" />
-                    <corners android:radius="18dp" />
-                    <stroke android:width="1dp" android:color="#33A855F7" />
-                </shape>
-            </item>
-            <!-- Matte Clay Body -->
-            <item android:top="1dp" android:left="1dp" android:right="1dp" android:bottom="3dp">
-                <shape android:shape="rectangle">
-                    <gradient
-                        android:type="linear"
-                        android:startColor="#1A1C28"
-                        android:endColor="#13151B"
-                        android:angle="270" />
-                    <corners android:radius="17dp" />
-                    <stroke android:width="1dp" android:color="@color/aurora_outline" />
-                </shape>
-            </item>
-        </layer-list>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/aurora_background_surface" />
+            <corners android:radius="16dp" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/aurora_outline" />
+        </shape>
     </item>
 </selector>

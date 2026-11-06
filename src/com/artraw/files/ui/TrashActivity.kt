@@ -19,7 +19,7 @@ import com.artraw.files.util.Formatters
 import com.artraw.files.util.TrashManager
 import java.io.File
 
-class TrashActivity : Activity() {
+class TrashActivity : BaseActivity() {
 
     private lateinit var tvTrashInfo: TextView
     private lateinit var listViewTrash: ListView
@@ -122,7 +122,7 @@ class TrashActivity : Activity() {
                     layoutParams = LinearLayout.LayoutParams(40, 40)
                     scaleType = ImageView.ScaleType.CENTER_INSIDE
                     setImageResource(if (items[position].isDirectory) R.drawable.ic_folder else R.drawable.ic_file)
-                    setColorFilter(android.graphics.Color.parseColor("#4ECDC4"))
+                    setColorFilter(getColor(R.color.aurora_success))
                 }
                 container.addView(icon)
 
@@ -136,7 +136,7 @@ class TrashActivity : Activity() {
 
                 val nameTv = TextView(this@TrashActivity).apply {
                     textSize = 15f
-                    setTextColor(android.graphics.Color.parseColor("#F0F4F8"))
+                    setTextColor(getColor(R.color.aurora_text_primary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }
@@ -144,7 +144,7 @@ class TrashActivity : Activity() {
 
                 val metaTv = TextView(this@TrashActivity).apply {
                     textSize = 12f
-                    setTextColor(android.graphics.Color.parseColor("#9AA5B1"))
+                    setTextColor(getColor(R.color.aurora_text_secondary))
                     setSingleLine()
                     ellipsize = android.text.TextUtils.TruncateAt.END
                 }

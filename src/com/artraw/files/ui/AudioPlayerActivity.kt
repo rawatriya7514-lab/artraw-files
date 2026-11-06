@@ -20,7 +20,7 @@ import com.artraw.files.util.ThumbnailLoader
 import java.io.File
 import java.util.Locale
 
-class AudioPlayerActivity : Activity() {
+class AudioPlayerActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_FILE_PATH = "extra_file_path"

@@ -11,9 +11,20 @@ class SettingsManager(context: Context) {
     private val prefs: SharedPreferences =
         context.getSharedPreferences("artraw_files_prefs", Context.MODE_PRIVATE)
 
+    /** "system" (default), "dark" or "light". */
     var themeMode: String
-        get() = prefs.getString("theme_mode", "dark") ?: "dark"
+        get() = prefs.getString("theme_mode", "system") ?: "system"
         set(value) = prefs.edit().putString("theme_mode", value).apply()
+
+    /** Master switch for non-essential UI motion. */
+    var animationsEnabled: Boolean
+        get() = prefs.getBoolean("animations_enabled", true)
+        set(value) = prefs.edit().putBoolean("animations_enabled", value).apply()
+
+    /** Last used grid column count (1-5). */
+    var gridColumns: Int
+        get() = prefs.getInt("grid_columns", 3).coerceIn(1, 5)
+        set(value) = prefs.edit().putInt("grid_columns", value.coerceIn(1, 5)).apply()
 
     var language: String
         get() = prefs.getString("language", "en") ?: "en"

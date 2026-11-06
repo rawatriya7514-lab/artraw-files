@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ====================================================================== -->
+    <!-- ARTFILES DESIGN SYSTEM — DARK THEME (low-luminance, eye-safe)          -->
+    <!-- Canvas: graphite #0F1319 | Surfaces: slate | Accents: soft jewel tones -->
+    <!-- Soft Crimson #D98A82 | Dusty Blue #7FA9DD | Sage Green #86C7A5         -->
+    <!-- ====================================================================== -->
+
+    <!-- Canvas & surfaces -->
+    <color name="aurora_background_deep">#0F1319</color>
+    <color name="aurora_background_obsidian">#0B0F14</color>
+    <color name="aurora_background_surface">#151B23</color>
+    <color name="aurora_background_elevated">#1B232D</color>
+    <color name="aurora_background_raised">#232D3A</color>
+    <color name="aurora_background_glass">#141A22</color>
+
+    <!-- Primary: soft crimson red -->
+    <color name="aurora_crimson_dark">#A24F4A</color>
+    <color name="aurora_primary">#D98A82</color>
+    <color name="aurora_primary_container">#3A2321</color>
+    <color name="aurora_on_primary">#1C0F0E</color>
+    <color name="aurora_primary_glow">#E8A39C</color>
+
+    <!-- Secondary: dusty blue -->
+    <color name="aurora_secondary">#7FA9DD</color>
+    <color name="aurora_secondary_container">#1D2C3E</color>
+    <color name="aurora_on_secondary">#0B1220</color>
+    <color name="aurora_secondary_glow">#A3C4EE</color>
+
+    <!-- Supporting jewel tones -->
+    <color name="aurora_accent_blue">#7FA9DD</color>
+    <color name="aurora_accent_blue_container">#1D2C3E</color>
+    <color name="aurora_accent_blue_glow">#A3C4EE</color>
+    <color name="aurora_on_blue">#0B1220</color>
+    <color name="cyber_green">#86C7A5</color>
+    <color name="cyber_green_glow">#A5D9BE</color>
+    <color name="cyber_cyan">#7FB6CC</color>
+    <color name="cyber_violet">#B6A3E0</color>
+    <color name="cyber_amber">#D9B36C</color>
+
+    <!-- Contemporary gradient stops (dark) -->
+    <color name="aurora_gradient_start">#0F1319</color>
+    <color name="aurora_gradient_mid">#131A23</color>
+    <color name="aurora_gradient_end">#171B20</color>
+    <color name="aurora_nebula_purple">#1A2430</color>
+    <color name="aurora_heaven_gold">#D9B36C</color>
+    <color name="aurora_heaven_silver">#8A98AB</color>
+
+    <!-- Type -->
+    <color name="aurora_text_primary">#E8EDF5</color>
+    <color name="aurora_text_secondary">#A6B2C3</color>
+    <color name="aurora_text_tertiary">#74839A</color>
+    <color name="aurora_text_inverse">#0F1319</color>
+    <color name="aurora_text_on_blue">#0B1220</color>
+    <color name="aurora_text_glow">#E8EDF5CC</color>
+    <color name="cyber_text_digital">#8FC4D8</color>
+
+    <!-- Surfaces -->
+    <color name="aurora_surface">#151B23</color>
+    <color name="aurora_surface_variant">#1B232D</color>
+    <color name="aurora_surface_elevated">#232D3A</color>
+    <color name="aurora_surface_glass">#171E27</color>
+
+    <!-- Hairlines -->
+    <color name="aurora_outline">#2B3644</color>
+    <color name="aurora_outline_variant">#384659</color>
+    <color name="aurora_divider">#222C38</color>
+    <color name="aurora_glass_border">#33D98A82</color>
+
+    <!-- Semantic states -->
+    <color name="aurora_success">#86C7A5</color>
+    <color name="aurora_success_glow">#A5D9BE</color>
+    <color name="aurora_warning">#D9B36C</color>
+    <color name="aurora_warning_glow">#E8C98F</color>
+    <color name="aurora_error">#E08A8A</color>
+    <color name="aurora_error_glow">#EFA9A9</color>
+    <color name="aurora_info">#7FB6CC</color>
+
+    <!-- Elevation & scrims -->
+    <color name="aurora_shadow_soft">#4D000000</color>
+    <color name="aurora_shadow_medium">#73000000</color>
+    <color name="aurora_shadow_hard">#99000000</color>
+    <color name="aurora_shadow_glow">#26D98A82</color>
+    <color name="clay_top_rim_glow">#26D98A82</color>
+    <color name="clay_inset_shadow">#66000000</color>
+    <color name="aurora_overlay_scrim">#CC0F1319</color>
+    <color name="aurora_overlay_light">#40000000</color>
+
+    <!-- Accent dots -->
+    <color name="aurora_dot_red">#E08A8A</color>
+    <color name="aurora_dot_orange">#D9B36C</color>
+    <color name="aurora_dot_blue">#7FA9DD</color>
+    <color name="aurora_dot_ivory">#E8EDF5</color>
+    <color name="aurora_dot_purple">#B6A3E0</color>
+    <color name="aurora_dot_gold">#D9B36C</color>
+
+    <!-- Explicit light tokens (unchanged in dark config) -->
+    <color name="aurora_bg_light">#F5F7FA</color>
+    <color name="aurora_surface_light">#FFFFFF</color>
+    <color name="aurora_text_light_primary">#1B2430</color>
+    <color name="aurora_text_light_secondary">#55627A</color>
+    <color name="aurora_text_light_tertiary">#7B879B</color>
+    <color name="aurora_outline_light">#D9E1EB</color>
+    <color name="aurora_divider_light">#E7EDF4</color>
+
+    <!-- Category accents -->
+    <color name="cat_images">#7FA9DD</color>
+    <color name="cat_videos">#B6A3E0</color>
+    <color name="cat_audio">#86C7A5</color>
+    <color name="cat_documents">#D9B36C</color>
+    <color name="cat_downloads">#7FB6CC</color>
+    <color name="cat_archives">#D98A82</color>
+    <color name="cat_apks">#86C7A5</color>
+    <color name="cat_other">#8A98AB</color>
+
+    <!-- Selection wash -->
+    <color name="selection_overlay">#33D98A82</color>
+</resources>

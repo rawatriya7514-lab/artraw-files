@@ -15,7 +15,6 @@ import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.artraw.files.R
@@ -27,9 +26,11 @@ import com.artraw.files.repository.FileRepository
 import com.artraw.files.util.AppSecurity
 import com.artraw.files.util.EdgeToEdgeHelper
 import com.artraw.files.util.Formatters
+import com.artraw.files.util.MotionUtils
 import com.artraw.files.util.PermissionsHelper
 import com.artraw.files.util.SettingsManager
 import com.artraw.files.util.UpdateChecker
+import com.artraw.files.ui.view.RingProgressView
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -38,7 +39,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import java.util.concurrent.Executors
 
-class MainActivity : Activity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var repository: FileRepository
     private lateinit var settingsManager: SettingsManager
@@ -50,7 +51,7 @@ class MainActivity : Activity() {
     private lateinit var tvStoragePercent: TextView
     private lateinit var tvStorageUsed: TextView
     private lateinit var tvStorageFree: TextView
-    private lateinit var progressStorage: ProgressBar
+    private lateinit var ringStorage: RingProgressView
     private lateinit var layoutRecentList: LinearLayout
     private lateinit var tvRecentEmpty: TextView
     private lateinit var adViewContainer: FrameLayout
@@ -60,14 +61,6 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         settingsManager = SettingsManager(this)
         repository = FileRepository(this)
-
-        // Apply saved theme before setContentView
-        val themeRes = if (settingsManager.themeMode == "light") {
-            R.style.Theme_ArtrawFiles_Light
-        } else {
-            R.style.Theme_ArtrawFiles
-        }
-        setTheme(themeRes)
 
         if (!AppSecurity.verifyIntegrity(this)) {
             Log.w("ARTRAW_SECURITY", "Non-standard environment detected; continuing in safe mode.")
@@ -84,6 +77,7 @@ class MainActivity : Activity() {
         setupListeners()
         initAdMob()
         setupBottomNavigation()
+        applyEntranceMotion()
 
         // Check storage permission on app launch
         checkPermissionsAndLoad()
@@ -99,7 +93,7 @@ class MainActivity : Activity() {
         tvStoragePercent = findViewById(R.id.tvStoragePercent)
         tvStorageUsed = findViewById(R.id.tvStorageUsed)
         tvStorageFree = findViewById(R.id.tvStorageFree)
-        progressStorage = findViewById(R.id.progressStorage)
+        ringStorage = findViewById(R.id.ringStorage)
         layoutRecentList = findViewById(R.id.layoutRecentList)
         tvRecentEmpty = findViewById(R.id.tvRecentEmpty)
         adViewContainer = findViewById(R.id.adViewContainer)
@@ -287,6 +281,20 @@ class MainActivity : Activity() {
         }
     }
 
+    private fun animatePercent(target: Int) {
+        if (!MotionUtils.enabled(this)) {
+            tvStoragePercent.text = "$target%"
+            return
+        }
+        val animator = android.animation.ValueAnimator.ofInt(0, target)
+        animator.duration = 720
+        animator.interpolator = android.view.animation.DecelerateInterpolator(1.6f)
+        animator.addUpdateListener {
+            tvStoragePercent.text = "${it.animatedValue}%"
+        }
+        animator.start()
+    }
+
     private fun loadStorageStats() {
         executor.execute {
             try {
@@ -297,8 +305,8 @@ class MainActivity : Activity() {
                     if (isFinishing || isDestroyed) return@runOnUiThread
                     try {
                         tvStorageTitle.text = primary.name
-                        tvStoragePercent.text = "${primary.usedPercent}%"
-                        progressStorage.progress = primary.usedPercent
+                        ringStorage.setProgress(primary.usedPercent.toFloat(), animate = true)
+                        animatePercent(primary.usedPercent)
 
                         val usedStr = Formatters.formatFileSize(primary.usedBytes)
                         val totalStr = Formatters.formatFileSize(primary.totalBytes)
@@ -328,7 +336,7 @@ class MainActivity : Activity() {
                             layoutRecentList.addView(tvRecentEmpty)
                             tvRecentEmpty.text = getString(R.string.search_no_results)
                         } else {
-                            for (item in recent) {
+                            recent.forEachIndexed { index, item ->
                                 val row = LayoutInflater.from(this).inflate(R.layout.item_file_list, layoutRecentList, false)
                                 val icon = row.findViewById<ImageView>(R.id.imgFileIcon)
                                 val name = row.findViewById<TextView>(R.id.tvFileName)
@@ -358,6 +366,8 @@ class MainActivity : Activity() {
                                 row.setOnClickListener {
                                     com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
                                 }
+                                MotionUtils.pressScale(row, 0.985f)
+                                MotionUtils.stagger(row, index)
                                 layoutRecentList.addView(row)
                             }
                         }
@@ -379,33 +389,39 @@ class MainActivity : Activity() {
             R.id.btnNavSettings to R.id.tvNavSettings
         )
 
-        fun setActive(index: Int) {
+        fun setActive(index: Int, animate: Boolean = true) {
             navItems.forEachIndexed { i, (btnId, tvId) ->
                 val isActive = i == index
-                findViewById<LinearLayout>(btnId).let {
-                    for (childIndex in 0 until it.childCount) {
-                        val child = it.getChildAt(childIndex)
-                        if (child is ImageView) {
-                            child.setImageTintList(
-                                android.content.res.ColorStateList.valueOf(
-                                    if (isActive) resources.getColor(R.color.aurora_primary, null) else resources.getColor(R.color.aurora_text_secondary, null)
-                                )
-                            )
-                        }
-                        if (child is TextView) {
-                            child.setTextColor(
-                                if (isActive) resources.getColor(R.color.aurora_primary, null) else resources.getColor(R.color.aurora_text_secondary, null)
-                            )
-                        }
+                val container = findViewById<LinearLayout>(btnId)
+                container.setBackgroundResource(
+                    if (isActive) R.drawable.bg_clay_dock_active else R.drawable.bg_clay_dock_socket
+                )
+                val tint = resources.getColor(
+                    if (isActive) R.color.aurora_primary else R.color.aurora_text_secondary,
+                    null
+                )
+                for (childIndex in 0 until container.childCount) {
+                    val child = container.getChildAt(childIndex)
+                    if (child is ImageView) {
+                        child.imageTintList = android.content.res.ColorStateList.valueOf(tint)
+                        if (isActive && animate) MotionUtils.pop(child)
+                    }
+                    if (child is TextView) {
+                        child.setTextColor(tint)
+                        child.setTypeface(
+                            child.typeface,
+                            if (isActive) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL
+                        )
                     }
                 }
+                findViewById<TextView>(tvId).setTextColor(tint)
             }
         }
 
-        setActive(0)
+        setActive(0, animate = false)
 
         findViewById<LinearLayout>(R.id.btnNavHome).setOnClickListener {
-            if (navItems.indexOfFirst { it.first == R.id.btnNavHome } != 0) setActive(0)
+            setActive(0)
         }
 
         findViewById<LinearLayout>(R.id.btnNavBrowse).setOnClickListener {
@@ -415,12 +431,37 @@ class MainActivity : Activity() {
         }
 
         findViewById<LinearLayout>(R.id.btnNavAnalysis).setOnClickListener {
-            startActivity(Intent(this, AnalyzerActivity::class.java))
+            startActivity(Intent(this, ToolboxActivity::class.java))
         }
 
         findViewById<LinearLayout>(R.id.btnNavSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
+    }
+
+    private fun applyEntranceMotion() {
+        val cards = listOf(
+            R.id.cardStorage,
+            R.id.cardDeviceMonitor
+        )
+        cards.forEachIndexed { index, id ->
+            findViewById<View>(id)?.let {
+                MotionUtils.pressScale(it, 0.985f)
+                MotionUtils.fadeUp(it, delayMs = index * 50L, distanceDp = 12f)
+            }
+        }
+        val categories = listOf(
+            R.id.catImages, R.id.catVideos, R.id.catAudio, R.id.catDocuments,
+            R.id.catDownloads, R.id.catArchives, R.id.catApks, R.id.catOther
+        )
+        categories.forEachIndexed { index, id ->
+            findViewById<View>(id)?.let {
+                MotionUtils.pressScale(it, 0.94f)
+                MotionUtils.stagger(it, index)
+            }
+        }
+        findViewById<View>(R.id.btnSettings)?.let { MotionUtils.pressScale(it, 0.9f) }
+        findViewById<View>(R.id.btnViewAllRecent)?.let { MotionUtils.pressScale(it, 0.94f) }
     }
 
     override fun onResume() {

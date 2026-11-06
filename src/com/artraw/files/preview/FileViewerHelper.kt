@@ -137,13 +137,49 @@ object FileViewerHelper {
         }
     }
 
+    private fun sha256(file: java.io.File): String? {
+        return try {
+            val digest = java.security.MessageDigest.getInstance("SHA-256")
+            java.io.FileInputStream(file).use { input ->
+                val buffer = ByteArray(32 * 1024)
+                while (true) {
+                    val read = input.read(buffer)
+                    if (read <= 0) break
+                    digest.update(buffer, 0, read)
+                }
+            }
+            digest.digest().joinToString("") { "%02x".format(it) }
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
     fun showFileDetails(activity: Activity, item: FileItem) {
+        val permissions = buildString {
+            append(if (item.file.canRead()) "R" else "-")
+            append(if (item.file.canWrite()) "W" else "-")
+            append(if (item.file.canExecute()) "X" else "-")
+        }
         val msg = buildString {
             append("Name: ${item.name}\n\n")
             append("Path: ${item.file.absolutePath}\n\n")
             append("Type: ${if (item.isDirectory) "Folder" else item.mimeType}\n\n")
             append("Size: ${com.artraw.files.util.Formatters.formatFileSize(item.size)}\n\n")
-            append("Modified: ${com.artraw.files.util.Formatters.formatDate(item.lastModified)}\n")
+            append("Modified: ${com.artraw.files.util.Formatters.formatDate(item.lastModified)}\n\n")
+            append("Permissions: $permissions${if (item.name.startsWith(".")) " • Hidden" else ""}\n")
+            if (item.isDirectory) {
+                append("\nContains: ${item.file.listFiles()?.size ?: 0} items\n")
+            } else {
+                append("Extension: ${item.extension.ifBlank { "none" }}\n")
+                if (item.size in 1..(2 * 1024 * 1024)) {
+                    val digest = sha256(item.file)
+                    if (digest != null) {
+                        append("\nSHA-256:\n$digest\n")
+                    }
+                } else if (item.size > 2 * 1024 * 1024) {
+                    append("\nSHA-256: open File Checksum to verify large files\n")
+                }
+            }
             if (item.isApk) {
                 append("\nPackage: ${item.apkPackageName ?: "Unknown"}\n")
                 append("Version: ${item.apkVersionName ?: "Unknown"}\n")
