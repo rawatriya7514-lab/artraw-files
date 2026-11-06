@@ -76,7 +76,9 @@ java -cp "build/classes:build/test-classes:$JUNIT_JAR:$HAMCREST_JAR:$KOTLIN_STDL
     com.artraw.files.ConflictResolutionTest \
     com.artraw.files.SortingRulesTest \
     com.artraw.files.AdMobIntegrationTest \
-    com.artraw.files.DeviceMonitorTest
+    com.artraw.files.DeviceMonitorTest \
+    com.artraw.files.SecureShredderTest \
+    com.artraw.files.AiSmartGalleryTest
 
 # ------------------------------------------------------------------------------
 # STEP 3: Generate DEX Bytecodes (D8)

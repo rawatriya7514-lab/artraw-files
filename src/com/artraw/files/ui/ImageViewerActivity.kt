@@ -331,11 +331,32 @@ class ImageViewerActivity : BaseActivity() {
             }
         }
 
-        // Action: DETAILS / INFO
+        // Action: DETAILS / INFO (AI Intelligence & Exif Details)
         findViewById<View>(R.id.btnInfoImage).setOnClickListener {
             currentFile?.let { f ->
-                val item = createFileItem(f)
-                FileViewerHelper.showFileDetails(this, item)
+                val db = com.artraw.files.gallery.db.AiGalleryDatabase.getInstance(this)
+                val aiItem = db.getAllItems().firstOrNull { it.path == f.absolutePath }
+                    ?: run {
+                        val features = com.artraw.files.gallery.ai.ImageFeatureExtractor.extractFeatures(f)
+                        com.artraw.files.gallery.model.AiMediaItem(
+                            file = f,
+                            name = f.name,
+                            path = f.absolutePath,
+                            size = f.length(),
+                            width = features.width,
+                            height = features.height,
+                            dominantColor = features.dominantColor,
+                            colorHex = features.colorHex,
+                            blurScore = features.blurScore,
+                            isBlurry = features.isBlurry,
+                            aestheticScore = features.aestheticScore,
+                            detectedTags = features.detectedTags,
+                            ocrText = features.ocrText,
+                            description = features.description,
+                            dateTaken = features.dateTaken
+                        )
+                    }
+                com.artraw.files.ui.gallery.dialog.AiPhotoDetailsDialog.show(this, aiItem)
             }
         }
 

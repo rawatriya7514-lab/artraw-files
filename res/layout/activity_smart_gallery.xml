@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_heaven_gradient">
+
+    <!-- Top Section (Header, Search, Filters) -->
+    <LinearLayout
+        android:id="@+id/layoutGalleryHeaderArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:background="@color/aurora_background_surface">
+
+        <View
+            android:id="@+id/statusBarSpacerGallery"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+        <!-- App Bar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:id="@+id/btnGalleryBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="12dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="@color/aurora_text_primary"
+                android:contentDescription="Back" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/btnGalleryBack"
+                android:layout_toStartOf="@+id/layoutGalleryTopActions"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="6dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvGalleryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AI Smart Gallery"
+                    android:textStyle="bold"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:id="@+id/tvGalleryCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scanning media…"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutGalleryTopActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btnGalleryColumns"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:padding="9dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_grid"
+                    android:tint="@color/aurora_text_primary"
+                    android:contentDescription="Toggle Grid Density" />
+
+                <ImageView
+                    android:id="@+id/btnGallerySelectAll"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:padding="9dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_check_circle_outline"
+                    android:tint="@color/aurora_text_primary"
+                    android:contentDescription="Select Mode" />
+
+                <ImageView
+                    android:id="@+id/btnGalleryMore"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
+                    android:background="@drawable/ripple_aurora"
+                    android:src="@drawable/ic_more"
+                    android:tint="@color/aurora_text_primary"
+                    android:contentDescription="More Options" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Advanced AI Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp">
+
+            <LinearLayout
+                android:id="@+id/layoutGallerySearchBar"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@drawable/bg_aurora_search"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_sparkles"
+                    android:tint="@color/aurora_primary"
+                    android:contentDescription="AI Search" />
+
+                <EditText
+                    android:id="@+id/etGalleryAiSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Search AI e.g. 'mountains', 'red car'…"
+                    android:textColorHint="@color/aurora_text_tertiary"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="13sp"
+                    android:singleLine="true"
+                    android:imeOptions="actionSearch" />
+
+                <ImageView
+                    android:id="@+id/btnGallerySearchClear"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_close"
+                    android:tint="@color/aurora_text_tertiary"
+                    android:visibility="gone"
+                    android:contentDescription="Clear Search" />
+
+                <LinearLayout
+                    android:id="@+id/btnGalleryHeaderAssistant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_pill_badge"
+                    android:gravity="center_vertical"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_auto_awesome"
+                        android:tint="@color/aurora_primary"
+                        android:contentDescription="Ask AI" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="Ask AI"
+                        android:textColor="@color/aurora_primary"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Quick AI Suggestions Horizontal Scroll -->
+        <HorizontalScrollView
+            android:id="@+id/scrollGallerySuggestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipSuggMountains"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="🏔️ Mountains"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggRedCar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="🚗 Red car"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggDog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="🐶 Dog / Pets"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggDocuments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="📄 Documents"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggScreenshots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="📱 Screenshots"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggBest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="⭐ Best photos"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggBlurry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="🌫️ Blurry"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggDuplicates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="👯 Duplicates"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/chipSuggDiwali"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="🪔 Diwali"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Category Filter Tabs -->
+        <HorizontalScrollView
+            android:id="@+id/scrollGalleryCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="10dp"
+            android:background="@color/aurora_background_surface">
+
+            <LinearLayout
+                android:id="@+id/layoutGalleryCategoryPills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tabCatAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill_selected"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="All"
+                    android:textColor="@color/aurora_on_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tabCatPhotos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Photos"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatVideos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Videos"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatScreenshots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Screenshots"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Camera"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatDownloads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Downloads"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatDocuments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Documents"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatFavorites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Favorites"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatCollections"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="✨ AI Collections"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tabCatDuplicates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_chip_pill"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="👯 Duplicates"
+                    android:textColor="@color/aurora_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- Main Content Grid Area -->
+    <FrameLayout
+        android:id="@+id/layoutGalleryContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layoutGalleryHeaderArea">
+
+        <!-- Photo / Media GridView -->
+        <GridView
+            android:id="@+id/gridGalleryMedia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:padding="2dp"
+            android:horizontalSpacing="2dp"
+            android:verticalSpacing="2dp"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
+            android:visibility="visible" />
+
+        <!-- AI Collections List View (visible when Collections tab active) -->
+        <ScrollView
+            android:id="@+id/scrollGalleryCollections"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/layoutCollectionsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/layoutGalleryEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_sparkles"
+                android:tint="@color/aurora_text_tertiary"
+                android:alpha="0.3"
+                android:contentDescription="Empty" />
+
+            <TextView
+                android:id="@+id/tvGalleryEmptyTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="No media found"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvGalleryEmptySubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Try another AI search query or tab filter"
+                android:textColor="@color/aurora_text_secondary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnGalleryReindex"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_glass_clay_button_primary"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="Scan &amp; Index Gallery"
+                android:textColor="@color/aurora_on_primary"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Loading Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressGalleryLoading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/aurora_primary"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- Multi-Select Contextual Bottom Dock -->
+    <LinearLayout
+        android:id="@+id/layoutGallerySelectionDock"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/aurora_background_surface"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvGallerySelectionCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0 selected"
+            android:textColor="@color/aurora_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnSelectionShare"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="10dp"
+            android:background="@drawable/ripple_aurora"
+            android:src="@drawable/ic_share"
+            android:tint="@color/aurora_text_primary"
+            android:contentDescription="Share" />
+
+        <ImageView
+            android:id="@+id/btnSelectionFavorite"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="10dp"
+            android:background="@drawable/ripple_aurora"
+            android:src="@drawable/ic_star_filled"
+            android:tint="@color/cyber_amber"
+            android:contentDescription="Favorite" />
+
+        <ImageView
+            android:id="@+id/btnSelectionDelete"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="10dp"
+            android:background="@drawable/ripple_aurora"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/aurora_primary"
+            android:contentDescription="Delete" />
+
+        <ImageView
+            android:id="@+id/btnSelectionClose"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="10dp"
+            android:background="@drawable/ripple_aurora"
+            android:src="@drawable/ic_close"
+            android:tint="@color/aurora_text_secondary"
+            android:contentDescription="Close Selection" />
+    </LinearLayout>
+
+    <!-- Floating AI Assistant Button -->
+    <LinearLayout
+        android:id="@+id/fabGalleryAssistant"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_floating_assistant"
+        android:gravity="center_vertical"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:orientation="horizontal"
+        android:elevation="6dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_sparkles"
+            android:tint="@color/aurora_on_primary"
+            android:contentDescription="Ask AI" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Ask AI"
+            android:textColor="@color/aurora_on_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

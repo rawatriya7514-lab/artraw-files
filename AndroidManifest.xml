@@ -218,6 +218,13 @@
             android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
 
         <activity
+            android:name=".ui.gallery.SmartGalleryActivity"
+            android:exported="false"
+            android:label="AI Smart Gallery"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:configChanges="orientation|screenSize|smallestScreenSize|uiMode" />
+
+        <activity
             android:name=".ui.EmptyFolderCleanerActivity"
             android:exported="false"
             android:label="Empty Folder Cleaner"

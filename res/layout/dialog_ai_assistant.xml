@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_heaven_gradient">
+
+    <!-- Top Drag Handle & Title Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/aurora_background_surface"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
+        <View
+            android:layout_width="38dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_chip_pill" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_sparkles"
+                    android:tint="@color/aurora_primary"
+                    android:contentDescription="AI" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gallery AI Assistant"
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Private On-Device Natural Intelligence"
+                        android:textColor="@color/aurora_text_secondary"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnAssistantClose"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="9dp"
+                android:background="@drawable/ripple_aurora"
+                android:src="@drawable/ic_close"
+                android:tint="@color/aurora_text_secondary"
+                android:contentDescription="Close" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Quick Prompts Horizontal Scroll -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/aurora_background_elevated">
+
+        <LinearLayout
+            android:id="@+id/layoutAssistantPrompts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chipPromptBest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="⭐ Best photos"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptMountains"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="🏔️ Photos with mountains"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptDog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="🐶 Dog / Pets"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptRedCar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="🚗 Red car"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptBlurry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="🌫️ Blurry pictures"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptDuplicates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="👯 Duplicate photos"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptDiwali"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="🪔 Diwali celebration"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptDocuments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="📄 Documents &amp; Receipts"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/chipPromptScreenshots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_pill"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:text="📱 Screenshots last month"
+                android:textColor="@color/aurora_text_primary"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Main Message Area -->
+    <ScrollView
+        android:id="@+id/scrollAssistantHistory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:id="@+id/layoutAssistantChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Default Welcome Card -->
+            <LinearLayout
+                android:id="@+id/cardAssistantWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_assistant_bubble_ai"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello! I am your Smart Gallery AI."
+                    android:textColor="@color/aurora_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="Ask me to find mountains, pets, cars, receipts, blurry shots, duplicate photos, or search by any date, color, or event. Tap a chip above or type below!"
+                    android:textColor="@color/aurora_text_primary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Results container dynamically populated -->
+            <LinearLayout
+                android:id="@+id/layoutAssistantResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- User Bubble -->
+                <TextView
+                    android:id="@+id/tvAssistantUserQuery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/bg_assistant_bubble_user"
+                    android:padding="12dp"
+                    android:text="Show my photos with mountains"
+                    android:textColor="@color/aurora_primary"
+                    android:textStyle="bold"
+                    android:textSize="13sp" />
+
+                <!-- AI Response Bubble -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_assistant_bubble_ai"
+                    android:padding="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvAssistantAnswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="3dp"
+                        android:text="Found 6 mountain photos..."
+                        android:textColor="@color/aurora_text_primary"
+                        android:textSize="13sp" />
+
+                    <!-- Action buttons -->
+                    <LinearLayout
+                        android:id="@+id/layoutAssistantActions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone" />
+
+                    <!-- Clickable preview strip -->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:id="@+id/layoutAssistantThumbs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <Button
+                        android:id="@+id/btnAssistantViewInGrid"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_glass_clay_button_accent"
+                        android:text="View All in Gallery Grid"
+                        android:textColor="@color/aurora_on_primary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Input Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/aurora_background_surface"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etAssistantInput"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_aurora_search"
+            android:hint="Ask anything about your photos…"
+            android:textColorHint="@color/aurora_text_tertiary"
+            android:textColor="@color/aurora_text_primary"
+            android:textSize="13sp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:singleLine="true"
+            android:imeOptions="actionSend" />
+
+        <ImageView
+            android:id="@+id/btnAssistantSend"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_glass_clay_button_primary"
+            android:padding="12dp"
+            android:src="@drawable/ic_send"
+            android:tint="@color/aurora_on_primary"
+            android:contentDescription="Send" />
+    </LinearLayout>
+
+</LinearLayout>

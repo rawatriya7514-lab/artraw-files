@@ -47,6 +47,14 @@ class ToolboxActivity : BaseActivity() {
         val container = findViewById<LinearLayout>(R.id.layoutToolboxSections)
 
         val sections = listOf(
+            "SMART MEDIA & AI" to listOf(
+                ToolEntry(
+                    "AI Smart Gallery",
+                    "Natural language search, OCR, duplicate detection & smart categorization",
+                    R.drawable.ic_sparkles,
+                    R.color.aurora_primary
+                ) { startActivity(Intent(this, com.artraw.files.ui.gallery.SmartGalleryActivity::class.java)) }
+            ),
             "ANALYZE & CLEAN" to listOf(
                 ToolEntry(
                     "Storage Analyzer",

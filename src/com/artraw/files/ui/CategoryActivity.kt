@@ -2,6 +2,7 @@ package com.artraw.files.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -240,6 +241,16 @@ class CategoryActivity : BaseActivity() {
     }
 
     private fun setupListeners() {
+        val catId = intent.getStringExtra("category_id") ?: ""
+        findViewById<View>(R.id.btnCatAiGallery)?.let { btnAi ->
+            if (catId == FileCategory.IMAGES.id || catId == FileCategory.VIDEOS.id) {
+                btnAi.visibility = View.VISIBLE
+                btnAi.setOnClickListener {
+                    startActivity(Intent(this, com.artraw.files.ui.gallery.SmartGalleryActivity::class.java))
+                }
+            }
+        }
+
         btnCatViewToggle.setOnClickListener {
             isGridMode = !isGridMode
             updateViewMode()

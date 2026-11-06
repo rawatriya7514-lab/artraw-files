@@ -243,6 +243,10 @@ class MainActivity : BaseActivity() {
 
     private fun openCategory(categoryId: String) {
         try {
+            if (categoryId == FileCategory.IMAGES.id) {
+                startActivity(Intent(this, com.artraw.files.ui.gallery.SmartGalleryActivity::class.java))
+                return
+            }
             val intent = Intent(this, CategoryActivity::class.java).apply {
                 putExtra("category_id", categoryId)
             }
