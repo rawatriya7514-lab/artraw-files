@@ -99,10 +99,7 @@ class BrowserActivity : BaseActivity() {
 
         adViewContainerBrowser = findViewById(R.id.adViewContainerBrowser)
 
-        val stickyViews = mutableListOf<View>(
-            findViewById(R.id.layoutPasteBar),
-            findViewById(R.id.fabNewFolder)
-        )
+        val stickyViews = mutableListOf<View>()
         adViewContainerBrowser?.let { stickyViews.add(it) }
 
         EdgeToEdgeHelper.applyEdgeToEdge(
@@ -353,14 +350,14 @@ class BrowserActivity : BaseActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // File Item Click: Provide Open and Copy Path options
+        // Direct Folder & File Click (Zero popup blocking for seamless navigation)
         val onItemClick = { position: Int ->
             val adapter = activeAdapter()
-            if (adapter.isSelectionMode) {
-                adapter.toggleSelection(adapter.getItem(position))
-            } else {
+            if (position in 0 until adapter.count) {
                 val item = adapter.getItem(position)
-                com.artraw.files.ui.dialog.FileActionDialog.show(this, item, onOpen = {
+                if (adapter.isSelectionMode) {
+                    adapter.toggleSelection(item)
+                } else {
                     if (item.isDirectory) {
                         if (PathSecurity.isAndroidRestrictedStorage(item.file)) {
                             Toast.makeText(this, R.string.perm_restricted_notice, Toast.LENGTH_LONG).show()
@@ -370,21 +367,33 @@ class BrowserActivity : BaseActivity() {
                     } else {
                         FileViewerHelper.openFile(this, item)
                     }
-                })
+                }
             }
         }
 
         listViewFiles.setOnItemClickListener { _, _, position, _ -> onItemClick(position) }
         gridViewFiles.setOnItemClickListener { _, _, position, _ -> onItemClick(position) }
 
-        // Long Press to start multi-select
+        // Long Press to trigger full actions dialog & multi-selection
         val onItemLongClick = { position: Int ->
             val adapter = activeAdapter()
-            val item = adapter.getItem(position)
-            if (!adapter.isSelectionMode) {
-                adapter.startSelection(item)
-            } else {
-                adapter.toggleSelection(item)
+            if (position in 0 until adapter.count) {
+                val item = adapter.getItem(position)
+                if (adapter.isSelectionMode) {
+                    adapter.toggleSelection(item)
+                } else {
+                    com.artraw.files.ui.dialog.FileActionDialog.show(this, item, onOpen = {
+                        if (item.isDirectory) {
+                            if (PathSecurity.isAndroidRestrictedStorage(item.file)) {
+                                Toast.makeText(this, R.string.perm_restricted_notice, Toast.LENGTH_LONG).show()
+                            } else {
+                                loadDirectory(item.file)
+                            }
+                        } else {
+                            FileViewerHelper.openFile(this, item)
+                        }
+                    })
+                }
             }
             true
         }
@@ -1150,7 +1159,12 @@ class BrowserActivity : BaseActivity() {
             return
         }
         val parent = currentDirectory.parentFile
-        if (parent != null && parent.canRead() && currentDirectory.absolutePath != "/storage/emulated/0") {
+        val root = repository.getPrimaryStorageRoot()
+        val isAtRoot = currentDirectory.absolutePath == root.absolutePath ||
+            currentDirectory.absolutePath == "/storage/emulated/0" ||
+            currentDirectory.absolutePath == "/sdcard"
+
+        if (parent != null && !isAtRoot) {
             loadDirectory(parent)
         } else {
             finish()

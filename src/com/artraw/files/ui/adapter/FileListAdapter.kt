@@ -97,6 +97,7 @@ class FileListAdapter(
                 checkbox = if (!isGrid) view.findViewById(R.id.cbSelect) else null,
                 selectBadge = if (isGrid) view.findViewById(R.id.imgGridSelectBadge) else view.findViewById(R.id.imgListSelectBadge),
                 encryptionBadge = if (isGrid) view.findViewById(R.id.imgGridEncryptionBadge) else view.findViewById(R.id.imgListEncryptionBadge),
+                btnCopyPath = view.findViewById(if (isGrid) R.id.btnGridCopyPath else R.id.btnItemCopyPath),
                 root = view
             )
             view.tag = holder
@@ -210,6 +211,18 @@ class FileListAdapter(
             }
         }
 
+        // 1-Tap Copy Path Button
+        if (holder.btnCopyPath != null) {
+            if (isSelectionMode) {
+                holder.btnCopyPath.visibility = View.GONE
+            } else {
+                holder.btnCopyPath.visibility = View.VISIBLE
+                holder.btnCopyPath.setOnClickListener {
+                    com.artraw.files.util.ClipboardHelper.copyPath(context, item.file)
+                }
+            }
+        }
+
         // Material 3 Selection highlight using ripple background
         if (isSelected) {
             holder.root.setBackgroundResource(R.drawable.bg_selection)
@@ -232,6 +245,7 @@ class FileListAdapter(
         val checkbox: CheckBox?,
         val selectBadge: ImageView?,
         val encryptionBadge: ImageView?,
+        val btnCopyPath: ImageView?,
         val root: View
     )
 }

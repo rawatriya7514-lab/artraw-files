@@ -739,7 +739,7 @@
         android:id="@+id/layoutGallerySelectionDock"
         android:layout_width="match_parent"
         android:layout_height="62dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/adViewContainerGallery"
         android:background="@color/gallery_glass_dock"
         android:elevation="14dp"
         android:gravity="center_vertical"

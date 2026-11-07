@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topHeaders = listOf(findViewById(R.id.headerMain)),
-            bottomScrollViews = emptyList(),
+            bottomScrollViews = listOf(findViewById(R.id.scrollMainContent)),
             bottomStickyViews = listOf(adViewContainer)
         )
         setupListeners()
@@ -383,8 +383,22 @@ class MainActivity : BaseActivity() {
                                     com.artraw.files.util.ThumbnailLoader.loadThumbnail(icon, item, targetSize = 120, defaultIconRes = iconRes)
                                 }
 
+                                val btnCopy = row.findViewById<ImageView>(R.id.btnItemCopyPath)
+                                btnCopy?.setOnClickListener {
+                                    com.artraw.files.util.ClipboardHelper.copyPath(this, item.file)
+                                }
+
                                 row.setOnClickListener {
+                                    if (item.isDirectory) {
+                                        openBrowser(item.file.absolutePath)
+                                    } else {
+                                        FileViewerHelper.openFile(this, item)
+                                    }
+                                }
+
+                                row.setOnLongClickListener {
                                     com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
+                                    true
                                 }
                                 MotionUtils.pressScale(row, 0.985f)
                                 MotionUtils.stagger(row, index)

@@ -87,15 +87,44 @@ class PermissionActivity : BaseActivity() {
     }
 
     private fun openSystemSettings() {
-        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
-                data = Uri.parse("package:${packageName}")
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                try {
+                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                        data = Uri.parse("package:${packageName}")
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    startActivity(intent)
+                    return
+                } catch (_: Throwable) {}
+
+                try {
+                    val fallback = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    startActivity(fallback)
+                    return
+                } catch (_: Throwable) {}
+            } else {
+                requestPermissions(
+                    arrayOf(
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    1001
+                )
+                return
             }
-        } else {
-            Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+
+            // Universal App Details Settings Fallback
+            val appDetails = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.parse("package:${packageName}")
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(appDetails)
+        } catch (e: Throwable) {
+            Toast.makeText(this, "Could not open settings: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
     }
 
     private fun startAutoCheck() {
@@ -131,6 +160,9 @@ class PermissionActivity : BaseActivity() {
 
         btnOpenSettings.text = "Continue to App"
         btnOpenSettings.isEnabled = true
+        btnOpenSettings.setOnClickListener {
+            navigateToMain()
+        }
 
         // Auto-navigate to MainActivity after 2 seconds
         mainHandler.postDelayed({
@@ -155,9 +187,20 @@ class PermissionActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (hasStoragePermission()) {
+            mainHandler.removeCallbacksAndMessages(null)
+            showGrantedState()
+        }
+    }
+
     override fun onBackPressed() {
-        // Don't let user exit without granting permission
-        Toast.makeText(this, "Storage permission is required to use ArtFiles", Toast.LENGTH_SHORT).show()
+        if (hasStoragePermission()) {
+            navigateToMain()
+        } else {
+            finish()
+        }
     }
 
     override fun onDestroy() {

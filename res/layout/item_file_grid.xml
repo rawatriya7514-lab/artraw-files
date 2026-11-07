@@ -40,6 +40,18 @@
                 android:visibility="gone" />
 
             <ImageView
+                android:id="@+id/btnGridCopyPath"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="top|start"
+                android:layout_margin="4dp"
+                android:padding="5dp"
+                android:background="@drawable/bg_aurora_category_badge"
+                android:src="@drawable/ic_copy"
+                android:tint="@color/aurora_text_primary"
+                android:contentDescription="@string/content_copy_current_path" />
+
+            <ImageView
                 android:id="@+id/imgGridEncryptionBadge"
                 android:layout_width="18dp"
                 android:layout_height="18dp"

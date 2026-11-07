@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "artraw-files"
+rootProject.name = "artfiles"

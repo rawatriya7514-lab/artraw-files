@@ -419,6 +419,7 @@
             android:divider="@color/aurora_divider"
             android:dividerHeight="0.5dp"
             android:clipToPadding="false"
+            android:paddingBottom="72dp"
             android:fastScrollEnabled="true" />
 
         <GridView
@@ -427,6 +428,7 @@
             android:layout_height="match_parent"
             android:numColumns="3"
             android:padding="8dp"
+            android:paddingBottom="72dp"
             android:horizontalSpacing="8dp"
             android:verticalSpacing="8dp"
             android:clipToPadding="false"
@@ -513,7 +515,7 @@
     <LinearLayout
         android:id="@+id/bottomNavigationBrowser"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="58dp"
         android:background="@color/aurora_background_surface"
         android:orientation="horizontal"
         android:gravity="center">

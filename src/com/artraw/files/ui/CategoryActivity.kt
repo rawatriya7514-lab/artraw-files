@@ -286,7 +286,9 @@ class CategoryActivity : BaseActivity() {
             if (position in 0 until adapter.count) {
                 val item = adapter.getItem(position)
                 if (!adapter.isSelectionMode) {
-                    adapter.startSelection(item)
+                    com.artraw.files.ui.dialog.FileActionDialog.show(this, item, onOpen = {
+                        FileViewerHelper.openFile(this, item)
+                    })
                 } else {
                     adapter.toggleSelection(item)
                 }

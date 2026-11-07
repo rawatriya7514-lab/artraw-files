@@ -18,7 +18,13 @@ import java.io.File
 class FileRepository(private val context: Context) {
 
     fun getPrimaryStorageRoot(): File {
-        return Environment.getExternalStorageDirectory() ?: File("/storage/emulated/0")
+        val ext = Environment.getExternalStorageDirectory()
+        if (ext != null && ext.exists()) return ext
+        val emulated = File("/storage/emulated/0")
+        if (emulated.exists()) return emulated
+        val sdcard = File("/sdcard")
+        if (sdcard.exists()) return sdcard
+        return File("/")
     }
 
     fun getStorageStats(): List<StorageStats> {
@@ -86,7 +92,7 @@ class FileRepository(private val context: Context) {
         showHidden: Boolean = false,
         sortOption: SortOption = SortOption()
     ): List<FileItem> {
-        if (!directory.exists() || !directory.canRead()) {
+        if (!directory.exists()) {
             return emptyList()
         }
 
@@ -246,7 +252,7 @@ class FileRepository(private val context: Context) {
                     val path = if (dataIdx != -1) c.getString(dataIdx) else null
                     if (!path.isNullOrEmpty()) {
                         val file = File(path)
-                        if (!file.isDirectory) {
+                        if (file.exists() && !file.isDirectory) {
                             val name = if (nameIdx != -1) c.getString(nameIdx) ?: file.name else file.name
                             val size = if (sizeIdx != -1) {
                                 val s = c.getLong(sizeIdx)
@@ -428,7 +434,7 @@ class FileRepository(private val context: Context) {
         }
 
         scan(root, 1)
-        val allFiles = resultMap.values.toMutableList()
+        val allFiles = resultMap.values.filter { it.file.exists() }.toMutableList()
         allFiles.sortByDescending { it.lastModified }
         return allFiles.take(limit)
     }
