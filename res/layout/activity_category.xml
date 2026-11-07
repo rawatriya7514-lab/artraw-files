@@ -234,8 +234,9 @@
             android:id="@+id/listViewCatFiles"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/aurora_outline"
-            android:dividerHeight="0.5dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingBottom="72dp"
             android:clipToPadding="false" />
 
         <GridView
@@ -244,6 +245,7 @@
             android:layout_height="match_parent"
             android:numColumns="3"
             android:padding="4dp"
+            android:paddingBottom="72dp"
             android:horizontalSpacing="4dp"
             android:verticalSpacing="4dp"
             android:clipToPadding="false"

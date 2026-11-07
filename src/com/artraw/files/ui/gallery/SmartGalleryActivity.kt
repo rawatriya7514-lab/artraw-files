@@ -192,18 +192,6 @@ class SmartGalleryActivity : BaseActivity() {
             triggerManualReindex()
         }
 
-        // Dynamic Header Scroll: Collapse memories carousel when user scrolls down into photos
-        gridGallery.setOnScrollListener(object : AbsListView.OnScrollListener {
-            override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {}
-            override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-                if (firstVisibleItem > 0 && scrollGalleryMemories.visibility == View.VISIBLE) {
-                    scrollGalleryMemories.visibility = View.GONE
-                } else if (firstVisibleItem == 0 && scrollGalleryMemories.visibility != View.VISIBLE && layoutGalleryMemories.childCount > 0) {
-                    scrollGalleryMemories.visibility = View.VISIBLE
-                }
-            }
-        })
-
         MotionUtils.pressScale(findViewById(R.id.btnGalleryColumns), 0.92f)
         MotionUtils.pressScale(findViewById(R.id.btnGallerySort), 0.92f)
         MotionUtils.pressScale(findViewById(R.id.btnGallerySelectAll), 0.92f)

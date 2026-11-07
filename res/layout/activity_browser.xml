@@ -119,17 +119,17 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/aurora_background_elevated"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/btnCloseSelection"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:padding="9dp"
+                android:padding="8dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_arrow_back"
                 android:contentDescription="@string/content_close_selection"
@@ -142,13 +142,14 @@
                 android:layout_toEndOf="@id/btnCloseSelection"
                 android:layout_toStartOf="@+id/layoutSelectionActions"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:text="0 selected"
                 android:textStyle="bold"
                 android:textColor="@color/aurora_text_primary"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:id="@+id/layoutSelectionActions"
@@ -160,9 +161,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionSelectAll"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_select_all"
                     android:contentDescription="@string/content_select_all"
@@ -170,9 +171,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionCopy"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_copy"
                     android:contentDescription="@string/content_copy"
@@ -180,9 +181,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionCut"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_cut"
                     android:contentDescription="@string/content_cut"
@@ -190,9 +191,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionShare"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_share"
                     android:contentDescription="@string/content_share"
@@ -200,9 +201,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionCompress"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_compress"
                     android:contentDescription="@string/content_move"
@@ -210,9 +211,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionDelete"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_delete"
                     android:contentDescription="@string/content_delete"
@@ -220,9 +221,9 @@
 
                 <ImageView
                     android:id="@+id/btnActionMore"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:padding="8dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:padding="7dp"
                     android:background="@drawable/ripple_aurora"
                     android:src="@drawable/ic_more"
                     android:contentDescription="@string/content_more"
@@ -265,94 +266,78 @@
                 android:tint="@color/aurora_text_primary" />
         </LinearLayout>
 
-        <!-- PC-Style Address Bar -->
+        <!-- Unified Address & Breadcrumbs Bar -->
         <LinearLayout
             android:id="@+id/layoutPcAddressBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:background="@drawable/bg_glass_clay_card"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="4dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="2dp"
                 android:src="@drawable/ic_folder"
                 android:tint="@color/aurora_primary"
                 android:contentDescription="@string/content_path" />
 
+            <!-- Hidden display text preserved for code binding & accessibility -->
             <TextView
                 android:id="@+id/tvPcPathDisplay"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="6dp"
-                android:text="/storage/emulated/0"
-                android:textColor="@color/aurora_text_primary"
-                android:textSize="12sp"
-                android:fontFamily="monospace"
-                android:singleLine="true"
-                android:ellipsize="start" />
+                android:visibility="gone"
+                android:text="/storage/emulated/0" />
 
+            <!-- Integrated Breadcrumbs Navigation Strip -->
+            <HorizontalScrollView
+                android:id="@+id/scrollBreadcrumbs"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="4dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/layoutBreadcrumbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical" />
+            </HorizontalScrollView>
+
+            <!-- 1-Tap Copy Path Button -->
             <ImageView
                 android:id="@+id/btnCopyCurrentPath"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="6dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="7dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_copy"
                 android:contentDescription="@string/content_copy_current_path"
-                android:tint="@color/aurora_text_primary" />
+                android:tint="@color/aurora_text_secondary" />
 
+            <!-- Direct Type/Jump Path Button -->
             <ImageView
                 android:id="@+id/btnTypePath"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="6dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="7dp"
                 android:background="@drawable/ripple_aurora"
                 android:src="@drawable/ic_edit"
                 android:contentDescription="@string/content_type_path"
-                android:tint="@color/aurora_text_primary" />
+                android:tint="@color/aurora_text_secondary" />
         </LinearLayout>
     </LinearLayout>
-
-    <!-- Breadcrumb Bar -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:background="@color/aurora_background_deep"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
-
-        <HorizontalScrollView
-            android:id="@+id/scrollBreadcrumbs"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/layoutBreadcrumbs"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical" />
-        </HorizontalScrollView>
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/aurora_divider" />
 
     <!-- Sticky Paste Toolbar -->
     <RelativeLayout
@@ -416,10 +401,10 @@
             android:id="@+id/listViewFiles"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/aurora_divider"
-            android:dividerHeight="0.5dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:clipToPadding="false"
-            android:paddingBottom="72dp"
+            android:paddingBottom="84dp"
             android:fastScrollEnabled="true" />
 
         <GridView
@@ -428,7 +413,7 @@
             android:layout_height="match_parent"
             android:numColumns="3"
             android:padding="8dp"
-            android:paddingBottom="72dp"
+            android:paddingBottom="84dp"
             android:horizontalSpacing="8dp"
             android:verticalSpacing="8dp"
             android:clipToPadding="false"

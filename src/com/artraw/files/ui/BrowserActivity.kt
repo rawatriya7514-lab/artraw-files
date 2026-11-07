@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.GridView
+import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -100,6 +101,7 @@ class BrowserActivity : BaseActivity() {
         adViewContainerBrowser = findViewById(R.id.adViewContainerBrowser)
 
         val stickyViews = mutableListOf<View>()
+        findViewById<View>(R.id.bottomNavigationBrowser)?.let { stickyViews.add(it) }
         adViewContainerBrowser?.let { stickyViews.add(it) }
 
         EdgeToEdgeHelper.applyEdgeToEdge(
@@ -546,11 +548,16 @@ class BrowserActivity : BaseActivity() {
         }
 
         for ((index, segment) in segments.withIndex()) {
+            val isCurrent = index == segments.size - 1
             val tv = TextView(this)
             tv.text = if (segment.absolutePath == "/storage/emulated/0") "Internal" else segment.name
-            tv.setTextColor(if (index == segments.size - 1) getColor(R.color.aurora_primary) else getColor(R.color.aurora_text_secondary))
-            tv.textSize = 13f
-            tv.setPadding(8, 4, 8, 4)
+            tv.setTextColor(if (isCurrent) getColor(R.color.aurora_primary) else getColor(R.color.aurora_text_secondary))
+            tv.textSize = 12f
+            if (isCurrent) {
+                tv.typeface = android.graphics.Typeface.DEFAULT_BOLD
+            }
+            tv.setPadding(6, 4, 6, 4)
+            tv.setBackgroundResource(R.drawable.ripple_aurora)
             tv.setOnClickListener {
                 loadDirectory(segment)
             }
@@ -560,10 +567,13 @@ class BrowserActivity : BaseActivity() {
                 val sep = TextView(this)
                 sep.text = "›"
                 sep.setTextColor(getColor(R.color.aurora_text_tertiary))
-                sep.setPadding(2, 4, 2, 4)
+                sep.textSize = 12f
+                sep.setPadding(1, 4, 1, 4)
                 layoutBreadcrumbs.addView(sep)
             }
         }
+        val scroll = findViewById<HorizontalScrollView>(R.id.scrollBreadcrumbs)
+        scroll?.post { scroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT) }
     }
 
     private fun updateSelectionUi(selectedCount: Int) {

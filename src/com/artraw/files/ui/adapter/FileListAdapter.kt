@@ -101,12 +101,16 @@ class FileListAdapter(
                 root = view
             )
             view.tag = holder
-            MotionUtils.pressScale(view, if (isGrid) 0.94f else 0.985f)
-            MotionUtils.stagger(view, position)
         } else {
             view = convertView
             holder = view.tag as ViewHolder
         }
+
+        // Reset any translation/scale state from recycling to prevent overlap
+        view.translationX = 0f
+        view.translationY = 0f
+        view.scaleX = 1f
+        view.scaleY = 1f
 
         // Grid item height calculation for Material 3 cards
         if (isGrid) {

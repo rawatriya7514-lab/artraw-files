@@ -68,11 +68,15 @@ class MainActivity : BaseActivity() {
 
         setContentView(R.layout.activity_main)
         initViews()
+        val mainStickyViews = mutableListOf<View>()
+        findViewById<View>(R.id.bottomNavigationMain)?.let { mainStickyViews.add(it) }
+        adViewContainer?.let { mainStickyViews.add(it) }
+
         EdgeToEdgeHelper.applyEdgeToEdge(
             activity = this,
             topHeaders = listOf(findViewById(R.id.headerMain)),
             bottomScrollViews = listOf(findViewById(R.id.scrollMainContent)),
-            bottomStickyViews = listOf(adViewContainer)
+            bottomStickyViews = mainStickyViews
         )
         setupListeners()
         initAdMob()
@@ -400,8 +404,11 @@ class MainActivity : BaseActivity() {
                                     com.artraw.files.ui.dialog.FileActionDialog.show(this, item)
                                     true
                                 }
-                                MotionUtils.pressScale(row, 0.985f)
-                                MotionUtils.stagger(row, index)
+                                row.translationX = 0f
+                                row.translationY = 0f
+                                row.scaleX = 1f
+                                row.scaleY = 1f
+                                row.alpha = 1f
                                 layoutRecentList.addView(row)
                             }
                         }

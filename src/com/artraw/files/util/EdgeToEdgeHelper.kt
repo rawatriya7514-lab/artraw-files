@@ -121,9 +121,12 @@ object EdgeToEdgeHelper {
 
             val baseStatusBarHeight = getStatusBarHeight(activity)
             val baseNavBarHeight = getNavigationBarHeight(activity)
-            val extraTopGap = 0
+            var lastStatusBar = baseStatusBarHeight
+            var lastNavBar = baseNavBarHeight
 
             fun applyInsets(statusBarInset: Int, navBarInset: Int) {
+                lastStatusBar = statusBarInset
+                lastNavBar = navBarInset
                 val effectiveStatusBar = if (statusBarInset > 0) statusBarInset else baseStatusBarHeight
                 val effectiveNavBar = if (navBarInset > 0) navBarInset else baseNavBarHeight
 
@@ -156,17 +159,31 @@ object EdgeToEdgeHelper {
                 }
 
                 // Apply navigation bar bottom padding to sticky bottom bars
+                // Only the lowest VISIBLE sticky view receives the extra navBar padding!
+                val lastVisibleSticky = safeBottomStickyViews.lastOrNull { it.visibility == View.VISIBLE }
                 for ((index, sticky) in safeBottomStickyViews.withIndex()) {
                     if (index < bottomStickyPaddings.size) {
                         val (left, top, right) = bottomStickyPaddings[index].first
                         val bottom = bottomStickyPaddings[index].second
-                        sticky.setPadding(left, top, right, bottom + effectiveNavBar)
+                        val extra = if (sticky === lastVisibleSticky) effectiveNavBar else 0
+                        val targetBottom = bottom + extra
+                        if (sticky.paddingLeft != left || sticky.paddingTop != top ||
+                            sticky.paddingRight != right || sticky.paddingBottom != targetBottom) {
+                            sticky.setPadding(left, top, right, targetBottom)
+                        }
                     }
                 }
             }
 
             // Apply immediately so first frame is never clipped
             applyInsets(baseStatusBarHeight, baseNavBarHeight)
+
+            // Listen for visibility / size changes on sticky bars (e.g. ad loaded or hidden)
+            for (sticky in safeBottomStickyViews) {
+                sticky.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                    applyInsets(lastStatusBar, lastNavBar)
+                }
+            }
 
             // 4. Listen for WindowInsets when system reports exact insets
             window.decorView.setOnApplyWindowInsetsListener { _, insets ->
