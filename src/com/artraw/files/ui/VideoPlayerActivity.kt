@@ -17,6 +17,7 @@ import android.widget.VideoView
 import com.artraw.files.R
 import com.artraw.files.preview.FileViewerHelper
 import com.artraw.files.util.MimeTypes
+import com.artraw.files.ad.AdMobManager
 import java.io.File
 import java.util.Locale
 
@@ -91,6 +92,13 @@ class VideoPlayerActivity : BaseActivity() {
         initViews()
         setupListeners()
         loadVideo(file)
+        AdMobManager.loadInterstitial(this)
+    }
+
+    override fun onBackPressed() {
+        AdMobManager.showInterstitial(this) {
+            super.onBackPressed()
+        }
     }
 
     private fun initViews() {
@@ -108,7 +116,7 @@ class VideoPlayerActivity : BaseActivity() {
 
     private fun setupListeners() {
         findViewById<ImageView>(R.id.btnBackVideo).setOnClickListener {
-            finish()
+            AdMobManager.showInterstitial(this) { finish() }
         }
 
         findViewById<ImageView>(R.id.btnShareVideo).setOnClickListener {

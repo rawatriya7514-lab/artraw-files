@@ -44,8 +44,7 @@ object AdMobManager {
                 val reqConfig = MobileAds.getRequestConfiguration().toBuilder()
                     .setTagForChildDirectedTreatment(RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_FALSE)
                     .setTagForUnderAgeOfConsent(RequestConfiguration.TAG_FOR_UNDER_AGE_OF_CONSENT_FALSE)
-                    .setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_G)
-                    .setTestDeviceIds(listOf(AdRequest.DEVICE_ID_EMULATOR))
+                    .setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_MA)
                     .build()
                 MobileAds.setRequestConfiguration(reqConfig)
 
@@ -57,6 +56,18 @@ object AdMobManager {
             } catch (t: Throwable) {
                 Log.e(TAG, "MobileAds init error: ${t.message}", t)
             }
+        }
+    }
+
+    fun getAdaptiveBannerAdSize(activity: Activity): AdSize {
+        return try {
+            val displayMetrics = activity.resources.displayMetrics
+            val widthPixels = displayMetrics.widthPixels.toFloat()
+            val density = displayMetrics.density
+            val adWidth = if (density > 0f) (widthPixels / density).toInt() else 360
+            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
+        } catch (_: Throwable) {
+            AdSize.BANNER
         }
     }
 
@@ -97,14 +108,14 @@ object AdMobManager {
     ): AdView {
         val adView = AdView(activity).apply {
             this.adUnitId = adUnitId
-            setAdSize(AdSize.BANNER)
+            setAdSize(getAdaptiveBannerAdSize(activity))
         }
 
         val params = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT
         ).apply {
-            gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
+            gravity = Gravity.CENTER
         }
 
         container.removeAllViews()
@@ -113,7 +124,7 @@ object AdMobManager {
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 super.onAdLoaded()
-                Log.i(TAG, "Banner loaded successfully! (Unit: $adUnitId)")
+                Log.i(TAG, "Banner loaded successfully! (Unit: $adUnitId, Size: ${adView.adSize})")
                 activity.runOnUiThread {
                     if (!activity.isFinishing && !activity.isDestroyed) {
                         container.visibility = View.VISIBLE
@@ -125,24 +136,20 @@ object AdMobManager {
                 super.onAdFailedToLoad(loadAdError)
                 Log.w(TAG, "Banner failed to load ($adUnitId) [code ${loadAdError.code}]: ${loadAdError.message}")
 
-                if (adUnitId != AppSecurity.TEST_BANNER_ID) {
-                    Log.i(TAG, "Production banner returned code ${loadAdError.code}. Falling back to verified test banner unit...")
-                    activity.runOnUiThread {
+                // Exponential backoff retry for production banner ad (up to 4 attempts: 5s, 15s, 30s, 60s)
+                if (retryCount < 4) {
+                    val delay = when (retryCount) {
+                        0 -> 5000L
+                        1 -> 15000L
+                        2 -> 30000L
+                        else -> 60000L
+                    }
+                    mainHandler.postDelayed({
                         if (!activity.isFinishing && !activity.isDestroyed) {
-                            setupBannerView(activity, container, AppSecurity.TEST_BANNER_ID, retryCount = 0)
+                            Log.d(TAG, "Retrying production banner load (attempt ${retryCount + 1})")
+                            setupBannerView(activity, container, adUnitId, retryCount + 1)
                         }
-                    }
-                } else {
-                    if (retryCount < 2) {
-                        mainHandler.postDelayed({
-                            if (!activity.isFinishing && !activity.isDestroyed) {
-                                Log.d(TAG, "Retrying production banner load (attempt ${retryCount + 1})")
-                                val rawId = try { activity.getString(R.string.admob_banner_ad_unit_id) } catch (_: Throwable) { "" }
-                                val prodId = AppSecurity.resolveAdUnitId(rawId)
-                                setupBannerView(activity, container, prodId, retryCount + 1)
-                            }
-                        }, 30000L)
-                    }
+                    }, delay)
                 }
             }
         }
@@ -203,7 +210,7 @@ object AdMobManager {
                         if (!activity.isFinishing && !activity.isDestroyed) {
                             loadInterstitial(activity)
                         }
-                    }, 60000)
+                    }, 30000)
                 }
             }
         )
@@ -212,28 +219,28 @@ object AdMobManager {
     fun showInterstitial(activity: Activity, onDismissed: (() -> Unit)? = null): Boolean {
         val ad = interstitialAd
         val now = System.currentTimeMillis()
-        if (ad != null && now - lastInterstitialShownTime > 60000) {
+        if (ad != null && now - lastInterstitialShownTime > 45000) {
             ad.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     interstitialAd = null
                     lastInterstitialShownTime = System.currentTimeMillis()
                     loadInterstitial(activity)
-                    onDismissed?.invoke()
+                    activity.runOnUiThread { onDismissed?.invoke() }
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
                     interstitialAd = null
                     loadInterstitial(activity)
-                    onDismissed?.invoke()
+                    activity.runOnUiThread { onDismissed?.invoke() }
                 }
             }
             ad.show(activity)
             return true
         } else {
-            onDismissed?.invoke()
             if (interstitialAd == null) {
                 loadInterstitial(activity)
             }
+            onDismissed?.invoke()
             return false
         }
     }
@@ -282,7 +289,7 @@ object AdMobManager {
                         if (!activity.isFinishing && !activity.isDestroyed) {
                             loadRewardedAd(activity)
                         }
-                    }, 60000)
+                    }, 30000)
                 }
             }
         )
@@ -301,18 +308,18 @@ object AdMobManager {
                 override fun onAdDismissedFullScreenContent() {
                     rewardedAd = null
                     loadRewardedAd(activity)
-                    onDismissed?.invoke()
+                    activity.runOnUiThread { onDismissed?.invoke() }
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
                     rewardedAd = null
                     loadRewardedAd(activity)
-                    onDismissed?.invoke()
+                    activity.runOnUiThread { onDismissed?.invoke() }
                 }
             }
             ad.show(activity) { rewardItem ->
                 Log.i(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
-                onRewardEarned?.invoke(rewardItem)
+                activity.runOnUiThread { onRewardEarned?.invoke(rewardItem) }
             }
             return true
         } else {

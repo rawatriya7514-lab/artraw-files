@@ -119,86 +119,13 @@ class MainActivity : BaseActivity() {
         isAdMobInitializing = true
 
         AdMobManager.init(this)
-        try {
-            MobileAds.initialize(this) { initStatus ->
-                Log.d("ARTRAW_ADMOB", "MobileAds initialized: $initStatus")
-            }
-        } catch (t: Throwable) {
-            Log.e("ARTRAW_ADMOB", "MobileAds init exception: ${t.message}", t)
-        }
-
-        val rawId = getString(R.string.admob_banner_ad_unit_id)
-        val resolvedId = AppSecurity.resolveAdUnitId(rawId)
-        loadBanner(resolvedId)
+        loadBanner()
         AdMobManager.loadInterstitial(this)
         AdMobManager.loadRewardedAd(this)
     }
 
-    private fun loadBanner(adUnit: String) {
-        runOnUiThread {
-            try {
-                if (isFinishing || isDestroyed) return@runOnUiThread
-                val container = adViewContainer
-                container.visibility = View.VISIBLE
-
-                try {
-                    adView?.destroy()
-                } catch (_: Throwable) {}
-
-                val ad = AdView(this).apply {
-                    adUnitId = adUnit
-                    setAdSize(AdSize.BANNER)
-                }
-                this.adView = ad
-
-                val params = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
-                }
-
-                container.removeAllViews()
-                container.addView(ad, params)
-
-                ad.adListener = object : AdListener() {
-                    override fun onAdLoaded() {
-                        super.onAdLoaded()
-                        Log.i("ARTRAW_ADMOB", "Banner ad loaded successfully! (Unit: $adUnit)")
-                        container.visibility = View.VISIBLE
-                    }
-
-                    override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                        super.onAdFailedToLoad(loadAdError)
-                        Log.w("ARTRAW_ADMOB", "Banner failed to load (Unit: $adUnit, Code ${loadAdError.code}): ${loadAdError.message}")
-
-                        if (adUnit != AppSecurity.TEST_BANNER_ID) {
-                            Log.i("ARTRAW_ADMOB", "Production banner returned code ${loadAdError.code} (e.g. no-fill). Seamlessly loading verified fallback test banner...")
-                            loadBanner(AppSecurity.TEST_BANNER_ID)
-                        } else {
-                            adRetryRunnable?.let { adRetryHandler.removeCallbacks(it) }
-                            if (adRetryCount < MAX_AD_RETRIES) {
-                                adRetryCount++
-                                adRetryRunnable = Runnable {
-                                    if (!isFinishing && !isDestroyed) {
-                                        Log.d("ARTRAW_ADMOB", "Retrying production banner load (attempt $adRetryCount)...")
-                                        val rawId = getString(R.string.admob_banner_ad_unit_id)
-                                        val resolved = AppSecurity.resolveAdUnitId(rawId)
-                                        loadBanner(resolved)
-                                    }
-                                }
-                                adRetryHandler.postDelayed(adRetryRunnable!!, 30000)
-                            }
-                        }
-                    }
-                }
-
-                val request = AdRequest.Builder().build()
-                ad.loadAd(request)
-            } catch (t: Throwable) {
-                Log.e("ARTRAW_ADMOB", "loadBanner error: ${t.message}", t)
-            }
-        }
+    private fun loadBanner() {
+        adView = AdMobManager.loadBanner(this, adViewContainer)
     }
 
     private fun setupListeners() {

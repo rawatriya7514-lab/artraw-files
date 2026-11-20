@@ -33,6 +33,7 @@ import com.artraw.files.util.FavoritesManager
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.MimeTypes
 import com.artraw.files.util.MotionUtils
+import com.artraw.files.ad.AdMobManager
 import com.artraw.files.util.ThumbnailLoader
 import com.artraw.files.util.VaultManager
 import java.io.File
@@ -163,6 +164,7 @@ class ImageViewerActivity : BaseActivity() {
         initViews()
         setupListeners()
         loadImage(file)
+        AdMobManager.loadInterstitial(this)
     }
 
     private fun initViews() {
@@ -274,9 +276,15 @@ class ImageViewerActivity : BaseActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        AdMobManager.showInterstitial(this) {
+            super.onBackPressed()
+        }
+    }
+
     private fun setupListeners() {
         findViewById<View>(R.id.btnBackImage)?.setOnClickListener {
-            finish()
+            AdMobManager.showInterstitial(this) { finish() }
         }
 
         // Action: 1-TAP COPY PATH (User Core Feature)

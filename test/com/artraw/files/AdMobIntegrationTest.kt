@@ -64,9 +64,14 @@ class AdMobIntegrationTest {
         val mainActivity = File("src/com/artraw/files/ui/MainActivity.kt")
         assertTrue("MainActivity.kt must exist", mainActivity.exists())
         val mainContent = mainActivity.readText()
-        assertTrue("MainActivity must create AdView programmatically", mainContent.contains("AdView(this)"))
-        assertTrue("MainActivity must initialize MobileAds", mainContent.contains("MobileAds.initialize"))
-        assertTrue("MainActivity must attach AdListener", mainContent.contains("ad.adListener = object : AdListener()"))
+        assertTrue("MainActivity must delegate banner to AdMobManager", mainContent.contains("AdMobManager.loadBanner"))
+
+        val adMobManager = File("src/com/artraw/files/ad/AdMobManager.kt")
+        assertTrue("AdMobManager.kt must exist", adMobManager.exists())
+        val mgrContent = adMobManager.readText()
+        assertTrue("AdMobManager must create AdView programmatically", mgrContent.contains("AdView(activity)"))
+        assertTrue("AdMobManager must initialize MobileAds", mgrContent.contains("MobileAds.initialize"))
+        assertTrue("AdMobManager must attach AdListener", mgrContent.contains("adView.adListener = object : AdListener()"))
     }
 
     @Test

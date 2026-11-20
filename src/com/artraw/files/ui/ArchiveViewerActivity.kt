@@ -17,6 +17,7 @@ import com.artraw.files.archive.ArchiveEntryItem
 import com.artraw.files.archive.ArchiveManager
 import com.artraw.files.util.Formatters
 import com.artraw.files.util.MimeTypes
+import com.artraw.files.ad.AdMobManager
 import java.io.File
 import java.util.concurrent.Executors
 
@@ -65,6 +66,13 @@ class ArchiveViewerActivity : BaseActivity() {
         initViews()
         setupListeners()
         loadArchiveEntries(file)
+        AdMobManager.loadInterstitial(this)
+    }
+
+    override fun onBackPressed() {
+        AdMobManager.showInterstitial(this) {
+            super.onBackPressed()
+        }
     }
 
     private fun initViews() {
@@ -79,7 +87,7 @@ class ArchiveViewerActivity : BaseActivity() {
 
     private fun setupListeners() {
         findViewById<ImageView>(R.id.btnBackArchive).setOnClickListener {
-            finish()
+            AdMobManager.showInterstitial(this) { finish() }
         }
 
         btnExtractAll.setOnClickListener {

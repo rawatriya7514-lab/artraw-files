@@ -120,6 +120,7 @@ class BrowserActivity : BaseActivity() {
         loadDirectory(currentDirectory)
 
         adView = AdMobManager.loadBanner(this, adViewContainerBrowser)
+        AdMobManager.loadInterstitial(this)
         setupBottomNavigation()
     }
 
@@ -1177,7 +1178,7 @@ class BrowserActivity : BaseActivity() {
         if (parent != null && !isAtRoot) {
             loadDirectory(parent)
         } else {
-            finish()
+            AdMobManager.showInterstitial(this) { finish() }
         }
     }
 

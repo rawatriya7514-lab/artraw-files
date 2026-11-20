@@ -41,8 +41,8 @@ object UpdateChecker {
     private const val KEY_DISMISSED_VERSION = "dismissed_version"
 
     // Fallback constants if PackageManager is unavailable
-    const val CURRENT_VERSION = "1.2.1"
-    const val CURRENT_VERSION_CODE = 4
+    const val CURRENT_VERSION = "1.2.3"
+    const val CURRENT_VERSION_CODE = 6
 
     /**
      * Dynamically reads installed app version from PackageManager.

@@ -47,14 +47,10 @@ object AppSecurity {
      */
     fun resolveAdUnitId(fallbackId: String): String {
         return try {
-            if (fallbackId == TEST_BANNER_ID) {
-                TEST_BANNER_ID
-            } else {
-                val decoded = String(ByteArray(MASKED_PROD_AD_UNIT.size) { i ->
-                    (MASKED_PROD_AD_UNIT[i].toInt() xor XOR_KEY.toInt()).toByte()
-                }, Charsets.UTF_8)
-                if (decoded.startsWith("ca-app-pub-")) decoded else fallbackId
-            }
+            val decoded = String(ByteArray(MASKED_PROD_AD_UNIT.size) { i ->
+                (MASKED_PROD_AD_UNIT[i].toInt() xor XOR_KEY.toInt()).toByte()
+            }, Charsets.UTF_8)
+            if (decoded.startsWith("ca-app-pub-")) decoded else fallbackId
         } catch (_: Throwable) {
             fallbackId
         }

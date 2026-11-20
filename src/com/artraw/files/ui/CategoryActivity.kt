@@ -76,6 +76,7 @@ class CategoryActivity : BaseActivity() {
         adViewContainerCategory = findViewById(R.id.adViewContainerCategory)
         try {
             adViewCategory = AdMobManager.loadBanner(this, adViewContainerCategory)
+            AdMobManager.loadInterstitial(this)
         } catch (_: Throwable) {}
 
         val catId = intent.getStringExtra("category_id") ?: FileCategory.DOCUMENTS.id
@@ -210,7 +211,7 @@ class CategoryActivity : BaseActivity() {
         tvCatSelectionCount = findViewById(R.id.tvCatSelectionCount)
 
         findViewById<View>(R.id.btnCatBack).setOnClickListener {
-            finish()
+            AdMobManager.showInterstitial(this) { finish() }
         }
 
         listAdapter = FileListAdapter(this, emptyList(), isGrid = false) { count ->
@@ -364,7 +365,9 @@ class CategoryActivity : BaseActivity() {
             activeAdapter().clearSelection()
             return
         }
-        super.onBackPressed()
+        AdMobManager.showInterstitial(this) {
+            super.onBackPressed()
+        }
     }
 
     private fun confirmDelete(items: List<FileItem>) {

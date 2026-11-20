@@ -26,6 +26,7 @@ import com.artraw.files.model.FileItem
 import com.artraw.files.repository.FileRepository
 import com.artraw.files.ui.adapter.FileListAdapter
 import com.artraw.files.util.Formatters
+import com.artraw.files.ad.AdMobManager
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
@@ -84,6 +85,7 @@ class AnalyzerActivity : BaseActivity() {
 
         initViews()
         setupListeners()
+        AdMobManager.loadInterstitial(this)
 
         val initialTab = intent.getStringExtra("tab") ?: "large"
         if (initialTab == "duplicates") {
@@ -94,6 +96,12 @@ class AnalyzerActivity : BaseActivity() {
         } else {
             selectTab(isDuplicates = false)
             loadLargeFiles()
+        }
+    }
+
+    override fun onBackPressed() {
+        AdMobManager.showInterstitial(this) {
+            super.onBackPressed()
         }
     }
 
@@ -122,7 +130,7 @@ class AnalyzerActivity : BaseActivity() {
         btnDeleteSelectedDuplicates = findViewById(R.id.btnDeleteSelectedDuplicates)
 
         findViewById<View>(R.id.btnAnalyzerBack).setOnClickListener {
-            finish()
+            AdMobManager.showInterstitial(this) { finish() }
         }
 
         tabApps.setOnClickListener {

@@ -131,6 +131,17 @@ class SmartGalleryActivity : BaseActivity() {
         overridePendingTransition(R.anim.activity_hold, R.anim.slide_out_down)
     }
 
+    override fun onBackPressed() {
+        if (adapter.isSelectionMode) {
+            adapter.clearSelection()
+            updateSelectionDock()
+            return
+        }
+        com.artraw.files.ad.AdMobManager.showInterstitial(this) {
+            super.onBackPressed()
+        }
+    }
+
     private fun initViews() {
         gridGallery = findViewById(R.id.gridGalleryMedia)
         tvGalleryTitle = findViewById(R.id.tvGalleryTitle)
@@ -157,9 +168,12 @@ class SmartGalleryActivity : BaseActivity() {
 
         findViewById<android.widget.FrameLayout>(R.id.adViewContainerGallery)?.let { container ->
             adViewGallery = com.artraw.files.ad.AdMobManager.loadBanner(this, container)
+            com.artraw.files.ad.AdMobManager.loadInterstitial(this)
         }
 
-        findViewById<View>(R.id.btnGalleryBack).setOnClickListener { finish() }
+        findViewById<View>(R.id.btnGalleryBack).setOnClickListener {
+            com.artraw.files.ad.AdMobManager.showInterstitial(this) { finish() }
+        }
 
         // Dynamic Layout Engine Toggle: Compact Grid / Staggered Masonry / Bento Hero Grid
         findViewById<View>(R.id.btnGalleryColumns).setOnClickListener {
